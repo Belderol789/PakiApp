@@ -1,19 +1,20 @@
 //
 //  AppDelegate.swift
-//  PakiApp
+//  Paki
 //
-//  Created by Kem Belderol on 4/25/20.
+//  Created by Kem Belderol on 4/22/20.
 //  Copyright © 2020 Krats. All rights reserved.
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        FirebaseApp.configure()
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         // Override point for customization after application launch.
         return true
     }

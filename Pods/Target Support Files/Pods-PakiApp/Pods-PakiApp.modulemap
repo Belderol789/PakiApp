@@ -1,0 +1,6 @@
+framework module Pods_PakiApp {
+  umbrella header "Pods-PakiApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

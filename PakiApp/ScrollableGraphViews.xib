@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScrollableGraphViews" customModule="Paki" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="J4c-Fm-eic"/>
+                <outlet property="graphView" destination="yQ1-7j-yya" id="zur-5k-P1O"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="535" height="317"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yQ1-7j-yya" customClass="ScrollableGraphView" customModule="ScrollableGraphView">
+                    <rect key="frame" x="0.0" y="44" width="535" height="239"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="yQ1-7j-yya" secondAttribute="bottom" id="Ni3-9G-Fdz"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="yQ1-7j-yya" secondAttribute="trailing" id="QuX-v6-8ON"/>
+                <constraint firstItem="yQ1-7j-yya" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Y4j-7J-K5W"/>
+                <constraint firstItem="yQ1-7j-yya" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="bsT-n8-HCf"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="225.36231884057972" y="-61.272321428571423"/>
+        </view>
+    </objects>
+</document>

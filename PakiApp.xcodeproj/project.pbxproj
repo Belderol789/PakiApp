@@ -3,27 +3,77 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48C3480AC9285D35D439DAD8 /* Pods_PakiApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16173FCBCA9AF0B1C41B7F4F /* Pods_PakiApp.framework */; };
 		E33A72E92454767C00AAD61A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A72E82454767C00AAD61A /* AppDelegate.swift */; };
 		E33A72EB2454767C00AAD61A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A72EA2454767C00AAD61A /* SceneDelegate.swift */; };
-		E33A72ED2454767C00AAD61A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A72EC2454767C00AAD61A /* ViewController.swift */; };
-		E33A72F02454767C00AAD61A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E33A72EE2454767C00AAD61A /* Main.storyboard */; };
 		E33A72F22454767F00AAD61A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E33A72F12454767F00AAD61A /* Assets.xcassets */; };
 		E33A72F52454767F00AAD61A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E33A72F32454767F00AAD61A /* LaunchScreen.storyboard */; };
+		E33A72FD245477EC00AAD61A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E33A72FC245477EC00AAD61A /* GoogleService-Info.plist */; };
+		E33A72FF2454851300AAD61A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E33A72FE2454851300AAD61A /* Main.storyboard */; };
+		E33A731A2454856E00AAD61A /* PakiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73002454855400AAD61A /* PakiView.swift */; };
+		E33A731B2454856E00AAD61A /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73012454855500AAD61A /* CalendarCollectionViewCell.swift */; };
+		E33A731C2454856E00AAD61A /* FeedHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A73022454855600AAD61A /* FeedHeaderView.xib */; };
+		E33A731D2454856E00AAD61A /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73032454855700AAD61A /* ProfileVC.swift */; };
+		E33A731E2454856E00AAD61A /* FeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73042454855800AAD61A /* FeedHeaderView.swift */; };
+		E33A731F2454856E00AAD61A /* ScrollableGraphViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73052454855900AAD61A /* ScrollableGraphViews.swift */; };
+		E33A73202454856E00AAD61A /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73062454855A00AAD61A /* FeedVC.swift */; };
+		E33A73212454856E00AAD61A /* CommentsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73072454855B00AAD61A /* CommentsHeaderView.swift */; };
+		E33A73222454856E00AAD61A /* FeedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A73082454855D00AAD61A /* FeedCollectionViewCell.xib */; };
+		E33A73232454856E00AAD61A /* CalendarCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A73092454855E00AAD61A /* CalendarCollectionViewCell.xib */; };
+		E33A73242454856E00AAD61A /* CommentsHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A730A2454855F00AAD61A /* CommentsHeaderView.xib */; };
+		E33A73252454856E00AAD61A /* ViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A730B2454856000AAD61A /* ViewX.swift */; };
+		E33A73262454856E00AAD61A /* ReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A730C2454856100AAD61A /* ReplyViewController.swift */; };
+		E33A73272454856E00AAD61A /* PakiView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A730D2454856200AAD61A /* PakiView.xib */; };
+		E33A73282454856E00AAD61A /* FeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A730E2454856300AAD61A /* FeedCollectionViewCell.swift */; };
+		E33A73292454856E00AAD61A /* StatsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A730F2454856400AAD61A /* StatsTableViewCell.xib */; };
+		E33A732A2454856E00AAD61A /* ExtensionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73102454856500AAD61A /* ExtensionsManager.swift */; };
+		E33A732B2454856E00AAD61A /* ImageViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73112454856600AAD61A /* ImageViewX.swift */; };
+		E33A732C2454856E00AAD61A /* ScrollableGraphViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A73122454856800AAD61A /* ScrollableGraphViews.xib */; };
+		E33A732F2454856E00AAD61A /* CommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73152454856A00AAD61A /* CommentsVC.swift */; };
+		E33A73312454856E00AAD61A /* ButtonX.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73172454856C00AAD61A /* ButtonX.swift */; };
+		E33A73322454856E00AAD61A /* StatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73182454856D00AAD61A /* StatsTableViewCell.swift */; };
+		E33A73332454856E00AAD61A /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73192454856E00AAD61A /* CalendarVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		16173FCBCA9AF0B1C41B7F4F /* Pods_PakiApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PakiApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFFE840B331C6E12264914B6 /* Pods-PakiApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PakiApp.release.xcconfig"; path = "Target Support Files/Pods-PakiApp/Pods-PakiApp.release.xcconfig"; sourceTree = "<group>"; };
+		E2307E0B639014F274A68296 /* Pods-PakiApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PakiApp.debug.xcconfig"; path = "Target Support Files/Pods-PakiApp/Pods-PakiApp.debug.xcconfig"; sourceTree = "<group>"; };
 		E33A72E52454767C00AAD61A /* PakiApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PakiApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33A72E82454767C00AAD61A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E33A72EA2454767C00AAD61A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E33A72EC2454767C00AAD61A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E33A72EF2454767C00AAD61A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E33A72F12454767F00AAD61A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E33A72F42454767F00AAD61A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E33A72F62454767F00AAD61A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E33A72FC245477EC00AAD61A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E33A72FE2454851300AAD61A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		E33A73002454855400AAD61A /* PakiView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PakiView.swift; sourceTree = "<group>"; };
+		E33A73012454855500AAD61A /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
+		E33A73022454855600AAD61A /* FeedHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedHeaderView.xib; sourceTree = "<group>"; };
+		E33A73032454855700AAD61A /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		E33A73042454855800AAD61A /* FeedHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedHeaderView.swift; sourceTree = "<group>"; };
+		E33A73052454855900AAD61A /* ScrollableGraphViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollableGraphViews.swift; sourceTree = "<group>"; };
+		E33A73062454855A00AAD61A /* FeedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
+		E33A73072454855B00AAD61A /* CommentsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsHeaderView.swift; sourceTree = "<group>"; };
+		E33A73082454855D00AAD61A /* FeedCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedCollectionViewCell.xib; sourceTree = "<group>"; };
+		E33A73092454855E00AAD61A /* CalendarCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarCollectionViewCell.xib; sourceTree = "<group>"; };
+		E33A730A2454855F00AAD61A /* CommentsHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsHeaderView.xib; sourceTree = "<group>"; };
+		E33A730B2454856000AAD61A /* ViewX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewX.swift; sourceTree = "<group>"; };
+		E33A730C2454856100AAD61A /* ReplyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyViewController.swift; sourceTree = "<group>"; };
+		E33A730D2454856200AAD61A /* PakiView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PakiView.xib; sourceTree = "<group>"; };
+		E33A730E2454856300AAD61A /* FeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCollectionViewCell.swift; sourceTree = "<group>"; };
+		E33A730F2454856400AAD61A /* StatsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatsTableViewCell.xib; sourceTree = "<group>"; };
+		E33A73102454856500AAD61A /* ExtensionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionsManager.swift; sourceTree = "<group>"; };
+		E33A73112454856600AAD61A /* ImageViewX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewX.swift; sourceTree = "<group>"; };
+		E33A73122454856800AAD61A /* ScrollableGraphViews.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScrollableGraphViews.xib; sourceTree = "<group>"; };
+		E33A73152454856A00AAD61A /* CommentsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsVC.swift; sourceTree = "<group>"; };
+		E33A73172454856C00AAD61A /* ButtonX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonX.swift; sourceTree = "<group>"; };
+		E33A73182454856D00AAD61A /* StatsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsTableViewCell.swift; sourceTree = "<group>"; };
+		E33A73192454856E00AAD61A /* CalendarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +81,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48C3480AC9285D35D439DAD8 /* Pods_PakiApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D20C65EBD204E7238EC38ED /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E2307E0B639014F274A68296 /* Pods-PakiApp.debug.xcconfig */,
+				CFFE840B331C6E12264914B6 /* Pods-PakiApp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		D4D1A9EA1CC929634A182FC4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				16173FCBCA9AF0B1C41B7F4F /* Pods_PakiApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E33A72DC2454767C00AAD61A = {
 			isa = PBXGroup;
 			children = (
 				E33A72E72454767C00AAD61A /* PakiApp */,
 				E33A72E62454767C00AAD61A /* Products */,
+				3D20C65EBD204E7238EC38ED /* Pods */,
+				D4D1A9EA1CC929634A182FC4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,12 +126,35 @@
 		E33A72E72454767C00AAD61A /* PakiApp */ = {
 			isa = PBXGroup;
 			children = (
+				E33A72FC245477EC00AAD61A /* GoogleService-Info.plist */,
 				E33A72E82454767C00AAD61A /* AppDelegate.swift */,
 				E33A72EA2454767C00AAD61A /* SceneDelegate.swift */,
-				E33A72EC2454767C00AAD61A /* ViewController.swift */,
-				E33A72EE2454767C00AAD61A /* Main.storyboard */,
+				E33A72FE2454851300AAD61A /* Main.storyboard */,
 				E33A72F12454767F00AAD61A /* Assets.xcassets */,
 				E33A72F32454767F00AAD61A /* LaunchScreen.storyboard */,
+				E33A73172454856C00AAD61A /* ButtonX.swift */,
+				E33A73012454855500AAD61A /* CalendarCollectionViewCell.swift */,
+				E33A73092454855E00AAD61A /* CalendarCollectionViewCell.xib */,
+				E33A73192454856E00AAD61A /* CalendarVC.swift */,
+				E33A73072454855B00AAD61A /* CommentsHeaderView.swift */,
+				E33A730A2454855F00AAD61A /* CommentsHeaderView.xib */,
+				E33A73152454856A00AAD61A /* CommentsVC.swift */,
+				E33A73102454856500AAD61A /* ExtensionsManager.swift */,
+				E33A730E2454856300AAD61A /* FeedCollectionViewCell.swift */,
+				E33A73082454855D00AAD61A /* FeedCollectionViewCell.xib */,
+				E33A73042454855800AAD61A /* FeedHeaderView.swift */,
+				E33A73022454855600AAD61A /* FeedHeaderView.xib */,
+				E33A73062454855A00AAD61A /* FeedVC.swift */,
+				E33A73112454856600AAD61A /* ImageViewX.swift */,
+				E33A73002454855400AAD61A /* PakiView.swift */,
+				E33A730D2454856200AAD61A /* PakiView.xib */,
+				E33A73032454855700AAD61A /* ProfileVC.swift */,
+				E33A730C2454856100AAD61A /* ReplyViewController.swift */,
+				E33A73052454855900AAD61A /* ScrollableGraphViews.swift */,
+				E33A73122454856800AAD61A /* ScrollableGraphViews.xib */,
+				E33A73182454856D00AAD61A /* StatsTableViewCell.swift */,
+				E33A730F2454856400AAD61A /* StatsTableViewCell.xib */,
+				E33A730B2454856000AAD61A /* ViewX.swift */,
 				E33A72F62454767F00AAD61A /* Info.plist */,
 			);
 			path = PakiApp;
@@ -74,9 +167,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E33A72F92454767F00AAD61A /* Build configuration list for PBXNativeTarget "PakiApp" */;
 			buildPhases = (
+				2F1956C1D92EA9488D52A76A /* [CP] Check Pods Manifest.lock */,
 				E33A72E12454767C00AAD61A /* Sources */,
 				E33A72E22454767C00AAD61A /* Frameworks */,
 				E33A72E32454767C00AAD61A /* Resources */,
+				B99C4EB5D7E561FA1FF05CCA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,35 +221,92 @@
 			buildActionMask = 2147483647;
 			files = (
 				E33A72F52454767F00AAD61A /* LaunchScreen.storyboard in Resources */,
+				E33A73242454856E00AAD61A /* CommentsHeaderView.xib in Resources */,
+				E33A731C2454856E00AAD61A /* FeedHeaderView.xib in Resources */,
+				E33A72FD245477EC00AAD61A /* GoogleService-Info.plist in Resources */,
 				E33A72F22454767F00AAD61A /* Assets.xcassets in Resources */,
-				E33A72F02454767C00AAD61A /* Main.storyboard in Resources */,
+				E33A73232454856E00AAD61A /* CalendarCollectionViewCell.xib in Resources */,
+				E33A73272454856E00AAD61A /* PakiView.xib in Resources */,
+				E33A73222454856E00AAD61A /* FeedCollectionViewCell.xib in Resources */,
+				E33A732C2454856E00AAD61A /* ScrollableGraphViews.xib in Resources */,
+				E33A72FF2454851300AAD61A /* Main.storyboard in Resources */,
+				E33A73292454856E00AAD61A /* StatsTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2F1956C1D92EA9488D52A76A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PakiApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B99C4EB5D7E561FA1FF05CCA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PakiApp/Pods-PakiApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PakiApp/Pods-PakiApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PakiApp/Pods-PakiApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E33A72E12454767C00AAD61A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E33A72ED2454767C00AAD61A /* ViewController.swift in Sources */,
+				E33A732A2454856E00AAD61A /* ExtensionsManager.swift in Sources */,
+				E33A731D2454856E00AAD61A /* ProfileVC.swift in Sources */,
+				E33A731E2454856E00AAD61A /* FeedHeaderView.swift in Sources */,
+				E33A732B2454856E00AAD61A /* ImageViewX.swift in Sources */,
+				E33A73282454856E00AAD61A /* FeedCollectionViewCell.swift in Sources */,
+				E33A73212454856E00AAD61A /* CommentsHeaderView.swift in Sources */,
+				E33A73322454856E00AAD61A /* StatsTableViewCell.swift in Sources */,
+				E33A731B2454856E00AAD61A /* CalendarCollectionViewCell.swift in Sources */,
+				E33A731A2454856E00AAD61A /* PakiView.swift in Sources */,
+				E33A73202454856E00AAD61A /* FeedVC.swift in Sources */,
+				E33A732F2454856E00AAD61A /* CommentsVC.swift in Sources */,
+				E33A73312454856E00AAD61A /* ButtonX.swift in Sources */,
 				E33A72E92454767C00AAD61A /* AppDelegate.swift in Sources */,
+				E33A73252454856E00AAD61A /* ViewX.swift in Sources */,
 				E33A72EB2454767C00AAD61A /* SceneDelegate.swift in Sources */,
+				E33A731F2454856E00AAD61A /* ScrollableGraphViews.swift in Sources */,
+				E33A73262454856E00AAD61A /* ReplyViewController.swift in Sources */,
+				E33A73332454856E00AAD61A /* CalendarVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E33A72EE2454767C00AAD61A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E33A72EF2454767C00AAD61A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E33A72F32454767F00AAD61A /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -216,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -270,7 +422,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -282,6 +434,7 @@
 		};
 		E33A72FA2454767F00AAD61A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E2307E0B639014F274A68296 /* Pods-PakiApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -300,6 +453,7 @@
 		};
 		E33A72FB2454767F00AAD61A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CFFE840B331C6E12264914B6 /* Pods-PakiApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
