@@ -17,14 +17,16 @@ pod 'Firebase/Firestore'
 pod 'Google-Mobile-Ads-SDK'
 
 #Utility
-pod 'BubbleTransition'
 pod 'SDWebImage'
 pod 'Connectivity'
-pod 'NVActivityIndicatorView'
-pod 'Charts'
-pod 'ScrollableGraphView'
+pod 'RealmSwift'
+pod 'CountryPickerView'
 
 #UI
+pod 'CircleLoading'
+pod 'Charts'
+pod 'NVActivityIndicatorView'
+pod 'BubbleTransition'
 pod 'TTGEmojiRate'
 pod 'TransitionButton'
 pod 'SkyFloatingLabelTextField'

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FeedHeaderView" id="U6b-Vx-4bR" customClass="FeedHeaderView" customModule="PakiApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="122"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Lz-6G-AC3">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="122"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLb-mr-XOD" customClass="SJFluidSegmentedControl" customModule="SJFluidSegmentedControl">
+                            <rect key="frame" x="0.0" y="8" width="320" height="50"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="nkb-Yn-f55"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                    <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="shadowShowDuration">
+                                    <real key="value" value="-1"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="shadowsEnabled" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gyL-nu-hD9">
+                            <rect key="frame" x="8" y="83" width="304" height="32"/>
+                            <segments>
+                                <segment title="Popular"/>
+                                <segment title="Latest"/>
+                            </segments>
+                            <connections>
+                                <action selector="segmentControllerDidChange:" destination="U6b-Vx-4bR" eventType="valueChanged" id="hTH-bE-YD4"/>
+                            </connections>
+                        </segmentedControl>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstItem="gyL-nu-hD9" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" constant="8" id="4rm-vS-HZ5"/>
+                        <constraint firstAttribute="bottom" secondItem="gyL-nu-hD9" secondAttribute="bottom" constant="8" id="5vc-KU-LcS"/>
+                        <constraint firstItem="zLb-mr-XOD" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" id="9hO-Hz-8TW"/>
+                        <constraint firstItem="zLb-mr-XOD" firstAttribute="top" secondItem="5Lz-6G-AC3" secondAttribute="top" constant="8" id="HxQ-rR-OuQ"/>
+                        <constraint firstAttribute="trailing" secondItem="gyL-nu-hD9" secondAttribute="trailing" constant="8" id="INY-16-xeg"/>
+                        <constraint firstAttribute="trailing" secondItem="zLb-mr-XOD" secondAttribute="trailing" id="sy1-Q1-mzo"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="5Lz-6G-AC3" secondAttribute="bottom" id="Jhf-to-Zak"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="5Lz-6G-AC3" secondAttribute="trailing" id="VKo-Ph-cTV"/>
+                <constraint firstItem="5Lz-6G-AC3" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="jTn-7s-9hY"/>
+                <constraint firstItem="5Lz-6G-AC3" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="qDn-me-605"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
+            <connections>
+                <outlet property="feelingSlider" destination="zLb-mr-XOD" id="uQK-71-e9V"/>
+                <outlet property="filterController" destination="gyL-nu-hD9" id="way-Gc-Gw8"/>
+            </connections>
+            <point key="canvasLocation" x="24.637681159420293" y="13.392857142857142"/>
+        </collectionReusableView>
+    </objects>
+</document>
