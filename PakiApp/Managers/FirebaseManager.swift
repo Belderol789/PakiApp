@@ -12,6 +12,7 @@ import Firebase
 enum FirebaseKeys: String {
     case email
     case password
+    case number
     case username
     case profilePhotoURL
     case birthday
@@ -69,8 +70,8 @@ extension FirebaseManager {
     }
     
     // MARK: - Update FirestoreDB
-    func updateFirebase(data: [String: Any], identifier: String, docuID: String, loginHandler: LoginHandler?) {
-        self.firestoreDB.collection(identifier).document(docuID).setData(data, merge: true) { (err) in
+    func updateFirebase(data: [String: Any], identifier: Identifiers, docuID: String, loginHandler: LoginHandler?) {
+        self.firestoreDB.collection(identifier.rawValue).document(docuID).setData(data, merge: true) { (err) in
             if err != nil {
                 self.handleErrors(error: err! as NSError, loginHandler: loginHandler)
             } else {
@@ -81,15 +82,15 @@ extension FirebaseManager {
     }
     
     // MARK: - Image Upload
-    func saveToStorage(datum: Data, storagePath: String, photoURLCompleted: @escaping (String) -> Void) {
+    func saveToStorage(datum: Data, identifier: Identifiers, storagePath: String, photoURLCompleted: LoginHandler?) {
         
-        let storageRef = Storage.storage().reference().child(Identifiers.profilePhoto.rawValue).child(storagePath).child("\(UUID().uuidString).jpg")
+        let storageRef = Storage.storage().reference().child(identifier.rawValue).child(storagePath).child("\(UUID().uuidString).jpg")
         
         storageRef.putData(datum, metadata: nil) { (metaData, error) in
             if error == nil {
                 storageRef.downloadURL(completion: { (url, err) in
                     if let photoURL = url?.absoluteString {
-                        photoURLCompleted(photoURL)
+                        photoURLCompleted?(photoURL)
                     }
                 })
             }

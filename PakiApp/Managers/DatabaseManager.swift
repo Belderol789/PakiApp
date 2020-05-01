@@ -12,6 +12,7 @@ import RealmSwift
 enum DatabaseKeys: String {
     case userIsLoggedIn
     case userHasAnswered
+    case userLightAppearance
 }
 
 typealias EmptyClosure = () -> Void
@@ -37,6 +38,19 @@ class DatabaseManager {
                 return user
             }
             return User()
+        }
+    }
+    
+    func deleteAll() {
+        
+        self.updateUserDefaults(value: false, key: .userIsLoggedIn)
+        
+        do {
+            try realm.write {
+                realm.delete(userObject)
+            }
+        } catch {
+            
         }
     }
     
@@ -111,6 +125,10 @@ class DatabaseManager {
     
     var userHasAnswered: Bool {
         return UserDefaults.standard.bool(forKey: DatabaseKeys.userHasAnswered.rawValue)
+    }
+    
+    var userSetLightAppearance: Bool {
+        return UserDefaults.standard.bool(forKey: DatabaseKeys.userLightAppearance.rawValue)
     }
     
     func updateUserDefaults(value: Any, key: DatabaseKeys) {

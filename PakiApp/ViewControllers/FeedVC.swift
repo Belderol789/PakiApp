@@ -50,6 +50,8 @@ class FeedVC: GeneralViewController {
         feedCollection.dataSource = self
         //KemTest
         credentialView.isHidden = DatabaseManager.Instance.userIsLoggedIn
+        
+        hideTabbar = !DatabaseManager.Instance.userIsLoggedIn
         activateEmojiView(notification: nil)
     }
     

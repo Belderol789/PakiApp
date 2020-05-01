@@ -96,7 +96,7 @@ class AnswerView: UIView, Reusable {
  
     @IBAction func didSelectPaki(_ sender: ButtonX) {
         
-        let scrollOffset = self.frame.height/2 - 100
+        let scrollOffset = self.frame.height/3
         
         emojiView.isUserInteractionEnabled = false
         scrollView.scrollToDown(height: scrollOffset)

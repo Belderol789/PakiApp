@@ -18,11 +18,14 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAppearance()
+        NotificationCenter.default.addObserver(self, selector: #selector(appearanceChanged(notification:)), name: NSNotification.Name(rawValue: "AppearanceChanged"), object: nil)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupAppearance()
         if hideTabbar {
            tabBarController?.tabBar.isHidden = true
         }
@@ -39,6 +42,18 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
         if navigationBar {
             navigationController?.navigationBar.isHidden = false
         }
+    }
+    
+    func setupAppearance() {
+        let appearance: UIUserInterfaceStyle = DatabaseManager.Instance.userSetLightAppearance ? .light : .dark
+        view.overrideUserInterfaceStyle = appearance
+        navigationController?.navigationBar.overrideUserInterfaceStyle = appearance
+        tabBarController?.tabBar.overrideUserInterfaceStyle = appearance
+    }
+    
+    @objc
+    func appearanceChanged(notification: Notification) {
+        setupAppearance()
     }
     
     func setupCountDown() {
@@ -80,6 +95,7 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
                             FirebaseManager.Instance.sendEmptyPost()
                         }
                         DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
                         self.setupCountDown()
                     }
                 }

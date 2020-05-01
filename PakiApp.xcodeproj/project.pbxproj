@@ -49,6 +49,7 @@
 		E33A73532458BD2A00AAD61A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73522458BD2900AAD61A /* User.swift */; };
 		E33E470D245A7C0E00B838DB /* FirebaseManager-Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E470C245A7C0E00B838DB /* FirebaseManager-Auth.swift */; };
 		E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */; };
+		E33E4711245C649D00B838DB /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E4710245C649D00B838DB /* SettingsVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,7 @@
 		E33A73522458BD2900AAD61A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E33E470C245A7C0E00B838DB /* FirebaseManager-Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-Auth.swift"; sourceTree = "<group>"; };
 		E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-Post.swift"; sourceTree = "<group>"; };
+		E33E4710245C649D00B838DB /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 				E33A730C2454856100AAD61A /* ReplyVC.swift */,
 				E33A73472456448600AAD61A /* CredentialVC.swift */,
 				E33A73432456171200AAD61A /* GeneralViewController.swift */,
+				E33E4710245C649D00B838DB /* SettingsVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				E33A7346245641F700AAD61A /* FirebaseManager.swift in Sources */,
 				E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */,
 				E33A73442456171300AAD61A /* GeneralViewController.swift in Sources */,
+				E33E4711245C649D00B838DB /* SettingsVC.swift in Sources */,
 				E33A734A2457303E00AAD61A /* CredentialView.swift in Sources */,
 				E33A73332454856E00AAD61A /* CalendarVC.swift in Sources */,
 			);

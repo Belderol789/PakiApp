@@ -30,17 +30,18 @@ extension FirebaseManager {
                 
                 var userData: [String: Any] = [FirebaseKeys.username.rawValue: username,
                                                FirebaseKeys.birthday.rawValue: birth,
-                                               FirebaseKeys.uid.rawValue: uid]
+                                               FirebaseKeys.uid.rawValue: uid,
+                                               FirebaseKeys.email.rawValue: email]
                 
                 DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                 
                 if let datum = photo {
-                    self.saveToStorage(datum: datum, storagePath: Identifiers.profilePhoto.rawValue) { (photoURL) in
+                    self.saveToStorage(datum: datum, identifier: .profilePhoto, storagePath: uid) { (photoURL) in
                         userData[FirebaseKeys.profilePhotoURL.rawValue] = photoURL
-                        self.updateFirebase(data: userData, identifier: Identifiers.users.rawValue, docuID: uid, loginHandler: loginHandler)
+                        self.updateFirebase(data: userData, identifier: Identifiers.users, docuID: uid, loginHandler: loginHandler)
                     }
                 } else {
-                    self.updateFirebase(data: userData, identifier: Identifiers.users.rawValue, docuID: uid, loginHandler: loginHandler)
+                    self.updateFirebase(data: userData, identifier: Identifiers.users, docuID: uid, loginHandler: loginHandler)
                 }
             }
         }
@@ -76,16 +77,18 @@ extension FirebaseManager {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
             } else if let uid = result?.user.uid {
                 
-                var userData: [String: Any] = [FirebaseKeys.username.rawValue: username, FirebaseKeys.birthday.rawValue: birth, FirebaseKeys.uid.rawValue: uid]
+                var userData: [String: Any] = [FirebaseKeys.username.rawValue: username,
+                                               FirebaseKeys.birthday.rawValue: birth,
+                                               FirebaseKeys.uid.rawValue: uid]
                 DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                 
                 if let datum = photo {
-                    self.saveToStorage(datum: datum, storagePath: Identifiers.profilePhoto.rawValue) { (photoURL) in
+                    self.saveToStorage(datum: datum, identifier: .profilePhoto, storagePath: Identifiers.profilePhoto.rawValue) { (photoURL) in
                         userData[FirebaseKeys.profilePhotoURL.rawValue] = photoURL
-                        self.updateFirebase(data: userData, identifier: Identifiers.users.rawValue, docuID: uid, loginHandler: loginHandler)
+                        self.updateFirebase(data: userData, identifier: Identifiers.users, docuID: uid, loginHandler: loginHandler)
                     }
                 } else {
-                    self.updateFirebase(data: userData, identifier: Identifiers.users.rawValue, docuID: uid, loginHandler: loginHandler)
+                    self.updateFirebase(data: userData, identifier: Identifiers.users, docuID: uid, loginHandler: loginHandler)
                 }
             }
         }
@@ -100,6 +103,29 @@ extension FirebaseManager {
                 self.getUserData(with: uid) {
                     DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                     loginHandler?(nil)
+                }
+            }
+        }
+    }
+    
+    func logoutUser(complete: EmptyClosure) {
+        do {
+            DatabaseManager.Instance.deleteAll()
+            try Auth.auth().signOut()
+            complete()
+        } catch {
+            
+        }
+    }
+    
+    func deleteUser(success: @escaping BoolClosure) {
+        if let user = Auth.auth().currentUser {
+            user.delete { (error) in
+                if error != nil {
+                    success(false)
+                } else {
+                    DatabaseManager.Instance.deleteAll()
+                    success(true)
                 }
             }
         }

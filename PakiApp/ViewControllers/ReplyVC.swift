@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ReplyVC: UIViewController {
+class ReplyVC: GeneralViewController {
     
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var replyTextView: UITextView!

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CalendarVC: UIViewController, Reusable {
+class CalendarVC: GeneralViewController, Reusable {
     
     // IBOutlets
     @IBOutlet weak var calendarCollectionView: UICollectionView!

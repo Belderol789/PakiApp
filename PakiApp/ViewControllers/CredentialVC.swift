@@ -32,7 +32,6 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
