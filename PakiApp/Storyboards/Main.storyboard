@@ -265,12 +265,17 @@
                     </view>
                     <navigationItem key="navigationItem" id="FRk-g1-8PP"/>
                     <connections>
+                        <outlet property="daysLabel" destination="b1F-3h-sCS" id="aWO-fg-SI0"/>
                         <outlet property="gridViewContainer" destination="4mg-9x-DVP" id="riS-ZZ-Ag8"/>
                         <outlet property="pieChart" destination="qBW-Lb-0AI" id="NSs-SH-bUn"/>
+                        <outlet property="postsLabel" destination="ORm-Ek-fWN" id="gt3-JA-ZHB"/>
                         <outlet property="scrollView" destination="ffQ-cP-aL4" id="JGW-G2-4mx"/>
                         <outlet property="segmentedControl" destination="Mbf-Wj-weL" id="34K-op-tUy"/>
+                        <outlet property="starsLabel" destination="Uhx-kH-Dvl" id="MD0-o2-FyE"/>
                         <outlet property="statsTableView" destination="MlB-d0-3Xb" id="HsM-6e-6Wz"/>
                         <outlet property="totalLabel" destination="cGA-Hx-GhL" id="o2Z-Vu-33Y"/>
+                        <outlet property="userPhotoImageView" destination="p9l-9T-8lH" id="nbP-NN-Z0n"/>
+                        <outlet property="usernameLabel" destination="ez8-Tt-gxi" id="FlC-d4-6do"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MT0-Zf-nSf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -392,7 +397,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="mtR-Z9-5c4">
                                             <rect key="frame" x="20" y="20" width="374" height="40"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdi-n3-FXk" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
+                                                <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdi-n3-FXk" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="179" height="40"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                     <state key="normal" title="Login">

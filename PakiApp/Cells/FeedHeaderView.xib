@@ -33,7 +33,7 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gyL-nu-hD9">
-                            <rect key="frame" x="8" y="83" width="304" height="32"/>
+                            <rect key="frame" x="8" y="74" width="304" height="32"/>
                             <segments>
                                 <segment title="Popular"/>
                                 <segment title="Latest"/>
@@ -46,10 +46,10 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstItem="gyL-nu-hD9" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" constant="8" id="4rm-vS-HZ5"/>
-                        <constraint firstAttribute="bottom" secondItem="gyL-nu-hD9" secondAttribute="bottom" constant="8" id="5vc-KU-LcS"/>
                         <constraint firstItem="zLb-mr-XOD" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" id="9hO-Hz-8TW"/>
                         <constraint firstItem="zLb-mr-XOD" firstAttribute="top" secondItem="5Lz-6G-AC3" secondAttribute="top" constant="8" id="HxQ-rR-OuQ"/>
                         <constraint firstAttribute="trailing" secondItem="gyL-nu-hD9" secondAttribute="trailing" constant="8" id="INY-16-xeg"/>
+                        <constraint firstItem="gyL-nu-hD9" firstAttribute="top" secondItem="zLb-mr-XOD" secondAttribute="bottom" constant="16" id="WJm-Ey-7yD"/>
                         <constraint firstAttribute="trailing" secondItem="zLb-mr-XOD" secondAttribute="trailing" id="sy1-Q1-mzo"/>
                     </constraints>
                 </view>

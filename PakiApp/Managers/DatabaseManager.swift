@@ -13,7 +13,10 @@ enum DatabaseKeys: String {
     case userIsLoggedIn
     case userHasAnswered
 }
+
 typealias EmptyClosure = () -> Void
+typealias BoolClosure = (Bool) -> Void
+
 class DatabaseManager {
     // MARK: - Realm Variables
     private static let _instance = DatabaseManager()
@@ -22,15 +25,30 @@ class DatabaseManager {
     }
     var realm: Realm = try! Realm()
     
-    var mainUser: User? {
-        return realm.objects(User.self).first
+    var userObject: Results<User> {
+        get {
+            return realm.objects(User.self)
+        }
+    }
+    
+    var mainUser: User {
+        get {
+            if let user = self.userObject.first {
+                return user
+            }
+            return User()
+        }
     }
     
     func saveUserData(_ data: [String: Any], completed: EmptyClosure) {
+        
+        let newUser = userObject.first != nil ? userObject.first! : User()
+        
         data.forEach { (_ key: String, _ value: Any) in
             do {
                 try self.realm.write {
-                    mainUser?[key] = value
+                    newUser[key] = value
+                    print("Saved to Realm \(key) - \(value)")
                 }
             } catch {
                 
@@ -39,13 +57,51 @@ class DatabaseManager {
         
         do {
             try self.realm.write {
-                self.realm.add(mainUser!)
+                self.realm.add(newUser)
+                print("User saved to Realm")
                 completed()
             }
         } catch {
             print("Could not add user")
         }
+    }
+    
+    func saveUserPosts(_ posts: [UserPost]) {
+        do {
+            try self.realm.write {
+                mainUser.userPosts.removeAll()
+                mainUser.userPosts.append(objectsIn: posts)
+            }
+        } catch {
+            
+        }
+    }
+    
+    func updateRealm(key: String, value: Any) {
+        do {
+            try self.realm.write {
+                mainUser[key] = value
+                print("Updated success")
+            }
+        } catch {
+            
+        }
+    }
+    
+    func saveUserPost(post: UserPost) {
         
+        let postIndex = self.mainUser.postTag + 1
+        post.postTag = postIndex
+         
+        do {
+            try self.realm.write {
+                self.mainUser.postTag = postIndex
+                self.mainUser.userPosts.append(post)
+                print("User posts saved with index \(postIndex)")
+            }
+        } catch {
+            print("Could not save user post")
+        }
     }
     
     // MARK: - UserDefaults

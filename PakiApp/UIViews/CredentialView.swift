@@ -76,7 +76,8 @@ class CredentialView: UIView, Reusable {
         birthdayValid = year >= 16
         
         if let username = usernameField.text {
-            delegate?.enableSignup(birthday: birthdayValid && !username.isEmpty)
+            let enableSignup = birthdayValid && !username.isEmpty
+            delegate?.enableSignup(birthday: enableSignup)
         }
     }
     

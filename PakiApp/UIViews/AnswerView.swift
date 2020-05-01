@@ -8,12 +8,13 @@
 
 import UIKit
 import TTGEmojiRate
+import SkyFloatingLabelTextField
 
 protocol AnswerViewProtocol: class {
     func didFinishAnswer()
 }
 
-class AnswerView: UIView, Reusable, UITextViewDelegate {
+class AnswerView: UIView, Reusable {
     
     @IBOutlet weak var instLabel: UILabel!
     @IBOutlet weak var howAreYouLabel: UILabel!
@@ -33,6 +34,7 @@ class AnswerView: UIView, Reusable, UITextViewDelegate {
     @IBOutlet weak var shareTextView: UITextView!
     @IBOutlet weak var blurHeightConst: NSLayoutConstraint!
     @IBOutlet weak var shareLimitLabel: UILabel!
+    @IBOutlet weak var shareTitleField: SkyFloatingLabelTextField!
     
     weak var delegate: AnswerViewProtocol?
     var currentPaki: Paki = .meh
@@ -48,16 +50,12 @@ class AnswerView: UIView, Reusable, UITextViewDelegate {
         super.awakeFromNib()
     }
     
-    func textViewDidChange(_ textView: UITextView) {
-        let currentCount = textView.text.count
-        self.shareBtnInternaction = (currentCount <= 500 && currentCount > 0)
-        self.shareLimitLabel.text = "\(currentCount)/500"
-    }
-    
     func setupEmojiView() {
         
         shareTextView.delegate = self
+        shareTitleField.delegate = self
         let pakiColor = UIColor.getColorFor(paki: currentPaki)
+        shareTitleField.placeholder = "Title"
         
         awesomeIcon.tintColor = UIColor.getColorFor(paki: .awesome)
         goodIcon.tintColor = UIColor.getColorFor(paki: .good)
@@ -97,6 +95,7 @@ class AnswerView: UIView, Reusable, UITextViewDelegate {
     }
  
     @IBAction func didSelectPaki(_ sender: ButtonX) {
+        
         let scrollOffset = self.frame.height/2 - 100
         
         emojiView.isUserInteractionEnabled = false
@@ -106,6 +105,8 @@ class AnswerView: UIView, Reusable, UITextViewDelegate {
         
         let pakiColor = UIColor.getColorFor(paki: currentPaki)
         shareButton.backgroundColor = pakiColor
+        shareTitleField.selectedTitleColor = pakiColor
+        shareTitleField.selectedLineColor = pakiColor
         
         UIView.animate(withDuration: 1, animations: {
             self.pakiButton.backgroundColor = pakiColor
@@ -125,13 +126,71 @@ class AnswerView: UIView, Reusable, UITextViewDelegate {
         UIView.animate(withDuration: 1, animations: {
             self.shareView.alpha = 1
         }) { (_) in
-            self.shareTextView.becomeFirstResponder()
+            self.shareTitleField.becomeFirstResponder()
         }
     }
     
     @IBAction func didShare(_ sender: ButtonX) {
-        self.removeFromSuperview()
+        
+        let mainUser = DatabaseManager.Instance.mainUser
+        let userPost: UserPost = UserPost()
+        
+        userPost.username = mainUser.username
+        userPost.paki = currentPaki.rawValue
+        userPost.profilePhotoURL = mainUser.profilePhotoURL
+        userPost.content = shareTextView.text
+        userPost.title = shareTitleField.text ?? "N/A"
+        
+        let datePosted = Date().localDate().convertToString(with: "LLLL dd, yyyy")
+        userPost.datePosted = datePosted
+        userPost.starCount = 1
+        
+        FirebaseManager.Instance.sendPostToFirebase(userPost)
+        
         self.delegate?.didFinishAnswer()
+        UIView.animate(withDuration: 0.5, animations: {
+            self.alpha = 0
+        }) { (_) in
+            self.removeFromSuperview()
+        }
+    }
+}
+
+// MARK: - AnwerFields
+extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text != "" {
+            shareLimitLabel.isHidden = false
+            shareTextView.becomeFirstResponder()
+        }
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.text != "" {
+            shareLimitLabel.isHidden = false
+            shareTextView.becomeFirstResponder()
+        }
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let textCount = returnTextCount(textField: textField, string: string, range: range, count: 100)
+        shareTitleField.selectedTitle = "\(textCount)/100"
+        self.shareBtnInternaction = (shareTextView.text.count <= 500 && shareTextView.text.count > 0) && (shareTitleField.text != "")
+        return textCount < 100
+    }
+    
+    func returnTextCount(textField: UITextField, string: String, range: NSRange, count: Int) -> Int {
+           let currentText = textField.text ?? ""
+           guard let stringRange = Range(range, in: currentText) else { return 0 }
+           let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+           return updatedText.count
+       }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let currentCount = textView.text.count
+        self.shareBtnInternaction = (currentCount <= 500 && currentCount > 0) && (shareTitleField.text != "")
+        self.shareLimitLabel.text = "\(currentCount)/500"
+    }
 }

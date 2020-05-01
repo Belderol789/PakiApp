@@ -9,17 +9,17 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CalendarCollectionViewCell" id="gTV-IL-0wX" customClass="CalendarCollectionViewCell" customModule="Paki" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CalendarCollectionViewCell" id="gTV-IL-0wX" customClass="CalendarCollectionViewCell" customModule="PakiApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rw1-ef-raI" customClass="ViewX" customModule="Paki" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rw1-ef-raI" customClass="ViewX" customModule="PakiApp" customModuleProvider="target">
                         <rect key="frame" x="8" y="8" width="398" height="868"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="26n-cV-j0z" customClass="ViewX" customModule="Paki" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="26n-cV-j0z" customClass="ViewX" customModule="PakiApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="398" height="200"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="January 03, 2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMq-UG-DYz">
@@ -28,7 +28,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="model" translatesAutoresizingMaskIntoConstraints="NO" id="uJR-pI-aj7" customClass="ImageViewX" customModule="Paki" customModuleProvider="target">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="model" translatesAutoresizingMaskIntoConstraints="NO" id="uJR-pI-aj7" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
                                         <rect key="frame" x="159" y="39.5" width="80" height="80"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
@@ -60,12 +60,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pp9-uL-W1z">
-                                        <rect key="frame" x="306.5" y="140" width="17" height="18"/>
+                                        <rect key="frame" x="306.5" y="140.5" width="17" height="18"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w5H-O2-QUF" customClass="ButtonX" customModule="Paki" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w5H-O2-QUF" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
                                         <rect key="frame" x="149" y="171" width="100" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="DwJ-Gg-dBn"/>
@@ -75,8 +75,8 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ady-ke-bAT" customClass="ButtonX" customModule="Paki" customModuleProvider="target">
-                                        <rect key="frame" x="265" y="174" width="100" height="18"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ady-ke-bAT" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
+                                        <rect key="frame" x="265" y="174.5" width="100" height="17.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="wbc-NK-pVz"/>
                                         </constraints>
@@ -85,7 +85,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIQ-cZ-XNl" customClass="ButtonX" customModule="Paki" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RIQ-cZ-XNl" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
                                         <rect key="frame" x="33" y="172" width="100" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="sIP-Cu-U98"/>
@@ -122,10 +122,10 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nkr-lc-jAm" customClass="ViewX" customModule="Paki" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nkr-lc-jAm" customClass="ViewX" customModule="PakiApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="818" width="398" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sJM-jY-Gw5" customClass="ButtonX" customModule="Paki" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sJM-jY-Gw5" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
                                         <rect key="frame" x="16" y="0.0" width="366" height="40"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                         <state key="normal" title="See Comments">
@@ -158,27 +158,35 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="749" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M57-SM-OmK">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="QT8-um-gsP">
                                 <rect key="frame" x="8" y="208" width="382" height="602"/>
-                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCt-A2-Xxu">
+                                        <rect key="frame" x="191" y="0.0" width="0.0" height="297"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" verticalCompressionResistancePriority="749" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M57-SM-OmK">
+                                        <rect key="frame" x="191" y="305" width="0.0" height="297"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="26n-cV-j0z" firstAttribute="trailing" secondItem="nkr-lc-jAm" secondAttribute="trailing" id="62M-K5-xAM"/>
-                            <constraint firstAttribute="trailing" secondItem="M57-SM-OmK" secondAttribute="trailing" constant="8" id="9ny-SM-xj7"/>
                             <constraint firstItem="26n-cV-j0z" firstAttribute="top" secondItem="rw1-ef-raI" secondAttribute="top" id="DfY-Gf-x1N"/>
-                            <constraint firstItem="M57-SM-OmK" firstAttribute="centerX" secondItem="rw1-ef-raI" secondAttribute="centerX" id="N2w-Ao-7IO"/>
+                            <constraint firstItem="QT8-um-gsP" firstAttribute="leading" secondItem="rw1-ef-raI" secondAttribute="leading" constant="8" id="Igb-CK-3tH"/>
+                            <constraint firstAttribute="trailing" secondItem="QT8-um-gsP" secondAttribute="trailing" constant="8" id="LOt-kY-luj"/>
                             <constraint firstAttribute="bottom" secondItem="nkr-lc-jAm" secondAttribute="bottom" id="NZw-UY-dYR"/>
                             <constraint firstItem="26n-cV-j0z" firstAttribute="centerX" secondItem="rw1-ef-raI" secondAttribute="centerX" id="UoY-vT-4xJ"/>
-                            <constraint firstItem="M57-SM-OmK" firstAttribute="leading" secondItem="rw1-ef-raI" secondAttribute="leading" constant="8" id="Wwl-7U-TeO"/>
                             <constraint firstItem="26n-cV-j0z" firstAttribute="leading" secondItem="nkr-lc-jAm" secondAttribute="leading" id="eIj-QH-whG"/>
-                            <constraint firstItem="nkr-lc-jAm" firstAttribute="top" secondItem="M57-SM-OmK" secondAttribute="bottom" constant="8" id="g03-Ag-ECC"/>
+                            <constraint firstItem="nkr-lc-jAm" firstAttribute="top" secondItem="QT8-um-gsP" secondAttribute="bottom" constant="8" id="g3r-2E-yUe"/>
                             <constraint firstItem="26n-cV-j0z" firstAttribute="leading" secondItem="rw1-ef-raI" secondAttribute="leading" id="gJC-ev-gZi"/>
-                            <constraint firstItem="M57-SM-OmK" firstAttribute="top" secondItem="26n-cV-j0z" secondAttribute="bottom" constant="8" id="unc-Hf-Nko"/>
+                            <constraint firstItem="QT8-um-gsP" firstAttribute="top" secondItem="26n-cV-j0z" secondAttribute="bottom" constant="8" id="uFf-4L-Avc"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -211,10 +219,12 @@
             <connections>
                 <outlet property="commentsLabel" destination="oMi-CL-J2f" id="YJw-fx-5uG"/>
                 <outlet property="containerView" destination="rw1-ef-raI" id="Gee-28-ddk"/>
+                <outlet property="contentLabel" destination="M57-SM-OmK" id="i82-OK-V26"/>
                 <outlet property="dateLabel" destination="MMq-UG-DYz" id="K49-pg-IdW"/>
                 <outlet property="headerView" destination="26n-cV-j0z" id="Vu6-A1-lEk"/>
                 <outlet property="sharesLabel" destination="pp9-uL-W1z" id="m3d-zF-9sc"/>
                 <outlet property="starsLabel" destination="Q9m-G6-wH8" id="hJK-14-kcD"/>
+                <outlet property="titleLabel" destination="hCt-A2-Xxu" id="w36-Wc-dbZ"/>
                 <outlet property="userProfilePic" destination="uJR-pI-aj7" id="TsB-tz-o6R"/>
                 <outletCollection property="calendarBtns" destination="w5H-O2-QUF" collectionClass="NSMutableArray" id="Iws-Kx-2ag"/>
                 <outletCollection property="calendarBtns" destination="ady-ke-bAT" collectionClass="NSMutableArray" id="y3t-mV-piw"/>
@@ -226,7 +236,7 @@
     <resources>
         <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
         <image name="bubble.left.and.bubble.right.fill" catalog="system" width="128" height="97"/>
-        <image name="model" width="369" height="325"/>
+        <image name="model" width="738" height="650"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
     </resources>
 </document>

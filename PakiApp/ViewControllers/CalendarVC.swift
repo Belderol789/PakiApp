@@ -14,17 +14,18 @@ class CalendarVC: UIViewController, Reusable {
     @IBOutlet weak var calendarCollectionView: UICollectionView!
     
     // Variables
-    var testPakis: [Paki] = []
+    var userPosts: [UserPost] = []
+    var postTag: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupVCUI()
     }
     
     func setupVCUI() {
         calendarCollectionView.register(CalendarCollectionViewCell.nib, forCellWithReuseIdentifier: CalendarCollectionViewCell.className)
         calendarCollectionView.delegate = self
         calendarCollectionView.dataSource = self
+        calendarCollectionView.scrollToItem(at: IndexPath(item: postTag, section: 0), at: .right, animated: true)
     }
     
     @IBAction func didDismissCalendar(_ sender: UIButton) {
@@ -37,12 +38,12 @@ class CalendarVC: UIViewController, Reusable {
 extension CalendarVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return testPakis.count
+        return userPosts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let calendarCell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCollectionViewCell.className, for: indexPath) as! CalendarCollectionViewCell
-        calendarCell.setupCalendarView(paki: testPakis[indexPath.item])
+        calendarCell.setupCalendarView(post: userPosts[indexPath.item])
         return calendarCell
     }
     

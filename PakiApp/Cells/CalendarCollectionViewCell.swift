@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     
@@ -21,17 +22,30 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     @IBOutlet weak var containerView: ViewX!
     
     @IBOutlet weak var headerView: ViewX!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var contentLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
        
     }
     
-    func setupCalendarView(paki: Paki) {
-        let color = UIColor.getColorFor(paki: paki)
+    func setupCalendarView(post: UserPost) {
+        let color = UIColor.getColorFor(paki: Paki(rawValue: post.paki)!)
         calendarBtns.forEach({$0.tintColor = .white})
         containerView.layer.shadowColor = color.cgColor
         headerView.backgroundColor = color
+        
+        starsLabel.text = "\(post.starCount)"
+        commentsLabel.text = "\(post.commentCount)"
+        sharesLabel.text = "\(post.shareCount)"
+        
+        titleLabel.text = post.title
+        contentLabel.text = post.content
+        dateLabel.text = post.datePosted
+        userProfilePic.sd_setImage(with: post.photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
+        
+        
     }
 
 }

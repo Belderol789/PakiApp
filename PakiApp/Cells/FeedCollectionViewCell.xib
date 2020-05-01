@@ -9,14 +9,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FeedCollectionViewCell" customModule="Paki" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FeedCollectionViewCell" customModule="PakiApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="438" height="238"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="438" height="238"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="model" translatesAutoresizingMaskIntoConstraints="NO" id="2A8-fh-E9d" customClass="ImageViewX" customModule="Paki" customModuleProvider="target">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="model" translatesAutoresizingMaskIntoConstraints="NO" id="2A8-fh-E9d" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
                         <rect key="frame" x="8" y="8" width="40" height="40"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -136,12 +136,14 @@
             <connections>
                 <outlet property="feedCommentsBtn" destination="AZJ-dU-nJM" id="mZa-Lx-bV0"/>
                 <outlet property="feedContent" destination="CUw-TA-G4y" id="tjC-7n-RDm"/>
+                <outlet property="feedDate" destination="3vh-UI-qdp" id="Soh-pk-86e"/>
                 <outlet property="feedElipseBtn" destination="3T5-dd-Q8E" id="hL2-8L-fL0"/>
                 <outlet property="feedImageView" destination="2A8-fh-E9d" id="GUr-d8-UYU"/>
                 <outlet property="feedShareBtn" destination="4N7-fC-xwx" id="Hzj-CY-jzl"/>
                 <outlet property="feedStack" destination="gda-GR-toi" id="jTn-ho-YSq"/>
                 <outlet property="feedStarBtn" destination="iOL-UQ-sXw" id="TWk-Tm-T7m"/>
                 <outlet property="feedTitle" destination="88C-BS-ncH" id="iMu-HR-w7g"/>
+                <outlet property="feedUsername" destination="rrl-QJ-lAe" id="qYT-Y7-qAG"/>
                 <outletCollection property="feedBtns" destination="AZJ-dU-nJM" collectionClass="NSMutableArray" id="c6Z-Dr-mV3"/>
                 <outletCollection property="feedBtns" destination="iOL-UQ-sXw" collectionClass="NSMutableArray" id="hps-ST-fkb"/>
                 <outletCollection property="feedBtns" destination="4N7-fC-xwx" collectionClass="NSMutableArray" id="Nrg-wX-hHJ"/>
@@ -154,7 +156,7 @@
         <image name="arrowshape.turn.up.right" catalog="system" width="128" height="106"/>
         <image name="bubble.left.and.bubble.right" catalog="system" width="128" height="96"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
-        <image name="model" width="369" height="325"/>
+        <image name="model" width="738" height="650"/>
         <image name="star" catalog="system" width="128" height="116"/>
     </resources>
 </document>

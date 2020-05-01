@@ -14,10 +14,10 @@ class CommentsVC: GeneralViewController {
     @IBOutlet weak var commentsCollection: UICollectionView!
     // Variables
     var currentPaki: Paki!
-    var currentPost: FeedPost!
+    var currentPost: UserPost!
     
-    var filteredComments: [FeedPost] = []
-    var allComments: [FeedPost] = []
+    var filteredComments: [UserPost] = []
+    var allComments: [UserPost] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()

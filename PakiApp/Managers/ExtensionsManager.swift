@@ -197,11 +197,19 @@ extension Double {
 
 // MARK: - Date
 extension Date {
+    
     func localDate() -> Date {
         let nowUTC = Date()
         let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
         guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {return Date()}
         return localDate
+    }
+    
+    func convertToString(with format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        return dateFormatter.string(from: self)
     }
     
     static var yesterday: Date { return Date().dayBefore }

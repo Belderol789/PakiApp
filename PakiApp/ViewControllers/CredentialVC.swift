@@ -70,6 +70,10 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
                     }
                 }
             } else {
+                
+                loadingView.isHidden = false
+                loadingView.startLoading()
+                
                 FirebaseManager.Instance.loginUser(email: email, password: password) { (message) in
                     self.userHasAuthenticated(message)
                 }
@@ -86,6 +90,10 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
                 self.showAlertWith(title: "Error verifying number", message: message!, actions: [], hasDefaultOK: true)
             }
         } else if let verfID = verificationID, let verfCode = credentialView.phoneField.text, !verfCode.isEmpty {
+            
+            loadingView.isHidden = false
+            loadingView.startLoading()
+            
             if isLogin {
                 FirebaseManager.Instance.loginPhoneUser(verfID: verfID, verfCode: verfCode) { (message) in
                     self.userHasAuthenticated(message)
@@ -108,10 +116,13 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     func userHasAuthenticated(_ message: String?) {
         if message != nil {
             self.showAlertWith(title: "Authentication Error", message: message!, actions: [], hasDefaultOK: true)
+            credentialView.isHidden = true
         } else {
+            print("Sucessfully loaded in user")
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
             // go to main
         }
-        self.loadingView.stopLoading()
+        loadingView.stopLoading()
     }
     
     func enableSignup(birthday: Bool) {

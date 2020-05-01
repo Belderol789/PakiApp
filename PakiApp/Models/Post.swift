@@ -19,31 +19,51 @@ enum Paki: String {
     case terrible
 }
 
-struct FeedPost {
-    let paki: Paki
-    
-    let username: String
-    let datePosted: String
-    let profilePhoto: String?
-    
-    let title: String
-    let content: String
-    
-    let commentCount: Int
-    let starCount: Int
-    let shareCount: Int
-}
-
 class UserPost: Object {
-    @objc dynamic var paki: String!
-    @objc dynamic var username: String!
-    @objc dynamic var datePosted: String!
-    @objc dynamic var profilePhoto: String?
+    @objc dynamic var paki: String = Paki.none.rawValue
+    @objc dynamic var username: String = ""
+    @objc dynamic var datePosted: String = ""
+    @objc dynamic var profilePhotoURL: String?
+    @objc dynamic var uid: String = ""
     
-    @objc dynamic var title: String!
-    @objc dynamic var content: String!
+    @objc dynamic var title: String = ""
+    @objc dynamic var content: String = ""
     
     @objc dynamic var commentCount: Int = 0
     @objc dynamic var starCount: Int = 0
     @objc dynamic var shareCount: Int = 0
+    
+    @objc dynamic var postTag: Int = 0
+    
+    var postKey: String {
+        return datePosted.replacingOccurrences(of: " ", with: "")
+    }
+    
+    var photoURL: URL? {
+        if let profilePhotoURL = profilePhotoURL {
+            return URL(string: profilePhotoURL)
+        }
+        return nil
+    }
+    
+    static func convert(data: [String: Any]) -> UserPost {
+        let userPost = UserPost()
+        userPost.username = data[FirebaseKeys.username.rawValue] as? String ?? ""
+        userPost.paki = data[FirebaseKeys.paki.rawValue] as? String ?? ""
+        userPost.datePosted = data[FirebaseKeys.datePosted.rawValue] as? String ?? ""
+        userPost.profilePhotoURL = data[FirebaseKeys.profilePhotoURL.rawValue] as? String
+        userPost.uid = data[FirebaseKeys.uid.rawValue] as? String ?? ""
+        
+        userPost.content = data[FirebaseKeys.content.rawValue] as? String ?? ""
+        userPost.title = data[FirebaseKeys.title.rawValue] as? String ?? ""
+        
+        userPost.commentCount = data[FirebaseKeys.commentCount.rawValue] as? Int ?? 0
+        userPost.starCount = data[FirebaseKeys.starCount.rawValue] as? Int ?? 0
+        userPost.shareCount = data[FirebaseKeys.shareCount.rawValue] as? Int ?? 0
+        
+        userPost.postTag = data[FirebaseKeys.postTag.rawValue] as? Int ?? 0
+        
+        return userPost
+    }
+    
 }

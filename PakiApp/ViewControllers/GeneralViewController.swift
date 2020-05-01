@@ -75,8 +75,12 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
                     if hours > 0 {
                         hours -= 1
                     } else {
-                        print("DayEnded")
                         timer.invalidate()
+                        if !DatabaseManager.Instance.userHasAnswered {
+                            FirebaseManager.Instance.sendEmptyPost()
+                        }
+                        DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
+                        self.setupCountDown()
                     }
                 }
             }

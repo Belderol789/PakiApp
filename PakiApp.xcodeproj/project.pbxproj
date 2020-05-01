@@ -48,6 +48,7 @@
 		E33A73502458803600AAD61A /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A734F2458803600AAD61A /* LoadingView.xib */; };
 		E33A73532458BD2A00AAD61A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73522458BD2900AAD61A /* User.swift */; };
 		E33E470D245A7C0E00B838DB /* FirebaseManager-Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E470C245A7C0E00B838DB /* FirebaseManager-Auth.swift */; };
+		E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,7 @@
 		E33A73512458998400AAD61A /* PakiApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PakiApp.entitlements; sourceTree = "<group>"; };
 		E33A73522458BD2900AAD61A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E33E470C245A7C0E00B838DB /* FirebaseManager-Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-Auth.swift"; sourceTree = "<group>"; };
+		E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-Post.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +240,7 @@
 				E33A733D2455FBF600AAD61A /* DatabaseManager.swift */,
 				E33A7345245641F700AAD61A /* FirebaseManager.swift */,
 				E33E470C245A7C0E00B838DB /* FirebaseManager-Auth.swift */,
+				E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				E33A72EB2454767C00AAD61A /* SceneDelegate.swift in Sources */,
 				E33A73262454856E00AAD61A /* ReplyVC.swift in Sources */,
 				E33A7346245641F700AAD61A /* FirebaseManager.swift in Sources */,
+				E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */,
 				E33A73442456171300AAD61A /* GeneralViewController.swift in Sources */,
 				E33A734A2457303E00AAD61A /* CredentialView.swift in Sources */,
 				E33A73332454856E00AAD61A /* CalendarVC.swift in Sources */,

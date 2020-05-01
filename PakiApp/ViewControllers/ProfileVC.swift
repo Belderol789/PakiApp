@@ -9,6 +9,7 @@
 import UIKit
 import BubbleTransition
 import Charts
+import SDWebImage
 
 class ProfileVC: GeneralViewController {
     // IBOutlets
@@ -19,13 +20,19 @@ class ProfileVC: GeneralViewController {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var statsTableView: UITableView!
     
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var userPhotoImageView: ImageViewX!
+    @IBOutlet weak var starsLabel: UILabel!
+    @IBOutlet weak var postsLabel: UILabel!
+    @IBOutlet weak var daysLabel: UILabel!
+    
     // Constraints
     // Variables
-    var userPaki: [Paki] = []
+    var userPosts: [UserPost] = []
     var pakis: [Paki] = [.awesome, .good, .meh, .bad, .terrible]
     
-    var pakiViews: [String: ViewX] = [:]
-    var selectedPaki: ViewX?
+    var pakiViews: [String: PakiView] = [:]
+    var selectedPaki: PakiView?
     var startingPoint: CGPoint = CGPoint.zero
     var gridTimer: Timer?
     
@@ -36,12 +43,9 @@ class ProfileVC: GeneralViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addGridViews()
-        addChartViews()
         isProfile = true
         setupCountDown()
-        //KemFix
-        totalLabel.text = "Total: \(userPaki.count)"
+        setupUserData()
     }
     
     @IBAction func didChangeSegment(_ sender: UISegmentedControl) {
@@ -51,6 +55,34 @@ class ProfileVC: GeneralViewController {
         } else {
             scrollView.scrollToNextItem(width: width)
         }
+    }
+    
+    func setupUserData() {
+        let mainUser = DatabaseManager.Instance.mainUser
+        usernameLabel.text = mainUser.username
+        if let photoString = mainUser.profilePhotoURL {
+            let photoURL = URL(string: photoString)
+            userPhotoImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: "mascot"), options: .continueInBackground, completed: nil)
+        }
+        
+        let mainUserPosts = mainUser.userPosts.sorted(by: {$0.postTag < $1.postTag})
+        if mainUserPosts.count < 2 {
+            FirebaseManager.Instance.getUserPosts { (userPosts) in
+                DatabaseManager.Instance.updateRealm(key: FirebaseKeys.postTag.rawValue, value: (userPosts.count - 1))
+                DatabaseManager.Instance.saveUserPosts(userPosts)
+                self.setupCalendarView(posts: userPosts)
+            }
+        } else {
+            setupCalendarView(posts: mainUserPosts)
+        }
+        
+    }
+    
+    func setupCalendarView(posts: [UserPost]) {
+        userPosts = posts.sorted(by: {$0.postTag < $1.postTag})
+        totalLabel.text = "\(userPosts.count)/365"
+        addChartViews()
+        addGridViews()
     }
     
     func addChartViews() {
@@ -94,8 +126,8 @@ class ProfileVC: GeneralViewController {
     fileprivate func setupDateEntry(paki: Paki) -> PieChartDataEntry {
         let dataEntry = PieChartDataEntry(value: 0)
         
-        let value = userPaki.filter({$0 == paki}).count
-        dataEntry.value = Double(value)/Double(userPaki.count)
+        let value = userPosts.filter({$0.paki == paki.rawValue}).count
+        dataEntry.value = Double(value)/Double(userPosts.count)
 
         return dataEntry
     }
@@ -107,13 +139,16 @@ class ProfileVC: GeneralViewController {
         var y: CGFloat = 0
         
         //Kem Fix
-        for paki in userPaki {
+        for post in userPosts {
             if x == 10 {
                 x = 0
                 y += 1
             }
             
             let pakiView = PakiView()
+            let paki = Paki(rawValue: post.paki)!
+            
+            pakiView.viewTag = post.postTag
             pakiView.setupView(with: paki)
             pakiView.frame = CGRect(x: x * width, y: y * width, width: width, height: width)
             gridViewContainer.addSubview(pakiView)
@@ -137,7 +172,7 @@ class ProfileVC: GeneralViewController {
         let y = Int(location.y / width)
         let key = "\(x)\(y)"
         
-        if let pakiView = pakiViews[key] {
+        if let pakiView = pakiViews[key], pakiView.backgroundColor != .clear {
             self.selectedPaki = pakiView
             presentCalendarVC()
         }
@@ -152,7 +187,7 @@ class ProfileVC: GeneralViewController {
         let y = Int(location.y / width)
         
         let key = "\(x)\(y)"
-        if let pakiView = pakiViews[key] {
+        if let pakiView = pakiViews[key], pakiView.backgroundColor != .clear {
             
             self.gridTimer?.invalidate()
             self.gridTimer = nil
@@ -165,7 +200,6 @@ class ProfileVC: GeneralViewController {
             }
             
             selectedPaki = pakiView
-            
             gridViewContainer.bringSubviewToFront(pakiView)
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -192,11 +226,15 @@ class ProfileVC: GeneralViewController {
     }
     
     fileprivate func presentCalendarVC() {
+        guard let selectedPaki = selectedPaki else { return }
         let calendarVC = self.storyboard?.instantiateViewController(identifier: CalendarVC.className) as! CalendarVC
-        calendarVC.testPakis = userPaki
+        calendarVC.postTag = selectedPaki.viewTag
+        calendarVC.userPosts = userPosts
         calendarVC.transitioningDelegate = self
         calendarVC.modalPresentationStyle = .custom
-        self.present(calendarVC, animated: true, completion: nil)
+        self.present(calendarVC, animated: true) {
+            calendarVC.setupVCUI()
+        }
     }
     
     func pakiViewCenterPoint() -> CGPoint? {
@@ -234,10 +272,10 @@ extension ProfileVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let currentPaki = pakis[indexPath.row]
-        let pakiCount = userPaki.filter({$0 == currentPaki}).count
+        let pakiCount = userPosts.filter({$0.paki == currentPaki.rawValue}).count
         
         let cell = tableView.dequeueReusableCell(withIdentifier: StatsTableViewCell.className) as! StatsTableViewCell
-        cell.totalCount = userPaki.count
+        cell.totalCount = userPosts.count
         cell.setupCell(withPaki: currentPaki, count: pakiCount)
         return cell
     }

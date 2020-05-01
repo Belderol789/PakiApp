@@ -9,6 +9,8 @@
 import UIKit
 
 class PakiView: ViewX, Reusable {
+    
+    var viewTag: Int = 0
 
     override class func awakeFromNib() {
         super.awakeFromNib()

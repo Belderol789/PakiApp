@@ -28,7 +28,10 @@ extension FirebaseManager {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
             } else if let uid = result?.user.uid {
                 
-                var userData: [String: Any] = [FirebaseKeys.username.rawValue: username, FirebaseKeys.birthday.rawValue: birth, FirebaseKeys.uid.rawValue: uid]
+                var userData: [String: Any] = [FirebaseKeys.username.rawValue: username,
+                                               FirebaseKeys.birthday.rawValue: birth,
+                                               FirebaseKeys.uid.rawValue: uid]
+                
                 DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                 
                 if let datum = photo {

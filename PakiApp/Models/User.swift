@@ -11,4 +11,11 @@ import RealmSwift
 
 class User: Object {
     
+    @objc dynamic var uid: String!
+    @objc dynamic var username: String!
+    @objc dynamic var birthday: String!
+    @objc dynamic var profilePhotoURL: String?
+    @objc dynamic var postTag: Int = -1
+    
+    var userPosts = List<UserPost>()
 }

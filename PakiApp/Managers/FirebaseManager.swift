@@ -16,11 +16,21 @@ enum FirebaseKeys: String {
     case profilePhotoURL
     case birthday
     case uid
+    case datePosted
+    case title
+    case content
+    case paki
+    case starCount
+    case commentCount
+    case shareCount
+    case postTag
 }
 
 enum Identifiers: String {
     case users
     case profilePhoto
+    case posts
+    case userPosts
 }
 
 class FirebaseManager {
@@ -38,17 +48,22 @@ class FirebaseManager {
             return db
         }
     }
-    
 }
 
 // MARK: - Firestore Handling
 extension FirebaseManager {
+    
     // MARK: - Get User Data
     func getUserData(with uid: String, completed: @escaping () -> Void) {
         self.firestoreDB.collection(Identifiers.users.rawValue).document(uid).getDocument { (snapshot, error) in
             if let snapshotData = snapshot?.data() {
-                DatabaseManager.Instance.saveUserData(snapshotData, completed: {})
-                completed()
+                DatabaseManager.Instance.saveUserData(snapshotData, completed: {
+                    FirebaseManager.Instance.getUserPosts { (userPosts) in
+                        DatabaseManager.Instance.updateRealm(key: FirebaseKeys.postTag.rawValue, value: (userPosts.count - 1))
+                        DatabaseManager.Instance.saveUserPosts(userPosts)
+                    }
+                    completed()
+                })
             }
         }
     }

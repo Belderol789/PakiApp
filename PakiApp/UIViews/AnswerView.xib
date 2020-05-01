@@ -231,36 +231,20 @@
                     <rect key="frame" x="8" y="44" width="398" height="818"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share your experience  for Today" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GfL-Gj-Ebl">
-                            <rect key="frame" x="34.5" y="46" width="329" height="72"/>
+                            <rect key="frame" x="34.5" y="58" width="329" height="72"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="30"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LbR-7e-tox">
-                            <rect key="frame" x="20" y="126" width="358" height="1"/>
-                            <color key="backgroundColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="OgV-GQ-0Di"/>
-                            </constraints>
-                        </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiZ-fm-iVu">
-                            <rect key="frame" x="334.5" y="135" width="43.5" height="20"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QNS-o3-Hnx">
-                            <rect key="frame" x="8" y="163" width="382" height="400"/>
+                            <rect key="frame" x="20" y="238" width="358" height="572"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="400" id="hKk-vS-slK"/>
-                            </constraints>
                             <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJU-PZ-fDY" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
-                            <rect key="frame" x="298" y="8" width="80" height="30"/>
+                            <rect key="frame" x="298" y="20" width="80" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="80" id="Wt6-SQ-GIB"/>
                             </constraints>
@@ -280,21 +264,42 @@
                                 <action selector="didShare:" destination="iN0-l3-epB" eventType="touchUpInside" id="sS9-vg-zJ9"/>
                             </connections>
                         </button>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/500" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiZ-fm-iVu">
+                            <rect key="frame" x="20" y="210" width="43.5" height="20"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kyA-wE-MT8" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
+                            <rect key="frame" x="20" y="150" width="358" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="jVu-hb-3ud"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                    <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
+                                    <color key="value" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
                         <constraint firstItem="GfL-Gj-Ebl" firstAttribute="centerX" secondItem="mkw-kE-DR0" secondAttribute="centerX" id="1z1-QK-Mtm"/>
-                        <constraint firstItem="QNS-o3-Hnx" firstAttribute="leading" secondItem="mkw-kE-DR0" secondAttribute="leading" constant="8" id="2G3-ez-E9l"/>
-                        <constraint firstAttribute="trailing" secondItem="DiZ-fm-iVu" secondAttribute="trailing" constant="20" id="JUM-K2-glR"/>
+                        <constraint firstAttribute="trailing" secondItem="kyA-wE-MT8" secondAttribute="trailing" constant="20" id="8GO-DM-gwy"/>
+                        <constraint firstAttribute="bottom" secondItem="QNS-o3-Hnx" secondAttribute="bottom" constant="8" id="Deg-cd-T0Y"/>
+                        <constraint firstItem="DiZ-fm-iVu" firstAttribute="top" secondItem="kyA-wE-MT8" secondAttribute="bottom" constant="20" id="FZm-au-o23"/>
+                        <constraint firstItem="kyA-wE-MT8" firstAttribute="leading" secondItem="mkw-kE-DR0" secondAttribute="leading" constant="20" id="JkS-Va-0XS"/>
                         <constraint firstAttribute="trailing" secondItem="gJU-PZ-fDY" secondAttribute="trailing" constant="20" id="NeC-E5-dMi"/>
                         <constraint firstItem="GfL-Gj-Ebl" firstAttribute="top" secondItem="gJU-PZ-fDY" secondAttribute="bottom" constant="8" id="Oks-Xs-JXH"/>
-                        <constraint firstItem="LbR-7e-tox" firstAttribute="leading" secondItem="mkw-kE-DR0" secondAttribute="leading" constant="20" id="SOe-gm-HjV"/>
-                        <constraint firstAttribute="trailing" secondItem="QNS-o3-Hnx" secondAttribute="trailing" constant="8" id="TMZ-kt-tx4"/>
-                        <constraint firstItem="QNS-o3-Hnx" firstAttribute="top" secondItem="DiZ-fm-iVu" secondAttribute="bottom" constant="8" id="aBR-xm-ZY2"/>
-                        <constraint firstItem="gJU-PZ-fDY" firstAttribute="top" secondItem="mkw-kE-DR0" secondAttribute="top" constant="8" id="aKG-s5-5UJ"/>
-                        <constraint firstItem="DiZ-fm-iVu" firstAttribute="top" secondItem="LbR-7e-tox" secondAttribute="bottom" constant="8" id="rMf-BT-axf"/>
-                        <constraint firstAttribute="trailing" secondItem="LbR-7e-tox" secondAttribute="trailing" constant="20" id="ul2-Oo-DbE"/>
-                        <constraint firstItem="LbR-7e-tox" firstAttribute="top" secondItem="GfL-Gj-Ebl" secondAttribute="bottom" constant="8" id="vm7-Qx-bXm"/>
+                        <constraint firstItem="QNS-o3-Hnx" firstAttribute="leading" secondItem="mkw-kE-DR0" secondAttribute="leading" constant="20" id="Z5X-9z-weJ"/>
+                        <constraint firstItem="gJU-PZ-fDY" firstAttribute="top" secondItem="mkw-kE-DR0" secondAttribute="top" constant="20" id="aKG-s5-5UJ"/>
+                        <constraint firstItem="DiZ-fm-iVu" firstAttribute="leading" secondItem="mkw-kE-DR0" secondAttribute="leading" constant="20" id="mBO-EF-Aqv"/>
+                        <constraint firstAttribute="trailing" secondItem="QNS-o3-Hnx" secondAttribute="trailing" constant="20" id="rDq-UZ-JiI"/>
+                        <constraint firstItem="kyA-wE-MT8" firstAttribute="top" secondItem="GfL-Gj-Ebl" secondAttribute="bottom" constant="20" id="s7X-Vs-Nkn"/>
+                        <constraint firstItem="QNS-o3-Hnx" firstAttribute="top" secondItem="DiZ-fm-iVu" secondAttribute="bottom" constant="8" id="tdZ-GU-hXG"/>
                     </constraints>
                 </view>
             </subviews>
@@ -325,6 +330,7 @@
                 <outlet property="shareButton" destination="gJU-PZ-fDY" id="8So-xR-5aM"/>
                 <outlet property="shareLimitLabel" destination="DiZ-fm-iVu" id="spq-lo-nxL"/>
                 <outlet property="shareTextView" destination="QNS-o3-Hnx" id="2Kq-sZ-OzV"/>
+                <outlet property="shareTitleField" destination="kyA-wE-MT8" id="vLO-QP-egM"/>
                 <outlet property="shareView" destination="mkw-kE-DR0" id="MaC-0Z-54k"/>
                 <outlet property="statsView" destination="3Fz-Nw-Dgd" id="son-j9-SRp"/>
                 <outlet property="terribleIcon" destination="HFi-Bs-bt5" id="JfL-N9-vTL"/>
