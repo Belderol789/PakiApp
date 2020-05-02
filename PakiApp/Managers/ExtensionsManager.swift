@@ -228,13 +228,12 @@ extension Date {
 
 // MARK: - UITextfield
 extension UITextField {
-    func returnTextCount(textField: UITextField, string: String, range: NSRange) -> Int {
-        let startingLength = textField.text?.count ?? 0
-        let lengthToAdd = string.count
-        let lengthToReplace = range.length
-
-        let newLength = startingLength + lengthToAdd - lengthToReplace
-        return newLength
+    
+    func returnTextCount(textField: UITextField, string: String, range: NSRange, count: Int) -> Int {
+        let currentText = textField.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return 0 }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count
     }
 }
 

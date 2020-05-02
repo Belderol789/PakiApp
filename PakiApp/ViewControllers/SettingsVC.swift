@@ -12,7 +12,7 @@ import SDWebImage
 import SafariServices
 import MessageUI
 
-class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate {
+class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UITextFieldDelegate {
     //IBOutlets
     @IBOutlet weak var profileImageView: ImageViewX!
     @IBOutlet weak var profileUsername: SkyFloatingLabelTextField!
@@ -21,6 +21,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate {
     var didUpdatePhoto: Bool = false
     
     override func viewDidLoad() {
+        profileUsername.delegate = self
         super.viewDidLoad()
         loadUserData()
         hideTabbar = true
@@ -29,10 +30,20 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate {
         self.navigationItem.rightBarButtonItem  = updateButton
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let textCount = textField.returnTextCount(textField: textField, string: string, range: range, count: 15)
+        profileUsername.selectedTitle = "\(textCount)/15"
+        return textCount < 15
+    }
+    
     @objc
     func saveUserProfile() {
+        
+        var updatedProfile: [String: Any] = [:]
+        
         let mainUser = DatabaseManager.Instance.mainUser
         if mainUser.username != profileUsername.text && profileUsername.text != "" {
+            updatedProfile[FirebaseKeys.username.rawValue] = profileUsername.text
             let updatedUsername: [String: Any] = [FirebaseKeys.username.rawValue: profileUsername.text!]
             FirebaseManager.Instance.updateFirebase(data: updatedUsername, identifier: .users, docuID: mainUser.uid) { (message) in
                 if let message = message {
@@ -44,6 +55,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate {
         }
         
         if didUpdatePhoto {
+            updatedProfile[FirebaseKeys.photo.rawValue] = self.profileImageView.image
             if let updatedPhoto = self.profileImageView.image?.compressTo(1) {
                 FirebaseManager.Instance.saveToStorage(datum: updatedPhoto, identifier: .profilePhoto, storagePath: mainUser.uid) { (profilePhoto) in
                     if let profilePhoto = profilePhoto {
@@ -53,6 +65,9 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate {
                 }
             }
         }
+        
+        NotificationCenter.default.post(name: NSNotification.Name("UpdateProfile"), object: updatedProfile)
+        
     }
     
     fileprivate func loadUserData() {
@@ -60,7 +75,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate {
         profileUsername.text = user.username
         if let profileURL = user.profilePhotoURL {
             let url = URL(string: profileURL)
-            profileImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "mascot"), options: .continueInBackground, completed: nil)
+            profileImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Mascot"), options: .continueInBackground, completed: nil)
         }
         let appearance = DatabaseManager.Instance.userSetLightAppearance
         switchAppearance.isOn = !appearance

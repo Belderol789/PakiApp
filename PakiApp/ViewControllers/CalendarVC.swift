@@ -12,7 +12,7 @@ class CalendarVC: GeneralViewController, Reusable {
     
     // IBOutlets
     @IBOutlet weak var calendarCollectionView: UICollectionView!
-    
+    @IBOutlet weak var totalLabel: UILabel!
     // Variables
     var userPosts: [UserPost] = []
     var postTag: Int = 0
@@ -26,6 +26,8 @@ class CalendarVC: GeneralViewController, Reusable {
         calendarCollectionView.delegate = self
         calendarCollectionView.dataSource = self
         calendarCollectionView.scrollToItem(at: IndexPath(item: postTag, section: 0), at: .right, animated: true)
+        
+        totalLabel.text = "\(postTag)/365"
     }
     
     @IBAction func didDismissCalendar(_ sender: UIButton) {
@@ -49,6 +51,10 @@ extension CalendarVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.frame.size
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        self.totalLabel.text = "\(indexPath.item)/365"
     }
     
 }

@@ -9,6 +9,10 @@
 import UIKit
 import SDWebImage
 
+protocol FeedPostProtocol: class {
+    func proceedToComments(post: UserPost)
+}
+
 class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     
     @IBOutlet weak var feedUsername: UILabel!
@@ -30,6 +34,11 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     let commentImage = "bubble.left.and.bubble.right"
     let shareImage = "arrowshape.turn.up.right"
     
+    var starCount: Int = 0
+    var currentPost: UserPost!
+    
+    weak var delegate: FeedPostProtocol?
+     
     var cellColor: UIColor = .lightGray
 
     override func awakeFromNib() {
@@ -39,8 +48,9 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     }
     
     func setupCellWith(post: UserPost) {
+        currentPost = post
         if let photoURLString = post.profilePhotoURL, let photoURL = URL(string: photoURLString) {
-            feedImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: post.paki.capitalized), options: .continueInBackground, context: nil)
+            feedImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, context: nil)
         }
         cellColor = UIColor.getColorFor(paki: Paki(rawValue: post.paki)!)
         feedImageView.layer.borderColor = cellColor.cgColor
@@ -50,9 +60,29 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         feedUsername.text = post.username
         feedDate.text = post.datePosted
         
-        setupButton(button: feedStarBtn, forImage: starImage, count: post.starCount)
-        setupButton(button: feedCommentsBtn, forImage: commentImage, count: post.commentCount)
-        setupButton(button: feedShareBtn, forImage: shareImage, count: post.shareCount)
+        if let userID = DatabaseManager.Instance.mainUser.uid {
+            let starBool = post.starCount.contains(userID)
+            let image = starBool ? "star.fill" : "star"
+            starCount = post.starCount.count
+            feedStarBtn.setImage(UIImage(named: image), for: .normal)
+            feedStarBtn.tintColor = starBool ? cellColor : .systemGray
+        }
+    }
+    
+    @IBAction func didFavourite(_ sender: UIButton) {
+        feedStarBtn.setImage(UIImage(named: "star.fill"), for: .normal)
+        feedStarBtn.tintColor = cellColor
+        starCount += 1
+        sender.setTitle("\(starCount)", for: .normal)
+        FirebaseManager.Instance.updatePostsStar(userPost: currentPost)
+    }
+    
+    @IBAction func didComment(_ sender: UIButton) {
+        self.delegate?.proceedToComments(post: currentPost)
+    }
+    
+    @IBAction func didShare(_ sender: UIButton) {
+        
     }
     
     fileprivate func setupButton(button: UIButton, forImage: String, count: Int) {

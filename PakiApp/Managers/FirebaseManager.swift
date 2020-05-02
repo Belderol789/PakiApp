@@ -15,6 +15,7 @@ enum FirebaseKeys: String {
     case number
     case username
     case profilePhotoURL
+    case photo
     case birthday
     case uid
     case datePosted
@@ -32,6 +33,7 @@ enum Identifiers: String {
     case profilePhoto
     case posts
     case userPosts
+    case pakiCount
 }
 
 class FirebaseManager {

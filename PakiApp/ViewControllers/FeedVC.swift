@@ -58,6 +58,7 @@ class FeedVC: GeneralViewController {
     @objc
     func activateEmojiView(notification: Notification?) {
         if DatabaseManager.Instance.userIsLoggedIn && !DatabaseManager.Instance.userHasAnswered {
+            credentialView.isHidden = true
             setupEmojiView()
         }
     }
@@ -69,6 +70,7 @@ class FeedVC: GeneralViewController {
         emojiView.delegate = self
         emojiView.frame = self.view.bounds
         emojiView.setupEmojiView()
+        emojiView.getUpdatedPakiCount()
         view.addSubview(emojiView)
     }
     

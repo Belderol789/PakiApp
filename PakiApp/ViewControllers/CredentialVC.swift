@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import CountryPickerView
 
 class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     // IBOutlets
@@ -15,6 +16,8 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     @IBOutlet weak var phoneField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var countryField: UITextField!
+    
     @IBOutlet var credentialFields: [UITextField]!
     @IBOutlet weak var loadingView: LoadingView!
     
@@ -22,7 +25,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     var authButton: UIBarButtonItem!
     var isLogin: Bool = false
     var phoneNumber: String?
-    var countryCode: String = "63"
+    var countryCode: String?
     var verificationID: String?
     
     var enableAuthButton: Bool = false {
@@ -48,7 +51,15 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         credentialView.delegate = self
         credentialView.usernameField.delegate = self
         credentialFields.forEach({$0.delegate = self})
-  
+        
+        let cpv = CountryPickerView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
+        cpv.delegate = self
+        cpv.textColor = .systemGray2
+        cpv.font = UIFont(name: "HelveticaNeue-Medium", size: 15)!
+        
+        self.countryCode = cpv.selectedCountry.phoneCode
+        countryField.leftView = cpv
+        countryField.leftViewMode = .always
     }
     
     @objc
@@ -77,13 +88,16 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
                     self.userHasAuthenticated(message)
                 }
             }
-        } else if let phone = phoneField.text, !phone.isEmpty, phoneNumber == nil {
+        } else if let phone = phoneField.text, let countryCode = self.countryCode, !phone.isEmpty {
             phoneNumber = "\(countryCode)\(phone)"
+            print("Phone number \(phoneNumber!)")
             FirebaseManager.Instance.authenticateUser(phone: phoneNumber!, verifyWithID: { (verificationID) in
+                print("Phone User Authenticated")
                 self.setupCredentialView()
                 if self.isLogin {
                     self.credentialView.setupPhoneLogin()
                 }
+                self.phoneField.text = nil
                 self.verificationID = verificationID
             }) { (message) in
                 self.showAlertWith(title: "Error verifying number", message: message!, actions: [], hasDefaultOK: true)
@@ -114,6 +128,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     
     func userHasAuthenticated(_ message: String?) {
         if message != nil {
+            authButton.title = "Continue"
             self.showAlertWith(title: "Authentication Error", message: message!, actions: [], hasDefaultOK: true)
             credentialView.isHidden = true
         } else {
@@ -155,6 +170,16 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         pickerController.mediaTypes = ["public.image"]
         pickerController.sourceType = .photoLibrary
         self.present(pickerController, animated: true, completion: nil)
+    }
+    
+}
+
+// MARK: - CountryPickerViewDelegate
+extension CredentialVC: CountryPickerViewDelegate {
+
+    func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
+        self.countryCode = country.phoneCode
+        self.phoneField.becomeFirstResponder()
     }
     
 }

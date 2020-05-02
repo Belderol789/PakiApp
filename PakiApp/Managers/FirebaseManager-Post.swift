@@ -10,6 +10,23 @@ import Foundation
 import Firebase
 
 extension FirebaseManager {
+    
+    // MARK: - Update Paki Count
+    func getAllPakiCount(data: @escaping ([String: Any]) -> Void) {
+        let postKey = Date().localDate().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        self.firestoreDB.collection(Identifiers.pakiCount.rawValue).document(postKey).getDocument { (snapshot, error) in
+            if let snapshotData = snapshot?.data() {
+                print("PakiCount Data \(snapshotData)")
+                data(snapshotData)
+            }
+        }
+    }
+    
+    func updatePakiCount(updatedCount: [String: Any]) {
+        let postKey = Date().localDate().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        self.firestoreDB.collection(Identifiers.pakiCount.rawValue).document(postKey).updateData(updatedCount)
+    }
+    
     // MARK: - Post Empty
     func sendEmptyPost() {
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
@@ -74,13 +91,7 @@ extension FirebaseManager {
             }
         }
     }
-    
-    func updatePostCount(key: String, count: Int, post: UserPost) {
-        let updatedCount = [key: count]
-        self.firestoreDB.collection(Identifiers.posts.rawValue).document(post.paki).collection(post.postKey).document(post.uid).updateData(updatedCount)
-        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(post.uid).collection(Identifiers.userPosts.rawValue).document(post.postKey).updateData(updatedCount)
-    }
-    
+
     // MARK: - Get User Posts
     func getUserPosts(completed: @escaping ([UserPost]) -> Void) {
         if let userID = DatabaseManager.Instance.mainUser.uid {
@@ -100,5 +111,13 @@ extension FirebaseManager {
                 }
             }
         }
+    }
+    
+    // MARK: - Update Post Data
+    func updatePostsStar(userPost: UserPost) {
+        guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.paki).collection(userPost.postKey).document(userPost.uid).updateData([FirebaseKeys.starCount.rawValue: FieldValue.arrayUnion([userID])])
+        
+        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userPost.uid).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).updateData([FirebaseKeys.starCount.rawValue: FieldValue.arrayUnion([userID])])
     }
 }

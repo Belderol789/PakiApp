@@ -30,6 +30,13 @@ class AnswerView: UIView, Reusable {
     @IBOutlet weak var terribleIcon: UIImageView!
     @IBOutlet weak var statsView: UIView!
     
+    @IBOutlet weak var totalPakiLabel: UILabel!
+    @IBOutlet weak var awesomeLabel: UILabel!
+    @IBOutlet weak var goodLabel: UILabel!
+    @IBOutlet weak var mehLabel: UILabel!
+    @IBOutlet weak var badLabel: UILabel!
+    @IBOutlet weak var terribleLabel: UILabel!
+    
     @IBOutlet weak var shareView: UIView!
     @IBOutlet weak var shareTextView: UITextView!
     @IBOutlet weak var blurHeightConst: NSLayoutConstraint!
@@ -38,6 +45,7 @@ class AnswerView: UIView, Reusable {
     
     weak var delegate: AnswerViewProtocol?
     var currentPaki: Paki = .meh
+    var pakiData: [String: Any] = [:]
     
     var shareBtnInternaction: Bool = false {
         didSet {
@@ -48,6 +56,32 @@ class AnswerView: UIView, Reusable {
     
     override class func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    func getUpdatedPakiCount() {
+        FirebaseManager.Instance.getAllPakiCount { (pakiData) in
+            var totalCount: Int = 0
+            self.pakiData = pakiData
+            for key in pakiData.keys {
+                let pakiCount: Int = pakiData[key] as? Int ?? 0
+                totalCount += pakiCount
+                switch key {
+                case Paki.awesome.rawValue:
+                    self.awesomeLabel.text = "\(pakiCount)"
+                case Paki.good.rawValue:
+                    self.goodLabel.text = "\(pakiCount)"
+                case Paki.meh.rawValue:
+                    self.mehLabel.text = "\(pakiCount)"
+                case Paki.bad.rawValue:
+                    self.badLabel.text = "\(pakiCount)"
+                case Paki.terrible.rawValue:
+                    self.terribleLabel.text = "\(pakiCount)"
+                default:
+                    break
+                }
+            }
+            self.totalPakiLabel.text = "\(totalCount)"
+        }
     }
     
     func setupEmojiView() {
@@ -93,7 +127,7 @@ class AnswerView: UIView, Reusable {
             self.emojiView.rateColor = .systemBackground
         }
     }
- 
+    
     @IBAction func didSelectPaki(_ sender: ButtonX) {
         
         let scrollOffset = self.frame.height/3
@@ -143,9 +177,14 @@ class AnswerView: UIView, Reusable {
         
         let datePosted = Date().localDate().convertToString(with: "LLLL dd, yyyy")
         userPost.datePosted = datePosted
-        userPost.starCount = 1
+        userPost.starCount.append(mainUser.uid)
         
         FirebaseManager.Instance.sendPostToFirebase(userPost)
+        
+        if let count = self.pakiData[currentPaki.rawValue] as? Int {
+            let updatedData = [currentPaki.rawValue: (count + 1)]
+            FirebaseManager.Instance.updatePakiCount(updatedCount: updatedData)
+        }
         
         self.delegate?.didFinishAnswer()
         UIView.animate(withDuration: 0.5, animations: {
@@ -175,18 +214,11 @@ extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let textCount = returnTextCount(textField: textField, string: string, range: range, count: 100)
+        let textCount = textField.returnTextCount(textField: textField, string: string, range: range, count: 100)
         shareTitleField.selectedTitle = "\(textCount)/100"
         self.shareBtnInternaction = (shareTextView.text.count <= 500 && shareTextView.text.count > 0) && (shareTitleField.text != "")
         return textCount < 100
     }
-    
-    func returnTextCount(textField: UITextField, string: String, range: NSRange, count: Int) -> Int {
-           let currentText = textField.text ?? ""
-           guard let stringRange = Range(range, in: currentText) else { return 0 }
-           let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-           return updatedText.count
-       }
     
     func textViewDidChange(_ textView: UITextView) {
         let currentCount = textView.text.count

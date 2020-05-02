@@ -30,10 +30,10 @@ class UserPost: Object {
     @objc dynamic var content: String = ""
     
     @objc dynamic var commentCount: Int = 0
-    @objc dynamic var starCount: Int = 0
     @objc dynamic var shareCount: Int = 0
     
     @objc dynamic var postTag: Int = 0
+    var starCount = List<String>()
     
     var postKey: String {
         return datePosted.replacingOccurrences(of: " ", with: "")
@@ -58,7 +58,9 @@ class UserPost: Object {
         userPost.title = data[FirebaseKeys.title.rawValue] as? String ?? ""
         
         userPost.commentCount = data[FirebaseKeys.commentCount.rawValue] as? Int ?? 0
-        userPost.starCount = data[FirebaseKeys.starCount.rawValue] as? Int ?? 0
+        if let stars = data[FirebaseKeys.starCount.rawValue] as? [String] {
+            userPost.starCount.append(objectsIn: stars)
+        }
         userPost.shareCount = data[FirebaseKeys.shareCount.rawValue] as? Int ?? 0
         
         userPost.postTag = data[FirebaseKeys.postTag.rawValue] as? Int ?? 0

@@ -27,7 +27,7 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       
+        
     }
     
     func setupCalendarView(post: UserPost) {
@@ -43,9 +43,10 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
         titleLabel.text = post.title
         contentLabel.text = post.content
         dateLabel.text = post.datePosted
-        userProfilePic.sd_setImage(with: post.photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
-        
-        
+        if let photoURL = post.photoURL {
+            userProfilePic.sd_setImage(with: photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
+        } else {
+            userProfilePic.image = UIImage(named: post.paki)
+        }
     }
-
 }

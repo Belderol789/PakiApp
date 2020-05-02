@@ -46,6 +46,7 @@ class ProfileVC: GeneralViewController {
         isProfile = true
         setupCountDown()
         setupUserData()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateProfile(notification:)), name: NSNotification.Name(rawValue: "UpdateProfile"), object: nil)
     }
     
     @IBAction func didChangeSegment(_ sender: UISegmentedControl) {
@@ -57,6 +58,18 @@ class ProfileVC: GeneralViewController {
         }
     }
     
+    @objc
+    func updateProfile(notification: Notification) {
+        if let notificationObject = notification.object as? [String: Any] {
+            if let photo = notificationObject[FirebaseKeys.photo.rawValue] as? UIImage {
+                userPhotoImageView.image = photo
+            }
+            if let username = notificationObject[FirebaseKeys.username.rawValue] as? String {
+                usernameLabel.text = username
+            }
+        }
+    }
+    
     func setupUserData() {
         let mainUser = DatabaseManager.Instance.mainUser
         usernameLabel.text = mainUser.username
@@ -65,15 +78,10 @@ class ProfileVC: GeneralViewController {
             userPhotoImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: "mascot"), options: .continueInBackground, completed: nil)
         }
         
-        let mainUserPosts = mainUser.userPosts.sorted(by: {$0.postTag < $1.postTag})
-        if mainUserPosts.count < 2 {
-            FirebaseManager.Instance.getUserPosts { (userPosts) in
-                DatabaseManager.Instance.updateRealm(key: FirebaseKeys.postTag.rawValue, value: (userPosts.count - 1))
-                DatabaseManager.Instance.saveUserPosts(userPosts)
-                self.setupCalendarView(posts: userPosts)
-            }
-        } else {
-            setupCalendarView(posts: mainUserPosts)
+        FirebaseManager.Instance.getUserPosts { (userPosts) in
+            DatabaseManager.Instance.updateRealm(key: FirebaseKeys.postTag.rawValue, value: (userPosts.count - 1))
+            DatabaseManager.Instance.saveUserPosts(userPosts)
+            self.setupCalendarView(posts: userPosts)
         }
         
     }

@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="438" height="238"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="model" translatesAutoresizingMaskIntoConstraints="NO" id="2A8-fh-E9d" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2A8-fh-E9d" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
                         <rect key="frame" x="8" y="8" width="40" height="40"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -80,6 +80,9 @@
                                         <state key="normal" title=" Favourite" image="star" catalog="system">
                                             <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="didFavourite:" destination="gTV-IL-0wX" eventType="touchUpInside" id="MxG-sd-snI"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AZJ-dU-nJM">
                                         <rect key="frame" x="146.5" y="0.0" width="145" height="30"/>
@@ -87,6 +90,9 @@
                                         <state key="normal" title=" Comment" image="bubble.left.and.bubble.right" catalog="system">
                                             <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="didComment:" destination="gTV-IL-0wX" eventType="touchUpInside" id="BsC-CU-OTf"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4N7-fC-xwx">
                                         <rect key="frame" x="292.5" y="0.0" width="145.5" height="30"/>
@@ -94,6 +100,9 @@
                                         <state key="normal" title=" Share" image="arrowshape.turn.up.right" catalog="system">
                                             <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="didShare:" destination="gTV-IL-0wX" eventType="touchUpInside" id="jy9-Vf-Gca"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -156,7 +165,6 @@
         <image name="arrowshape.turn.up.right" catalog="system" width="128" height="106"/>
         <image name="bubble.left.and.bubble.right" catalog="system" width="128" height="96"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
-        <image name="model" width="738" height="650"/>
         <image name="star" catalog="system" width="128" height="116"/>
     </resources>
 </document>
