@@ -31,7 +31,7 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     }
     
     func setupCalendarView(post: UserPost) {
-        let color = UIColor.getColorFor(paki: Paki(rawValue: post.paki)!)
+        let color = UIColor.getColorFor(paki: post.pakiCase)
         calendarBtns.forEach({$0.tintColor = .white})
         containerView.layer.shadowColor = color.cgColor
         headerView.backgroundColor = color

@@ -50,6 +50,7 @@
 		E33E470D245A7C0E00B838DB /* FirebaseManager-Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E470C245A7C0E00B838DB /* FirebaseManager-Auth.swift */; };
 		E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */; };
 		E33E4711245C649D00B838DB /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E4710245C649D00B838DB /* SettingsVC.swift */; };
+		E33E4713245EA9BB00B838DB /* FirebaseManager-Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E4712245EA9BA00B838DB /* FirebaseManager-Comment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,7 @@
 		E33E470C245A7C0E00B838DB /* FirebaseManager-Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-Auth.swift"; sourceTree = "<group>"; };
 		E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-Post.swift"; sourceTree = "<group>"; };
 		E33E4710245C649D00B838DB /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		E33E4712245EA9BA00B838DB /* FirebaseManager-Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-Comment.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 				E33A7345245641F700AAD61A /* FirebaseManager.swift */,
 				E33E470C245A7C0E00B838DB /* FirebaseManager-Auth.swift */,
 				E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */,
+				E33E4712245EA9BA00B838DB /* FirebaseManager-Comment.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				E33A733524548B9A00AAD61A /* AnswerView.swift in Sources */,
 				E33A73202454856E00AAD61A /* FeedVC.swift in Sources */,
 				E33A732F2454856E00AAD61A /* CommentsVC.swift in Sources */,
+				E33E4713245EA9BB00B838DB /* FirebaseManager-Comment.swift in Sources */,
 				E33A73402455FD2900AAD61A /* Post.swift in Sources */,
 				E33E470D245A7C0E00B838DB /* FirebaseManager-Auth.swift in Sources */,
 				E33A733E2455FBF600AAD61A /* DatabaseManager.swift in Sources */,

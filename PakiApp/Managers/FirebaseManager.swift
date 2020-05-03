@@ -34,6 +34,7 @@ enum Identifiers: String {
     case posts
     case userPosts
     case pakiCount
+    case comments
 }
 
 class FirebaseManager {

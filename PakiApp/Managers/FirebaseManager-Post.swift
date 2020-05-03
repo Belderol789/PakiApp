@@ -60,7 +60,7 @@ extension FirebaseManager {
                                    FirebaseKeys.content.rawValue: userPost.content,
                                    FirebaseKeys.paki.rawValue: userPost.paki,
                                    FirebaseKeys.shareCount.rawValue: userPost.shareCount,
-                                   FirebaseKeys.starCount.rawValue: userPost.starCount,
+                                   FirebaseKeys.starCount.rawValue: Array(userPost.starList),
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
                                    FirebaseKeys.uid.rawValue: userID]
         

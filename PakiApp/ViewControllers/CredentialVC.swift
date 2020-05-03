@@ -127,6 +127,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     }
     
     func userHasAuthenticated(_ message: String?) {
+        loadingView.stopLoading()
         if message != nil {
             authButton.title = "Continue"
             self.showAlertWith(title: "Authentication Error", message: message!, actions: [], hasDefaultOK: true)
@@ -134,9 +135,9 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         } else {
             print("Sucessfully loaded in user")
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
+            navigationController?.popViewController(animated: true)
             // go to main
         }
-        loadingView.stopLoading()
     }
     
     func enableSignup(birthday: Bool) {

@@ -9,7 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CommentsHeaderView" id="U6b-Vx-4bR" customClass="CommentsHeaderView" customModule="Paki" customModuleProvider="target">
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CommentsHeaderView" id="U6b-Vx-4bR" customClass="CommentsHeaderView" customModule="PakiApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="500" height="348"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
@@ -50,7 +50,7 @@
                         </label>
                     </subviews>
                 </stackView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="model" translatesAutoresizingMaskIntoConstraints="NO" id="rlG-eH-hVm" customClass="ImageViewX" customModule="Paki" customModuleProvider="target">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="model" translatesAutoresizingMaskIntoConstraints="NO" id="rlG-eH-hVm" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
                     <rect key="frame" x="8" y="8" width="40" height="40"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
@@ -78,16 +78,22 @@
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rn6-FB-9yT">
                                     <rect key="frame" x="0.0" y="0.0" width="166" height="30"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                    <state key="normal" title=" Favourite" image="star" catalog="system">
+                                    <state key="normal" title=" Favourite">
                                         <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                     </state>
+                                    <connections>
+                                        <action selector="favouriteTapped:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="IYJ-S6-C8e"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCb-31-cAZ">
                                     <rect key="frame" x="167" y="0.0" width="166" height="30"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                    <state key="normal" title=" Reply" image="arrow.2.circlepath" catalog="system">
+                                    <state key="normal" title=" Reply" image="arrow.2.circlepath.circle.fill" catalog="system">
                                         <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                     </state>
+                                    <connections>
+                                        <action selector="replyTapped:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="jWk-pG-iIO"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kao-QA-XKi">
                                     <rect key="frame" x="334" y="0.0" width="166" height="30"/>
@@ -95,6 +101,9 @@
                                     <state key="normal" title=" Share" image="arrowshape.turn.up.right.fill" catalog="system">
                                         <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                     </state>
+                                    <connections>
+                                        <action selector="shareTapped:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="fFn-Ew-dRb"/>
+                                    </connections>
                                 </button>
                             </subviews>
                         </stackView>
@@ -107,8 +116,8 @@
                         <constraint firstAttribute="bottom" secondItem="WUF-Mc-YJG" secondAttribute="bottom" id="xvC-cZ-nyS"/>
                     </constraints>
                 </view>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kdQ-dC-GKf">
-                    <rect key="frame" x="8" y="309" width="484" height="32"/>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kdQ-dC-GKf">
+                    <rect key="frame" x="-8" y="309" width="516" height="32"/>
                     <segments>
                         <segment title="Popular"/>
                         <segment title="Latest"/>
@@ -125,7 +134,7 @@
                 <constraint firstItem="rlG-eH-hVm" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="8" id="DfW-YW-b1k"/>
                 <constraint firstItem="MQL-lB-Dh5" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6pq-zQ-ZyM" secondAttribute="bottom" constant="8" id="EsH-jZ-qar"/>
                 <constraint firstItem="kdQ-dC-GKf" firstAttribute="top" secondItem="MQL-lB-Dh5" secondAttribute="bottom" constant="8" id="Hos-ol-2Pt"/>
-                <constraint firstItem="kdQ-dC-GKf" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="8" id="Jdt-D3-sEx"/>
+                <constraint firstItem="kdQ-dC-GKf" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="-8" id="Jdt-D3-sEx"/>
                 <constraint firstItem="1as-eG-qiH" firstAttribute="leading" secondItem="rlG-eH-hVm" secondAttribute="trailing" constant="16" id="McT-ye-dB8"/>
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="MQL-lB-Dh5" secondAttribute="trailing" id="N7R-uq-Sgc"/>
                 <constraint firstItem="6pq-zQ-ZyM" firstAttribute="top" secondItem="EHH-Iw-Oye" secondAttribute="bottom" constant="8" id="Rdw-ad-ztf"/>
@@ -133,7 +142,7 @@
                 <constraint firstAttribute="trailing" secondItem="5pJ-na-ogW" secondAttribute="trailing" constant="8" id="btj-dn-hs5"/>
                 <constraint firstItem="rlG-eH-hVm" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="8" id="d6x-bp-zmV"/>
                 <constraint firstItem="5pJ-na-ogW" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="8" id="epy-Wk-tvv"/>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="kdQ-dC-GKf" secondAttribute="trailing" constant="8" id="f8d-NA-BLY"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="kdQ-dC-GKf" secondAttribute="trailing" constant="-8" id="f8d-NA-BLY"/>
                 <constraint firstItem="EHH-Iw-Oye" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="8" id="ivc-QH-CS0"/>
                 <constraint firstItem="EHH-Iw-Oye" firstAttribute="top" secondItem="rlG-eH-hVm" secondAttribute="bottom" constant="16" id="mgB-qV-Oae"/>
                 <constraint firstItem="MQL-lB-Dh5" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" id="pKf-8N-H9Q"/>
@@ -148,6 +157,7 @@
                 <outlet property="postOptionsBtn" destination="5pJ-na-ogW" id="Bd2-kr-9Nb"/>
                 <outlet property="postReplyBtn" destination="cCb-31-cAZ" id="o2q-TO-C1f"/>
                 <outlet property="postShareBtn" destination="kao-QA-XKi" id="AAo-lH-x3p"/>
+                <outlet property="postTitleLabel" destination="EHH-Iw-Oye" id="4FZ-AZ-Z5u"/>
                 <outlet property="postUsernameLabel" destination="MHU-JX-HLj" id="aaE-tB-K4I"/>
                 <outlet property="userProfilePhoto" destination="rlG-eH-hVm" id="PTZ-Kf-FFw"/>
                 <outletCollection property="postBtns" destination="rn6-FB-9yT" collectionClass="NSMutableArray" id="WXM-HJ-6oU"/>
@@ -159,10 +169,9 @@
         </collectionReusableView>
     </objects>
     <resources>
-        <image name="arrow.2.circlepath" catalog="system" width="128" height="101"/>
+        <image name="arrow.2.circlepath.circle.fill" catalog="system" width="128" height="121"/>
         <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
-        <image name="model" width="369" height="325"/>
-        <image name="star" catalog="system" width="128" height="116"/>
+        <image name="model" width="738" height="650"/>
     </resources>
 </document>

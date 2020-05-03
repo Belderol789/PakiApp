@@ -9,16 +9,23 @@
 import UIKit
 
 class ReplyVC: GeneralViewController {
-    
+    // IBOutlets
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var replyTextView: UITextView!
+    @IBOutlet weak var postLabel: UILabel!
     
-    var currentPaki: Paki!
+    var currentPost: UserPost!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dividerView.backgroundColor = UIColor.getColorFor(paki: currentPaki)
+        postLabel.text = currentPost.title
         replyTextView.becomeFirstResponder()
+        
+        let postColor = UIColor.getColorFor(paki: currentPost.pakiCase)
+        dividerView.backgroundColor = postColor
+    }
+    
+    @IBAction func didSendReply(_ sender: UIButton) {
         
     }
 

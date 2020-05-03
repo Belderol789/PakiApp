@@ -52,7 +52,7 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         if let photoURLString = post.profilePhotoURL, let photoURL = URL(string: photoURLString) {
             feedImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, context: nil)
         }
-        cellColor = UIColor.getColorFor(paki: Paki(rawValue: post.paki)!)
+        cellColor = UIColor.getColorFor(paki: post.pakiCase)
         feedImageView.layer.borderColor = cellColor.cgColor
         feedContent.text = post.content
         feedTitle.text = post.title
@@ -61,10 +61,11 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         feedDate.text = post.datePosted
         
         if let userID = DatabaseManager.Instance.mainUser.uid {
-            let starBool = post.starCount.contains(userID)
+            let starBool = post.starList.contains(userID)
             let image = starBool ? "star.fill" : "star"
-            starCount = post.starCount.count
-            feedStarBtn.setImage(UIImage(named: image), for: .normal)
+            starCount = post.starCount
+            feedStarBtn.isUserInteractionEnabled = !starBool
+            feedStarBtn.setImage(UIImage.init(systemName: image), for: .normal)
             feedStarBtn.tintColor = starBool ? cellColor : .systemGray
         }
     }

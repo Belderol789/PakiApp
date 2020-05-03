@@ -177,7 +177,7 @@ class AnswerView: UIView, Reusable {
         
         let datePosted = Date().localDate().convertToString(with: "LLLL dd, yyyy")
         userPost.datePosted = datePosted
-        userPost.starCount.append(mainUser.uid)
+        userPost.starList.append(mainUser.uid)
         
         FirebaseManager.Instance.sendPostToFirebase(userPost)
         

@@ -20,6 +20,9 @@ enum Paki: String {
 }
 
 class UserPost: Object {
+    
+    @objc dynamic var uniquePostKey: String = ""
+    
     @objc dynamic var paki: String = Paki.none.rawValue
     @objc dynamic var username: String = ""
     @objc dynamic var datePosted: String = ""
@@ -33,10 +36,17 @@ class UserPost: Object {
     @objc dynamic var shareCount: Int = 0
     
     @objc dynamic var postTag: Int = 0
-    var starCount = List<String>()
+    var starList = List<String>()
+    var starCount: Int {
+        return starList.count
+    }
     
     var postKey: String {
         return datePosted.replacingOccurrences(of: " ", with: "")
+    }
+    
+    var pakiCase: Paki {
+        return Paki(rawValue: self.paki) ?? .none
     }
     
     var photoURL: URL? {
@@ -59,7 +69,7 @@ class UserPost: Object {
         
         userPost.commentCount = data[FirebaseKeys.commentCount.rawValue] as? Int ?? 0
         if let stars = data[FirebaseKeys.starCount.rawValue] as? [String] {
-            userPost.starCount.append(objectsIn: stars)
+            userPost.starList.append(objectsIn: stars)
         }
         userPost.shareCount = data[FirebaseKeys.shareCount.rawValue] as? Int ?? 0
         

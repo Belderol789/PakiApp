@@ -43,7 +43,10 @@ class ProfileVC: GeneralViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         isProfile = true
+        usernameLabel.adjustsFontSizeToFitWidth = true
+        
         setupCountDown()
         setupUserData()
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfile(notification:)), name: NSNotification.Name(rawValue: "UpdateProfile"), object: nil)
@@ -154,7 +157,7 @@ class ProfileVC: GeneralViewController {
             }
             
             let pakiView = PakiView()
-            let paki = Paki(rawValue: post.paki)!
+            let paki = post.pakiCase
             
             pakiView.viewTag = post.postTag
             pakiView.setupView(with: paki)

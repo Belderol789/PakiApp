@@ -14,7 +14,7 @@ class FeedVC: GeneralViewController {
     // IBOutlets
     @IBOutlet weak var feedCollection: UICollectionView!
     @IBOutlet weak var credentialView: UIVisualEffectView!
-    
+    @IBOutlet weak var loadingView: LoadingView!
     // Variables
     var filteredPosts: [UserPost] = []
     var allPosts: [UserPost] = []
@@ -78,11 +78,11 @@ class FeedVC: GeneralViewController {
         filteredPosts.removeAll()
         FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
             if let post = userPost {
-                print("Post \(post)")
                 self.filteredPosts.append(post)
                 self.allPosts.append(post)
                 self.feedCollection.reloadData()
             }
+            self.loadingView.stopLoading()
         }
     }
     
@@ -114,6 +114,7 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let feedPost = filteredPosts[indexPath.item]
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
+        feedCell.delegate = self
         feedCell.setupCellWith(post: feedPost)
         return feedCell
     }
@@ -134,21 +135,28 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         return .init(width: view.frame.width, height: 130)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsVC") as! CommentsVC
-        commentsVC.currentPaki = currentPaki
-        navigationController?.pushViewController(commentsVC, animated: true)
-    }
 }
 // MARK: - FeedHeaderProtocol
-extension FeedVC: FeedHeaderProtocol {
+extension FeedVC: FeedHeaderProtocol, FeedPostProtocol {
+    
+    func proceedToComments(post: UserPost) {
+        let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsVC") as! CommentsVC
+        commentsVC.currentPost = post
+        navigationController?.pushViewController(commentsVC, animated: true)
+    }
     
     func didChoosePaki(_ paki: Paki) {
+        
+        loadingView.stopLoading()
+        loadingView.setupCircleViews(paki: paki)
+        loadingView.startLoading()
         currentPaki = paki
+        
         filteredPosts = allPosts.filter({$0.paki == paki.rawValue})
         if filteredPosts.isEmpty {
             getPosts(for: paki)
         } else {
+            self.loadingView.stopLoading()
            feedCollection.reloadData()
         }
     }

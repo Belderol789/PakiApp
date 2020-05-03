@@ -13,7 +13,6 @@ class CommentsVC: GeneralViewController {
     // IBOutlets
     @IBOutlet weak var commentsCollection: UICollectionView!
     // Variables
-    var currentPaki: Paki!
     var currentPost: UserPost!
     
     var filteredComments: [UserPost] = []
@@ -35,11 +34,12 @@ class CommentsVC: GeneralViewController {
     }
     
     @IBAction func goToReplyVC(_ sender: UIButton) {
-        let replyVC = storyboard?.instantiateViewController(identifier: "ReplyViewController") as! ReplyVC
-        replyVC.currentPaki = currentPaki
-        self.present(replyVC, animated: true, completion: nil)
+        if DatabaseManager.Instance.userIsLoggedIn {
+            proceedToReplyPage()
+        } else {
+            alertUserToLogin()
+        }
     }
-    
 }
 
 // MARK: - UICollectionView
@@ -65,14 +65,32 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CommentsHeaderView.className, for: indexPath) as! CommentsHeaderView
-        header.setupCommentsView(color: UIColor.getColorFor(paki: currentPaki))
+        header.delegate = self
+        header.setupCommentsView(post: currentPost)
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let text = currentPost.content
-        let feedHeight = text.returnStringHeight(width: view.frame.size.width, fontSize: 15).height + 150
+        let title = currentPost.title
+        let titleHeight = title.returnStringHeight(width: view.frame.size.width, fontSize: 17).height + 180
+        let feedHeight = text.returnStringHeight(width: view.frame.size.width, fontSize: 15).height + titleHeight
         return .init(width: view.frame.width, height: feedHeight)
     }
     
 }
+
+// MARK: - CommentsHeaderProtocol
+
+extension CommentsVC: CommentsHeaderProtocol {
+    func alertUserToLogin() {
+        self.showAlertWith(title: "Login Required", message: "User must be authenticated to use this feature", actions: [], hasDefaultOK: true)
+    }
+    
+    func proceedToReplyPage() {
+        let replyVC = storyboard?.instantiateViewController(identifier: "ReplyViewController") as! ReplyVC
+        replyVC.currentPost = currentPost
+        self.present(replyVC, animated: true, completion: nil)
+    }
+}
+
