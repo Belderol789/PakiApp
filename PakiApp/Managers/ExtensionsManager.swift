@@ -103,7 +103,7 @@ extension UIColor {
         case .terrible:
             return UIColor.hexStringToUIColor(hex: "#ee3a39")
         case .none:
-            return .clear
+            return .systemGray2
         }
     }
     
@@ -190,9 +190,57 @@ extension UIScrollView {
 
 // MARK: - Double
 extension Double {
+    
     var clean: String {
        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.f", self) : String(self)
     }
+    
+    func getTimeDifference(diff: @escaping (String) -> Void)  {
+        
+        let now = Date(timeIntervalSince1970: Date().timeIntervalSince1970)
+        let datePosted = Date(timeIntervalSince1970: self)
+        
+        let timePassed = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: datePosted, to: now)
+        let days = timePassed.day ?? 0
+        let hours = timePassed.hour ?? 0
+        let minutes = timePassed.minute ?? 0
+        
+        var diffText: String = ""
+        
+        if days <= 0 {
+            if hours <= 0 {
+                if minutes >= 1 {
+                    let minuteText: String = minutes == 1 ? "minute" : "minutes"
+                    diffText = "\(minutes) \(minuteText) ago"
+                } else {
+                    diffText = "just now"
+                }
+            } else {
+                let hourText: String = hours == 1 ? "hour" : "hours"
+                diffText = "\(hours) \(hourText) ago"
+            }
+        } else {
+           diffText = datePosted.convertToString(with: "LLLL dd, yyyy")
+        }
+        diff(diffText)
+    }
+    
+    func getTimeFromServer(completionHandler:@escaping (_ getResDate: Double?) -> Void){
+        let url = URL(string: "https://www.apple.com")
+        let task = URLSession.shared.dataTask(with: url!) {(data, response, error) in
+            let httpResponse = response as? HTTPURLResponse
+            if let contentType = httpResponse!.allHeaderFields["Date"] as? String {
+                let dFormatter = DateFormatter()
+                dFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
+                let serverTime = dFormatter.date(from: contentType)
+                if let localDate = serverTime?.localDate().timeIntervalSince1970 {
+                    completionHandler(localDate)
+                }
+            }
+        }
+        task.resume()
+    }
+    
 }
 
 // MARK: - Date
@@ -211,7 +259,7 @@ extension Date {
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         return dateFormatter.string(from: self)
     }
-    
+
     static var yesterday: Date { return Date().dayBefore }
     static var tomorrow:  Date { return Date().dayAfter }
     
@@ -234,6 +282,20 @@ extension UITextField {
         guard let stringRange = Range(range, in: currentText) else { return 0 }
         let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
         return updatedText.count
+    }
+}
+
+// MARK: - String
+extension String {
+    func getDateFrom(format: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        guard let date = dateFormatter.date(from: self) else {
+            
+            return Date()
+        }
+        return date
     }
 }
 

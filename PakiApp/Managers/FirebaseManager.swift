@@ -26,6 +26,7 @@ enum FirebaseKeys: String {
     case commentCount
     case shareCount
     case postTag
+    case postKey
 }
 
 enum Identifiers: String {

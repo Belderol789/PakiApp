@@ -34,6 +34,8 @@ class FeedVC: GeneralViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+        hideTabbar = !DatabaseManager.Instance.userIsLoggedIn
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,6 +78,7 @@ class FeedVC: GeneralViewController {
     
     fileprivate func getPosts(for paki: Paki) {
         filteredPosts.removeAll()
+        print("Getting Post for \(paki.rawValue)")
         FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
             if let post = userPost {
                 self.filteredPosts.append(post)
@@ -98,7 +101,6 @@ class FeedVC: GeneralViewController {
 // MARK: - AnswerView
 extension FeedVC: AnswerViewProtocol {
     func didFinishAnswer() {
-        DatabaseManager.Instance.updateUserDefaults(value: true, key: .userHasAnswered)
         tabBarController?.tabBar.isHidden = false
         getPosts(for: currentPaki)
     }
@@ -115,7 +117,7 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         let feedPost = filteredPosts[indexPath.item]
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
         feedCell.delegate = self
-        feedCell.setupCellWith(post: feedPost)
+        feedCell.setupFeedCellWith(post: feedPost)
         return feedCell
     }
     
@@ -132,7 +134,7 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return .init(width: view.frame.width, height: 130)
+        return .init(width: view.frame.width, height: 120)
     }
     
 }

@@ -28,7 +28,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="model" translatesAutoresizingMaskIntoConstraints="NO" id="uJR-pI-aj7" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mascot" translatesAutoresizingMaskIntoConstraints="NO" id="uJR-pI-aj7" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
                                         <rect key="frame" x="159" y="39.5" width="80" height="80"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
@@ -234,9 +234,9 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="Mascot" width="638" height="444.5"/>
         <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
         <image name="bubble.left.and.bubble.right.fill" catalog="system" width="128" height="97"/>
-        <image name="model" width="738" height="650"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
     </resources>
 </document>

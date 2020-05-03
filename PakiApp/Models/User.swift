@@ -15,8 +15,9 @@ class User: Object {
     @objc dynamic var username: String!
     @objc dynamic var birthday: String!
     @objc dynamic var profilePhotoURL: String?
-    @objc dynamic var postTag: Int = -1
     @objc dynamic var email: String?
+    @objc dynamic var currentPaki: String?
+    @objc dynamic var postTag: Int = -1
     
     var userPosts = List<UserPost>()
 }

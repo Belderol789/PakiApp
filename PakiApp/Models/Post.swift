@@ -25,7 +25,7 @@ class UserPost: Object {
     
     @objc dynamic var paki: String = Paki.none.rawValue
     @objc dynamic var username: String = ""
-    @objc dynamic var datePosted: String = ""
+    @objc dynamic var datePosted: Double = 0
     @objc dynamic var profilePhotoURL: String?
     @objc dynamic var uid: String = ""
     
@@ -36,14 +36,13 @@ class UserPost: Object {
     @objc dynamic var shareCount: Int = 0
     
     @objc dynamic var postTag: Int = 0
+    @objc dynamic var postKey: String = ""
+    
     var starList = List<String>()
     var starCount: Int {
         return starList.count
     }
-    
-    var postKey: String {
-        return datePosted.replacingOccurrences(of: " ", with: "")
-    }
+
     
     var pakiCase: Paki {
         return Paki(rawValue: self.paki) ?? .none
@@ -58,9 +57,10 @@ class UserPost: Object {
     
     static func convert(data: [String: Any]) -> UserPost {
         let userPost = UserPost()
+        userPost.postKey = data[FirebaseKeys.postKey.rawValue] as? String ?? ""
         userPost.username = data[FirebaseKeys.username.rawValue] as? String ?? ""
         userPost.paki = data[FirebaseKeys.paki.rawValue] as? String ?? ""
-        userPost.datePosted = data[FirebaseKeys.datePosted.rawValue] as? String ?? ""
+        userPost.datePosted = data[FirebaseKeys.datePosted.rawValue] as? Double ?? Date().timeIntervalSinceNow
         userPost.profilePhotoURL = data[FirebaseKeys.profilePhotoURL.rawValue] as? String
         userPost.uid = data[FirebaseKeys.uid.rawValue] as? String ?? ""
         

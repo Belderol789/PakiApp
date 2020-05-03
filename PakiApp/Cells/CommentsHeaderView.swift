@@ -52,7 +52,9 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
         postTitleLabel.text = post.title
         postContentLabel.text = post.content
         postUsernameLabel.text = post.username
-        postDateLabel.text = post.datePosted
+        post.datePosted.getTimeDifference { (date) in
+            self.postDateLabel.text = date
+        }
         
         postFavBtn.tintColor = .systemGray
         postFavBtn.setImage(UIImage.init(systemName: "star"), for: .normal)

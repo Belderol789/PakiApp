@@ -11,10 +11,42 @@ import Firebase
 
 extension FirebaseManager {
     
-    func sendUserComment(text: String, post: UserPost) {
+    func sendUserComment(text: String, post: UserPost, loginHandler: LoginHandler?) {
 
-        let dateSent = Date().localDate().convertToString(with: "LLLL, mm yyyy")
+        let mainUser = DatabaseManager.Instance.mainUser
+        let dateSent = Date().timeIntervalSince1970
+        let commentKey = (post.postKey + post.uid + post.uid).replacingOccurrences(of: " ", with: "")
         
+        let commentData: [String: Any] = [FirebaseKeys.datePosted.rawValue: dateSent,
+                                          FirebaseKeys.username.rawValue: mainUser.username!,
+                                          FirebaseKeys.profilePhotoURL.rawValue: mainUser.profilePhotoURL ?? "",
+                                          FirebaseKeys.content.rawValue: text,
+                                          FirebaseKeys.paki.rawValue: mainUser.currentPaki ?? "none",
+                                          FirebaseKeys.uid.rawValue: mainUser.uid!]
+        
+        let uniqueID = UUID().uuidString
+        
+        self.firestoreDB.collection(Identifiers.comments.rawValue).document(post.paki).collection(commentKey).document(uniqueID).setData(commentData) { (error) in
+            if let err = error {
+                self.handleErrors(error: err as NSError, loginHandler: loginHandler)
+            } else {
+                loginHandler?(nil)
+            }
+        }
     }
     
+    func getAllCommentsFrom(post: UserPost, loginHandler: LoginHandler?, comment: @escaping (UserPost) -> Void) {
+        let commentKey = (post.postKey + post.uid + post.uid).replacingOccurrences(of: " ", with: "")
+        self.firestoreDB.collection(Identifiers.comments.rawValue).document(post.paki).collection(commentKey).addSnapshotListener { (documentData, error) in
+            if let err = error {
+                self.handleErrors(error: err as NSError, loginHandler: loginHandler)
+            } else if let documents = documentData?.documents {
+                for document in documents {
+                    let data = document.data()
+                    let commentPost = UserPost.convert(data: data)
+                    comment(commentPost)
+                }
+            }
+        }
+    }
 }

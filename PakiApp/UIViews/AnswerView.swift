@@ -65,22 +65,26 @@ class AnswerView: UIView, Reusable {
             for key in pakiData.keys {
                 let pakiCount: Int = pakiData[key] as? Int ?? 0
                 totalCount += pakiCount
-                switch key {
-                case Paki.awesome.rawValue:
-                    self.awesomeLabel.text = "\(pakiCount)"
-                case Paki.good.rawValue:
-                    self.goodLabel.text = "\(pakiCount)"
-                case Paki.meh.rawValue:
-                    self.mehLabel.text = "\(pakiCount)"
-                case Paki.bad.rawValue:
-                    self.badLabel.text = "\(pakiCount)"
-                case Paki.terrible.rawValue:
-                    self.terribleLabel.text = "\(pakiCount)"
-                default:
-                    break
-                }
+                self.setupPakiLabel(key: key, pakiCount: pakiCount)
             }
             self.totalPakiLabel.text = "\(totalCount)"
+        }
+    }
+    
+    func setupPakiLabel(key: String, pakiCount: Int) {
+        switch key {
+        case Paki.awesome.rawValue:
+            self.awesomeLabel.text = "\(pakiCount)"
+        case Paki.good.rawValue:
+            self.goodLabel.text = "\(pakiCount)"
+        case Paki.meh.rawValue:
+            self.mehLabel.text = "\(pakiCount)"
+        case Paki.bad.rawValue:
+            self.badLabel.text = "\(pakiCount)"
+        case Paki.terrible.rawValue:
+            self.terribleLabel.text = "\(pakiCount)"
+        default:
+            break
         }
     }
     
@@ -124,7 +128,7 @@ class AnswerView: UIView, Reusable {
             
             self.pakiButton.setTitle(self.currentPaki.rawValue.capitalized, for: .normal)
             self.emojiView.backgroundColor = pakiColor
-            self.emojiView.rateColor = .systemBackground
+            self.emojiView.rateColor = .black
         }
     }
     
@@ -141,7 +145,7 @@ class AnswerView: UIView, Reusable {
         shareButton.backgroundColor = pakiColor
         shareTitleField.selectedTitleColor = pakiColor
         shareTitleField.selectedLineColor = pakiColor
-        
+
         UIView.animate(withDuration: 1, animations: {
             self.pakiButton.backgroundColor = pakiColor
             self.pakiButton.setTitleColor(.white, for: .normal)
@@ -175,15 +179,21 @@ class AnswerView: UIView, Reusable {
         userPost.content = shareTextView.text
         userPost.title = shareTitleField.text ?? "N/A"
         
-        let datePosted = Date().localDate().convertToString(with: "LLLL dd, yyyy")
-        userPost.datePosted = datePosted
+        userPost.datePosted = Date().timeIntervalSince1970
         userPost.starList.append(mainUser.uid)
         
+        let postKey = Date().localDate().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        userPost.postKey = postKey
+        
+        DatabaseManager.Instance.updateUserDefaults(value: true, key: .userHasAnswered)
         FirebaseManager.Instance.sendPostToFirebase(userPost)
         
         if let count = self.pakiData[currentPaki.rawValue] as? Int {
             let updatedData = [currentPaki.rawValue: (count + 1)]
             FirebaseManager.Instance.updatePakiCount(updatedCount: updatedData)
+        } else {
+            let updatedData = [currentPaki.rawValue: 1]
+            FirebaseManager.Instance.setPakiCount(countData: updatedData)
         }
         
         self.delegate?.didFinishAnswer()

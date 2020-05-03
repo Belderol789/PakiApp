@@ -79,6 +79,8 @@ class ProfileVC: GeneralViewController {
         if let photoString = mainUser.profilePhotoURL {
             let photoURL = URL(string: photoString)
             userPhotoImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: "mascot"), options: .continueInBackground, completed: nil)
+        } else {
+            userPhotoImageView.image = UIImage(named: "mascot")
         }
         
         FirebaseManager.Instance.getUserPosts { (userPosts) in

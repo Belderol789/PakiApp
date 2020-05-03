@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="438" height="238"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2A8-fh-E9d" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mascot" translatesAutoresizingMaskIntoConstraints="NO" id="2A8-fh-E9d" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
                         <rect key="frame" x="8" y="8" width="40" height="40"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -52,17 +52,17 @@
                             </label>
                         </subviews>
                     </stackView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="This is the title of the text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="88C-BS-ncH">
-                        <rect key="frame" x="8" y="64" width="422" height="24"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="88C-BS-ncH">
+                        <rect key="frame" x="8" y="64" width="422" height="0.0"/>
                         <constraints>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="Ora-VN-vhr"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" id="Ora-VN-vhr"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CUw-TA-G4y">
-                        <rect key="frame" x="8" y="96" width="422" height="96"/>
+                        <rect key="frame" x="8" y="72" width="422" height="99.5"/>
                         <string key="text">This is the content of the text. It can be as long or short as the user wants, but will have a maximum of 500 characters. This is the content of the text. It can be as long or short as the user wants, but will have a maximum of 500 characters.</string>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         <nil key="textColor"/>
@@ -150,6 +150,8 @@
                 <outlet property="feedImageView" destination="2A8-fh-E9d" id="GUr-d8-UYU"/>
                 <outlet property="feedShareBtn" destination="4N7-fC-xwx" id="Hzj-CY-jzl"/>
                 <outlet property="feedStack" destination="gda-GR-toi" id="jTn-ho-YSq"/>
+                <outlet property="feedStackContainer" destination="tiy-eI-Mbp" id="g7Y-h7-paz"/>
+                <outlet property="feedStackHeightConst" destination="RWd-bh-aYx" id="lqK-ap-h9T"/>
                 <outlet property="feedStarBtn" destination="iOL-UQ-sXw" id="TWk-Tm-T7m"/>
                 <outlet property="feedTitle" destination="88C-BS-ncH" id="iMu-HR-w7g"/>
                 <outlet property="feedUsername" destination="rrl-QJ-lAe" id="qYT-Y7-qAG"/>
@@ -162,6 +164,7 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="Mascot" width="638" height="444.5"/>
         <image name="arrowshape.turn.up.right" catalog="system" width="128" height="106"/>
         <image name="bubble.left.and.bubble.right" catalog="system" width="128" height="96"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>

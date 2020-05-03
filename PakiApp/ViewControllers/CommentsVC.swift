@@ -22,6 +22,24 @@ class CommentsVC: GeneralViewController {
         super.viewDidLoad()
         hideTabbar = true
         setupViewUI()
+        getAllComments()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
+    }
+    
+    func getAllComments() {
+        FirebaseManager.Instance.getAllCommentsFrom(post: currentPost, loginHandler: { (error) in
+            if let err = error {
+                self.showAlertWith(title: "Error Loading Comments", message: err, actions: [], hasDefaultOK: true)
+            }
+        }) { (post) in
+            self.filteredComments.append(post)
+            self.allComments.append(post)
+            self.commentsCollection.reloadData()
+        }
     }
 
     func setupViewUI() {
@@ -50,16 +68,15 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let feedPost = filteredComments[indexPath.item]
+        let comment = filteredComments[indexPath.item]
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
-        feedCell.feedContent.text = feedPost.content
-        feedCell.setupCellWith(post: feedPost)
+        feedCell.setupCommentCell(with: comment)
         return feedCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let text = filteredComments[indexPath.item].content
-        let feedHeight = text.returnStringHeight(width: view.frame.size.width, fontSize: 15).height + 150
+        let feedHeight = text.returnStringHeight(width: view.frame.size.width, fontSize: 15).height + 100
         return CGSize(width: view.frame.size.width, height: feedHeight)
     }
     

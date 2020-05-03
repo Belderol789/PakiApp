@@ -16,7 +16,7 @@ enum DatabaseKeys: String {
 }
 
 typealias EmptyClosure = () -> Void
-typealias BoolClosure = (Bool) -> Void
+typealias BoolClosure = (_ success: Bool) -> Void
 
 class DatabaseManager {
     // MARK: - Realm Variables

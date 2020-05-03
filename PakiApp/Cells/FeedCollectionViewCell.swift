@@ -14,7 +14,7 @@ protocol FeedPostProtocol: class {
 }
 
 class FeedCollectionViewCell: UICollectionViewCell, Reusable {
-    
+    // IBOutlets
     @IBOutlet weak var feedUsername: UILabel!
     @IBOutlet weak var feedDate: UILabel!
     
@@ -29,7 +29,12 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     
     @IBOutlet var feedBtns: [UIButton]!
     @IBOutlet weak var feedStack: UIStackView!
+    @IBOutlet weak var feedStackContainer: UIView!
     
+    // Constraints
+    @IBOutlet weak var feedStackHeightConst: NSLayoutConstraint!
+    
+    // Variables
     let starImage = "star"
     let commentImage = "bubble.left.and.bubble.right"
     let shareImage = "arrowshape.turn.up.right"
@@ -47,7 +52,29 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         // Initialization code
     }
     
-    func setupCellWith(post: UserPost) {
+    func setupCommentCell(with post: UserPost) {
+        feedStackHeightConst.constant = 0
+        feedStack.isHidden = true
+        feedTitle.text = ""
+        
+        let commentColor = UIColor.getColorFor(paki: post.pakiCase)
+        
+        feedContent.text = post.content
+        feedUsername.text = post.username
+        post.datePosted.getTimeDifference { (date) in
+            self.feedDate.text = date
+        }
+        
+        feedElipseBtn.tintColor = commentColor
+        feedImageView.layer.borderColor = commentColor.cgColor
+        
+        if let photoURLString = post.profilePhotoURL {
+            let url = URL(string: photoURLString)
+            feedImageView.sd_setImage(with: url, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
+        }
+    }
+    
+    func setupFeedCellWith(post: UserPost) {
         currentPost = post
         if let photoURLString = post.profilePhotoURL, let photoURL = URL(string: photoURLString) {
             feedImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, context: nil)
@@ -58,7 +85,9 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         feedTitle.text = post.title
         
         feedUsername.text = post.username
-        feedDate.text = post.datePosted
+        post.datePosted.getTimeDifference { (date) in
+            self.feedDate.text = date
+        }
         
         if let userID = DatabaseManager.Instance.mainUser.uid {
             let starBool = post.starList.contains(userID)

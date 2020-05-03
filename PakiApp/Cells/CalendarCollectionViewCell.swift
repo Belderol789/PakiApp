@@ -42,7 +42,10 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
         
         titleLabel.text = post.title
         contentLabel.text = post.content
-        dateLabel.text = post.datePosted
+        post.datePosted.getTimeDifference { (date) in
+            self.dateLabel.text = date
+        }
+        
         if let photoURL = post.photoURL {
             userProfilePic.sd_setImage(with: photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
         } else {

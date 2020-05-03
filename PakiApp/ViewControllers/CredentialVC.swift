@@ -74,7 +74,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
                     loadingView.startLoading()
                     
                     let userImageData = credentialView.profileImageView.image?.compressTo(1)
-                    
+                    enableAuthButton = false
                     FirebaseManager.Instance.signupUser(email: email, password: password, username: username, birth: birthday, photo: userImageData) { (message) in
                         self.userHasAuthenticated(message)
                     }
@@ -83,7 +83,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
                 
                 loadingView.isHidden = false
                 loadingView.startLoading()
-                
+                enableAuthButton = false
                 FirebaseManager.Instance.loginUser(email: email, password: password) { (message) in
                     self.userHasAuthenticated(message)
                 }
@@ -91,6 +91,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         } else if let phone = phoneField.text, let countryCode = self.countryCode, !phone.isEmpty {
             phoneNumber = "\(countryCode)\(phone)"
             print("Phone number \(phoneNumber!)")
+            enableAuthButton = false
             FirebaseManager.Instance.authenticateUser(phone: phoneNumber!, verifyWithID: { (verificationID) in
                 print("Phone User Authenticated")
                 self.setupCredentialView()
@@ -106,7 +107,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
             
             loadingView.isHidden = false
             loadingView.startLoading()
-            
+            enableAuthButton = false
             if isLogin {
                 FirebaseManager.Instance.loginPhoneUser(verfID: verfID, verfCode: verfCode) { (message) in
                     self.userHasAuthenticated(message)
@@ -128,8 +129,9 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     
     func userHasAuthenticated(_ message: String?) {
         loadingView.stopLoading()
+        enableAuthButton = true
         if message != nil {
-            authButton.title = "Continue"
+            authButton.title = isLogin ? "Login" : "Continue"
             self.showAlertWith(title: "Authentication Error", message: message!, actions: [], hasDefaultOK: true)
             credentialView.isHidden = true
         } else {

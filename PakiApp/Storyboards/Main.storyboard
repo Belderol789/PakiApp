@@ -950,18 +950,15 @@
                                     <action selector="dismissView:" destination="5e2-OF-BIH" eventType="touchUpInside" id="mTC-56-Q24"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WkP-ss-CQg">
-                                <rect key="frame" x="224" y="16" width="80" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="cvE-de-sdQ"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WkP-ss-CQg" customClass="TransitionButton" customModule="TransitionButton">
+                                <rect key="frame" x="243.5" y="21" width="60.5" height="20"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                 <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <state key="normal" title=" Send" image="paperplane.fill" catalog="system">
-                                    <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="didSendReply:" destination="5e2-OF-BIH" eventType="touchUpInside" id="HSQ-h2-pfk"/>
+                                    <action selector="didSendReply:" destination="5e2-OF-BIH" eventType="touchUpInside" id="sjX-CZ-nFZ"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9S-7Z-6NX">
@@ -972,26 +969,38 @@
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="r1v-7N-dT5">
-                                <rect key="frame" x="8" y="95" width="304" height="465"/>
+                                <rect key="frame" x="8" y="118" width="304" height="442"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/300" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hsd-8y-RQh">
+                                <rect key="frame" x="8" y="95" width="304" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="Dvb-w9-ncq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                <color key="textColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="h7b-Qy-pXr" firstAttribute="top" secondItem="TCU-Ha-zmo" secondAttribute="bottom" constant="8" id="12C-Jh-aPV"/>
                             <constraint firstItem="r1v-7N-dT5" firstAttribute="leading" secondItem="s21-I8-DeY" secondAttribute="leading" constant="8" id="3oe-zT-y2Q"/>
                             <constraint firstItem="P9S-7Z-6NX" firstAttribute="leading" secondItem="s21-I8-DeY" secondAttribute="leading" constant="8" id="6YU-Tw-Evc"/>
                             <constraint firstItem="s21-I8-DeY" firstAttribute="bottom" secondItem="r1v-7N-dT5" secondAttribute="bottom" constant="8" id="6gq-Bl-EOd"/>
-                            <constraint firstItem="TCU-Ha-zmo" firstAttribute="top" secondItem="s21-I8-DeY" secondAttribute="top" constant="16" id="KhQ-zO-u9N"/>
-                            <constraint firstItem="WkP-ss-CQg" firstAttribute="top" secondItem="s21-I8-DeY" secondAttribute="top" constant="16" id="LtH-IU-tDi"/>
-                            <constraint firstItem="s21-I8-DeY" firstAttribute="trailing" secondItem="WkP-ss-CQg" secondAttribute="trailing" constant="16" id="Rph-kc-KSP"/>
-                            <constraint firstItem="TCU-Ha-zmo" firstAttribute="leading" secondItem="s21-I8-DeY" secondAttribute="leading" constant="16" id="Vpg-6M-dq5"/>
+                            <constraint firstItem="TCU-Ha-zmo" firstAttribute="top" secondItem="s21-I8-DeY" secondAttribute="top" constant="16" id="AmG-55-6DN"/>
+                            <constraint firstItem="TCU-Ha-zmo" firstAttribute="leading" secondItem="s21-I8-DeY" secondAttribute="leading" constant="16" id="K7l-xS-adM"/>
+                            <constraint firstItem="h7b-Qy-pXr" firstAttribute="top" secondItem="TCU-Ha-zmo" secondAttribute="bottom" constant="8" id="Lx0-t9-Dnm"/>
+                            <constraint firstItem="WkP-ss-CQg" firstAttribute="centerY" secondItem="TCU-Ha-zmo" secondAttribute="centerY" id="OWk-KH-usk"/>
+                            <constraint firstItem="hsd-8y-RQh" firstAttribute="leading" secondItem="s21-I8-DeY" secondAttribute="leading" constant="8" id="QVq-4E-LbN"/>
+                            <constraint firstItem="s21-I8-DeY" firstAttribute="trailing" secondItem="hsd-8y-RQh" secondAttribute="trailing" constant="8" id="WWh-EN-YS5"/>
+                            <constraint firstItem="r1v-7N-dT5" firstAttribute="top" secondItem="hsd-8y-RQh" secondAttribute="bottom" constant="8" id="XQg-Pd-FiH"/>
+                            <constraint firstItem="s21-I8-DeY" firstAttribute="trailing" secondItem="WkP-ss-CQg" secondAttribute="trailing" constant="16" id="aQF-Te-fdA"/>
                             <constraint firstItem="h7b-Qy-pXr" firstAttribute="leading" secondItem="s21-I8-DeY" secondAttribute="leading" constant="8" id="eJF-R8-DHc"/>
                             <constraint firstItem="s21-I8-DeY" firstAttribute="trailing" secondItem="h7b-Qy-pXr" secondAttribute="trailing" constant="8" id="r32-ZA-nbp"/>
-                            <constraint firstItem="r1v-7N-dT5" firstAttribute="top" secondItem="P9S-7Z-6NX" secondAttribute="bottom" constant="8" id="u4G-Ms-bNY"/>
+                            <constraint firstItem="hsd-8y-RQh" firstAttribute="top" secondItem="P9S-7Z-6NX" secondAttribute="bottom" constant="8" id="vG6-89-zIm"/>
                             <constraint firstItem="P9S-7Z-6NX" firstAttribute="top" secondItem="h7b-Qy-pXr" secondAttribute="bottom" constant="8" id="y9M-uN-F2g"/>
                             <constraint firstItem="s21-I8-DeY" firstAttribute="trailing" secondItem="P9S-7Z-6NX" secondAttribute="trailing" constant="8" id="ynx-t2-uOx"/>
                             <constraint firstItem="s21-I8-DeY" firstAttribute="trailing" secondItem="r1v-7N-dT5" secondAttribute="trailing" constant="8" id="zGl-jL-YoC"/>
@@ -1000,13 +1009,15 @@
                     </view>
                     <connections>
                         <outlet property="dividerView" destination="P9S-7Z-6NX" id="74y-27-OPX"/>
+                        <outlet property="limitLabel" destination="hsd-8y-RQh" id="prT-N4-FZe"/>
                         <outlet property="postLabel" destination="h7b-Qy-pXr" id="Jjq-FZ-jbw"/>
                         <outlet property="replyTextView" destination="r1v-7N-dT5" id="DBb-1U-TW4"/>
+                        <outlet property="sendButton" destination="WkP-ss-CQg" id="qcR-Te-aOX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uzl-sq-8Wn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2865" y="435"/>
+            <point key="canvasLocation" x="2865" y="434.15492957746477"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="FLE-n5-j1o">
