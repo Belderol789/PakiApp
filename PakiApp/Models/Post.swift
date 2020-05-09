@@ -68,7 +68,7 @@ class UserPost: Object {
         userPost.title = data[FirebaseKeys.title.rawValue] as? String ?? ""
         
         userPost.commentCount = data[FirebaseKeys.commentCount.rawValue] as? Int ?? 0
-        if let stars = data[FirebaseKeys.starCount.rawValue] as? [String] {
+        if let stars = data[FirebaseKeys.starList.rawValue] as? [String] {
             userPost.starList.append(objectsIn: stars)
         }
         userPost.shareCount = data[FirebaseKeys.shareCount.rawValue] as? Int ?? 0

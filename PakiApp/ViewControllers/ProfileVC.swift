@@ -43,7 +43,7 @@ class ProfileVC: GeneralViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         isProfile = true
         usernameLabel.adjustsFontSizeToFitWidth = true
         
@@ -82,6 +82,9 @@ class ProfileVC: GeneralViewController {
         } else {
             userPhotoImageView.image = UIImage(named: "mascot")
         }
+        let timePassed = Double(mainUser.dateCreated)!
+        let daysPassed = Date().numberTimePassed(passed: timePassed, .day)
+        daysLabel.text = "\(daysPassed)"
         
         FirebaseManager.Instance.getUserPosts { (userPosts) in
             DatabaseManager.Instance.updateRealm(key: FirebaseKeys.postTag.rawValue, value: (userPosts.count - 1))
@@ -93,7 +96,12 @@ class ProfileVC: GeneralViewController {
     
     func setupCalendarView(posts: [UserPost]) {
         userPosts = posts.sorted(by: {$0.postTag < $1.postTag})
-        totalLabel.text = "\(userPosts.count)/365"
+        
+        postsLabel.text = "\(userPosts.count)"
+        totalLabel.text = "\(userPosts.count)"
+        let totalStars = userPosts.map({ $0.starCount }).reduce(0, +)
+        starsLabel.text = "\(totalStars)"
+        
         addChartViews()
         addGridViews()
     }

@@ -182,20 +182,16 @@ class AnswerView: UIView, Reusable {
         userPost.datePosted = Date().timeIntervalSince1970
         userPost.starList.append(mainUser.uid)
         
-        let postKey = Date().localDate().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         userPost.postKey = postKey
         
         DatabaseManager.Instance.updateUserDefaults(value: true, key: .userHasAnswered)
         FirebaseManager.Instance.sendPostToFirebase(userPost)
         
-        if let count = self.pakiData[currentPaki.rawValue] as? Int {
-            let updatedData = [currentPaki.rawValue: (count + 1)]
-            FirebaseManager.Instance.updatePakiCount(updatedCount: updatedData)
-        } else {
-            let updatedData = [currentPaki.rawValue: 1]
-            FirebaseManager.Instance.setPakiCount(countData: updatedData)
-        }
-        
+        let count = self.pakiData[currentPaki.rawValue] as? Int ?? 0
+        pakiData[currentPaki.rawValue] = count + 1
+        FirebaseManager.Instance.updatePakiCount(updatedCount: pakiData)
+
         self.delegate?.didFinishAnswer()
         UIView.animate(withDuration: 0.5, animations: {
             self.alpha = 0

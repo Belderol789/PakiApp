@@ -28,20 +28,23 @@ extension FirebaseManager {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
             } else if let uid = result?.user.uid {
                 
+                let dateCreated = Date().timeIntervalSince1970
+                
                 var userData: [String: Any] = [FirebaseKeys.username.rawValue: username,
                                                FirebaseKeys.birthday.rawValue: birth,
                                                FirebaseKeys.uid.rawValue: uid,
-                                               FirebaseKeys.email.rawValue: email]
+                                               FirebaseKeys.email.rawValue: email,
+                                               FirebaseKeys.dateCreated.rawValue: "\(dateCreated)"]
                 
                 DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                 
                 if let datum = photo {
                     self.saveToStorage(datum: datum, identifier: .profilePhoto, storagePath: uid) { (photoURL) in
                         userData[FirebaseKeys.profilePhotoURL.rawValue] = photoURL
-                        self.updateFirebase(data: userData, identifier: Identifiers.users, docuID: uid, loginHandler: loginHandler)
+                        self.updateFirebase(data: userData, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
                     }
                 } else {
-                    self.updateFirebase(data: userData, identifier: Identifiers.users, docuID: uid, loginHandler: loginHandler)
+                    self.updateFirebase(data: userData, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
                 }
             }
         }
@@ -85,10 +88,10 @@ extension FirebaseManager {
                 if let datum = photo {
                     self.saveToStorage(datum: datum, identifier: .profilePhoto, storagePath: Identifiers.profilePhoto.rawValue) { (photoURL) in
                         userData[FirebaseKeys.profilePhotoURL.rawValue] = photoURL
-                        self.updateFirebase(data: userData, identifier: Identifiers.users, docuID: uid, loginHandler: loginHandler)
+                        self.updateFirebase(data: userData, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
                     }
                 } else {
-                    self.updateFirebase(data: userData, identifier: Identifiers.users, docuID: uid, loginHandler: loginHandler)
+                    self.updateFirebase(data: userData, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
                 }
             }
         }

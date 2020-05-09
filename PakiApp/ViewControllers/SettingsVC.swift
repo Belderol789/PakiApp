@@ -45,7 +45,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
         if mainUser.username != profileUsername.text && profileUsername.text != "" {
             updatedProfile[FirebaseKeys.username.rawValue] = profileUsername.text
             let updatedUsername: [String: Any] = [FirebaseKeys.username.rawValue: profileUsername.text!]
-            FirebaseManager.Instance.updateFirebase(data: updatedUsername, identifier: .users, docuID: mainUser.uid) { (message) in
+            FirebaseManager.Instance.updateFirebase(data: updatedUsername, identifier: .users, mainID: mainUser.uid) { (message) in
                 if let message = message {
                     self.showAlertWith(title: "Error Saving", message: message, actions: [], hasDefaultOK: true)
                 } else {
@@ -60,7 +60,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
                 FirebaseManager.Instance.saveToStorage(datum: updatedPhoto, identifier: .profilePhoto, storagePath: mainUser.uid) { (profilePhoto) in
                     if let profilePhoto = profilePhoto {
                         let updatedPhoto: [String: Any] = [FirebaseKeys.profilePhotoURL.rawValue: profilePhoto]
-                        FirebaseManager.Instance.updateFirebase(data: updatedPhoto, identifier: .users, docuID: mainUser.uid, loginHandler: nil)
+                        FirebaseManager.Instance.updateFirebase(data: updatedPhoto, identifier: .users, mainID: mainUser.uid, loginHandler: nil)
                     }
                 }
             }

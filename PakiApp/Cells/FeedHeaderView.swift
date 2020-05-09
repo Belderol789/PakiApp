@@ -17,6 +17,7 @@ class FeedHeaderView: UICollectionReusableView, Reusable {
     
     @IBOutlet weak var feelingSlider: SJFluidSegmentedControl!
     @IBOutlet weak var filterController: UISegmentedControl!
+    @IBOutlet weak var totalLabel: UILabel!
     
     weak var delegate: FeedHeaderProtocol?
     let pakis: [Paki] = [Paki.awesome, Paki.good, Paki.meh, Paki.bad, Paki.terrible]

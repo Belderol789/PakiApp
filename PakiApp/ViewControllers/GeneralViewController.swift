@@ -56,9 +56,13 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
         setupAppearance()
     }
     
+    func checkForDayChange() {
+        
+    }
+    
     func setupCountDown() {
         let today = Date()
-        let tomorrow = Date.tomorrow
+        let tomorrow = Date().tomorrow
         
         let dateToday = Calendar.current.dateComponents([.year, .month, .day], from: today)
         let dateDifference = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: today, to: tomorrow)
@@ -91,12 +95,7 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
                         hours -= 1
                     } else {
                         timer.invalidate()
-                        if !DatabaseManager.Instance.userHasAnswered {
-                            FirebaseManager.Instance.sendEmptyPost()
-                        }
-                        DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
-                        self.setupCountDown()
+                        self.reactivateEmojiView()
                     }
                 }
             }
@@ -118,6 +117,15 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
             return "0\(value)"
         }
         return "\(value)"
+    }
+    
+    func reactivateEmojiView() {
+        if !DatabaseManager.Instance.userHasAnswered {
+            FirebaseManager.Instance.sendEmptyPost()
+        }
+        DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
+        self.setupCountDown()
     }
     
 }

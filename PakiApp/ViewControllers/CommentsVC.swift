@@ -27,7 +27,6 @@ class CommentsVC: GeneralViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        tabBarController?.tabBar.isHidden = false
     }
     
     func getAllComments() {

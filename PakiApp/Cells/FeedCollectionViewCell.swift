@@ -78,9 +78,13 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         currentPost = post
         if let photoURLString = post.profilePhotoURL, let photoURL = URL(string: photoURLString) {
             feedImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, context: nil)
+        } else {
+            feedImageView.image = UIImage(named: post.paki)
         }
         cellColor = UIColor.getColorFor(paki: post.pakiCase)
         feedImageView.layer.borderColor = cellColor.cgColor
+        feedImageView.tintColor = cellColor
+        feedImageView.backgroundColor = .systemBackground
         feedContent.text = post.content
         feedTitle.text = post.title
         
@@ -96,15 +100,21 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
             feedStarBtn.isUserInteractionEnabled = !starBool
             feedStarBtn.setImage(UIImage.init(systemName: image), for: .normal)
             feedStarBtn.tintColor = starBool ? cellColor : .systemGray
+            feedStarBtn.setTitle("\(post.starCount)", for: .normal)
         }
     }
     
     @IBAction func didFavourite(_ sender: UIButton) {
-        feedStarBtn.setImage(UIImage(named: "star.fill"), for: .normal)
-        feedStarBtn.tintColor = cellColor
-        starCount += 1
-        sender.setTitle("\(starCount)", for: .normal)
-        FirebaseManager.Instance.updatePostsStar(userPost: currentPost)
+        if DatabaseManager.Instance.userIsLoggedIn {
+            let updatedCount = currentPost.starCount + 1
+            let color = UIColor.getColorFor(paki: currentPost.pakiCase)
+            
+            feedStarBtn.setTitle("\(updatedCount)", for: .normal)
+            feedStarBtn.setImage(UIImage.init(systemName: "star.fill"), for: .normal)
+            feedStarBtn.tintColor = color
+            
+            FirebaseManager.Instance.updatePostsStar(userPost: currentPost)
+        }
     }
     
     @IBAction func didComment(_ sender: UIButton) {

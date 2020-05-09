@@ -15,10 +15,6 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var starsLabel: UILabel!
-    @IBOutlet weak var commentsLabel: UILabel!
-    @IBOutlet weak var sharesLabel: UILabel!
-    
-    @IBOutlet var calendarBtns: [ButtonX]!
     @IBOutlet weak var containerView: ViewX!
     
     @IBOutlet weak var headerView: ViewX!
@@ -32,13 +28,10 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     
     func setupCalendarView(post: UserPost) {
         let color = UIColor.getColorFor(paki: post.pakiCase)
-        calendarBtns.forEach({$0.tintColor = .white})
         containerView.layer.shadowColor = color.cgColor
         headerView.backgroundColor = color
         
         starsLabel.text = "\(post.starCount)"
-        commentsLabel.text = "\(post.commentCount)"
-        sharesLabel.text = "\(post.shareCount)"
         
         titleLabel.text = post.title
         contentLabel.text = post.content

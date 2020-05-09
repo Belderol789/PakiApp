@@ -79,8 +79,12 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
     @IBAction func favouriteTapped(_ sender: UIButton) {
         if DatabaseManager.Instance.userIsLoggedIn {
             let updatedCount = currentPost.starCount + 1
+            let color = UIColor.getColorFor(paki: currentPost.pakiCase)
+            
             postFavBtn.setTitle("\(updatedCount)", for: .normal)
             postFavBtn.setImage(UIImage.init(systemName: "star.fill"), for: .normal)
+            postFavBtn.tintColor = color
+            
             FirebaseManager.Instance.updatePostsStar(userPost: currentPost)
         } else {
             self.delegate?.alertUserToLogin()

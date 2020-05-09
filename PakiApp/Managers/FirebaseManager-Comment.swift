@@ -16,15 +16,16 @@ extension FirebaseManager {
         let mainUser = DatabaseManager.Instance.mainUser
         let dateSent = Date().timeIntervalSince1970
         let commentKey = (post.postKey + post.uid + post.uid).replacingOccurrences(of: " ", with: "")
+        let commentCount = post.commentCount
+        let uniqueID = UUID().uuidString
         
         let commentData: [String: Any] = [FirebaseKeys.datePosted.rawValue: dateSent,
                                           FirebaseKeys.username.rawValue: mainUser.username!,
                                           FirebaseKeys.profilePhotoURL.rawValue: mainUser.profilePhotoURL ?? "",
                                           FirebaseKeys.content.rawValue: text,
                                           FirebaseKeys.paki.rawValue: mainUser.currentPaki ?? "none",
-                                          FirebaseKeys.uid.rawValue: mainUser.uid!]
-        
-        let uniqueID = UUID().uuidString
+                                          FirebaseKeys.uid.rawValue: mainUser.uid!,
+                                          FirebaseKeys.commentID.rawValue: uniqueID]
         
         self.firestoreDB.collection(Identifiers.comments.rawValue).document(post.paki).collection(commentKey).document(uniqueID).setData(commentData) { (error) in
             if let err = error {
@@ -33,6 +34,10 @@ extension FirebaseManager {
                 loginHandler?(nil)
             }
         }
+    }
+    
+    func updateUserCommentCount() {
+        
     }
     
     func getAllCommentsFrom(post: UserPost, loginHandler: LoginHandler?, comment: @escaping (UserPost) -> Void) {

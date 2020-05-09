@@ -13,6 +13,7 @@ enum DatabaseKeys: String {
     case userIsLoggedIn
     case userHasAnswered
     case userLightAppearance
+    case savedDate
 }
 
 typealias EmptyClosure = () -> Void
@@ -125,6 +126,10 @@ class DatabaseManager {
     
     var userHasAnswered: Bool {
         return UserDefaults.standard.bool(forKey: DatabaseKeys.userHasAnswered.rawValue)
+    }
+    
+    var savedDate: Double? {
+        return UserDefaults.standard.value(forKey: DatabaseKeys.savedDate.rawValue) as? Double
     }
     
     var userSetLightAppearance: Bool {

@@ -15,6 +15,8 @@ class FeedVC: GeneralViewController {
     @IBOutlet weak var feedCollection: UICollectionView!
     @IBOutlet weak var credentialView: UIVisualEffectView!
     @IBOutlet weak var loadingView: LoadingView!
+    //Constraints
+    @IBOutlet weak var credentialHeight: NSLayoutConstraint!
     // Variables
     var filteredPosts: [UserPost] = []
     var allPosts: [UserPost] = []
@@ -24,22 +26,30 @@ class FeedVC: GeneralViewController {
         }
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        credentialHeight.constant = self.view.frame.height / 4
+        resetUserEmoji()
         setupViewUI()
         setupCountDown()
         getPosts(for: currentPaki)
-        NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:))     , name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = false
-        hideTabbar = !DatabaseManager.Instance.userIsLoggedIn
+        checkIfUserIsLoggedIn()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+    
+    func checkIfUserIsLoggedIn() {
+        if !DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.userObject.first == nil {
+            tabBarController?.tabBar.isHidden = true
+        }
     }
     
     // MARK: - Functions
@@ -54,7 +64,23 @@ class FeedVC: GeneralViewController {
         credentialView.isHidden = DatabaseManager.Instance.userIsLoggedIn
         
         hideTabbar = !DatabaseManager.Instance.userIsLoggedIn
-        activateEmojiView(notification: nil)
+    }
+    
+    func resetUserEmoji() {
+        let today = Date()
+        if let savedDate = DatabaseManager.Instance.savedDate {
+            
+            let hoursPassed = Date().numberTimePassed(passed: savedDate, .hour)
+            
+            if hoursPassed >= 24 {
+                DatabaseManager.Instance.updateUserDefaults(value: today.timeIntervalSince1970, key: .savedDate)
+                DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
+                activateEmojiView(notification: nil)
+            }
+        } else {
+            DatabaseManager.Instance.updateUserDefaults(value: today.timeIntervalSince1970, key: .savedDate)
+            activateEmojiView(notification: nil)
+        }
     }
     
     @objc
@@ -77,12 +103,17 @@ class FeedVC: GeneralViewController {
     }
     
     fileprivate func getPosts(for paki: Paki) {
+        
+        loadingView.stopLoading()
+        loadingView.setupCircleViews(paki: paki)
+        loadingView.startLoading()
+        
         filteredPosts.removeAll()
         print("Getting Post for \(paki.rawValue)")
         FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
             if let post = userPost {
-                self.filteredPosts.append(post)
                 self.allPosts.append(post)
+                self.filteredPosts = self.allPosts.filter({$0.pakiCase == paki})
                 self.feedCollection.reloadData()
             }
             self.loadingView.stopLoading()
@@ -116,6 +147,7 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let feedPost = filteredPosts[indexPath.item]
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
+        feedCell.contentView.layer.cornerRadius = 15
         feedCell.delegate = self
         feedCell.setupFeedCellWith(post: feedPost)
         return feedCell
@@ -123,18 +155,21 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let text = filteredPosts[indexPath.item].content
-        let feedHeight = text.returnStringHeight(width: view.frame.size.width, fontSize: 15).height + 150
-        return CGSize(width: view.frame.size.width, height: feedHeight)
+        let tempFeedHeight = text.returnStringHeight(width: view.frame.size.width, fontSize: 15).height + 150
+        let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 : tempFeedHeight
+        return CGSize(width: view.frame.size.width - 16, height: feedHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FeedHeaderView", for: indexPath) as! FeedHeaderView
         header.delegate = self
+        header.totalLabel.text = "\(filteredPosts.count) feel \(currentPaki) today"
+        print("Reloaded")
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return .init(width: view.frame.width, height: 120)
+        return CGSize(width: view.frame.width, height: 160)
     }
     
 }
@@ -148,18 +183,14 @@ extension FeedVC: FeedHeaderProtocol, FeedPostProtocol {
     }
     
     func didChoosePaki(_ paki: Paki) {
-        
-        loadingView.stopLoading()
-        loadingView.setupCircleViews(paki: paki)
-        loadingView.startLoading()
         currentPaki = paki
         
         filteredPosts = allPosts.filter({$0.paki == paki.rawValue})
         if filteredPosts.isEmpty {
             getPosts(for: paki)
         } else {
-            self.loadingView.stopLoading()
-           feedCollection.reloadData()
+            loadingView.stopLoading()
+            feedCollection.reloadData()
         }
     }
 }

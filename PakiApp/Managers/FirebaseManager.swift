@@ -18,11 +18,14 @@ enum FirebaseKeys: String {
     case photo
     case birthday
     case uid
+    case commentID
     case datePosted
+    case dateCreated
     case title
     case content
     case paki
     case starCount
+    case starList
     case commentCount
     case shareCount
     case postTag
@@ -74,8 +77,8 @@ extension FirebaseManager {
     }
     
     // MARK: - Update FirestoreDB
-    func updateFirebase(data: [String: Any], identifier: Identifiers, docuID: String, loginHandler: LoginHandler?) {
-        self.firestoreDB.collection(identifier.rawValue).document(docuID).setData(data, merge: true) { (err) in
+    func updateFirebase(data: [String: Any], identifier: Identifiers, mainID: String, loginHandler: LoginHandler?) {
+        self.firestoreDB.collection(identifier.rawValue).document(mainID).setData(data, merge: true) { (err) in
             if err != nil {
                 self.handleErrors(error: err! as NSError, loginHandler: loginHandler)
             } else {

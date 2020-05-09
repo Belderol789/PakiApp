@@ -13,7 +13,7 @@ extension FirebaseManager {
     
     // MARK: - Update Paki Count
     func getAllPakiCount(data: @escaping ([String: Any]) -> Void) {
-        let postKey = Date().localDate().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         print("PakiCountPostCount \(postKey)")
         self.firestoreDB.collection(Identifiers.pakiCount.rawValue).document(postKey).getDocument { (snapshot, error) in
             if let snapshotData = snapshot?.data() {
@@ -24,12 +24,12 @@ extension FirebaseManager {
     }
     
     func updatePakiCount(updatedCount: [String: Any]) {
-        let postKey = Date().localDate().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         self.firestoreDB.collection(Identifiers.pakiCount.rawValue).document(postKey).updateData(updatedCount)
     }
     
     func setPakiCount(countData: [String: Any]) {
-        let postKey = Date().localDate().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         self.firestoreDB.collection(Identifiers.pakiCount.rawValue).document(postKey).setData(countData)
     }
     
@@ -47,6 +47,7 @@ extension FirebaseManager {
                                    FirebaseKeys.paki.rawValue: userPost.paki,
                                    FirebaseKeys.shareCount.rawValue: userPost.shareCount,
                                    FirebaseKeys.starCount.rawValue: userPost.starCount,
+                                   FirebaseKeys.starList.rawValue: userPost.starList,
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
                                    FirebaseKeys.uid.rawValue: userID,
                                    FirebaseKeys.postTag.rawValue: (currentPostTag + 1)]
@@ -66,7 +67,7 @@ extension FirebaseManager {
                                    FirebaseKeys.content.rawValue: userPost.content,
                                    FirebaseKeys.paki.rawValue: userPost.paki,
                                    FirebaseKeys.shareCount.rawValue: userPost.shareCount,
-                                   FirebaseKeys.starCount.rawValue: Array(userPost.starList),
+                                   FirebaseKeys.starList.rawValue: Array(userPost.starList),
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
                                    FirebaseKeys.uid.rawValue: userID,
                                    FirebaseKeys.postKey.rawValue: userPost.postKey]
@@ -83,7 +84,7 @@ extension FirebaseManager {
     // MARK: - Get Feed Post
     func getPostFor(paki: Paki, completed: @escaping (UserPost?) -> Void) {
         
-        let postKey = Date().localDate().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         print("Getting Post with key \(postKey)")
         self.firestoreDB.collection(Identifiers.posts.rawValue).document(postKey).collection(paki.rawValue).getDocuments { (snapshot, error) in
             if error != nil {
@@ -105,7 +106,7 @@ extension FirebaseManager {
             self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).getDocuments { (snapshot, error) in
                 if let error = error {
                     print("Calendar error \(error.localizedDescription)")
-                } else if let documents = snapshot?.documents, !documents.isEmpty {
+                } else if let documents = snapshot?.documents {
                     
                     var userPosts = [UserPost]()
                     
@@ -123,8 +124,9 @@ extension FirebaseManager {
     // MARK: - Update Post Data
     func updatePostsStar(userPost: UserPost) {
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
-        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.paki).collection(userPost.postKey).document(userPost.uid).updateData([FirebaseKeys.starCount.rawValue: FieldValue.arrayUnion([userID])])
         
-        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userPost.uid).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).updateData([FirebaseKeys.starCount.rawValue: FieldValue.arrayUnion([userID])])
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.paki).collection(userPost.postKey).document(userPost.uid).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
+        
+        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userPost.uid).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
     }
 }

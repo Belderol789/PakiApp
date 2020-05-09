@@ -233,7 +233,7 @@ extension Double {
                 let dFormatter = DateFormatter()
                 dFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
                 let serverTime = dFormatter.date(from: contentType)
-                if let localDate = serverTime?.localDate().timeIntervalSince1970 {
+                if let localDate = serverTime?.timeIntervalSince1970 {
                     completionHandler(localDate)
                 }
             }
@@ -245,23 +245,32 @@ extension Double {
 
 // MARK: - Date
 extension Date {
-    
-    func localDate() -> Date {
-        let nowUTC = Date()
-        let timeZoneOffset = Double(TimeZone.current.secondsFromGMT(for: nowUTC))
-        guard let localDate = Calendar.current.date(byAdding: .second, value: Int(timeZoneOffset), to: nowUTC) else {return Date()}
-        return localDate
-    }
-    
+
     func convertToString(with format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         return dateFormatter.string(from: self)
     }
+    
+    func numberTimePassed(passed: Double, _ component: Calendar.Component) -> Int {
+        let timePassed = Date(timeIntervalSince1970: passed)
+        let today = Date(timeIntervalSince1970: Date().timeIntervalSince1970)
+        let components = Calendar.current.dateComponents([.minute, .hour, .day], from: timePassed, to: today)
+        switch component {
+        case .minute:
+            return components.minute ?? 0
+        case .hour:
+            return components.hour ?? 0
+        case .day:
+            return components.day ?? 0
+        default:
+            return 0
+        }
+    }
 
-    static var yesterday: Date { return Date().dayBefore }
-    static var tomorrow:  Date { return Date().dayAfter }
+    var yesterday: Date { return Date().dayBefore }
+    var tomorrow:  Date { return Date().dayAfter }
     
     var dayBefore: Date {
         return Calendar.current.date(byAdding: .day, value: -1, to: noon)!
@@ -272,6 +281,7 @@ extension Date {
     var noon: Date {
         return Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self)!
     }
+    
 }
 
 // MARK: - UITextfield
