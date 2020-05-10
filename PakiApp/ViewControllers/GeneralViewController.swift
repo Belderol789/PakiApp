@@ -15,51 +15,39 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
     var navigationBar: Bool = false
     
     var viewCenter: CGRect = .zero
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        let appearance: UIStatusBarStyle = DatabaseManager.Instance.userSetLightAppearance ? .lightContent : .darkContent
+        return appearance
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupAppearance()
-        NotificationCenter.default.addObserver(self, selector: #selector(appearanceChanged(notification:)), name: NSNotification.Name(rawValue: "AppearanceChanged"), object: nil)
-        
+        view.backgroundColor = UIColor.defaultBGColor
+        //appearanceChanged(notification: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(appearanceChanged(notification:)), name: NSNotification.Name(rawValue: NotifName.AppearanceChanged.rawValue), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupAppearance()
-        if hideTabbar {
-           tabBarController?.tabBar.isHidden = true
-        }
-        if navigationBar {
-            navigationController?.navigationBar.isHidden = true
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if hideTabbar {
-           tabBarController?.tabBar.isHidden = false
-        }
-        if navigationBar {
-            navigationController?.navigationBar.isHidden = false
-        }
-    }
-    
-    func setupAppearance() {
-        let appearance: UIUserInterfaceStyle = DatabaseManager.Instance.userSetLightAppearance ? .light : .dark
-        view.overrideUserInterfaceStyle = appearance
-        navigationController?.navigationBar.overrideUserInterfaceStyle = appearance
-        tabBarController?.tabBar.overrideUserInterfaceStyle = appearance
     }
     
     @objc
-    func appearanceChanged(notification: Notification) {
-        setupAppearance()
+    func appearanceChanged(notification: Notification?) {
+//        let appearanceMode: Bool = DatabaseManager.Instance.userSetLightAppearance
+//        let appearance: UIUserInterfaceStyle = appearanceMode ? .light : .dark
+//        view.overrideUserInterfaceStyle = appearance
+//        navigationController?.navigationBar.overrideUserInterfaceStyle = appearance
+//        tabBarController?.tabBar.overrideUserInterfaceStyle = appearance
+//
+//        setNeedsStatusBarAppearanceUpdate()
+//        navigationController?.navigationBar.barStyle = appearanceMode ? .default : .black
     }
-    
-    func checkForDayChange() {
-        
-    }
-    
+
     func setupCountDown() {
         let today = Date()
         let tomorrow = Date().tomorrow

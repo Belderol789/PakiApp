@@ -13,6 +13,7 @@ class StatsTableViewCell: UITableViewCell, Reusable {
     @IBOutlet weak var pakiLabel: UILabel!
     @IBOutlet weak var pakiCountLabel: UILabel!
     @IBOutlet weak var pakiProgress: UIProgressView!
+    @IBOutlet weak var pakiImageView: UIImageView!
     
     var totalCount: Int = 0
     
@@ -28,11 +29,21 @@ class StatsTableViewCell: UITableViewCell, Reusable {
     }
     
     func setupCell(withPaki: Paki, count: Int) {
+        let pakiColor = UIColor.getColorFor(paki: withPaki)
+        pakiImageView.image = UIImage(named: withPaki.rawValue)
+        
         pakiLabel.text = withPaki.rawValue.capitalized
         pakiCountLabel.text = "\(count)"
-        pakiProgress.progressTintColor = UIColor.getColorFor(paki: withPaki)
+        pakiCountLabel.textColor = pakiColor
+        contentView.backgroundColor = .clear
+        self.backgroundColor = .clear
+        
+        pakiProgress.progressTintColor = pakiColor
+        pakiProgress.trackTintColor = UIColor.defaultBGColor
+        
         if totalCount > 0 {
             self.pakiProgress.progress = Float(count)/Float(totalCount)
+            print("Progress \(self.pakiProgress.progress)")
         }
     }
     

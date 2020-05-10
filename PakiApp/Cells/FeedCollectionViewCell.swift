@@ -31,6 +31,7 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     @IBOutlet weak var feedStack: UIStackView!
     @IBOutlet weak var feedStackContainer: UIView!
     
+    @IBOutlet weak var containerView: ViewX!
     // Constraints
     @IBOutlet weak var feedStackHeightConst: NSLayoutConstraint!
     
@@ -48,7 +49,9 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        contentView.backgroundColor = .tertiarySystemGroupedBackground
+        containerView.backgroundColor = UIColor.defaultFGColor
+        contentView.backgroundColor = .clear
+        self.backgroundColor = .clear
         // Initialization code
     }
     
@@ -58,6 +61,8 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         feedTitle.text = ""
         
         let commentColor = UIColor.getColorFor(paki: post.pakiCase)
+        
+        containerView.layer.borderColor = commentColor.cgColor
         
         feedContent.text = post.content
         feedUsername.text = post.username
@@ -82,7 +87,8 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
             feedImageView.image = UIImage(named: post.paki)
         }
         cellColor = UIColor.getColorFor(paki: post.pakiCase)
-        feedImageView.layer.borderColor = cellColor.cgColor
+        containerView.layer.borderColor = cellColor.cgColor
+        
         feedImageView.tintColor = cellColor
         feedImageView.backgroundColor = .systemBackground
         feedContent.text = post.content

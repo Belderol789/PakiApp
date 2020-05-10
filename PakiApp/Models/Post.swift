@@ -42,7 +42,11 @@ class UserPost: Object {
     var starCount: Int {
         return starList.count
     }
-
+    
+    var dateString: String {
+        let date = Date(timeIntervalSince1970: datePosted)
+        return date.convertToString(with: "yyyy/mm/dd")
+    }
     
     var pakiCase: Paki {
         return Paki(rawValue: self.paki) ?? .none

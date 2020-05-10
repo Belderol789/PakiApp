@@ -16,49 +16,50 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Lz-6G-AC3">
                     <rect key="frame" x="0.0" y="0.0" width="398" height="179"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zLb-mr-XOD" customClass="SJFluidSegmentedControl" customModule="SJFluidSegmentedControl">
-                            <rect key="frame" x="0.0" y="0.0" width="398" height="50"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gyL-nu-hD9">
+                            <rect key="frame" x="8" y="66" width="382" height="41"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="50" id="nkb-Yn-f55"/>
+                                <constraint firstAttribute="height" constant="40" id="tyo-Z7-ebn"/>
                             </constraints>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                    <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="number" keyPath="shadowShowDuration">
-                                    <real key="value" value="-1"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="shadowsEnabled" value="NO"/>
-                            </userDefinedRuntimeAttributes>
-                        </view>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gyL-nu-hD9">
-                            <rect key="frame" x="8" y="66" width="382" height="32"/>
                             <segments>
                                 <segment title="Popular"/>
                                 <segment title="Latest"/>
                             </segments>
+                            <color key="selectedSegmentTintColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="segmentControllerDidChange:" destination="U6b-Vx-4bR" eventType="valueChanged" id="hTH-bE-YD4"/>
                             </connections>
                         </segmentedControl>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Today" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dzW-A7-lvM">
-                            <rect key="frame" x="162.5" y="105" width="73" height="18"/>
+                            <rect key="frame" x="162.5" y="114" width="73" height="18"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="nAH-8Q-sL0">
+                            <rect key="frame" x="0.0" y="8" width="398" height="50"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="FaE-ur-SKV"/>
+                            </constraints>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="t6l-eM-0wi">
+                                <size key="itemSize" width="128" height="128"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
-                        <constraint firstItem="gyL-nu-hD9" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" constant="8" id="4rm-vS-HZ5"/>
-                        <constraint firstItem="zLb-mr-XOD" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" id="9hO-Hz-8TW"/>
-                        <constraint firstItem="zLb-mr-XOD" firstAttribute="top" secondItem="5Lz-6G-AC3" secondAttribute="top" id="HxQ-rR-OuQ"/>
-                        <constraint firstAttribute="trailing" secondItem="gyL-nu-hD9" secondAttribute="trailing" constant="8" id="INY-16-xeg"/>
-                        <constraint firstItem="gyL-nu-hD9" firstAttribute="top" secondItem="zLb-mr-XOD" secondAttribute="bottom" constant="16" id="WJm-Ey-7yD"/>
-                        <constraint firstItem="dzW-A7-lvM" firstAttribute="top" secondItem="gyL-nu-hD9" secondAttribute="bottom" constant="8" id="brj-k7-OEA"/>
-                        <constraint firstItem="dzW-A7-lvM" firstAttribute="centerX" secondItem="5Lz-6G-AC3" secondAttribute="centerX" id="qZB-xf-mUe"/>
-                        <constraint firstAttribute="trailing" secondItem="zLb-mr-XOD" secondAttribute="trailing" id="sy1-Q1-mzo"/>
+                        <constraint firstItem="dzW-A7-lvM" firstAttribute="centerX" secondItem="5Lz-6G-AC3" secondAttribute="centerX" id="7gf-XV-egJ"/>
+                        <constraint firstItem="gyL-nu-hD9" firstAttribute="top" secondItem="nAH-8Q-sL0" secondAttribute="bottom" constant="8" id="85a-V0-xwd"/>
+                        <constraint firstItem="dzW-A7-lvM" firstAttribute="top" secondItem="gyL-nu-hD9" secondAttribute="bottom" constant="8" id="AeQ-Kw-JW9"/>
+                        <constraint firstItem="gyL-nu-hD9" firstAttribute="centerX" secondItem="5Lz-6G-AC3" secondAttribute="centerX" id="HTc-Uh-tJw"/>
+                        <constraint firstAttribute="trailing" secondItem="nAH-8Q-sL0" secondAttribute="trailing" id="LzE-BU-AUp"/>
+                        <constraint firstItem="nAH-8Q-sL0" firstAttribute="top" secondItem="5Lz-6G-AC3" secondAttribute="top" constant="8" id="Qfg-nm-3GK"/>
+                        <constraint firstItem="nAH-8Q-sL0" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" id="at2-yT-kz0"/>
+                        <constraint firstAttribute="trailing" secondItem="gyL-nu-hD9" secondAttribute="trailing" constant="8" id="o3X-eH-1YW"/>
+                        <constraint firstItem="gyL-nu-hD9" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" constant="8" id="sn3-C1-9Sv"/>
                     </constraints>
                 </view>
             </subviews>
@@ -71,8 +72,8 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>
-                <outlet property="feelingSlider" destination="zLb-mr-XOD" id="uQK-71-e9V"/>
                 <outlet property="filterController" destination="gyL-nu-hD9" id="way-Gc-Gw8"/>
+                <outlet property="pakiCollectionView" destination="nAH-8Q-sL0" id="Uvr-Ol-SbA"/>
                 <outlet property="totalLabel" destination="dzW-A7-lvM" id="TPd-Zy-4Vi"/>
             </connections>
             <point key="canvasLocation" x="105.79710144927537" y="45.870535714285715"/>

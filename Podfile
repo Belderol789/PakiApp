@@ -21,16 +21,15 @@ pod 'SDWebImage'
 pod 'Connectivity'
 pod 'RealmSwift'
 pod 'CountryPickerView'
+pod 'SwiftIcons'
+pod 'FSCalendar'
 
 #UI
 pod 'CircleLoading'
 pod 'Charts'
-pod 'NVActivityIndicatorView'
-pod 'BubbleTransition'
 pod 'TTGEmojiRate'
 pod 'TransitionButton'
 pod 'SkyFloatingLabelTextField'
-pod 'SJFluidSegmentedControl'
 pod 'BetterSegmentedControl', '~> 1.3'
 
 end

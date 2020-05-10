@@ -89,9 +89,10 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
                 }
             }
         } else if let phone = phoneField.text, let countryCode = self.countryCode, !phone.isEmpty {
+            
             phoneNumber = "\(countryCode)\(phone)"
-            print("Phone number \(phoneNumber!)")
             enableAuthButton = false
+            
             FirebaseManager.Instance.authenticateUser(phone: phoneNumber!, verifyWithID: { (verificationID) in
                 print("Phone User Authenticated")
                 self.setupCredentialView()

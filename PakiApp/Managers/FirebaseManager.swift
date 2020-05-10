@@ -30,6 +30,7 @@ enum FirebaseKeys: String {
     case shareCount
     case postTag
     case postKey
+    case currentPaki
 }
 
 enum Identifiers: String {

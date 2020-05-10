@@ -8,13 +8,13 @@ extension UISegmentedControl {
         self.setBackgroundImage(backgroundImage, for: .normal, barMetrics: .default)
         self.setBackgroundImage(backgroundImage, for: .selected, barMetrics: .default)
         self.setBackgroundImage(backgroundImage, for: .highlighted, barMetrics: .default)
-
+        
         let deviderImage = UIImage.getColoredRectImageWith(color: UIColor.clear.cgColor, andSize: CGSize(width: 1.0, height: self.bounds.size.height))
         self.setDividerImage(deviderImage, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
         self.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemGray], for: .normal)
         self.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.label], for: .selected)
     }
-
+    
     func addUnderlineForSelectedSegment(){
         removeBorder()
         let underlineWidth: CGFloat = self.bounds.size.width / CGFloat(self.numberOfSegments)
@@ -27,7 +27,7 @@ extension UISegmentedControl {
         underline.tag = 1
         self.addSubview(underline)
     }
-
+    
     func changeUnderlinePosition(){
         guard let underline = self.viewWithTag(1) else {return}
         let underlineFinalXPosition = (self.bounds.width / CGFloat(self.numberOfSegments)) * CGFloat(selectedSegmentIndex)
@@ -39,7 +39,7 @@ extension UISegmentedControl {
 
 // MARK: - UIImage
 extension UIImage {
-
+    
     class func getColoredRectImageWith(color: CGColor, andSize size: CGSize) -> UIImage{
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         let graphicsContext = UIGraphicsGetCurrentContext()
@@ -74,24 +74,23 @@ extension UIImage {
 
 // MARK: - String
 extension String {
-    func returnStringHeight(width: CGFloat, fontSize: CGFloat) -> CGSize {
-         let size = CGSize(width: 250, height: 1000)
-         
-         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-         let estimatedFrame = NSString(string: self).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize)], context: nil)
-         
-         let estimatedHeight = estimatedFrame.height
-         let feedSize = CGSize(width: width, height: estimatedHeight)
-         return feedSize
-     }
+    func returnStringHeight(fontSize: CGFloat) -> CGSize {
+        let size = CGSize(width: 250, height: 1000)
+        
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        let estimatedFrame = NSString(string: self).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize)], context: nil)
+        
+        return estimatedFrame.size
+    }
 }
 
 // MARK: - UIColor
 extension UIColor {
+    
     static func getColorFor(paki: Paki) -> UIColor {
         switch paki {
         case .all:
-            return .systemGray
+            return UIColor.defaultPurple
         case .awesome:
             return UIColor.hexStringToUIColor(hex: "#edcf50")
         case .good:
@@ -107,20 +106,30 @@ extension UIColor {
         }
     }
     
+    static var defaultPurple: UIColor = hexStringToUIColor(hex: "755FE2")
+    static var defaultBGColor: UIColor {
+        let isLight = DatabaseManager.Instance.userSetLightAppearance
+        return isLight ? .white : hexStringToUIColor(hex: "2A3C44")
+    }
+    static var defaultFGColor: UIColor {
+        let isLight = DatabaseManager.Instance.userSetLightAppearance
+        return isLight ? .white : hexStringToUIColor(hex: "30444E")
+    }
+    
     static func hexStringToUIColor(hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-
+        
         if (cString.hasPrefix("#")) {
             cString.remove(at: cString.startIndex)
         }
-
+        
         if ((cString.count) != 6) {
             return UIColor.gray
         }
-
+        
         var rgbValue:UInt64 = 0
         Scanner(string: cString).scanHexInt64(&rgbValue)
-
+        
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
@@ -131,18 +140,28 @@ extension UIColor {
     
 }
 
+// MARK: - UITabbarController
+extension UITabBarController {
+   open override var childForStatusBarStyle: UIViewController? {
+        return selectedViewController
+    }
+}
+
 // MARK: - UINavigationController
 extension UINavigationController {
-
-  public func pushViewController(viewController: UIViewController,
-                                 animated: Bool,
-                                 completion: (() -> Void)?) {
-    CATransaction.begin()
-    CATransaction.setCompletionBlock(completion)
-    pushViewController(viewController, animated: animated)
-    CATransaction.commit()
-  }
-
+    
+    public func pushViewController(viewController: UIViewController,
+                                   animated: Bool,
+                                   completion: (() -> Void)?) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        pushViewController(viewController, animated: animated)
+        CATransaction.commit()
+    }
+    
+    open override var childForStatusBarStyle: UIViewController? {
+        return topViewController
+    }
 }
 
 // MARK: - UIViewController
@@ -191,8 +210,12 @@ extension UIScrollView {
 // MARK: - Double
 extension Double {
     
+    func deg2rad(_ number: Double) -> Double {
+        return number * .pi / 180
+    }
+    
     var clean: String {
-       return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.f", self) : String(self)
+        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.f", self) : String(self)
     }
     
     func getTimeDifference(diff: @escaping (String) -> Void)  {
@@ -220,7 +243,7 @@ extension Double {
                 diffText = "\(hours) \(hourText) ago"
             }
         } else {
-           diffText = datePosted.convertToString(with: "LLLL dd, yyyy")
+            diffText = datePosted.convertToString(with: "LLLL dd, yyyy")
         }
         diff(diffText)
     }
@@ -245,11 +268,18 @@ extension Double {
 
 // MARK: - Date
 extension Date {
-
+    
+    func getTotalDaysFor(component: Calendar.Component) -> Int {
+        let calendar = Calendar.current
+        let date = Date()
+        let interval = calendar.dateInterval(of: component, for: date)!
+        let days = calendar.dateComponents([.day], from: interval.start, to: interval.end).day!
+        return days
+    }
+    
     func convertToString(with format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         return dateFormatter.string(from: self)
     }
     
@@ -268,7 +298,7 @@ extension Date {
             return 0
         }
     }
-
+    
     var yesterday: Date { return Date().dayBefore }
     var tomorrow:  Date { return Date().dayAfter }
     

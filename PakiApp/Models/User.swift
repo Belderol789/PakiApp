@@ -11,11 +11,10 @@ import RealmSwift
 
 class User: Object {
     
-    @objc dynamic var uid: String!
-    @objc dynamic var username: String!
-    @objc dynamic var dateStarted: String!
-    @objc dynamic var dateCreated: String!
-    @objc dynamic var birthday: String!
+    @objc dynamic var uid: String?
+    @objc dynamic var username: String?
+    @objc dynamic var dateCreated: String = "0"
+    @objc dynamic var birthday: String?
     @objc dynamic var profilePhotoURL: String?
     @objc dynamic var email: String?
     @objc dynamic var currentPaki: String?

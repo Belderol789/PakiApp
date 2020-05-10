@@ -75,7 +75,7 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let text = filteredComments[indexPath.item].content
-        let feedHeight = text.returnStringHeight(width: view.frame.size.width, fontSize: 15).height + 100
+        let feedHeight = text.returnStringHeight(fontSize: 15).height + 100
         return CGSize(width: view.frame.size.width, height: feedHeight)
     }
     
@@ -89,8 +89,8 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let text = currentPost.content
         let title = currentPost.title
-        let titleHeight = title.returnStringHeight(width: view.frame.size.width, fontSize: 17).height + 180
-        let feedHeight = text.returnStringHeight(width: view.frame.size.width, fontSize: 15).height + titleHeight
+        let titleHeight = title.returnStringHeight(fontSize: 17).height + 180
+        let feedHeight = text.returnStringHeight(fontSize: 15).height + titleHeight
         return .init(width: view.frame.width, height: feedHeight)
     }
     

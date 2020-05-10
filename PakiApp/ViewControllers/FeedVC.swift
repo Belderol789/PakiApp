@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SJFluidSegmentedControl
 
 class FeedVC: GeneralViewController {
     
@@ -39,7 +38,7 @@ class FeedVC: GeneralViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        checkIfUserIsLoggedIn()
+        //checkIfUserIsLoggedIn()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,7 +53,6 @@ class FeedVC: GeneralViewController {
     
     // MARK: - Functions
     fileprivate func setupViewUI() {
-        view.backgroundColor = .systemBackground
         feedCollection.register(FeedCollectionViewCell.nib, forCellWithReuseIdentifier: FeedCollectionViewCell.className)
         feedCollection.register(FeedHeaderView.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedHeaderView.className)
         feedCollection.backgroundColor = .clear
@@ -62,6 +60,7 @@ class FeedVC: GeneralViewController {
         feedCollection.dataSource = self
         //KemTest
         credentialView.isHidden = DatabaseManager.Instance.userIsLoggedIn
+        credentialView.layer.cornerRadius = 15
         
         hideTabbar = !DatabaseManager.Instance.userIsLoggedIn
     }
@@ -147,7 +146,6 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let feedPost = filteredPosts[indexPath.item]
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
-        feedCell.contentView.layer.cornerRadius = 15
         feedCell.delegate = self
         feedCell.setupFeedCellWith(post: feedPost)
         return feedCell
@@ -155,7 +153,7 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let text = filteredPosts[indexPath.item].content
-        let tempFeedHeight = text.returnStringHeight(width: view.frame.size.width, fontSize: 15).height + 150
+        let tempFeedHeight = text.returnStringHeight(fontSize: 15).height + 150
         let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 : tempFeedHeight
         return CGSize(width: view.frame.size.width - 16, height: feedHeight)
     }

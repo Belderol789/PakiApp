@@ -16,7 +16,6 @@ extension FirebaseManager {
         let mainUser = DatabaseManager.Instance.mainUser
         let dateSent = Date().timeIntervalSince1970
         let commentKey = (post.postKey + post.uid + post.uid).replacingOccurrences(of: " ", with: "")
-        let commentCount = post.commentCount
         let uniqueID = UUID().uuidString
         
         let commentData: [String: Any] = [FirebaseKeys.datePosted.rawValue: dateSent,

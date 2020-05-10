@@ -51,6 +51,14 @@
 		E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */; };
 		E33E4711245C649D00B838DB /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E4710245C649D00B838DB /* SettingsVC.swift */; };
 		E33E4713245EA9BB00B838DB /* FirebaseManager-Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E4712245EA9BA00B838DB /* FirebaseManager-Comment.swift */; };
+		E33E47152466AD9700B838DB /* MyTabBarCtrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E47142466AD9700B838DB /* MyTabBarCtrl.swift */; };
+		E33E47182466D1B300B838DB /* PakiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E47162466D1B300B838DB /* PakiCollectionViewCell.swift */; };
+		E33E47192466D1B400B838DB /* PakiCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33E47172466D1B300B838DB /* PakiCollectionViewCell.xib */; };
+		E33E471B24670B1000B838DB /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E471A24670B1000B838DB /* CalendarView.swift */; };
+		E33E471D24670B2300B838DB /* CalendarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33E471C24670B2300B838DB /* CalendarView.xib */; };
+		E33E471F2467135E00B838DB /* TestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E471E2467135E00B838DB /* TestManager.swift */; };
+		E33E47212467F98E00B838DB /* GraphsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E47202467F98E00B838DB /* GraphsView.swift */; };
+		E33E47232467F9CE00B838DB /* GraphsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33E47222467F9CE00B838DB /* GraphsView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,6 +111,14 @@
 		E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-Post.swift"; sourceTree = "<group>"; };
 		E33E4710245C649D00B838DB /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		E33E4712245EA9BA00B838DB /* FirebaseManager-Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-Comment.swift"; sourceTree = "<group>"; };
+		E33E47142466AD9700B838DB /* MyTabBarCtrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTabBarCtrl.swift; sourceTree = "<group>"; };
+		E33E47162466D1B300B838DB /* PakiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PakiCollectionViewCell.swift; sourceTree = "<group>"; };
+		E33E47172466D1B300B838DB /* PakiCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PakiCollectionViewCell.xib; sourceTree = "<group>"; };
+		E33E471A24670B1000B838DB /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		E33E471C24670B2300B838DB /* CalendarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarView.xib; sourceTree = "<group>"; };
+		E33E471E2467135E00B838DB /* TestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestManager.swift; sourceTree = "<group>"; };
+		E33E47202467F98E00B838DB /* GraphsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphsView.swift; sourceTree = "<group>"; };
+		E33E47222467F9CE00B838DB /* GraphsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphsView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +220,8 @@
 				E33A73022454855600AAD61A /* FeedHeaderView.xib */,
 				E33A73182454856D00AAD61A /* StatsTableViewCell.swift */,
 				E33A730F2454856400AAD61A /* StatsTableViewCell.xib */,
+				E33E47162466D1B300B838DB /* PakiCollectionViewCell.swift */,
+				E33E47172466D1B300B838DB /* PakiCollectionViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -219,6 +237,7 @@
 				E33A73472456448600AAD61A /* CredentialVC.swift */,
 				E33A73432456171200AAD61A /* GeneralViewController.swift */,
 				E33E4710245C649D00B838DB /* SettingsVC.swift */,
+				E33E47142466AD9700B838DB /* MyTabBarCtrl.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -234,6 +253,10 @@
 				E33A734B2457326E00AAD61A /* CredentialView.xib */,
 				E33A734D24587FC100AAD61A /* LoadingView.swift */,
 				E33A734F2458803600AAD61A /* LoadingView.xib */,
+				E33E471A24670B1000B838DB /* CalendarView.swift */,
+				E33E471C24670B2300B838DB /* CalendarView.xib */,
+				E33E47202467F98E00B838DB /* GraphsView.swift */,
+				E33E47222467F9CE00B838DB /* GraphsView.xib */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -247,6 +270,7 @@
 				E33E470C245A7C0E00B838DB /* FirebaseManager-Auth.swift */,
 				E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */,
 				E33E4712245EA9BA00B838DB /* FirebaseManager-Comment.swift */,
+				E33E471E2467135E00B838DB /* TestManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -332,7 +356,10 @@
 				E33A73222454856E00AAD61A /* FeedCollectionViewCell.xib in Resources */,
 				E33A73502458803600AAD61A /* LoadingView.xib in Resources */,
 				E33A72FF2454851300AAD61A /* Main.storyboard in Resources */,
+				E33E471D24670B2300B838DB /* CalendarView.xib in Resources */,
 				E33A73292454856E00AAD61A /* StatsTableViewCell.xib in Resources */,
+				E33E47192466D1B400B838DB /* PakiCollectionViewCell.xib in Resources */,
+				E33E47232467F9CE00B838DB /* GraphsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +415,7 @@
 				E33A73532458BD2A00AAD61A /* User.swift in Sources */,
 				E33A732A2454856E00AAD61A /* ExtensionsManager.swift in Sources */,
 				E33A731D2454856E00AAD61A /* ProfileVC.swift in Sources */,
+				E33E47182466D1B300B838DB /* PakiCollectionViewCell.swift in Sources */,
 				E33A731E2454856E00AAD61A /* FeedHeaderView.swift in Sources */,
 				E33A732B2454856E00AAD61A /* ImageViewX.swift in Sources */,
 				E33A73282454856E00AAD61A /* FeedCollectionViewCell.swift in Sources */,
@@ -401,6 +429,7 @@
 				E33A732F2454856E00AAD61A /* CommentsVC.swift in Sources */,
 				E33E4713245EA9BB00B838DB /* FirebaseManager-Comment.swift in Sources */,
 				E33A73402455FD2900AAD61A /* Post.swift in Sources */,
+				E33E471B24670B1000B838DB /* CalendarView.swift in Sources */,
 				E33E470D245A7C0E00B838DB /* FirebaseManager-Auth.swift in Sources */,
 				E33A733E2455FBF600AAD61A /* DatabaseManager.swift in Sources */,
 				E33A73312454856E00AAD61A /* ButtonX.swift in Sources */,
@@ -409,8 +438,11 @@
 				E33A734E24587FC100AAD61A /* LoadingView.swift in Sources */,
 				E33A72EB2454767C00AAD61A /* SceneDelegate.swift in Sources */,
 				E33A73262454856E00AAD61A /* ReplyVC.swift in Sources */,
+				E33E47152466AD9700B838DB /* MyTabBarCtrl.swift in Sources */,
+				E33E47212467F98E00B838DB /* GraphsView.swift in Sources */,
 				E33A7346245641F700AAD61A /* FirebaseManager.swift in Sources */,
 				E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */,
+				E33E471F2467135E00B838DB /* TestManager.swift in Sources */,
 				E33A73442456171300AAD61A /* GeneralViewController.swift in Sources */,
 				E33E4711245C649D00B838DB /* SettingsVC.swift in Sources */,
 				E33A734A2457303E00AAD61A /* CredentialView.swift in Sources */,

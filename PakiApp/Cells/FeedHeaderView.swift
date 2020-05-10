@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SJFluidSegmentedControl
 
 protocol FeedHeaderProtocol: class {
     func didChoosePaki(_ paki: Paki)
@@ -15,53 +14,51 @@ protocol FeedHeaderProtocol: class {
 
 class FeedHeaderView: UICollectionReusableView, Reusable {
     
-    @IBOutlet weak var feelingSlider: SJFluidSegmentedControl!
+    @IBOutlet weak var pakiCollectionView: UICollectionView!
     @IBOutlet weak var filterController: UISegmentedControl!
     @IBOutlet weak var totalLabel: UILabel!
     
     weak var delegate: FeedHeaderProtocol?
-    let pakis: [Paki] = [Paki.awesome, Paki.good, Paki.meh, Paki.bad, Paki.terrible]
+    var selectedPaki: Paki = .all
+    let pakis: [Paki] = [Paki.all, Paki.awesome, Paki.good, Paki.meh, Paki.bad, Paki.terrible]
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = .systemBackground
-        feelingSlider.delegate = self
-        feelingSlider.dataSource = self
-        feelingSlider.isUserInteractionEnabled = true
-        filterController.addUnderlineForSelectedSegment()
+        self.backgroundColor = .clear
+        
+        pakiCollectionView.backgroundColor = .clear
+        pakiCollectionView.register(PakiCollectionViewCell.nib, forCellWithReuseIdentifier: PakiCollectionViewCell.className)
+        pakiCollectionView.dataSource = self
+        pakiCollectionView.delegate = self
     }
     
     @IBAction func segmentControllerDidChange(_ sender: UISegmentedControl) {
-        sender.changeUnderlinePosition()
     }
     
 }
 
-// MARK: - SJFluidSegmentedControl
-extension FeedHeaderView: SJFluidSegmentedControlDelegate, SJFluidSegmentedControlDataSource {
+extension FeedHeaderView: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
-    func numberOfSegmentsInSegmentedControl(_ segmentedControl: SJFluidSegmentedControl) -> Int {
-        return 5
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return pakis.count
     }
     
-    func segmentedControl(_ segmentedControl: SJFluidSegmentedControl,
-                          titleForSegmentAtIndex index: Int) -> String? {
-        
-        let segmentTitles = pakis.map({$0.rawValue})
-        return segmentTitles[index].capitalized
-        
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let pakiCell = collectionView.dequeueReusableCell(withReuseIdentifier: PakiCollectionViewCell.className, for: indexPath) as! PakiCollectionViewCell
+        pakiCell.selectedPaki = selectedPaki
+        pakiCell.setupWith(paki: pakis[indexPath.item])
+        return pakiCell
     }
     
-    func segmentedControl(_ segmentedControl: SJFluidSegmentedControl,
-                          gradientColorsForSelectedSegmentAtIndex index: Int) -> [UIColor] {
-        let colors = UIColor.getColorFor(paki: pakis[index])
-        return [colors]
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let margin: CGFloat = indexPath.item == 0 ? 60 : 90
+        let cellWidth = pakis[indexPath.item].rawValue.returnStringHeight(fontSize: 17).width + margin
+        return CGSize(width: cellWidth, height: collectionView.frame.height)
     }
     
-    func segmentedControl(_ segmentedControl: SJFluidSegmentedControl,
-                          didChangeFromSegmentAtIndex fromIndex: Int,
-                          toSegmentAtIndex toIndex:Int) {
-        //delegate call
-        delegate?.didChoosePaki(pakis[toIndex])
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedPaki = pakis[indexPath.item]
+        collectionView.reloadData()
     }
+    
 }

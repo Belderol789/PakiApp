@@ -173,24 +173,25 @@ class AnswerView: UIView, Reusable {
         let mainUser = DatabaseManager.Instance.mainUser
         let userPost: UserPost = UserPost()
         
-        userPost.username = mainUser.username
+        userPost.username = mainUser.username!
         userPost.paki = currentPaki.rawValue
         userPost.profilePhotoURL = mainUser.profilePhotoURL
         userPost.content = shareTextView.text
         userPost.title = shareTitleField.text ?? "N/A"
         
         userPost.datePosted = Date().timeIntervalSince1970
-        userPost.starList.append(mainUser.uid)
+        userPost.starList.append(mainUser.uid!)
         
         let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         userPost.postKey = postKey
         
+        DatabaseManager.Instance.updateRealm(key: FirebaseKeys.currentPaki.rawValue, value: currentPaki.rawValue)
         DatabaseManager.Instance.updateUserDefaults(value: true, key: .userHasAnswered)
-        FirebaseManager.Instance.sendPostToFirebase(userPost)
         
         let count = self.pakiData[currentPaki.rawValue] as? Int ?? 0
         pakiData[currentPaki.rawValue] = count + 1
         FirebaseManager.Instance.updatePakiCount(updatedCount: pakiData)
+        FirebaseManager.Instance.sendPostToFirebase(userPost)
 
         self.delegate?.didFinishAnswer()
         UIView.animate(withDuration: 0.5, animations: {
