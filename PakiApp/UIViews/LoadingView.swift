@@ -28,6 +28,7 @@ class LoadingView: UIView, Reusable {
     fileprivate func setupXibs() {
         Bundle.main.loadNibNamed(LoadingView.className, owner: self, options: nil)
         contentView.frame = self.bounds
+        contentView.backgroundColor = .clear
         self.addSubview(contentView)
         circleLoading.colors(color1: UIColor.getColorFor(paki: .good), color2: UIColor.getColorFor(paki: .meh), color3: UIColor.getColorFor(paki: .terrible))
         bigCircleLoading.colors(color1: UIColor.getColorFor(paki: .awesome), color2: UIColor.getColorFor(paki: .meh), color3: UIColor.getColorFor(paki: .bad))

@@ -25,14 +25,14 @@ class FeedVC: GeneralViewController {
         }
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        allPosts = TestManager.returnCommentPosts()
         credentialHeight.constant = self.view.frame.height / 4
         resetUserEmoji()
         setupViewUI()
         setupCountDown()
-        getPosts(for: currentPaki)
+        //getPosts(for: currentPaki)
         NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:))     , name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
     }
     
@@ -103,11 +103,13 @@ class FeedVC: GeneralViewController {
     
     fileprivate func getPosts(for paki: Paki) {
         
-        loadingView.stopLoading()
-        loadingView.setupCircleViews(paki: paki)
-        loadingView.startLoading()
+//        loadingView.stopLoading()
+//        loadingView.setupCircleViews(paki: paki)
+//        loadingView.startLoading()
         
         filteredPosts.removeAll()
+        self.filteredPosts = self.allPosts.filter({$0.pakiCase == paki})
+        self.feedCollection.reloadData()
         print("Getting Post for \(paki.rawValue)")
         FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
             if let post = userPost {
@@ -153,8 +155,16 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let text = filteredPosts[indexPath.item].content
-        let tempFeedHeight = text.returnStringHeight(fontSize: 15).height + 150
+        let title = filteredPosts[indexPath.item].title
+        let collectionWidth = collectionView.frame.width
+        
+        let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionWidth).height
+        let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height
+        let tempFeedHeight = titleHeight + contentHeight + 150
         let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 : tempFeedHeight
+        
+        print("Feed Height \(feedHeight)")
+        
         return CGSize(width: view.frame.size.width - 16, height: feedHeight)
     }
     
@@ -167,7 +177,7 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 160)
+        return CGSize(width: view.frame.width, height: 150)
     }
     
 }
@@ -185,7 +195,12 @@ extension FeedVC: FeedHeaderProtocol, FeedPostProtocol {
         
         filteredPosts = allPosts.filter({$0.paki == paki.rawValue})
         if filteredPosts.isEmpty {
-            getPosts(for: paki)
+            if paki != .all {
+               getPosts(for: paki)
+            } else {
+                filteredPosts = allPosts
+                feedCollection.reloadData()
+            }
         } else {
             loadingView.stopLoading()
             feedCollection.reloadData()

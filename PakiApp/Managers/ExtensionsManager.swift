@@ -74,8 +74,8 @@ extension UIImage {
 
 // MARK: - String
 extension String {
-    func returnStringHeight(fontSize: CGFloat) -> CGSize {
-        let size = CGSize(width: 250, height: 1000)
+    func returnStringHeight(fontSize: CGFloat, width: CGFloat) -> CGSize {
+        let size = CGSize(width: width, height: 1000)
         
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         let estimatedFrame = NSString(string: self).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: fontSize)], context: nil)
@@ -205,6 +205,16 @@ extension UIScrollView {
         self.scrollRectToVisible(frame, animated: true)
     }
     
+}
+
+// MARK: - Segmented Control
+extension UISegmentedControl {
+    func addShadow() {
+        self.layer.shadowColor = UIColor.darkGray.cgColor
+        self.layer.shadowOpacity = 1
+        self.layer.shadowRadius = 1.5
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
+    }
 }
 
 // MARK: - Double

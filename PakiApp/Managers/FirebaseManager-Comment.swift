@@ -40,7 +40,12 @@ extension FirebaseManager {
     }
     
     func getAllCommentsFrom(post: UserPost, loginHandler: LoginHandler?, comment: @escaping (UserPost) -> Void) {
-        let commentKey = (post.postKey + post.uid + post.uid).replacingOccurrences(of: " ", with: "")
+        let commentKey = (post.postKey + post.uid).replacingOccurrences(of: " ", with: "")
+        
+        if commentKey == "" {
+            return
+        }
+        
         self.firestoreDB.collection(Identifiers.comments.rawValue).document(post.paki).collection(commentKey).addSnapshotListener { (documentData, error) in
             if let err = error {
                 self.handleErrors(error: err as NSError, loginHandler: loginHandler)

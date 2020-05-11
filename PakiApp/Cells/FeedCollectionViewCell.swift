@@ -55,30 +55,6 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         // Initialization code
     }
     
-    func setupCommentCell(with post: UserPost) {
-        feedStackHeightConst.constant = 0
-        feedStack.isHidden = true
-        feedTitle.text = ""
-        
-        let commentColor = UIColor.getColorFor(paki: post.pakiCase)
-        
-        containerView.layer.borderColor = commentColor.cgColor
-        
-        feedContent.text = post.content
-        feedUsername.text = post.username
-        post.datePosted.getTimeDifference { (date) in
-            self.feedDate.text = date
-        }
-        
-        feedElipseBtn.tintColor = commentColor
-        feedImageView.layer.borderColor = commentColor.cgColor
-        
-        if let photoURLString = post.profilePhotoURL {
-            let url = URL(string: photoURLString)
-            feedImageView.sd_setImage(with: url, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
-        }
-    }
-    
     func setupFeedCellWith(post: UserPost) {
         currentPost = post
         if let photoURLString = post.profilePhotoURL, let photoURL = URL(string: photoURLString) {
@@ -88,9 +64,12 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         }
         cellColor = UIColor.getColorFor(paki: post.pakiCase)
         containerView.layer.borderColor = cellColor.cgColor
+        containerView.layer.borderWidth = 1.5
         
+        feedImageView.layer.borderColor = cellColor.cgColor
         feedImageView.tintColor = cellColor
-        feedImageView.backgroundColor = .systemBackground
+        feedImageView.backgroundColor = .clear
+        
         feedContent.text = post.content
         feedTitle.text = post.title
         

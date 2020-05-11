@@ -17,6 +17,7 @@ protocol CommentsHeaderProtocol: class {
 class CommentsHeaderView: UICollectionReusableView, Reusable {
     
     @IBOutlet weak var userProfilePhoto: ImageViewX!
+    @IBOutlet weak var containerView: ViewX!
     
     @IBOutlet weak var postFavBtn: UIButton!
     @IBOutlet weak var postReplyBtn: UIButton!
@@ -29,25 +30,26 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
     @IBOutlet weak var postContentLabel: UILabel!
     @IBOutlet weak var postUsernameLabel: UILabel!
     @IBOutlet weak var postDateLabel: UILabel!
-    
-    @IBOutlet weak var commentsSegment: UISegmentedControl!
-    
+
     weak var delegate: CommentsHeaderProtocol?
     var currentPost: UserPost!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = .clear
     }
     
     func setupCommentsView(post: UserPost) {
         currentPost = post
         let color = UIColor.getColorFor(paki: post.pakiCase)
+        
         userProfilePhoto.layer.borderColor = color.cgColor
         userProfilePhoto.sd_setImage(with: post.photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
         
-        postBtns.forEach({$0.tintColor = color})
         postFavBtn.setTitle("\(post.starCount)", for: .normal)
+        
+        containerView.backgroundColor = UIColor.defaultFGColor
+        containerView.layer.borderColor = color.cgColor
         
         postTitleLabel.text = post.title
         postContentLabel.text = post.content
@@ -71,11 +73,7 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
     func updateComments(count: Int) {
         postReplyBtn.setTitle("\(count)", for: .normal)
     }
-    
-    @IBAction func segmentControllerDidChange(_ sender: UISegmentedControl) {
-         sender.changeUnderlinePosition()
-     }
-    
+
     @IBAction func favouriteTapped(_ sender: UIButton) {
         if DatabaseManager.Instance.userIsLoggedIn {
             let updatedCount = currentPost.starCount + 1

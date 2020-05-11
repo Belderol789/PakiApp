@@ -25,7 +25,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
-                    <blurEffect style="regular"/>
+                    <vibrancyEffect>
+                        <blurEffect style="regular"/>
+                    </vibrancyEffect>
                 </visualEffectView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j8T-fD-z2e" customClass="CircleLoading" customModule="CircleLoading">
                     <rect key="frame" x="147" y="393" width="120" height="120"/>
@@ -42,7 +44,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.25" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="hIV-AW-65A" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="K1j-6e-Bej"/>
                 <constraint firstItem="hIV-AW-65A" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="S1Z-51-4Fd"/>

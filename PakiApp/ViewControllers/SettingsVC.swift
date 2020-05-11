@@ -21,17 +21,18 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
     @IBOutlet weak var profileImageView: ImageViewX!
     @IBOutlet weak var profileUsername: SkyFloatingLabelTextField!
     @IBOutlet weak var switchAppearance: UISwitch!
+    @IBOutlet var segmentViews: [UIView]!
     
     var didUpdatePhoto: Bool = false
     
     override func viewDidLoad() {
-        profileUsername.delegate = self
         super.viewDidLoad()
+        profileUsername.delegate = self
         loadUserData()
         hideTabbar = true
-        let updateButton: UIBarButtonItem = UIBarButtonItem(title: "Update", style: .done, target: self, action: #selector(saveUserProfile))
-        updateButton.tintColor = .label
-        self.navigationItem.rightBarButtonItem  = updateButton
+        
+        view.backgroundColor = UIColor.defaultBGColor
+        segmentViews.forEach({$0.backgroundColor = UIColor.defaultFGColor})
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

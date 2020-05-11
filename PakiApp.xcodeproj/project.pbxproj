@@ -59,6 +59,8 @@
 		E33E471F2467135E00B838DB /* TestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E471E2467135E00B838DB /* TestManager.swift */; };
 		E33E47212467F98E00B838DB /* GraphsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E47202467F98E00B838DB /* GraphsView.swift */; };
 		E33E47232467F9CE00B838DB /* GraphsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33E47222467F9CE00B838DB /* GraphsView.xib */; };
+		E33E47262469AA3B00B838DB /* CommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E47242469AA3A00B838DB /* CommentCollectionViewCell.swift */; };
+		E33E47272469AA3B00B838DB /* CommentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33E47252469AA3A00B838DB /* CommentCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -119,6 +121,8 @@
 		E33E471E2467135E00B838DB /* TestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestManager.swift; sourceTree = "<group>"; };
 		E33E47202467F98E00B838DB /* GraphsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphsView.swift; sourceTree = "<group>"; };
 		E33E47222467F9CE00B838DB /* GraphsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphsView.xib; sourceTree = "<group>"; };
+		E33E47242469AA3A00B838DB /* CommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionViewCell.swift; sourceTree = "<group>"; };
+		E33E47252469AA3A00B838DB /* CommentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +226,8 @@
 				E33A730F2454856400AAD61A /* StatsTableViewCell.xib */,
 				E33E47162466D1B300B838DB /* PakiCollectionViewCell.swift */,
 				E33E47172466D1B300B838DB /* PakiCollectionViewCell.xib */,
+				E33E47242469AA3A00B838DB /* CommentCollectionViewCell.swift */,
+				E33E47252469AA3A00B838DB /* CommentCollectionViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -350,6 +356,7 @@
 				E33A731C2454856E00AAD61A /* FeedHeaderView.xib in Resources */,
 				E33A72FD245477EC00AAD61A /* GoogleService-Info.plist in Resources */,
 				E33A72F22454767F00AAD61A /* Assets.xcassets in Resources */,
+				E33E47272469AA3B00B838DB /* CommentCollectionViewCell.xib in Resources */,
 				E33A73232454856E00AAD61A /* CalendarCollectionViewCell.xib in Resources */,
 				E33A734C2457326F00AAD61A /* CredentialView.xib in Resources */,
 				E33A73272454856E00AAD61A /* PakiView.xib in Resources */,
@@ -428,6 +435,7 @@
 				E33A73202454856E00AAD61A /* FeedVC.swift in Sources */,
 				E33A732F2454856E00AAD61A /* CommentsVC.swift in Sources */,
 				E33E4713245EA9BB00B838DB /* FirebaseManager-Comment.swift in Sources */,
+				E33E47262469AA3B00B838DB /* CommentCollectionViewCell.swift in Sources */,
 				E33A73402455FD2900AAD61A /* Post.swift in Sources */,
 				E33E471B24670B1000B838DB /* CalendarView.swift in Sources */,
 				E33E470D245A7C0E00B838DB /* FirebaseManager-Auth.swift in Sources */,

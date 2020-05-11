@@ -25,7 +25,7 @@ class FeedHeaderView: UICollectionReusableView, Reusable {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = .clear
-        
+        filterController.backgroundColor = UIColor.clear
         pakiCollectionView.backgroundColor = .clear
         pakiCollectionView.register(PakiCollectionViewCell.nib, forCellWithReuseIdentifier: PakiCollectionViewCell.className)
         pakiCollectionView.dataSource = self
@@ -52,12 +52,13 @@ extension FeedHeaderView: UICollectionViewDelegateFlowLayout, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let margin: CGFloat = indexPath.item == 0 ? 60 : 90
-        let cellWidth = pakis[indexPath.item].rawValue.returnStringHeight(fontSize: 17).width + margin
+        let cellWidth = pakis[indexPath.item].rawValue.returnStringHeight(fontSize: 17, width: 250).width + margin
         return CGSize(width: cellWidth, height: collectionView.frame.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedPaki = pakis[indexPath.item]
+        delegate?.didChoosePaki(selectedPaki)
         collectionView.reloadData()
     }
     

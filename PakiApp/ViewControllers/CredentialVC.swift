@@ -18,6 +18,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var countryField: UITextField!
     
+    @IBOutlet var credentialViews: [ViewX]!
     @IBOutlet var credentialFields: [UITextField]!
     @IBOutlet weak var loadingView: LoadingView!
     
@@ -41,7 +42,8 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     }
     
     fileprivate func setupUI() {
-        hideTabbar = true
+        tabBarController?.tabBar.isHidden = true
+        view.backgroundColor = UIColor.defaultBGColor
         self.title = "Welcome"
         
         let authTitle = isLogin ? "Login" : "Continue"
@@ -50,7 +52,12 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         self.navigationItem.rightBarButtonItem  = authButton
         credentialView.delegate = self
         credentialView.usernameField.delegate = self
-        credentialFields.forEach({$0.delegate = self})
+        credentialFields.forEach({
+            $0.delegate = self
+        })
+        credentialViews.forEach({
+            $0.backgroundColor = UIColor.defaultFGColor
+        })
         
         let cpv = CountryPickerView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
         cpv.delegate = self
