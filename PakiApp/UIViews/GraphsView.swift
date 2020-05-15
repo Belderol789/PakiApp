@@ -10,6 +10,7 @@ import UIKit
 
 class GraphsView: UIView, Reusable {
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var monthlyGraph: ViewX!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
@@ -19,6 +20,7 @@ class GraphsView: UIView, Reusable {
     
     var total: Double = 0
     var yearPosts: [UserPost] = []
+    var monthPosts: [UserPost] = []
     var userPosts: [UserPost] = [] {
         didSet {
             totalLabel.text = "Total: \(userPosts.count)"
@@ -51,27 +53,54 @@ class GraphsView: UIView, Reusable {
     
     @IBAction func didChangeTimeFrame(_ sender: UISegmentedControl) {
         sender.changeUnderlinePosition()
+        let isYear = sender.selectedSegmentIndex == 0
+        let timeFrame = isYear ? "Year-in review" : "Monthly Review"
+        timeFrameLabel.text = timeFrame
+        monthlyGraph.layer.sublayers?.forEach({
+            if $0.isKind(of: CAShapeLayer.self) {
+                $0.removeFromSuperlayer()
+            }
+        })
+        
+        userPosts = isYear ? yearPosts : monthPosts
+        updateGraphs()
     }
     
     func addAllYear(posts: [UserPost]) {
         yearPosts = posts
         userPosts = posts
         
+        let currentMonth = Calendar.current.component(.month, from: Date())
+        monthPosts.removeAll()
+        for post in userPosts {
+            let postDate = Date(timeIntervalSince1970: post.datePosted)
+            let postMonth = Calendar.current.component(.month, from: postDate)
+            print("CurrentMonth \(currentMonth) PostMonth \(postMonth)")
+            if currentMonth == postMonth {
+                monthPosts.append(post)
+            }
+        }
+        
         timeFrameLabel.text = "Year-in progress"
+        updateGraphs()
+    }
+    
+    fileprivate func updateGraphs() {
         
-        let awesome = Double(posts.filter({$0.pakiCase == .awesome}).count)
-        let good = Double(posts.filter({$0.pakiCase == .good}).count)
-        let meh = Double(posts.filter({$0.pakiCase == .meh}).count)
-        let bad = Double(posts.filter({$0.pakiCase == .bad}).count)
-        let terrible = Double(posts.filter({$0.pakiCase == .terrible}).count)
+        let awesome = Double(userPosts.filter({$0.pakiCase == .awesome}).count)
+        let good = Double(userPosts.filter({$0.pakiCase == .good}).count)
+        let meh = Double(userPosts.filter({$0.pakiCase == .meh}).count)
+        let bad = Double(userPosts.filter({$0.pakiCase == .bad}).count)
+        let terrible = Double(userPosts.filter({$0.pakiCase == .terrible}).count)
         
-        createGraphCircle(radius: 100, count: awesome, paki: .awesome)
-        createGraphCircle(radius: 80, count: good, paki: .good)
-        createGraphCircle(radius: 60, count: meh, paki: .meh)
-        createGraphCircle(radius: 40, count: bad, paki: .bad)
-        createGraphCircle(radius: 20, count: terrible, paki: .terrible)
+        let centerPoint = CGPoint(x: contentView.frame.width / 2 - 40, y: contentView.frame.height / 2 - 80)
+        createGraphCircle(radius: 100, count: awesome, paki: .awesome, centerPoint: centerPoint)
+        createGraphCircle(radius: 80, count: good, paki: .good, centerPoint: centerPoint)
+        createGraphCircle(radius: 60, count: meh, paki: .meh, centerPoint: centerPoint)
+        createGraphCircle(radius: 40, count: bad, paki: .bad, centerPoint: centerPoint)
+        createGraphCircle(radius: 20, count: terrible, paki: .terrible, centerPoint: centerPoint)
         
-        allPakis = posts.map({$0.paki})
+        allPakis = userPosts.map({$0.paki})
         
         graphTable.reloadData()
     }
@@ -83,24 +112,28 @@ class GraphsView: UIView, Reusable {
         totalLabel.text = "Total: \(allPaki.count)"
         total = Double(allPaki.count)
         
-        let awesome = Double(allPaki.filter({$0 == Paki.awesome.rawValue}).count)
-        let good = Double(allPaki.filter({$0 == Paki.good.rawValue}).count)
-        let meh = Double(allPaki.filter({$0 == Paki.meh.rawValue}).count)
-        let bad = Double(allPaki.filter({$0 == Paki.bad.rawValue}).count)
-        let terrible = Double(allPaki.filter({$0 == Paki.terrible.rawValue}).count)
-        
-        createGraphCircle(radius: 100, count: awesome, paki: .awesome)
-        createGraphCircle(radius: 80, count: good, paki: .good)
-        createGraphCircle(radius: 60, count: meh, paki: .meh)
-        createGraphCircle(radius: 40, count: bad, paki: .bad)
-        createGraphCircle(radius: 20, count: terrible, paki: .terrible)
-        
+        let awesome = Double(allPakis.filter({$0 == Paki.awesome.rawValue}).count)
+        let good = Double(allPakis.filter({$0 == Paki.good.rawValue}).count)
+        let meh = Double(allPakis.filter({$0 == Paki.meh.rawValue}).count)
+        let bad = Double(allPakis.filter({$0 == Paki.bad.rawValue}).count)
+        let terrible = Double(allPakis.filter({$0 == Paki.terrible.rawValue}).count)
+
+        let centerPoint = CGPoint(x: monthlyGraph.frame.width / 2, y: monthlyGraph.frame.height / 2)
+        createGraphCircle(radius: 100, count: awesome, paki: .awesome, centerPoint: centerPoint)
+        createGraphCircle(radius: 80, count: good, paki: .good, centerPoint: centerPoint)
+        createGraphCircle(radius: 60, count: meh, paki: .meh, centerPoint: centerPoint)
+        createGraphCircle(radius: 40, count: bad, paki: .bad, centerPoint: centerPoint)
+        createGraphCircle(radius: 20, count: terrible, paki: .terrible, centerPoint: centerPoint)
 
         graphTable.reloadData()
+        DispatchQueue.main.async {
+            let desiredOffset = CGPoint(x: 0, y: 200)
+            self.scrollView.setContentOffset(desiredOffset, animated: true)
+        }
     }
     
     
-    func createGraphCircle(radius: CGFloat, count: Double, paki: Paki) {
+    func createGraphCircle(radius: CGFloat, count: Double, paki: Paki, centerPoint: CGPoint) {
         
         if count <= 0 {
             return
@@ -110,8 +143,6 @@ class GraphsView: UIView, Reusable {
         let arc = (count * 360) / total
         let degrees = CGFloat(arc.deg2rad(arc))
 
-        let centerPoint = CGPoint(x: contentView.frame.width / 2 - 40, y: contentView.frame.height / 2 - 80)
-        
         let trackPath = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: -CGFloat.pi / 2, endAngle: .pi * 2, clockwise: true)
         
         let trackLayer = CAShapeLayer()

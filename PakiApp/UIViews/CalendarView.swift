@@ -9,6 +9,10 @@
 import UIKit
 import FSCalendar
 
+protocol CalendarViewProtocol: class {
+    func showMemoriesView(post: UserPost)
+}
+
 class CalendarView: UIView, Reusable {
 
     @IBOutlet weak var scrollView: UIScrollView!
@@ -21,10 +25,13 @@ class CalendarView: UIView, Reusable {
     
     var userPosts: [UserPost] = []
     var postPakiDict: [String: Paki] = [:]
+    var postDict: [String: UserPost] = [:]
     var postDates: [String] = []
     var pakiViews: [String: PakiView] = [:]
     var selectedPaki: PakiView?
     var gridTimer: Timer?
+    
+    weak var delegate: CalendarViewProtocol?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -80,13 +87,13 @@ class CalendarView: UIView, Reusable {
             let pakiView = PakiView()
             let paki = post.pakiCase
             
-            pakiView.viewTag = post.postTag
             pakiView.setupView(with: paki)
             pakiView.frame = CGRect(x: x * width, y: y * width, width: width, height: width)
             gridViewContainer.addSubview(pakiView)
             
             let key = "\(Int(x))\(Int(y))"
             pakiViews[key] = pakiView
+            postDict[key] = post
             
             x += 1
         }
@@ -105,7 +112,9 @@ class CalendarView: UIView, Reusable {
         let key = "\(x)\(y)"
         
         if let pakiView = pakiViews[key], pakiView.backgroundColor != .clear {
-            self.selectedPaki = pakiView
+            selectedPaki = pakiView
+            guard let post = postDict[key] else { return }
+            delegate?.showMemoriesView(post: post)
         }
     }
     
@@ -136,8 +145,6 @@ class CalendarView: UIView, Reusable {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 pakiView.layer.transform = CATransform3DMakeScale(3, 3, 3)
                 pakiView.layer.borderColor = UIColor.label.cgColor
-            }, completion: { (_) in
-                
             })
             
             if gesture.state == .ended {
@@ -148,6 +155,8 @@ class CalendarView: UIView, Reusable {
                     self.gridTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
                         timer.invalidate()
                         self.gridTimer?.invalidate()
+                        guard let post = self.postDict[key] else { return }
+                        self.delegate?.showMemoriesView(post: post)
                     })
                 })
             }

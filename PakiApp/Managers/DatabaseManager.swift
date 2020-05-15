@@ -71,8 +71,8 @@ class DatabaseManager {
         data.forEach { (_ key: String, _ value: Any) in
             do {
                 try self.realm.write {
-                    if key == FirebaseKeys.starList.rawValue {
-                        mainUser.starList.append(value as! String)
+                    if key == FirebaseKeys.starList.rawValue, let uid = value as? String {
+                        mainUser.starList.append(uid)
                     } else {
                         mainUser[key] = value
                     }

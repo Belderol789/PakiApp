@@ -33,6 +33,10 @@ class CalendarVC: GeneralViewController, Reusable {
         totalLabel.text = "\(userPosts.count)"
     }
     
+    func scrollToPost(index: Int) {
+        calendarCollectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .bottom, animated: true)
+    }
+    
     @IBAction func didDismissCalendar(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }

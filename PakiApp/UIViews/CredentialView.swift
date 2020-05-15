@@ -46,8 +46,12 @@ class CredentialView: UIView, Reusable {
         contentView.frame = self.bounds
         contentView.backgroundColor = UIColor.defaultBGColor
         self.addSubview(contentView)
+        
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
-        profileImageView.backgroundColor = UIColor.tertiarySystemGroupedBackground
+        profileImageView.backgroundColor = UIColor.defaultFGColor
+        
+        usernameView.backgroundColor = UIColor.defaultFGColor
+        phoneCodeView.backgroundColor = UIColor.defaultFGColor
     }
     
     func setupPhoneLogin() {

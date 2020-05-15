@@ -34,9 +34,7 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
         
         titleLabel.text = post.title
         contentLabel.text = post.content
-        post.datePosted.getTimeDifference { (date) in
-            self.dateLabel.text = date
-            self.dateLabel.adjustsFontSizeToFitWidth = true
-        }
+        let date = Date(timeIntervalSince1970: post.datePosted)
+        dateLabel.text = date.convertToString(with: "LLLL dd, yyyy")
     }
 }

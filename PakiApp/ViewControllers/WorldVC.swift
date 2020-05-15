@@ -17,9 +17,13 @@ class WorldVC: GeneralViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCountDown()
-        setupUI()
         
         NotificationCenter.default.addObserver(self, selector: #selector(receivedAllPaki(notification:)), name: NSNotification.Name(rawValue: "AllPakis"), object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupUI()
     }
     
     fileprivate func setupUI() {
@@ -34,8 +38,10 @@ class WorldVC: GeneralViewController {
     func receivedAllPaki(notification: Notification) {
         if let payload = notification.object as? [String] {
             print("Payload received")
-            savedAllPakis = payload
-            setupUI()
+            if savedAllPakis.isEmpty {
+                savedAllPakis = payload
+                setupUI()
+            }
         }
     }
 }

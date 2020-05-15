@@ -106,7 +106,22 @@ class ProfileVC: GeneralViewController {
     
     func setupCalendarView() {
         calendarView.userPosts = userPosts
+        calendarView.delegate = self
         calendarView.setupUserPosts()
         calendarView.addGridViews()
     }
+}
+
+extension ProfileVC: CalendarViewProtocol {
+    
+    func showMemoriesView(post: UserPost) {
+        let calendarVC = self.storyboard?.instantiateViewController(withIdentifier: "CalendarVC") as! CalendarVC
+        calendarVC.userPosts = userPosts
+        guard let index = userPosts.firstIndex(of: post) else { return }
+        print("Post Index \(index)")
+        self.present(calendarVC, animated: true) {
+            calendarVC.scrollToPost(index: index)
+        }
+    }
+    
 }

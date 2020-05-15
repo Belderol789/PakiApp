@@ -10,6 +10,7 @@ import UIKit
 
 protocol FeedHeaderProtocol: class {
     func didChoosePaki(_ paki: Paki)
+    func didSortPosts(byDate: Bool)
 }
 
 class FeedHeaderView: UICollectionReusableView, Reusable {
@@ -39,6 +40,7 @@ class FeedHeaderView: UICollectionReusableView, Reusable {
     }
     
     @IBAction func segmentControllerDidChange(_ sender: UISegmentedControl) {
+        delegate?.didSortPosts(byDate: sender.selectedSegmentIndex != 0)
     }
     
 }

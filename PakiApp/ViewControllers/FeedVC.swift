@@ -74,6 +74,8 @@ class FeedVC: GeneralViewController {
             credentialView.isHidden = true
             tabBarController?.tabBar.isHidden = false
             activateEmojiView(notification: nil)
+        } else {
+            tabBarController?.tabBar.isHidden = true
         }
     }
     
@@ -179,6 +181,8 @@ class FeedVC: GeneralViewController {
 // MARK: - AnswerView
 extension FeedVC: AnswerViewProtocol {
     func didFinishAnswer(post: UserPost) {
+        
+        loadingView.stopLoading()
         credentialView.isHidden = true
         tabBarController?.tabBar.isHidden = false
         allPosts.append(post)
@@ -238,6 +242,15 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 }
 // MARK: - FeedHeaderProtocol
 extension FeedVC: FeedHeaderProtocol, FeedPostProtocol {
+    
+    func didSortPosts(byDate: Bool) {
+        if byDate {
+            filteredPosts.sort(by: {$0.datePosted > $1.datePosted})
+        } else {
+            filteredPosts.sort(by: {$0.starCount > $1.starCount})
+        }
+        feedCollection.reloadData()
+    }
     
     func starWasUpdated(post: UserPost) {
         let post = self.allPosts.filter({$0 == post}).first

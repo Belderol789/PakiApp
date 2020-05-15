@@ -18,7 +18,6 @@ class TestManager {
         originPost.datePosted = Date().tomorrow.timeIntervalSince1970
         originPost.title = "Hello World"
         originPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe"
-        originPost.postTag = 0
         
         let zeroPost = UserPost()
         zeroPost.paki = Paki.awesome.rawValue
@@ -26,7 +25,7 @@ class TestManager {
         zeroPost.datePosted = Date().tomorrow.timeIntervalSince1970
         zeroPost.title = "Hello World"
         zeroPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe"
-        zeroPost.postTag = 0
+    
         
         let firstPost = UserPost()
         firstPost.paki = Paki.awesome.rawValue
@@ -34,7 +33,7 @@ class TestManager {
         firstPost.datePosted = Date().tomorrow.timeIntervalSince1970
         firstPost.title = "Hello World"
         firstPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe"
-        firstPost.postTag = 0
+        
         
         let secondPost = UserPost()
         secondPost.paki = Paki.good.rawValue
@@ -42,7 +41,7 @@ class TestManager {
         secondPost.datePosted = Date().yesterday.timeIntervalSince1970
         secondPost.title = "Hello World"
         secondPost.content = "sklngaksjgnakhgaskhugbaehkugb"
-        secondPost.postTag = 1
+        
         
         let thirdPost = UserPost()
         thirdPost.paki = Paki.meh.rawValue
@@ -50,7 +49,7 @@ class TestManager {
         thirdPost.datePosted = Date().tomorrow.timeIntervalSince1970
         thirdPost.title = "Hello World kajsgnlkjasngijangkjaengkaeglaeijgnaieljgnjea"
         thirdPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe kajshgljangliengliueangiluagniargnaeignaliejgneligneaignaegliuaengliaengljaengaegaekgjengje"
-        thirdPost.postTag = 2
+        
         
         let fourthPost = UserPost()
         fourthPost.paki = Paki.bad.rawValue
@@ -58,7 +57,7 @@ class TestManager {
         fourthPost.datePosted = Date().tomorrow.timeIntervalSince1970
         fourthPost.title = "Hello World"
         fourthPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe"
-        fourthPost.postTag = 3
+        
         
         let fifthPost = UserPost()
         fifthPost.paki = Paki.terrible.rawValue
@@ -66,17 +65,16 @@ class TestManager {
         fifthPost.datePosted = Date().yesterday.timeIntervalSince1970
         fifthPost.title = "Hello"
         fifthPost.content = "skln"
-        fifthPost.postTag = 4
+        
         
         return [originPost, secondPost, zeroPost, thirdPost, firstPost, fourthPost, fifthPost]
     }
     
     static func returnCalendarUserPosts() -> [UserPost] {
         var userPosts: [UserPost] = []
-        for i in 0..<50 {
+        for _ in 0..<50 {
             let post = UserPost()
             post.paki = returnRandomPaki().rawValue
-            post.postTag = i
             userPosts.append(post)
         }
         return userPosts

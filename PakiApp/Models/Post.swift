@@ -37,7 +37,6 @@ class UserPost: Object {
     @objc dynamic var commentCount: Int = 0
     @objc dynamic var shareCount: Int = 0
     
-    @objc dynamic var postTag: Int = 0
     @objc dynamic var postKey: String = ""
     
     var starList = List<String>()

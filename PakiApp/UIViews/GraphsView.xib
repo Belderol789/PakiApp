@@ -12,6 +12,7 @@
                 <outlet property="contentView" destination="iN0-l3-epB" id="8cj-cb-Nnx"/>
                 <outlet property="graphTable" destination="YRl-l1-JMl" id="mDu-DB-Cl8"/>
                 <outlet property="monthlyGraph" destination="N0C-g3-yPP" id="dRk-5C-hkc"/>
+                <outlet property="scrollView" destination="SH7-rz-0rL" id="pAM-dr-Idi"/>
                 <outlet property="segmentedControl" destination="4Ud-Ti-IDz" id="oox-b4-mw5"/>
                 <outlet property="timeFrameLabel" destination="atw-RA-G3I" id="t72-pl-qe5"/>
                 <outlet property="totalLabel" destination="HpM-Yl-YZp" id="FnM-tm-Zzt"/>
