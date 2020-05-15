@@ -34,7 +34,8 @@ extension FirebaseManager {
                                                FirebaseKeys.birthday.rawValue: birth,
                                                FirebaseKeys.uid.rawValue: uid,
                                                FirebaseKeys.email.rawValue: email,
-                                               FirebaseKeys.dateCreated.rawValue: "\(dateCreated)"]
+                                               FirebaseKeys.dateCreated.rawValue: "\(dateCreated)",
+                    FirebaseKeys.starList.rawValue: [uid]]
                 
                 DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                 

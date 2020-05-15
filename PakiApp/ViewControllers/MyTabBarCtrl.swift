@@ -20,6 +20,7 @@ class MyTabBarCtrl: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
+        self.selectedIndex = 1
         setupMiddleButton()
     }
     

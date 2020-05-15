@@ -27,19 +27,16 @@ class CommentsVC: GeneralViewController {
         }
     }
     var currentPost: UserPost!
-    
     var filteredComments: [UserPost] = []
     var allComments: [UserPost] = []
+    
+    weak var delegate: FeedPostProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         hideTabbar = true
         setupViewUI()
         getAllComments()
-        
-        // Test
-        filteredComments = TestManager.returnCommentPosts()
-        allComments = TestManager.returnCommentPosts()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -52,8 +49,18 @@ class CommentsVC: GeneralViewController {
                 self.showAlertWith(title: "Error Loading Comments", message: err, actions: [], hasDefaultOK: true)
             }
         }) { (post) in
-            self.filteredComments.append(post)
-            self.allComments.append(post)
+            let allIds = self.allComments.map({$0.commentID})
+            if let postID = post.commentID {
+                if !allIds.contains(postID) {
+                    self.allComments.append(post)
+                    let text = post.content
+                    let title = post.title
+                    let titleHeight = title.returnStringHeight(fontSize: 15, width: self.commentsCollection.frame.width).height + 100
+                    let feedHeight = text.returnStringHeight(fontSize: 13, width: self.commentsCollection.frame.width).height + titleHeight
+                    self.commentHeight += feedHeight
+                }
+            }
+            self.filteredComments = self.allComments
             self.commentsCollection.reloadData()
         }
     }
@@ -62,6 +69,7 @@ class CommentsVC: GeneralViewController {
         view.backgroundColor = UIColor.defaultBGColor
         commentsContainer.backgroundColor = UIColor.defaultFGColor
         commentsField.backgroundColor = UIColor.defaultBGColor
+        commentsField.placeholder = "Write a comment"
         collectionContainer.backgroundColor = UIColor.defaultFGColor
         
         commentsCollection.register(CommentCollectionViewCell.nib, forCellWithReuseIdentifier: CommentCollectionViewCell.className)
@@ -72,12 +80,11 @@ class CommentsVC: GeneralViewController {
     }
     
     @IBAction func goToReplyVC(_ sender: UIButton) {
-        proceedToReplyPage()
-//        if DatabaseManager.Instance.userIsLoggedIn {
-//
-//        } else {
-//            alertUserToLogin()
-//        }
+        if DatabaseManager.Instance.userIsLoggedIn {
+            proceedToReplyPage()
+        } else {
+            alertUserToLogin()
+        }
     }
 }
 
@@ -85,12 +92,13 @@ class CommentsVC: GeneralViewController {
 extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return filteredComments.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let comment = filteredComments[indexPath.item]
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCollectionViewCell.className, for: indexPath) as! CommentCollectionViewCell
+        feedCell.commentKey = currentPost.commentKey
         feedCell.setupWith(userComment: comment)
         return feedCell
     }
@@ -100,12 +108,12 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
         let title = filteredComments[indexPath.item].title
         let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionView.frame.width).height + 100
         let feedHeight = text.returnStringHeight(fontSize: 13, width: collectionView.frame.width).height + titleHeight
-        commentHeight += feedHeight
         return CGSize(width: collectionView.frame.size.width, height: feedHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CommentsHeaderView.className, for: indexPath) as! CommentsHeaderView
+        header.commentCount = allComments.count
         header.delegate = self
         header.setupCommentsView(post: currentPost)
         return header
@@ -116,7 +124,9 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
         let title = currentPost.title
         let titleHeight = title.returnStringHeight(fontSize: 17, width: collectionView.frame.width).height + 180
         let feedHeight = text.returnStringHeight(fontSize: 15, width: collectionView.frame.width).height + titleHeight
-        commentHeight += feedHeight
+        if commentHeight == 0 {
+           commentHeight += feedHeight
+        }
         return CGSize(width: view.frame.size.width, height: feedHeight)
     }
     
@@ -125,6 +135,11 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
 // MARK: - CommentsHeaderProtocol
 
 extension CommentsVC: CommentsHeaderProtocol {
+    
+    func starWasUpdated(post: UserPost) {
+        self.delegate?.starWasUpdated(post: post)
+    }
+    
     func alertUserToLogin() {
         self.showAlertWith(title: "Login Required", message: "User must be authenticated to use this feature", actions: [], hasDefaultOK: true)
     }

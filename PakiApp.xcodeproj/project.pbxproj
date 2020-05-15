@@ -61,6 +61,7 @@
 		E33E47232467F9CE00B838DB /* GraphsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33E47222467F9CE00B838DB /* GraphsView.xib */; };
 		E33E47262469AA3B00B838DB /* CommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E47242469AA3A00B838DB /* CommentCollectionViewCell.swift */; };
 		E33E47272469AA3B00B838DB /* CommentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33E47252469AA3A00B838DB /* CommentCollectionViewCell.xib */; };
+		E38B08CE246F0D2F009D449E /* WorldVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08CD246F0D2E009D449E /* WorldVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,6 +124,7 @@
 		E33E47222467F9CE00B838DB /* GraphsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphsView.xib; sourceTree = "<group>"; };
 		E33E47242469AA3A00B838DB /* CommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		E33E47252469AA3A00B838DB /* CommentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCollectionViewCell.xib; sourceTree = "<group>"; };
+		E38B08CD246F0D2E009D449E /* WorldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 				E33A73432456171200AAD61A /* GeneralViewController.swift */,
 				E33E4710245C649D00B838DB /* SettingsVC.swift */,
 				E33E47142466AD9700B838DB /* MyTabBarCtrl.swift */,
+				E38B08CD246F0D2E009D449E /* WorldVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				E33A731D2454856E00AAD61A /* ProfileVC.swift in Sources */,
 				E33E47182466D1B300B838DB /* PakiCollectionViewCell.swift in Sources */,
 				E33A731E2454856E00AAD61A /* FeedHeaderView.swift in Sources */,
+				E38B08CE246F0D2F009D449E /* WorldVC.swift in Sources */,
 				E33A732B2454856E00AAD61A /* ImageViewX.swift in Sources */,
 				E33A73282454856E00AAD61A /* FeedCollectionViewCell.swift in Sources */,
 				E33A73212454856E00AAD61A /* CommentsHeaderView.swift in Sources */,

@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         UINavigationBar.appearance().barTintColor = UIColor.defaultBGColor
-        UINavigationBar.appearance().tintColor = UIColor.label
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.label]
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         UINavigationBar.appearance().isTranslucent = false
         
         // Override point for customization after application launch.

@@ -23,7 +23,7 @@
                             <constraint firstAttribute="width" constant="3" id="fL4-aJ-P9D"/>
                         </constraints>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mascot" translatesAutoresizingMaskIntoConstraints="NO" id="RwY-WW-xu1" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mascot" translatesAutoresizingMaskIntoConstraints="NO" id="RwY-WW-xu1" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
                         <rect key="frame" x="11" y="16" width="40" height="40"/>
                         <color key="backgroundColor" red="0.1647058824" green="0.23529411759999999" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -42,7 +42,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWY-Q0-Ovb">
                                 <rect key="frame" x="0.0" y="0.0" width="315" height="18"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QTg-IK-FRg">
@@ -56,7 +56,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6eZ-KH-b1f">
                         <rect key="frame" x="11" y="64" width="363" height="20"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S3l-2H-z0f">
@@ -74,10 +74,14 @@
                                 </constraints>
                                 <color key="tintColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" image="star" catalog="system"/>
+                                <connections>
+                                    <action selector="didUpvoteComment:" destination="gTV-IL-0wX" eventType="touchUpInside" id="AyD-Rp-xK6"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="88" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhQ-cV-tbK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhQ-cV-tbK">
                                 <rect key="frame" x="0.0" y="102" width="40" height="15.5"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -117,10 +121,12 @@
             <size key="customSize" width="422" height="166"/>
             <connections>
                 <outlet property="commentDate" destination="QTg-IK-FRg" id="JlA-Pj-zNS"/>
+                <outlet property="commentStarLabel" destination="OhQ-cV-tbK" id="Oda-Xv-6y2"/>
                 <outlet property="commentText" destination="6eZ-KH-b1f" id="dWo-T3-Fsr"/>
                 <outlet property="commentUsername" destination="uWY-Q0-Ovb" id="WDE-eK-T47"/>
                 <outlet property="pakiBar" destination="0a1-s6-KAM" id="pqq-te-mZe"/>
                 <outlet property="profilePhoto" destination="RwY-WW-xu1" id="jax-2m-n29"/>
+                <outlet property="starButton" destination="xJa-qp-2G5" id="FHi-Wh-bie"/>
             </connections>
             <point key="canvasLocation" x="27.536231884057973" y="166.74107142857142"/>
         </collectionViewCell>

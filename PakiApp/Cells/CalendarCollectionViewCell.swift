@@ -11,15 +11,12 @@ import SDWebImage
 
 class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     
-    @IBOutlet weak var userProfilePic: ImageViewX!
-    @IBOutlet weak var dateLabel: UILabel!
-    
-    @IBOutlet weak var starsLabel: UILabel!
     @IBOutlet weak var containerView: ViewX!
-    
-    @IBOutlet weak var headerView: ViewX!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var dateView: ViewX!
+    @IBOutlet weak var dividerView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,21 +25,18 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     
     func setupCalendarView(post: UserPost) {
         let color = UIColor.getColorFor(paki: post.pakiCase)
-        containerView.layer.shadowColor = color.cgColor
-        headerView.backgroundColor = color
-        
-        starsLabel.text = "\(post.starCount)"
+        contentView.backgroundColor = .clear
+        self.backgroundColor = .clear
+        dividerView.backgroundColor = color
+        containerView.backgroundColor = UIColor.defaultFGColor
+        containerView.layer.borderWidth = 0
+        dateView.backgroundColor = color
         
         titleLabel.text = post.title
         contentLabel.text = post.content
         post.datePosted.getTimeDifference { (date) in
             self.dateLabel.text = date
-        }
-        
-        if let photoURL = post.photoURL {
-            userProfilePic.sd_setImage(with: photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
-        } else {
-            userProfilePic.image = UIImage(named: post.paki)
+            self.dateLabel.adjustsFontSizeToFitWidth = true
         }
     }
 }

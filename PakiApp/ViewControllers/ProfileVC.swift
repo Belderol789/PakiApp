@@ -23,13 +23,12 @@ class ProfileVC: GeneralViewController {
     @IBOutlet weak var daysLabel: UILabel!
     @IBOutlet weak var pakiView: ViewX!
     @IBOutlet weak var coverPhoto: UIImageView!
+    @IBOutlet weak var pakiText: UILabel!
     
     // Constraints
     // Variables
     var userPosts: [UserPost] = []
-    
-
-    var chartData: [String: Int] = [:]
+    var currentUser: User!
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,12 +39,7 @@ class ProfileVC: GeneralViewController {
         
         setupCountDown()
         setupUserData()
-        
-        let userPosts = TestManager.returnCalendarUserPosts()
-        self.userPosts = userPosts
-        
-        calendarView.addGridViews(userPosts: userPosts)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfile(notification:)), name: NSNotification.Name(rawValue: "UpdateProfile"), object: nil)
     }
     
@@ -54,7 +48,7 @@ class ProfileVC: GeneralViewController {
         if sender.selectedSegmentIndex == 0 {
             scrollView.scrollToPreviousItem(width: width)
         } else {
-            graphsView.addAllMonthPakiCircles(posts: userPosts)
+            graphsView.addAllYear(posts: userPosts)
             scrollView.scrollToNextItem(width: width)
         }
     }
@@ -73,30 +67,46 @@ class ProfileVC: GeneralViewController {
     
     func setupUserData() {
         let mainUser = DatabaseManager.Instance.mainUser
-        //usernameLabel.text = mainUser.username
+        currentUser = mainUser
+        
+        usernameLabel.text = mainUser.username
+        
         if let photoString = mainUser.profilePhotoURL {
             let photoURL = URL(string: photoString)
             userPhotoImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: "mascot"), options: .continueInBackground, completed: nil)
         } else {
             userPhotoImageView.image = UIImage(named: "mascot")
         }
+        
         let timePassed = Double(mainUser.dateCreated) ?? 0
         let daysPassed = Date().numberTimePassed(passed: timePassed, .day)
         daysLabel.text = "\(daysPassed)"
         
-        FirebaseManager.Instance.getUserPosts { (userPosts) in
-            DatabaseManager.Instance.updateRealm(key: FirebaseKeys.postTag.rawValue, value: (userPosts.count - 1))
-            DatabaseManager.Instance.saveUserPosts(userPosts)
-            self.setupCalendarView(posts: userPosts)
+        userPosts = mainUser.userPosts.sorted(by: {$0.datePosted > $1.datePosted})
+
+        if userPosts.count <= 1 {
+            FirebaseManager.Instance.getUserPosts { (userPosts) in
+                DatabaseManager.Instance.saveUserPosts(userPosts)
+                self.userPosts = userPosts.sorted(by: {$0.datePosted > $1.datePosted})
+                self.setupCalendarView()
+                self.setupUserStats()
+            }
+        } else {
+            setupCalendarView()
+            setupUserStats()
         }
-        pakiView.backgroundColor = UIColor.getColorFor(paki: .awesome)
     }
     
-    func setupCalendarView(posts: [UserPost]) {
-        userPosts = posts.sorted(by: {$0.postTag < $1.postTag})
-        
+    func setupUserStats() {
         postsLabel.text = "\(userPosts.count)"
-        let totalStars = userPosts.map({ $0.starCount }).reduce(0, +)
-        starsLabel.text = "\(totalStars)"
+        starsLabel.text = "\(currentUser.starCount)"
+        pakiView.backgroundColor = UIColor.getColorFor(paki: currentUser.pakiCase)
+        pakiText.text = currentUser.currentPaki?.capitalized
+    }
+    
+    func setupCalendarView() {
+        calendarView.userPosts = userPosts
+        calendarView.setupUserPosts()
+        calendarView.addGridViews()
     }
 }

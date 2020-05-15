@@ -22,10 +22,10 @@ extension FirebaseManager {
             }
         }
     }
-    
-    func updatePakiCount(updatedCount: [String: Any]) {
+
+    func setupPakiCount(count: [String: Any]) {
         let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
-        self.firestoreDB.collection(Identifiers.pakiCount.rawValue).document(postKey).updateData(updatedCount)
+        self.firestoreDB.collection(Identifiers.pakiCount.rawValue).document(postKey).setData(count, merge: true)
     }
     
     func setPakiCount(countData: [String: Any]) {
@@ -36,9 +36,7 @@ extension FirebaseManager {
     // MARK: - Post Empty
     func sendEmptyPost() {
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
-        let currentPostTag = DatabaseManager.Instance.mainUser.postTag
         let userPost = UserPost()
-        
         let data: [String: Any] = [FirebaseKeys.username.rawValue: userPost.username,
                                    FirebaseKeys.profilePhotoURL.rawValue: userPost.profilePhotoURL ?? "",
                                    FirebaseKeys.datePosted.rawValue: userPost.datePosted,
@@ -49,18 +47,18 @@ extension FirebaseManager {
                                    FirebaseKeys.starCount.rawValue: userPost.starCount,
                                    FirebaseKeys.starList.rawValue: userPost.starList,
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
-                                   FirebaseKeys.uid.rawValue: userID,
-                                   FirebaseKeys.postTag.rawValue: (currentPostTag + 1)]
+                                   FirebaseKeys.uid.rawValue: userID]
         
         
         self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
-        DatabaseManager.Instance.saveUserPost(post: userPost)
+        DatabaseManager.Instance.savePost(post: userPost)
     }
     // MARK: - Post
     func sendPostToFirebase(_ userPost: UserPost) {
         
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
-        var data: [String: Any] = [FirebaseKeys.username.rawValue: userPost.username,
+        
+        let data: [String: Any] = [FirebaseKeys.username.rawValue: userPost.username,
                                    FirebaseKeys.profilePhotoURL.rawValue: userPost.profilePhotoURL ?? "",
                                    FirebaseKeys.datePosted.rawValue: userPost.datePosted,
                                    FirebaseKeys.title.rawValue: userPost.title,
@@ -69,17 +67,13 @@ extension FirebaseManager {
                                    FirebaseKeys.shareCount.rawValue: userPost.shareCount,
                                    FirebaseKeys.starList.rawValue: Array(userPost.starList),
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
-                                   FirebaseKeys.uid.rawValue: userID,
-                                   FirebaseKeys.postKey.rawValue: userPost.postKey]
+                                   FirebaseKeys.postKey.rawValue: userPost.postKey,
+                                   FirebaseKeys.commentKey.rawValue: userPost.commentKey!,
+                                   FirebaseKeys.uid.rawValue: userID]
         
-        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.paki).document(userID).setData(data, merge: true) { _ in
-            
-            let currentPostTag = DatabaseManager.Instance.mainUser.postTag
-            data[FirebaseKeys.postTag.rawValue] = currentPostTag + 1
-            
-            self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
-            DatabaseManager.Instance.saveUserPost(post: userPost)
-        }
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.paki).document(userID).setData(data, merge: true)
+        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
+        DatabaseManager.Instance.savePost(post: userPost)
     }
     // MARK: - Get Feed Post
     func getPostFor(paki: Paki, completed: @escaping (UserPost?) -> Void) {
@@ -120,13 +114,10 @@ extension FirebaseManager {
             }
         }
     }
-    
+
     // MARK: - Update Post Data
     func updatePostsStar(userPost: UserPost) {
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
-        
-        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.paki).collection(userPost.postKey).document(userPost.uid).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
-        
-        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userPost.uid).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.paki).document(userPost.uid).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
     }
 }

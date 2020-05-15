@@ -14,6 +14,7 @@ enum DatabaseKeys: String {
     case userHasAnswered
     case userLightAppearance
     case savedDate
+    case allPakis
 }
 
 typealias EmptyClosure = () -> Void
@@ -57,35 +58,47 @@ class DatabaseManager {
     
     func saveUserData(_ data: [String: Any], completed: EmptyClosure) {
         
-        let newUser = userObject.first != nil ? userObject.first! : User()
-        
-        data.forEach { (_ key: String, _ value: Any) in
-            do {
-                try self.realm.write {
-                    newUser[key] = value
-                    print("Saved to Realm \(key) - \(value)")
-                }
-            } catch {
-                
-            }
-        }
-        
         do {
             try self.realm.write {
-                self.realm.add(newUser)
+                self.realm.add(mainUser)
                 print("User saved to Realm")
                 completed()
             }
         } catch {
             print("Could not add user")
         }
+        
+        data.forEach { (_ key: String, _ value: Any) in
+            do {
+                try self.realm.write {
+                    if key == FirebaseKeys.starList.rawValue {
+                        mainUser.starList.append(value as! String)
+                    } else {
+                        mainUser[key] = value
+                    }
+                    
+                    print("Saved to Realm \(key) - \(value)")
+                }
+            } catch {
+                
+            }
+        }
     }
     
     func saveUserPosts(_ posts: [UserPost]) {
+        
+        var filteredPosts = [UserPost]()
+        let userPosts = mainUser.userPosts.map({$0.dateString})
+        for post in posts {
+            if !userPosts.contains(post.dateString) {
+                filteredPosts.append(post)
+            }
+        }
+        
         do {
             try self.realm.write {
-                mainUser.userPosts.removeAll()
-                mainUser.userPosts.append(objectsIn: posts)
+                mainUser.userPosts.append(objectsIn: filteredPosts)
+                print("Retrieving UserPosts Saved")
             }
         } catch {
             
@@ -103,16 +116,12 @@ class DatabaseManager {
         }
     }
     
-    func saveUserPost(post: UserPost) {
-        
-        let postIndex = self.mainUser.postTag + 1
-        post.postTag = postIndex
-         
+    func savePost(post: UserPost) {
+        print("Current Posts \(self.mainUser.userPosts.count)")
         do {
             try self.realm.write {
-                self.mainUser.postTag = postIndex
                 self.mainUser.userPosts.append(post)
-                print("User posts saved with index \(postIndex)")
+                print("Updated Posts \(self.mainUser.userPosts.count)")
             }
         } catch {
             print("Could not save user post")
@@ -134,6 +143,10 @@ class DatabaseManager {
     
     var userSetLightAppearance: Bool {
         return UserDefaults.standard.bool(forKey: DatabaseKeys.userLightAppearance.rawValue)
+    }
+    
+    var savedAllPakis: [String] {
+        return UserDefaults.standard.value(forKey: DatabaseKeys.allPakis.rawValue) as? [String] ?? []
     }
     
     func updateUserDefaults(value: Any, key: DatabaseKeys) {

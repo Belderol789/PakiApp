@@ -20,8 +20,10 @@ enum FirebaseKeys: String {
     case uid
     
     case commentID
+    case commentKey
     case datePosted
     case dateCreated
+    case dateStarted
     case title
     case content
     case paki
@@ -29,7 +31,6 @@ enum FirebaseKeys: String {
     case starList
     case commentCount
     case shareCount
-    case postTag
     case postKey
     case currentPaki
 }
@@ -69,7 +70,6 @@ extension FirebaseManager {
             if let snapshotData = snapshot?.data() {
                 DatabaseManager.Instance.saveUserData(snapshotData, completed: {
                     FirebaseManager.Instance.getUserPosts { (userPosts) in
-                        DatabaseManager.Instance.updateRealm(key: FirebaseKeys.postTag.rawValue, value: (userPosts.count - 1))
                         DatabaseManager.Instance.saveUserPosts(userPosts)
                     }
                     completed()
@@ -102,6 +102,20 @@ extension FirebaseManager {
                         photoURLCompleted?(photoURL)
                     }
                 })
+            }
+        }
+    }
+    
+    // MARK: - Update User Stars
+    func updateUserStars(uid: String) {
+        guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
+        
+        print("UserUID \(userID) - PostUID \(uid)")
+        
+        let data = [FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])]
+        updateFirebase(data: data, identifier: .users, mainID: uid) { (message) in
+            if message == nil {
+                print("User Stars updated")
             }
         }
     }

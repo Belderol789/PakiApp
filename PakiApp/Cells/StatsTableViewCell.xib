@@ -45,7 +45,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xAF-90-kf6">
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xAF-90-kf6">
                                         <rect key="frame" x="0.0" y="37.5" width="251" height="17.5"/>
                                     </progressView>
                                 </subviews>

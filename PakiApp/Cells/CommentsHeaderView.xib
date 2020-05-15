@@ -20,13 +20,13 @@
                             <rect key="frame" x="16" y="114" width="468" height="79.5"/>
                             <string key="text">This is the content of the text. It can be as long or short as the user wants, but will have a maximum of 500 characters. This is the content of the text. It can be as long or short as the user wants, but will have a maximum of 500 characters.</string>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                            <nil key="textColor"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="This is the title of the text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EHH-Iw-Oye">
                             <rect key="frame" x="16" y="82" width="468" height="24"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
-                            <nil key="textColor"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="model" translatesAutoresizingMaskIntoConstraints="NO" id="rlG-eH-hVm" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
@@ -54,7 +54,7 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MHU-JX-HLj">
                                     <rect key="frame" x="0.0" y="0.0" width="83.5" height="20.5"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
-                                    <nil key="textColor"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I5U-ec-hxp">
@@ -84,7 +84,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCb-31-cAZ">
                                             <rect key="frame" x="156.5" y="0.0" width="155" height="30"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                            <state key="normal" title=" Reply" image="arrow.2.circlepath.circle" catalog="system">
+                                            <state key="normal" title=" Reply" image="Comment (filled)">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                             </state>
                                             <connections>
@@ -94,7 +94,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kao-QA-XKi">
                                             <rect key="frame" x="312.5" y="0.0" width="155.5" height="30"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                            <state key="normal" title=" Share" image="arrowshape.turn.up.right" catalog="system">
+                                            <state key="normal" title=" Share" image="share">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                             </state>
                                             <connections>
@@ -114,14 +114,14 @@
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XPc-ae-4Yd">
                             <rect key="frame" x="0.0" y="239" width="500" height="1"/>
-                            <color key="backgroundColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="ujQ-VR-d6C"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bub-h2-0of">
                             <rect key="frame" x="0.0" y="282" width="500" height="1"/>
-                            <color key="backgroundColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="fxi-Ph-V63"/>
                             </constraints>
@@ -193,10 +193,10 @@
         </collectionReusableView>
     </objects>
     <resources>
-        <image name="arrow.2.circlepath.circle" catalog="system" width="128" height="121"/>
-        <image name="arrowshape.turn.up.right" catalog="system" width="128" height="106"/>
+        <image name="Comment (filled)" width="22" height="21"/>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="model" width="738" height="650"/>
+        <image name="share" width="19.5" height="22.5"/>
         <image name="star" catalog="system" width="128" height="116"/>
     </resources>
 </document>

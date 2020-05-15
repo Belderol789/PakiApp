@@ -12,6 +12,7 @@ import SDWebImage
 protocol CommentsHeaderProtocol: class {
     func alertUserToLogin()
     func proceedToReplyPage()
+    func starWasUpdated(post: UserPost)
 }
 
 class CommentsHeaderView: UICollectionReusableView, Reusable {
@@ -30,9 +31,10 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
     @IBOutlet weak var postContentLabel: UILabel!
     @IBOutlet weak var postUsernameLabel: UILabel!
     @IBOutlet weak var postDateLabel: UILabel!
-
+    
     weak var delegate: CommentsHeaderProtocol?
     var currentPost: UserPost!
+    var commentCount: Int?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,14 +44,19 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
     func setupCommentsView(post: UserPost) {
         currentPost = post
         let color = UIColor.getColorFor(paki: post.pakiCase)
-        
+        postUsernameLabel.textColor = color
         userProfilePhoto.layer.borderColor = color.cgColor
         userProfilePhoto.sd_setImage(with: post.photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
         
         postFavBtn.setTitle("\(post.starCount)", for: .normal)
         
+        if let count = commentCount {
+            postReplyBtn.setTitle(" \(count)", for: .normal)
+        }
+        
         containerView.backgroundColor = UIColor.defaultFGColor
         containerView.layer.borderColor = color.cgColor
+        containerView.layer.shadowColor = color.cgColor
         
         postTitleLabel.text = post.title
         postContentLabel.text = post.content
@@ -61,12 +68,16 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
         postFavBtn.tintColor = .systemGray
         postFavBtn.setImage(UIImage.init(systemName: "star"), for: .normal)
         
+        postBtns.forEach({
+            $0.tintColor = color
+            $0.setTitleColor(.white, for: .normal)
+        })
+        
         if let userID = DatabaseManager.Instance.mainUser.uid {
             let starBool = post.starList.contains(userID)
             let image = starBool ? "star.fill" : "star"
             postFavBtn.isUserInteractionEnabled = !starBool
             postFavBtn.setImage(UIImage.init(systemName: image), for: .normal)
-            postFavBtn.tintColor = starBool ? color : .systemGray
         }
     }
     
@@ -79,11 +90,13 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
             let updatedCount = currentPost.starCount + 1
             let color = UIColor.getColorFor(paki: currentPost.pakiCase)
             
-            postFavBtn.setTitle("\(updatedCount)", for: .normal)
+            postFavBtn.setTitle(" \(updatedCount)", for: .normal)
             postFavBtn.setImage(UIImage.init(systemName: "star.fill"), for: .normal)
             postFavBtn.tintColor = color
             
             FirebaseManager.Instance.updatePostsStar(userPost: currentPost)
+            FirebaseManager.Instance.updateUserStars(uid: currentPost.uid)
+            self.delegate?.starWasUpdated(post: currentPost)
         } else {
             self.delegate?.alertUserToLogin()
         }

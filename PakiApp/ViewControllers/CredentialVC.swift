@@ -32,7 +32,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     var enableAuthButton: Bool = false {
         didSet {
             navigationController?.navigationItem.rightBarButtonItem?.isEnabled = enableAuthButton
-            authButton.tintColor = enableAuthButton ? .label : .systemGray
+            authButton.tintColor = enableAuthButton ? .white : .systemGray
         }
     }
     
@@ -42,8 +42,11 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     }
     
     fileprivate func setupUI() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
+        view.addGestureRecognizer(tapGesture)
         tabBarController?.tabBar.isHidden = true
         view.backgroundColor = UIColor.defaultBGColor
+        credentialView.backgroundColor = UIColor.defaultBGColor
         self.title = "Welcome"
         
         let authTitle = isLogin ? "Login" : "Continue"
@@ -67,6 +70,11 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         self.countryCode = cpv.selectedCountry.phoneCode
         countryField.leftView = cpv
         countryField.leftViewMode = .always
+    }
+    
+    @objc
+    func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
     
     @objc

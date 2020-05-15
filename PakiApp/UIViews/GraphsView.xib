@@ -13,7 +13,8 @@
                 <outlet property="graphTable" destination="YRl-l1-JMl" id="mDu-DB-Cl8"/>
                 <outlet property="monthlyGraph" destination="N0C-g3-yPP" id="dRk-5C-hkc"/>
                 <outlet property="segmentedControl" destination="4Ud-Ti-IDz" id="oox-b4-mw5"/>
-                <outlet property="totalLabel" destination="HpM-Yl-YZp" id="ZU2-1n-jkq"/>
+                <outlet property="timeFrameLabel" destination="atw-RA-G3I" id="t72-pl-qe5"/>
+                <outlet property="totalLabel" destination="HpM-Yl-YZp" id="FnM-tm-Zzt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -21,7 +22,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SH7-rz-0rL">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SH7-rz-0rL">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uoJ-zr-F9u">
@@ -30,7 +31,7 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N0C-g3-yPP" customClass="ViewX" customModule="PakiApp" customModuleProvider="target">
                                     <rect key="frame" x="40" y="242" width="334" height="334"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Monthly Progress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atw-RA-G3I">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Year-in Progress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="atw-RA-G3I">
                                             <rect key="frame" x="8" y="8" width="318" height="20"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -65,8 +66,8 @@
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4Ud-Ti-IDz">
                                     <rect key="frame" x="40" y="203" width="334" height="32"/>
                                     <segments>
-                                        <segment title="Monthly"/>
                                         <segment title="Year"/>
+                                        <segment title="Monthly"/>
                                     </segments>
                                     <connections>
                                         <action selector="didChangeTimeFrame:" destination="-1" eventType="valueChanged" id="RQN-y2-t6b"/>

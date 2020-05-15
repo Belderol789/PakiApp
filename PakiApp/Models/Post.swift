@@ -32,6 +32,8 @@ class UserPost: Object {
     @objc dynamic var title: String = ""
     @objc dynamic var content: String = ""
     
+    @objc dynamic var commentKey: String?
+    @objc dynamic var commentID: String?
     @objc dynamic var commentCount: Int = 0
     @objc dynamic var shareCount: Int = 0
     
@@ -45,7 +47,7 @@ class UserPost: Object {
     
     var dateString: String {
         let date = Date(timeIntervalSince1970: datePosted)
-        return date.convertToString(with: "yyyy/mm/dd")
+        return date.convertToMediumString()
     }
     
     var pakiCase: Paki {
@@ -71,14 +73,13 @@ class UserPost: Object {
         userPost.content = data[FirebaseKeys.content.rawValue] as? String ?? ""
         userPost.title = data[FirebaseKeys.title.rawValue] as? String ?? ""
         
+        userPost.commentKey = data[FirebaseKeys.commentKey.rawValue] as? String
+        userPost.commentID = data[FirebaseKeys.commentID.rawValue] as? String
         userPost.commentCount = data[FirebaseKeys.commentCount.rawValue] as? Int ?? 0
         if let stars = data[FirebaseKeys.starList.rawValue] as? [String] {
             userPost.starList.append(objectsIn: stars)
         }
         userPost.shareCount = data[FirebaseKeys.shareCount.rawValue] as? Int ?? 0
-        
-        userPost.postTag = data[FirebaseKeys.postTag.rawValue] as? Int ?? 0
-        
         return userPost
     }
     

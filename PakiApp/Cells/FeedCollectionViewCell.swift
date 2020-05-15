@@ -11,6 +11,7 @@ import SDWebImage
 
 protocol FeedPostProtocol: class {
     func proceedToComments(post: UserPost)
+    func starWasUpdated(post: UserPost)
 }
 
 class FeedCollectionViewCell: UICollectionViewCell, Reusable {
@@ -63,8 +64,15 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
             feedImageView.image = UIImage(named: post.paki)
         }
         cellColor = UIColor.getColorFor(paki: post.pakiCase)
-        containerView.layer.borderColor = cellColor.cgColor
-        containerView.layer.borderWidth = 1.5
+        let containerLayer = containerView.layer
+        containerLayer.borderColor = cellColor.cgColor
+        containerLayer.borderWidth = 0
+        containerLayer.shadowRadius = 1
+        containerLayer.shadowOffset = CGSize(width: 0, height: 1)
+        containerLayer.shadowOpacity = 1
+        containerLayer.shadowColor = cellColor.cgColor
+        
+        containerView.backgroundColor = UIColor.defaultFGColor
         
         feedImageView.layer.borderColor = cellColor.cgColor
         feedImageView.tintColor = cellColor
@@ -78,13 +86,17 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
             self.feedDate.text = date
         }
         
+        feedBtns.forEach({
+            $0.tintColor = cellColor
+            $0.setTitleColor(.white, for: .normal)
+        })
+        
         if let userID = DatabaseManager.Instance.mainUser.uid {
             let starBool = post.starList.contains(userID)
             let image = starBool ? "star.fill" : "star"
             starCount = post.starCount
             feedStarBtn.isUserInteractionEnabled = !starBool
             feedStarBtn.setImage(UIImage.init(systemName: image), for: .normal)
-            feedStarBtn.tintColor = starBool ? cellColor : .systemGray
             feedStarBtn.setTitle("\(post.starCount)", for: .normal)
         }
     }
@@ -99,6 +111,8 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
             feedStarBtn.tintColor = color
             
             FirebaseManager.Instance.updatePostsStar(userPost: currentPost)
+            FirebaseManager.Instance.updateUserStars(uid: currentPost.uid)
+            self.delegate?.starWasUpdated(post: currentPost)
         }
     }
     

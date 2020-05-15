@@ -15,9 +15,17 @@ class GraphsView: UIView, Reusable {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var graphTable: UITableView!
+    @IBOutlet weak var timeFrameLabel: UILabel!
     
     var total: Double = 0
-    var userPosts: [UserPost] = []
+    var yearPosts: [UserPost] = []
+    var userPosts: [UserPost] = [] {
+        didSet {
+            totalLabel.text = "Total: \(userPosts.count)"
+            total = Double(userPosts.count)
+        }
+    }
+    var allPakis: [String] = []
     let pakis: [Paki] = [.awesome, .good, .meh, .bad, .terrible]
     
     override init(frame: CGRect) {
@@ -45,10 +53,12 @@ class GraphsView: UIView, Reusable {
         sender.changeUnderlinePosition()
     }
     
-    
-    func addAllMonthPakiCircles(posts: [UserPost]) {
+    func addAllYear(posts: [UserPost]) {
+        yearPosts = posts
         userPosts = posts
-        total = Double(posts.count)
+        
+        timeFrameLabel.text = "Year-in progress"
+        
         let awesome = Double(posts.filter({$0.pakiCase == .awesome}).count)
         let good = Double(posts.filter({$0.pakiCase == .good}).count)
         let meh = Double(posts.filter({$0.pakiCase == .meh}).count)
@@ -61,8 +71,34 @@ class GraphsView: UIView, Reusable {
         createGraphCircle(radius: 40, count: bad, paki: .bad)
         createGraphCircle(radius: 20, count: terrible, paki: .terrible)
         
+        allPakis = posts.map({$0.paki})
+        
         graphTable.reloadData()
     }
+    
+    func addWorldPakiCircles(allPaki: [String]) {
+        timeFrameLabel.text = Date().convertToString(with: "LLLL dd, yyyy")
+        segmentedControl.isHidden = true
+        allPakis = allPaki
+        totalLabel.text = "Total: \(allPaki.count)"
+        total = Double(allPaki.count)
+        
+        let awesome = Double(allPaki.filter({$0 == Paki.awesome.rawValue}).count)
+        let good = Double(allPaki.filter({$0 == Paki.good.rawValue}).count)
+        let meh = Double(allPaki.filter({$0 == Paki.meh.rawValue}).count)
+        let bad = Double(allPaki.filter({$0 == Paki.bad.rawValue}).count)
+        let terrible = Double(allPaki.filter({$0 == Paki.terrible.rawValue}).count)
+        
+        createGraphCircle(radius: 100, count: awesome, paki: .awesome)
+        createGraphCircle(radius: 80, count: good, paki: .good)
+        createGraphCircle(radius: 60, count: meh, paki: .meh)
+        createGraphCircle(radius: 40, count: bad, paki: .bad)
+        createGraphCircle(radius: 20, count: terrible, paki: .terrible)
+        
+
+        graphTable.reloadData()
+    }
+    
     
     func createGraphCircle(radius: CGFloat, count: Double, paki: Paki) {
         
@@ -114,10 +150,10 @@ extension GraphsView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let currentPaki = pakis[indexPath.row]
-        let pakiCount = userPosts.filter({$0.paki == currentPaki.rawValue}).count
+        let pakiCount = allPakis.filter({$0 == currentPaki.rawValue}).count
         
         let cell = tableView.dequeueReusableCell(withIdentifier: StatsTableViewCell.className) as! StatsTableViewCell
-        cell.totalCount = userPosts.count
+        cell.totalCount = Int(total)
         cell.setupCell(withPaki: currentPaki, count: pakiCount)
         return cell
     }

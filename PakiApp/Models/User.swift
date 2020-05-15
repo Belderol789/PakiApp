@@ -18,7 +18,20 @@ class User: Object {
     @objc dynamic var profilePhotoURL: String?
     @objc dynamic var email: String?
     @objc dynamic var currentPaki: String?
-    @objc dynamic var postTag: Int = -1
+   
     
+    var pakiCase: Paki {
+        return Paki(rawValue: currentPaki ?? "none")!
+    }
+    
+    var dateStarted: Double {
+        return Double(dateCreated)!
+    }
+    
+    var starCount: Int {
+        return starList.count
+    }
+    
+    var starList = List<String>()
     var userPosts = List<UserPost>()
 }

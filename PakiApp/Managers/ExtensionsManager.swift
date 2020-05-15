@@ -228,12 +228,20 @@ extension Double {
         return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.f", self) : String(self)
     }
     
+    func getDayDifference() -> Int {
+        let now = Date(timeIntervalSince1970: Date().timeIntervalSince1970)
+        let datePosted = Date(timeIntervalSince1970: self)
+        let timePassed = Calendar.current.dateComponents([.day, .hour, .minute], from: datePosted, to: now).day ?? 0
+        
+        return timePassed
+    }
+    
     func getTimeDifference(diff: @escaping (String) -> Void)  {
         
         let now = Date(timeIntervalSince1970: Date().timeIntervalSince1970)
         let datePosted = Date(timeIntervalSince1970: self)
         
-        let timePassed = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: datePosted, to: now)
+        let timePassed = Calendar.current.dateComponents([.day, .hour, .minute], from: datePosted, to: now)
         let days = timePassed.day ?? 0
         let hours = timePassed.hour ?? 0
         let minutes = timePassed.minute ?? 0
@@ -290,6 +298,13 @@ extension Date {
     func convertToString(with format: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
+    
+    func convertToMediumString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
+        dateFormatter.dateStyle = .medium
         return dateFormatter.string(from: self)
     }
     

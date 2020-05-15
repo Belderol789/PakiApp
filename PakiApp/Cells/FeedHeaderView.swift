@@ -30,6 +30,12 @@ class FeedHeaderView: UICollectionReusableView, Reusable {
         pakiCollectionView.register(PakiCollectionViewCell.nib, forCellWithReuseIdentifier: PakiCollectionViewCell.className)
         pakiCollectionView.dataSource = self
         pakiCollectionView.delegate = self
+        
+        // selected option color
+        filterController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
+
+        // color of other options
+        filterController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGray], for: .normal)
     }
     
     @IBAction func segmentControllerDidChange(_ sender: UISegmentedControl) {

@@ -44,6 +44,7 @@ class CredentialView: UIView, Reusable {
     fileprivate func setupXibs() {
         Bundle.main.loadNibNamed(CredentialView.className, owner: self, options: nil)
         contentView.frame = self.bounds
+        contentView.backgroundColor = UIColor.defaultBGColor
         self.addSubview(contentView)
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
         profileImageView.backgroundColor = UIColor.tertiarySystemGroupedBackground

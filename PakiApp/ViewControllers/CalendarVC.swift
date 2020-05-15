@@ -19,15 +19,18 @@ class CalendarVC: GeneralViewController, Reusable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupVCUI()
     }
     
     func setupVCUI() {
+        view.backgroundColor = UIColor.defaultBGColor
         calendarCollectionView.register(CalendarCollectionViewCell.nib, forCellWithReuseIdentifier: CalendarCollectionViewCell.className)
         calendarCollectionView.delegate = self
         calendarCollectionView.dataSource = self
+        calendarCollectionView.backgroundColor = .clear
         calendarCollectionView.scrollToItem(at: IndexPath(item: postTag, section: 0), at: .right, animated: true)
         
-        totalLabel.text = "\(postTag)/365"
+        totalLabel.text = "\(userPosts.count)"
     }
     
     @IBAction func didDismissCalendar(_ sender: UIButton) {
@@ -50,11 +53,12 @@ extension CalendarVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.frame.size
+        let post = userPosts[indexPath.item]
+        let titleHeight = post.title.returnStringHeight(fontSize: 20, width: 340).height
+        let contentHeight = post.content.returnStringHeight(fontSize: 17, width: 340).height
+        let totalHeight = titleHeight + contentHeight + 200
+        
+        return CGSize(width: collectionView.frame.width, height: totalHeight)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        self.totalLabel.text = "\(indexPath.item)/365"
-    }
-    
+
 }

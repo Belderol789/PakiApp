@@ -14,6 +14,7 @@ class LoadingView: UIView, Reusable {
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var circleLoading: CircleLoading!
     @IBOutlet weak var bigCircleLoading: CircleLoading!
+    @IBOutlet weak var blurView: UIVisualEffectView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)

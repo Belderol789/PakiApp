@@ -14,12 +14,15 @@ class FeedVC: GeneralViewController {
     @IBOutlet weak var feedCollection: UICollectionView!
     @IBOutlet weak var credentialView: UIVisualEffectView!
     @IBOutlet weak var loadingView: LoadingView!
+    private let refreshControl = UIRefreshControl()
     //Constraints
     @IBOutlet weak var credentialHeight: NSLayoutConstraint!
     // Variables
     var filteredPosts: [UserPost] = []
     var allPosts: [UserPost] = []
-    var currentPaki: Paki = .awesome {
+    
+    let allPakis: [Paki] = [.awesome, .good, .meh, .bad, .terrible]
+    var currentPaki: Paki = .all {
         didSet {
             feedCollection.reloadData()
         }
@@ -27,42 +30,51 @@ class FeedVC: GeneralViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        allPosts = TestManager.returnCommentPosts()
+        self.currentText = "Hello World"
+        loadingView.blurView.effect = nil
         credentialHeight.constant = self.view.frame.height / 4
-        resetUserEmoji()
         setupViewUI()
+        resetUserEmoji()
         setupCountDown()
-        //getPosts(for: currentPaki)
-        NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:))     , name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
+        getAllPosts(done: {
+            let pakiDict: [String] = self.allPosts.map({$0.paki})
+            DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
+        })
+        NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //checkIfUserIsLoggedIn()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
     
-    func checkIfUserIsLoggedIn() {
-        if !DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.userObject.first == nil {
-            tabBarController?.tabBar.isHidden = true
-        }
-    }
-    
     // MARK: - Functions
     fileprivate func setupViewUI() {
+        
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
+        refreshControl.tintColor = UIColor.defaultPurple
+        feedCollection.alwaysBounceVertical = true
+        feedCollection.refreshControl = refreshControl
+        
         feedCollection.register(FeedCollectionViewCell.nib, forCellWithReuseIdentifier: FeedCollectionViewCell.className)
         feedCollection.register(FeedHeaderView.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedHeaderView.className)
         feedCollection.backgroundColor = .clear
         feedCollection.delegate = self
         feedCollection.dataSource = self
-        //KemTest
-        credentialView.isHidden = DatabaseManager.Instance.userIsLoggedIn
+
         credentialView.layer.cornerRadius = 15
-        
-        hideTabbar = !DatabaseManager.Instance.userIsLoggedIn
+    }
+    
+    func checkIfUserLoggedIn() {
+        if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.userObject.first != nil  {
+            credentialView.isHidden = true
+            tabBarController?.tabBar.isHidden = false
+            activateEmojiView(notification: nil)
+        }
     }
     
     func resetUserEmoji() {
@@ -71,22 +83,25 @@ class FeedVC: GeneralViewController {
             
             let hoursPassed = Date().numberTimePassed(passed: savedDate, .hour)
             
-            if hoursPassed >= 24 {
+            print("Hours Passed \(hoursPassed)")
+            print("Saved Date \(savedDate) new date \(today.timeIntervalSince1970)")
+            if hoursPassed >= 2 {
                 DatabaseManager.Instance.updateUserDefaults(value: today.timeIntervalSince1970, key: .savedDate)
                 DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
-                activateEmojiView(notification: nil)
             }
+            
+            checkIfUserLoggedIn()
+            
         } else {
             DatabaseManager.Instance.updateUserDefaults(value: today.timeIntervalSince1970, key: .savedDate)
-            activateEmojiView(notification: nil)
+            checkIfUserLoggedIn()
         }
     }
     
     @objc
     func activateEmojiView(notification: Notification?) {
-        if DatabaseManager.Instance.userIsLoggedIn && !DatabaseManager.Instance.userHasAnswered {
-            credentialView.isHidden = true
-            setupEmojiView()
+        if !DatabaseManager.Instance.userHasAnswered {
+           setupEmojiView()
         }
     }
     
@@ -101,23 +116,54 @@ class FeedVC: GeneralViewController {
         view.addSubview(emojiView)
     }
     
-    fileprivate func getPosts(for paki: Paki) {
+    fileprivate func getPosts(for selectedPaki: Paki) {
         
-//        loadingView.stopLoading()
-//        loadingView.setupCircleViews(paki: paki)
-//        loadingView.startLoading()
+        loadingView.stopLoading()
+        loadingView.setupCircleViews(paki: selectedPaki)
+        loadingView.startLoading()
         
         filteredPosts.removeAll()
-        self.filteredPosts = self.allPosts.filter({$0.pakiCase == paki})
-        self.feedCollection.reloadData()
-        print("Getting Post for \(paki.rawValue)")
-        FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
-            if let post = userPost {
-                self.allPosts.append(post)
-                self.filteredPosts = self.allPosts.filter({$0.pakiCase == paki})
-                self.feedCollection.reloadData()
+        filteredPosts = selectedPaki == .all ? allPosts : allPosts.filter({$0.pakiCase == selectedPaki})
+        
+        if filteredPosts.isEmpty {
+            FirebaseManager.Instance.getPostFor(paki: selectedPaki) { (userPost) in
+                if let post = userPost {
+                    self.filteredPosts.append(post)
+                    self.feedCollection.reloadData()
+                }
+                self.loadingView.stopLoading()
             }
-            self.loadingView.stopLoading()
+        } else {
+            loadingView.stopLoading()
+            feedCollection.reloadData()
+        }
+    }
+    
+    fileprivate func getAllPosts(done: EmptyClosure?) {
+        
+        loadingView.stopLoading()
+        loadingView.setupCircleViews(paki: .all)
+        loadingView.startLoading()
+        allPosts.removeAll()
+        
+        for paki in allPakis {
+            FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
+                if let post = userPost {
+                    self.allPosts.append(post)
+                    self.allPosts.sort(by: {$0.datePosted > $1.datePosted})
+                    self.filteredPosts = self.allPosts
+                    self.feedCollection.reloadData()
+                }
+                done?()
+                self.loadingView.stopLoading()
+            }
+        }
+    }
+    
+    @objc
+    private func didPullToRefresh(_ sender: Any) {
+        getAllPosts {
+            self.refreshControl.endRefreshing()
         }
     }
     
@@ -132,9 +178,18 @@ class FeedVC: GeneralViewController {
 
 // MARK: - AnswerView
 extension FeedVC: AnswerViewProtocol {
-    func didFinishAnswer() {
+    func didFinishAnswer(post: UserPost) {
+        credentialView.isHidden = true
         tabBarController?.tabBar.isHidden = false
-        getPosts(for: currentPaki)
+        allPosts.append(post)
+        allPosts.sort(by: {$0.datePosted > $1.datePosted})
+        
+        let pakiDict: [String] = self.allPosts.map({$0.paki})
+        DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
+        
+        filteredPosts = allPosts
+        feedCollection.reloadData()
     }
 }
 
@@ -184,6 +239,12 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 // MARK: - FeedHeaderProtocol
 extension FeedVC: FeedHeaderProtocol, FeedPostProtocol {
     
+    func starWasUpdated(post: UserPost) {
+        let post = self.allPosts.filter({$0 == post}).first
+        guard let uid = DatabaseManager.Instance.mainUser.uid else { return }
+        post?.starList.append(uid)
+    }
+    
     func proceedToComments(post: UserPost) {
         let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsVC") as! CommentsVC
         commentsVC.currentPost = post
@@ -192,19 +253,7 @@ extension FeedVC: FeedHeaderProtocol, FeedPostProtocol {
     
     func didChoosePaki(_ paki: Paki) {
         currentPaki = paki
-        
-        filteredPosts = allPosts.filter({$0.paki == paki.rawValue})
-        if filteredPosts.isEmpty {
-            if paki != .all {
-               getPosts(for: paki)
-            } else {
-                filteredPosts = allPosts
-                feedCollection.reloadData()
-            }
-        } else {
-            loadingView.stopLoading()
-            feedCollection.reloadData()
-        }
+        getPosts(for: paki)
     }
 }
 

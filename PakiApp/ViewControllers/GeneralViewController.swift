@@ -15,6 +15,7 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
     var navigationBar: Bool = false
     
     var viewCenter: CGRect = .zero
+    var currentText: String = ""
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         let appearance: UIStatusBarStyle = DatabaseManager.Instance.userSetLightAppearance ? .lightContent : .darkContent

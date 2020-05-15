@@ -19,11 +19,16 @@ struct UserComment {
 
 class CommentCollectionViewCell: UICollectionViewCell, Reusable {
     
+    @IBOutlet weak var commentStarLabel: UILabel!
     @IBOutlet weak var commentText: UILabel!
     @IBOutlet weak var commentUsername: UILabel!
     @IBOutlet weak var commentDate: UILabel!
     @IBOutlet weak var pakiBar: UIView!
     @IBOutlet weak var profilePhoto: ImageViewX!
+    @IBOutlet weak var starButton: UIButton!
+    
+    var comment: UserPost!
+    var commentKey: String!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,13 +38,24 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
     }
     
     func setupWith(userComment: UserPost) {
+        comment = userComment
         commentText.text = userComment.content
         commentUsername.text = userComment.username
         userComment.datePosted.getTimeDifference { (date) in
             self.commentDate.text = date
         }
         
-        pakiBar.backgroundColor = UIColor.getColorFor(paki: userComment.pakiCase)
+        let color = UIColor.getColorFor(paki: userComment.pakiCase)
+        pakiBar.backgroundColor = color
+        profilePhoto.layer.borderColor = color.cgColor
+        profilePhoto.layer.borderWidth = 1
+        
+        commentStarLabel.text = "\(userComment.starCount)"
+        if let userId = DatabaseManager.Instance.mainUser.uid {
+            let starImage: String = userComment.starList.contains(userId) ? "star.fill" : "star"
+            starButton.setImage(UIImage.init(systemName: starImage), for: .normal)
+            starButton.tintColor = color
+        }
         
         let pakiImage = UIImage(named: userComment.paki)
         if let photoString = userComment.profilePhotoURL, let url = URL(string: photoString) {
@@ -48,5 +64,15 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
             profilePhoto.image = pakiImage
         }
     }
-
+    
+    @IBAction func didUpvoteComment(_ sender: UIButton) {
+        if DatabaseManager.Instance.userIsLoggedIn {
+            let currentCount = comment.starList.count + 1
+            commentStarLabel.text = "\(currentCount)"
+            
+            sender.setImage(UIImage.init(systemName: "star.fill"), for: .normal)
+            FirebaseManager.Instance.updateCommentStar(post: comment, commentKey: commentKey)
+            FirebaseManager.Instance.updateUserStars(uid: comment.uid)
+        }
+    }
 }

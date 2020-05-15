@@ -57,14 +57,15 @@ class CalendarView: UIView, Reusable {
     }
     
     
-    func setupUserPosts(_ post: [UserPost]) {
-        post.forEach({postPakiDict[$0.dateString] = $0.pakiCase})
+    func setupUserPosts() {
+        userPosts.forEach({postPakiDict[$0.dateString] = $0.pakiCase})
         postDates = userPosts.map({$0.dateString})
         calendar.reloadData()
     }
 
-    func addGridViews(userPosts: [UserPost]) {
-        //let totalDays = Date().getTotalDaysFor(component: .year)
+    func addGridViews() {
+        let year = Calendar.current.component(.year, from: Date())
+        yearLabel.text = "\(year)"
         let width = self.frame.height / 20
         
         var x: CGFloat = 0
@@ -157,7 +158,7 @@ class CalendarView: UIView, Reusable {
 extension CalendarView: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        let dateString = date.convertToString(with: "yyyy/mm/dd")
+        let dateString = date.convertToMediumString()
         if postDates.contains(dateString) {
             return 1
         }
@@ -165,7 +166,7 @@ extension CalendarView: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
-        let dateString = date.convertToString(with: "yyyy/mm/dd")
+        let dateString = date.convertToMediumString()
         if let paki = postPakiDict[dateString] {
             return UIColor.getColorFor(paki: paki)
         }
@@ -173,7 +174,7 @@ extension CalendarView: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        let dateString = date.convertToString(with: "yyyy/mm/dd")
+        let dateString = date.convertToMediumString()
         guard let userPost = userPosts.filter({$0.dateString == dateString}).first else { return }
         print("Tapped Post \(userPost)")
     }

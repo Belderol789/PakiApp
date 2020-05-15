@@ -12,10 +12,10 @@ import Firebase
 extension FirebaseManager {
     
     func sendUserComment(text: String, post: UserPost, loginHandler: LoginHandler?) {
-
+        
         let mainUser = DatabaseManager.Instance.mainUser
         let dateSent = Date().timeIntervalSince1970
-        let commentKey = (post.postKey + post.uid + post.uid).replacingOccurrences(of: " ", with: "")
+        let commentKey = post.commentKey
         let uniqueID = UUID().uuidString
         
         let commentData: [String: Any] = [FirebaseKeys.datePosted.rawValue: dateSent,
@@ -24,9 +24,10 @@ extension FirebaseManager {
                                           FirebaseKeys.content.rawValue: text,
                                           FirebaseKeys.paki.rawValue: mainUser.currentPaki ?? "none",
                                           FirebaseKeys.uid.rawValue: mainUser.uid!,
-                                          FirebaseKeys.commentID.rawValue: uniqueID]
+                                          FirebaseKeys.commentID.rawValue: uniqueID,
+                                          FirebaseKeys.starList.rawValue: [mainUser.uid]]
         
-        self.firestoreDB.collection(Identifiers.comments.rawValue).document(post.paki).collection(commentKey).document(uniqueID).setData(commentData) { (error) in
+        self.firestoreDB.collection(Identifiers.comments.rawValue).document(post.paki).collection(commentKey!).document(uniqueID).setData(commentData) { (error) in
             if let err = error {
                 self.handleErrors(error: err as NSError, loginHandler: loginHandler)
             } else {
@@ -35,18 +36,15 @@ extension FirebaseManager {
         }
     }
     
-    func updateUserCommentCount() {
-        
+    func updateCommentStar(post: UserPost, commentKey: String) {
+        guard let commentID = post.commentID, let uid = DatabaseManager.Instance.mainUser.uid else { return }
+        self.firestoreDB.collection(Identifiers.comments.rawValue).document(post.paki).collection(commentKey).document(commentID).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([uid])])
     }
     
     func getAllCommentsFrom(post: UserPost, loginHandler: LoginHandler?, comment: @escaping (UserPost) -> Void) {
-        let commentKey = (post.postKey + post.uid).replacingOccurrences(of: " ", with: "")
+        let commentKey = post.commentKey
         
-        if commentKey == "" {
-            return
-        }
-        
-        self.firestoreDB.collection(Identifiers.comments.rawValue).document(post.paki).collection(commentKey).addSnapshotListener { (documentData, error) in
+        self.firestoreDB.collection(Identifiers.comments.rawValue).document(post.paki).collection(commentKey!).addSnapshotListener { (documentData, error) in
             if let err = error {
                 self.handleErrors(error: err as NSError, loginHandler: loginHandler)
             } else if let documents = documentData?.documents {

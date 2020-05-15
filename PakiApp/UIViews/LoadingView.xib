@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LoadingView" customModule="PakiApp" customModuleProvider="target">
             <connections>
                 <outlet property="bigCircleLoading" destination="hIV-AW-65A" id="yWo-kU-Jdl"/>
+                <outlet property="blurView" destination="pgI-eR-uI0" id="97w-Si-qBN"/>
                 <outlet property="circleLoading" destination="j8T-fD-z2e" id="sQ3-WP-zts"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="Qdx-bP-WYB"/>
             </connections>
@@ -25,9 +26,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </view>
-                    <vibrancyEffect>
-                        <blurEffect style="regular"/>
-                    </vibrancyEffect>
+                    <blurEffect style="dark"/>
                 </visualEffectView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j8T-fD-z2e" customClass="CircleLoading" customModule="CircleLoading">
                     <rect key="frame" x="147" y="393" width="120" height="120"/>
