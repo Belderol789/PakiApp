@@ -76,7 +76,7 @@ extension FirebaseManager {
         DatabaseManager.Instance.savePost(post: userPost)
     }
     // MARK: - Get Feed Post
-    func getPostFor(paki: Paki, completed: @escaping (UserPost?) -> Void) {
+    func getPostFor(paki: Paki, completed: @escaping ([UserPost]?) -> Void) {
         
         let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         print("Getting Post with key \(postKey)")
@@ -85,11 +85,15 @@ extension FirebaseManager {
                 print("Post error \(error!.localizedDescription)")
                 completed(nil)
             } else if let documents = snapshot?.documents, !documents.isEmpty {
+                var userPosts: [UserPost] = []
                 for document in documents {
                     let data = document.data()
                     let post = UserPost.convert(data: data)
-                    completed(post)
+                    userPosts.append(post)
                 }
+                completed(userPosts)
+            } else {
+                completed(nil)
             }
         }
     }

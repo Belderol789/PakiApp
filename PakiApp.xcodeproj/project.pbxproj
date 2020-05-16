@@ -62,6 +62,8 @@
 		E33E47262469AA3B00B838DB /* CommentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33E47242469AA3A00B838DB /* CommentCollectionViewCell.swift */; };
 		E33E47272469AA3B00B838DB /* CommentCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33E47252469AA3A00B838DB /* CommentCollectionViewCell.xib */; };
 		E38B08CE246F0D2F009D449E /* WorldVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08CD246F0D2E009D449E /* WorldVC.swift */; };
+		E38B08D124705B76009D449E /* UnifiedNativeAdCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */; };
+		E38B08D224705B76009D449E /* UnifiedNativeAdCVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -125,6 +127,8 @@
 		E33E47242469AA3A00B838DB /* CommentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollectionViewCell.swift; sourceTree = "<group>"; };
 		E33E47252469AA3A00B838DB /* CommentCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentCollectionViewCell.xib; sourceTree = "<group>"; };
 		E38B08CD246F0D2E009D449E /* WorldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldVC.swift; sourceTree = "<group>"; };
+		E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedNativeAdCVC.swift; sourceTree = "<group>"; };
+		E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnifiedNativeAdCVC.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +234,8 @@
 				E33E47172466D1B300B838DB /* PakiCollectionViewCell.xib */,
 				E33E47242469AA3A00B838DB /* CommentCollectionViewCell.swift */,
 				E33E47252469AA3A00B838DB /* CommentCollectionViewCell.xib */,
+				E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */,
+				E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -362,6 +368,7 @@
 				E33E47272469AA3B00B838DB /* CommentCollectionViewCell.xib in Resources */,
 				E33A73232454856E00AAD61A /* CalendarCollectionViewCell.xib in Resources */,
 				E33A734C2457326F00AAD61A /* CredentialView.xib in Resources */,
+				E38B08D224705B76009D449E /* UnifiedNativeAdCVC.xib in Resources */,
 				E33A73272454856E00AAD61A /* PakiView.xib in Resources */,
 				E33A73222454856E00AAD61A /* FeedCollectionViewCell.xib in Resources */,
 				E33A73502458803600AAD61A /* LoadingView.xib in Resources */,
@@ -437,6 +444,7 @@
 				E33A73482456448600AAD61A /* CredentialVC.swift in Sources */,
 				E33A733524548B9A00AAD61A /* AnswerView.swift in Sources */,
 				E33A73202454856E00AAD61A /* FeedVC.swift in Sources */,
+				E38B08D124705B76009D449E /* UnifiedNativeAdCVC.swift in Sources */,
 				E33A732F2454856E00AAD61A /* CommentsVC.swift in Sources */,
 				E33E4713245EA9BB00B838DB /* FirebaseManager-Comment.swift in Sources */,
 				E33E47262469AA3B00B838DB /* CommentCollectionViewCell.swift in Sources */,

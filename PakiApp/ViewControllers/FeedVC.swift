@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class FeedVC: GeneralViewController {
     
@@ -15,11 +16,19 @@ class FeedVC: GeneralViewController {
     @IBOutlet weak var credentialView: UIVisualEffectView!
     @IBOutlet weak var loadingView: LoadingView!
     private let refreshControl = UIRefreshControl()
-    //Constraints
+    // Constraints
     @IBOutlet weak var credentialHeight: NSLayoutConstraint!
     // Variables
+    var feedItems: [AnyObject] = []
     var filteredPosts: [UserPost] = []
     var allPosts: [UserPost] = []
+    
+    // Mobile Ads
+    let adUnitID = "ca-app-pub-8278458623868241/8855941562"
+    var numAdsToLoad = 5
+    var nativeAds = [GADUnifiedNativeAd]()
+    var adLoader: GADAdLoader!
+    //
     
     let allPakis: [Paki] = [.awesome, .good, .meh, .bad, .terrible]
     var currentPaki: Paki = .all {
@@ -30,17 +39,14 @@ class FeedVC: GeneralViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.currentText = "Hello World"
+        feedCollection.isUserInteractionEnabled = false
+        print("start loading ads")
+        setupMobileAds()
         loadingView.blurView.effect = nil
         credentialHeight.constant = self.view.frame.height / 4
         setupViewUI()
         resetUserEmoji()
         setupCountDown()
-        getAllPosts(done: {
-            let pakiDict: [String] = self.allPosts.map({$0.paki})
-            DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
-        })
         NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
     }
     
@@ -55,17 +61,22 @@ class FeedVC: GeneralViewController {
     // MARK: - Functions
     fileprivate func setupViewUI() {
         
+        loadingView.stopLoading()
+        loadingView.setupCircleViews(paki: .all)
+        loadingView.startLoading()
+        
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
         refreshControl.tintColor = UIColor.defaultPurple
         feedCollection.alwaysBounceVertical = true
         feedCollection.refreshControl = refreshControl
         
+        feedCollection.register(UnifiedNativeAdCVC.nib, forCellWithReuseIdentifier: UnifiedNativeAdCVC.className)
         feedCollection.register(FeedCollectionViewCell.nib, forCellWithReuseIdentifier: FeedCollectionViewCell.className)
         feedCollection.register(FeedHeaderView.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedHeaderView.className)
         feedCollection.backgroundColor = .clear
         feedCollection.delegate = self
         feedCollection.dataSource = self
-
+        
         credentialView.layer.cornerRadius = 15
     }
     
@@ -87,7 +98,6 @@ class FeedVC: GeneralViewController {
             let hoursPassed = Date().numberTimePassed(passed: savedDate, .hour)
             
             print("Hours Passed \(hoursPassed)")
-            print("Saved Date \(savedDate) new date \(today.timeIntervalSince1970)")
             if hoursPassed >= 24 {
                 DatabaseManager.Instance.updateUserDefaults(value: today.timeIntervalSince1970, key: .savedDate)
                 DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
@@ -104,7 +114,7 @@ class FeedVC: GeneralViewController {
     @objc
     func activateEmojiView(notification: Notification?) {
         if !DatabaseManager.Instance.userHasAnswered {
-           setupEmojiView()
+            setupEmojiView()
         }
     }
     
@@ -131,33 +141,37 @@ class FeedVC: GeneralViewController {
         if filteredPosts.isEmpty {
             FirebaseManager.Instance.getPostFor(paki: selectedPaki) { (userPost) in
                 if let post = userPost {
-                    self.filteredPosts.append(post)
-                    self.feedCollection.reloadData()
+                    self.filteredPosts.append(contentsOf: post)
                 }
+                self.fillFeedItems()
                 self.loadingView.stopLoading()
             }
         } else {
+            fillFeedItems()
             loadingView.stopLoading()
-            feedCollection.reloadData()
         }
     }
     
     fileprivate func getAllPosts(done: EmptyClosure?) {
         
-        loadingView.stopLoading()
-        loadingView.setupCircleViews(paki: .all)
-        loadingView.startLoading()
         allPosts.removeAll()
+        var pakiCount = 0
         
         for paki in allPakis {
             FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
+                pakiCount += 1
                 if let post = userPost {
-                    self.allPosts.append(post)
+                    self.allPosts.append(contentsOf: post)
                     self.allPosts.sort(by: {$0.datePosted > $1.datePosted})
                     self.filteredPosts = self.allPosts
-                    self.feedCollection.reloadData()
+                    print("PakiCount \(pakiCount) AllPaki \(self.allPakis.count)")
+                    if pakiCount == self.allPakis.count {
+                        print("Load all feeds")
+                        self.fillFeedItems()
+                        done?()
+                    }
                 }
-                done?()
+                self.feedCollection.isUserInteractionEnabled = true
                 self.loadingView.stopLoading()
             }
         }
@@ -170,6 +184,47 @@ class FeedVC: GeneralViewController {
         }
     }
     
+    // MARK: - Mobile Ads
+    func fillFeedItems() {
+        feedItems.removeAll()
+        feedItems.append(contentsOf: filteredPosts)
+        addNativeAds()
+        feedCollection.reloadData()
+    }
+    
+    func setupMobileAds() {
+
+        let options = GADMultipleAdsAdLoaderOptions()
+        options.numberOfAds = numAdsToLoad
+        
+        // Prepare the ad loader and start loading ads.
+        adLoader = GADAdLoader(adUnitID: adUnitID,
+                               rootViewController: self,
+                               adTypes: [.unifiedNative],
+                               options: [options])
+        adLoader.delegate = self
+        adLoader.load(GADRequest())
+    }
+    
+    /// Add native ads to the tableViewItems list.
+    func addNativeAds() {
+        if nativeAds.count <= 0 {
+            return
+        }
+        
+        let adInterval = 5
+        var index = 4
+        
+        for nativeAd in nativeAds {
+            if index < filteredPosts.count {
+                feedItems.insert(nativeAd, at: index)
+                index += adInterval
+            } else {
+                break
+            }
+        }
+    }
+    
     // MARK: - IBActions
     @IBAction func didSelectCredential(_ sender: ButtonX) {
         let credentialVC = storyboard?.instantiateViewController(identifier: CredentialVC.className) as! CredentialVC
@@ -177,6 +232,32 @@ class FeedVC: GeneralViewController {
         navigationController?.pushViewController(credentialVC, animated: true)
     }
     
+}
+
+// MARK: - GADUnifiedNativeAdLoaderDelegate
+extension FeedVC: GADUnifiedNativeAdLoaderDelegate {
+    
+    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADUnifiedNativeAd) {
+        nativeAds.append(nativeAd)
+    }
+    
+    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
+        print("Failed to load ads")
+        
+        getAllPosts(done: {
+            let pakiDict: [String] = self.allPosts.map({$0.paki})
+            DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
+        })
+    }
+    
+    func adLoaderDidFinishLoading(_ adLoader: GADAdLoader) {
+        getAllPosts(done: {
+            let pakiDict: [String] = self.allPosts.map({$0.paki})
+            DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
+        })
+    }
 }
 
 // MARK: - AnswerView
@@ -194,7 +275,7 @@ extension FeedVC: AnswerViewProtocol {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
         
         filteredPosts = allPosts
-        feedCollection.reloadData()
+        fillFeedItems()
     }
 }
 
@@ -202,30 +283,44 @@ extension FeedVC: AnswerViewProtocol {
 extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filteredPosts.count
+        return feedItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let feedPost = filteredPosts[indexPath.item]
-        let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
-        feedCell.delegate = self
-        feedCell.setupFeedCellWith(post: feedPost)
-        return feedCell
+        let feedItem = feedItems[indexPath.item]
+        if let feedPost = feedItem as? UserPost {
+            let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionViewCell.className, for: indexPath) as! FeedCollectionViewCell
+            feedCell.delegate = self
+            feedCell.setupFeedCellWith(post: feedPost)
+            return feedCell
+        } else {
+            let nativeAd = feedItem as! GADUnifiedNativeAd
+            nativeAd.rootViewController = self
+            
+            let nativeAdCell = collectionView.dequeueReusableCell(withReuseIdentifier: UnifiedNativeAdCVC.className, for: indexPath) as! UnifiedNativeAdCVC
+            nativeAdCell.setupAdView(with: nativeAd)
+            return nativeAdCell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let text = filteredPosts[indexPath.item].content
-        let title = filteredPosts[indexPath.item].title
-        let collectionWidth = collectionView.frame.width
         
-        let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionWidth).height
-        let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height
-        let tempFeedHeight = titleHeight + contentHeight + 150
-        let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 : tempFeedHeight
+        let feedItem = feedItems[indexPath.item]
         
-        print("Feed Height \(feedHeight)")
-        
-        return CGSize(width: view.frame.size.width - 16, height: feedHeight)
+        if let filteredPost = feedItem as? UserPost {
+            let text = filteredPost.content
+            let title = filteredPost.title
+            let collectionWidth = collectionView.frame.width
+            
+            let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionWidth).height
+            let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height
+            let tempFeedHeight = titleHeight + contentHeight + 150
+            let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 : tempFeedHeight
+
+            return CGSize(width: view.frame.size.width - 16, height: feedHeight)
+        } else {
+            return CGSize(width: view.frame.size.width, height: 80)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -250,7 +345,7 @@ extension FeedVC: FeedHeaderProtocol, FeedPostProtocol {
         } else {
             filteredPosts.sort(by: {$0.starCount > $1.starCount})
         }
-        feedCollection.reloadData()
+        fillFeedItems()
     }
     
     func starWasUpdated(post: UserPost) {

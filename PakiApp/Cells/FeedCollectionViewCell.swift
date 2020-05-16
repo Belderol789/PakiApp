@@ -8,6 +8,7 @@
 
 import UIKit
 import SDWebImage
+import GoogleMobileAds
 
 protocol FeedPostProtocol: class {
     func proceedToComments(post: UserPost)
@@ -54,6 +55,10 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         contentView.backgroundColor = .clear
         self.backgroundColor = .clear
         // Initialization code
+    }
+    
+    func setupFeedCellWith(ad: GADUnifiedNativeAd) {
+        
     }
     
     func setupFeedCellWith(post: UserPost) {

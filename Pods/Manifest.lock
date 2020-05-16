@@ -174,6 +174,9 @@ PODS:
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
   - Fabric (1.10.2)
+  - Firebase/AdMob (6.14.0):
+    - Firebase/CoreOnly
+    - Google-Mobile-Ads-SDK (~> 7.50)
   - Firebase/Auth (6.14.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.4.1)
@@ -312,6 +315,7 @@ DEPENDENCIES:
   - CountryPickerView
   - Crashlytics
   - Fabric
+  - Firebase/AdMob
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Firestore
@@ -404,6 +408,6 @@ SPEC CHECKSUMS:
   TransitionButton: fb271583d9c9e4bb116b97103047e5157653f233
   TTGEmojiRate: 9b295b22e42874acfd717a9ae606e259995b83d0
 
-PODFILE CHECKSUM: 8eab56496a41adb2f2829b452dd1268efacbce8c
+PODFILE CHECKSUM: bb274683ce850bbe9abf571306cde0266a344937
 
 COCOAPODS: 1.8.4
