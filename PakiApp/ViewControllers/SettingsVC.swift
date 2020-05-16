@@ -11,6 +11,7 @@ import SkyFloatingLabelTextField
 import SDWebImage
 import SafariServices
 import MessageUI
+import TransitionButton
 
 enum NotifName: String {
     case AppearanceChanged
@@ -20,9 +21,11 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
     //IBOutlets
     @IBOutlet weak var profileImageView: ImageViewX!
     @IBOutlet weak var profileUsername: SkyFloatingLabelTextField!
-    @IBOutlet weak var switchAppearance: UISwitch!
     @IBOutlet var segmentViews: [UIView]!
+    @IBOutlet weak var saveButton: TransitionButton!
+    @IBOutlet weak var coverPhotoImageView: UIImageView!
     
+    var isProfilePhoto: Bool = true
     var didUpdatePhoto: Bool = false
     
     override func viewDidLoad() {
@@ -40,6 +43,15 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
         profileUsername.selectedTitle = "\(textCount)/15"
         return textCount < 15
     }
+
+    @IBAction func didTapSave(_ sender: TransitionButton) {
+        sender.startAnimation()
+        saveUserProfile()
+    }
+    
+    @IBAction func backButtonTapped(_ sender: UIButton) {
+       dismiss(animated: true, completion: nil)
+    }
     
     @objc
     func saveUserProfile() {
@@ -51,6 +63,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
             updatedProfile[FirebaseKeys.username.rawValue] = profileUsername.text
             let updatedUsername: [String: Any] = [FirebaseKeys.username.rawValue: profileUsername.text!]
             FirebaseManager.Instance.updateFirebase(data: updatedUsername, identifier: .users, mainID: mainUser.uid!) { (message) in
+                self.saveButton.stopAnimation()
                 if let message = message {
                     self.showAlertWith(title: "Error Saving", message: message, actions: [], hasDefaultOK: true)
                 } else {
@@ -63,8 +76,19 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
             updatedProfile[FirebaseKeys.photo.rawValue] = self.profileImageView.image
             if let updatedPhoto = self.profileImageView.image?.compressTo(1) {
                 FirebaseManager.Instance.saveToStorage(datum: updatedPhoto, identifier: .profilePhoto, storagePath: mainUser.uid!) { (profilePhoto) in
+                    self.saveButton.stopAnimation()
                     if let profilePhoto = profilePhoto {
                         let updatedPhoto: [String: Any] = [FirebaseKeys.profilePhotoURL.rawValue: profilePhoto]
+                        FirebaseManager.Instance.updateFirebase(data: updatedPhoto, identifier: .users, mainID: mainUser.uid!, loginHandler: nil)
+                    }
+                }
+            }
+            updatedProfile[FirebaseKeys.coverPhoto.rawValue] = self.coverPhotoImageView.image
+            if let updatedCover = self.coverPhotoImageView.image?.compressTo(1) {
+                FirebaseManager.Instance.saveToStorage(datum: updatedCover, identifier: .coverPhoto, storagePath: mainUser.uid!) { (profilePhoto) in
+                    self.saveButton.stopAnimation()
+                    if let updatedCoverPhoto = profilePhoto {
+                        let updatedPhoto: [String: Any] = [FirebaseKeys.coverPhotoURL.rawValue: updatedCoverPhoto]
                         FirebaseManager.Instance.updateFirebase(data: updatedPhoto, identifier: .users, mainID: mainUser.uid!, loginHandler: nil)
                     }
                 }
@@ -82,8 +106,12 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
             let url = URL(string: profileURL)
             profileImageView.sd_setImage(with: url, placeholderImage: UIImage(named: "Mascot"), options: .continueInBackground, completed: nil)
         }
-        let appearance = DatabaseManager.Instance.userSetLightAppearance
-        switchAppearance.isOn = !appearance
+        
+        if let coverPhotoURL = user.coverPhotoURL {
+            let url = URL(string: coverPhotoURL)
+            coverPhotoImageView.sd_setImage(with: url, placeholderImage: nil, options: .continueInBackground, completed: nil)
+        }
+        
     }
     
     func openInSafari(urlString: String) {
@@ -116,14 +144,9 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true)
     }
-    
-    @IBAction func didSwitchAppearance(_ sender: UISwitch) {
-        DatabaseManager.Instance.updateUserDefaults(value: !sender.isOn, key: .userLightAppearance)
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NotifName.AppearanceChanged.rawValue), object: nil)
-        // Post notification
-    }
-    
+
     @IBAction func didOpenGallery(_ sender: UIButton) {
+        isProfilePhoto = sender.tag == 0
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
         pickerController.allowsEditing = true
@@ -221,6 +244,10 @@ extension SettingsVC: UIImagePickerControllerDelegate {
             return
         }
         didUpdatePhoto = true
-        profileImageView.image = image
+        if isProfilePhoto {
+            profileImageView.image = image
+        } else {
+            coverPhotoImageView.image = image
+        }
     }
 }

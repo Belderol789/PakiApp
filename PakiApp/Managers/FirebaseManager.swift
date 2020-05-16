@@ -15,7 +15,9 @@ enum FirebaseKeys: String {
     case number
     case username
     case profilePhotoURL
+    case coverPhotoURL
     case photo
+    case coverPhoto
     case birthday
     case uid
     
@@ -38,6 +40,7 @@ enum FirebaseKeys: String {
 enum Identifiers: String {
     case users
     case profilePhoto
+    case coverPhoto
     case posts
     case userPosts
     case pakiCount
@@ -78,6 +81,17 @@ extension FirebaseManager {
         }
     }
     
+    func getUserStars(_ stars: @escaping ([String]) -> Void) {
+        guard let uid = DatabaseManager.Instance.mainUser.uid else { return }
+        self.firestoreDB.collection(Identifiers.users.rawValue).document(uid).getDocument { (snapshot, error) in
+            if let data = snapshot?.data() {
+                if let starList = data[FirebaseKeys.starList.rawValue] as? [String] {
+                    stars(starList)
+                }
+            }
+        }
+    }
+    
     // MARK: - Update FirestoreDB
     func updateFirebase(data: [String: Any], identifier: Identifiers, mainID: String, loginHandler: LoginHandler?) {
         self.firestoreDB.collection(identifier.rawValue).document(mainID).setData(data, merge: true) { (err) in
@@ -113,10 +127,6 @@ extension FirebaseManager {
         print("UserUID \(userID) - PostUID \(uid)")
         
         let data = [FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])]
-        updateFirebase(data: data, identifier: .users, mainID: uid) { (message) in
-            if message == nil {
-                print("User Stars updated")
-            }
-        }
+        self.firestoreDB.collection(Identifiers.users.rawValue).document(uid).setData(data, merge: true)
     }
 }

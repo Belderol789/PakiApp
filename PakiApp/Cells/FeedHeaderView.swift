@@ -40,7 +40,7 @@ class FeedHeaderView: UICollectionReusableView, Reusable {
     }
     
     @IBAction func segmentControllerDidChange(_ sender: UISegmentedControl) {
-        delegate?.didSortPosts(byDate: sender.selectedSegmentIndex != 0)
+        delegate?.didSortPosts(byDate: sender.selectedSegmentIndex == 0)
     }
     
 }

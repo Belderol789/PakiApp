@@ -28,7 +28,7 @@ class WorldVC: GeneralViewController {
     
     fileprivate func setupUI() {
         view.backgroundColor = UIColor.defaultBGColor
-        
+        self.title = "World"
         graphsView.backgroundColor = .clear
         savedAllPakis = DatabaseManager.Instance.savedAllPakis
         graphsView.addWorldPakiCircles(allPaki: savedAllPakis)

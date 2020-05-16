@@ -23,6 +23,9 @@ class CalendarView: UIView, Reusable {
     @IBOutlet weak var yearView: ViewX!
     @IBOutlet weak var calendar: FSCalendar!
     
+    @IBOutlet weak var calendarViewWidthConst: NSLayoutConstraint!
+    @IBOutlet weak var contentViewWidthConst: NSLayoutConstraint!
+    
     var userPosts: [UserPost] = []
     var postPakiDict: [String: Paki] = [:]
     var postDict: [String: UserPost] = [:]
@@ -51,6 +54,7 @@ class CalendarView: UIView, Reusable {
         calendar.layer.cornerRadius = 15
         calendar.delegate = self
         calendar.dataSource = self
+        
     }
     
     @IBAction func didChangeTimeFrame(_ sender: UISegmentedControl) {

@@ -25,6 +25,9 @@ class ProfileVC: GeneralViewController {
     @IBOutlet weak var coverPhoto: UIImageView!
     @IBOutlet weak var pakiText: UILabel!
     
+    @IBOutlet weak var contentViewWidthConst: NSLayoutConstraint!
+    @IBOutlet weak var calendarWidthConst: NSLayoutConstraint!
+    
     // Constraints
     // Variables
     var userPosts: [UserPost] = []
@@ -32,6 +35,9 @@ class ProfileVC: GeneralViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        contentViewWidthConst.constant = view.frame.width * 2
+        calendarWidthConst.constant = view.frame.width
 
         isProfile = true
         coverPhoto.backgroundColor = UIColor.defaultPurple
@@ -42,7 +48,7 @@ class ProfileVC: GeneralViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfile(notification:)), name: NSNotification.Name(rawValue: "UpdateProfile"), object: nil)
     }
-    
+
     @IBAction func didChangeSegment(_ sender: UISegmentedControl) {
         let width = view.frame.width
         if sender.selectedSegmentIndex == 0 {
@@ -62,6 +68,11 @@ class ProfileVC: GeneralViewController {
             if let username = notificationObject[FirebaseKeys.username.rawValue] as? String {
                 usernameLabel.text = username
             }
+            
+            if let cover = notificationObject[FirebaseKeys.coverPhoto.rawValue] as? UIImage {
+                coverPhoto.image = cover
+            }
+            
         }
     }
     
@@ -76,6 +87,11 @@ class ProfileVC: GeneralViewController {
             userPhotoImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: "mascot"), options: .continueInBackground, completed: nil)
         } else {
             userPhotoImageView.image = UIImage(named: "mascot")
+        }
+        
+        if let coverPhotoString = mainUser.coverPhotoURL {
+            let coverURL = URL(string: coverPhotoString)
+            coverPhoto.sd_setImage(with: coverURL, completed: nil)
         }
         
         let timePassed = Double(mainUser.dateCreated) ?? 0
@@ -95,16 +111,25 @@ class ProfileVC: GeneralViewController {
             setupCalendarView()
             setupUserStats()
         }
+        
     }
     
     func setupUserStats() {
         postsLabel.text = "\(userPosts.count)"
-        starsLabel.text = "\(currentUser.starCount)"
         pakiView.backgroundColor = UIColor.getColorFor(paki: currentUser.pakiCase)
         pakiText.text = currentUser.currentPaki?.capitalized
+        
+        FirebaseManager.Instance.getUserStars { (starList) in
+            self.starsLabel.text = "\(starList.count)"
+        }
     }
     
     func setupCalendarView() {
+        print("ViewWidth \(view.frame.width)")
+        
+        calendarView.calendarViewWidthConst.constant = view.frame.width
+        calendarView.contentViewWidthConst.constant = view.frame.width * 2
+        calendarView.scrollView.contentSize.width = view.frame.width * 2
         calendarView.userPosts = userPosts
         calendarView.delegate = self
         calendarView.setupUserPosts()

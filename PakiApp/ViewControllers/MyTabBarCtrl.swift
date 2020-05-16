@@ -21,7 +21,13 @@ class MyTabBarCtrl: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         self.delegate = self
         self.selectedIndex = 1
+        
+        self.tabBar.unselectedItemTintColor = UIColor.white
         setupMiddleButton()
+        
+        UITabBar.appearance().tintColor = UIColor.defaultPurple
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.defaultPurple], for: .selected)
     }
     
     
@@ -31,7 +37,7 @@ class MyTabBarCtrl: UITabBarController, UITabBarControllerDelegate {
         
         //STYLE THE BUTTON YOUR OWN WAY
         middleBtn.layer.cornerRadius = 25
-        middleBtn.setIcon(icon: .fontAwesomeSolid(.home), iconSize: 20.0, color: UIColor.white, backgroundColor: UIColor.defaultFGColor, forState: .normal)
+        middleBtn.setIcon(icon: .fontAwesomeSolid(.home), iconSize: 20.0, color: UIColor.white, backgroundColor: UIColor.defaultPurple, forState: .normal)
         
         //add to the tabbar and add click event
         self.tabBar.addSubview(middleBtn)

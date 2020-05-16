@@ -75,6 +75,7 @@ class FeedVC: GeneralViewController {
             tabBarController?.tabBar.isHidden = false
             activateEmojiView(notification: nil)
         } else {
+            credentialView.isHidden = false
             tabBarController?.tabBar.isHidden = true
         }
     }
@@ -87,7 +88,7 @@ class FeedVC: GeneralViewController {
             
             print("Hours Passed \(hoursPassed)")
             print("Saved Date \(savedDate) new date \(today.timeIntervalSince1970)")
-            if hoursPassed >= 2 {
+            if hoursPassed >= 24 {
                 DatabaseManager.Instance.updateUserDefaults(value: today.timeIntervalSince1970, key: .savedDate)
                 DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
             }

@@ -12,7 +12,7 @@ extension UISegmentedControl {
         let deviderImage = UIImage.getColoredRectImageWith(color: UIColor.clear.cgColor, andSize: CGSize(width: 1.0, height: self.bounds.size.height))
         self.setDividerImage(deviderImage, forLeftSegmentState: .selected, rightSegmentState: .normal, barMetrics: .default)
         self.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.systemGray], for: .normal)
-        self.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.label], for: .selected)
+        self.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: .selected)
     }
     
     func addUnderlineForSelectedSegment(){
@@ -23,7 +23,7 @@ extension UISegmentedControl {
         let underLineYPosition = self.bounds.size.height - 1.0
         let underlineFrame = CGRect(x: underlineXPosition, y: underLineYPosition, width: underlineWidth, height: underlineHeight)
         let underline = UIView(frame: underlineFrame)
-        underline.backgroundColor = UIColor.label
+        underline.backgroundColor = UIColor.white
         underline.tag = 1
         self.addSubview(underline)
     }

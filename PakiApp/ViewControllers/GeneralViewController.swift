@@ -25,8 +25,6 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.defaultBGColor
-        //appearanceChanged(notification: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(appearanceChanged(notification:)), name: NSNotification.Name(rawValue: NotifName.AppearanceChanged.rawValue), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,18 +35,6 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
         super.viewWillDisappear(animated)
     }
     
-    @objc
-    func appearanceChanged(notification: Notification?) {
-//        let appearanceMode: Bool = DatabaseManager.Instance.userSetLightAppearance
-//        let appearance: UIUserInterfaceStyle = appearanceMode ? .light : .dark
-//        view.overrideUserInterfaceStyle = appearance
-//        navigationController?.navigationBar.overrideUserInterfaceStyle = appearance
-//        tabBarController?.tabBar.overrideUserInterfaceStyle = appearance
-//
-//        setNeedsStatusBarAppearanceUpdate()
-//        navigationController?.navigationBar.barStyle = appearanceMode ? .default : .black
-    }
-
     func setupCountDown() {
         let today = Date()
         let tomorrow = Date().tomorrow

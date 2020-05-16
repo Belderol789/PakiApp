@@ -48,10 +48,17 @@ class CredentialView: UIView, Reusable {
         self.addSubview(contentView)
         
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.layer.borderColor = UIColor.white.cgColor
         profileImageView.backgroundColor = UIColor.defaultFGColor
         
         usernameView.backgroundColor = UIColor.defaultFGColor
         phoneCodeView.backgroundColor = UIColor.defaultFGColor
+        usernameField.textColor = .white
+        usernameField.tintColor = .white
+        phoneField.textColor = .white
+        phoneField.tintColor = .white
+        
+        birthPicker.setValue(UIColor.white, forKeyPath: "textColor")
     }
     
     func setupPhoneLogin() {

@@ -94,11 +94,11 @@ class GraphsView: UIView, Reusable {
         let terrible = Double(userPosts.filter({$0.pakiCase == .terrible}).count)
         
         let centerPoint = CGPoint(x: contentView.frame.width / 2 - 40, y: contentView.frame.height / 2 - 80)
-        createGraphCircle(radius: 100, count: awesome, paki: .awesome, centerPoint: centerPoint)
-        createGraphCircle(radius: 80, count: good, paki: .good, centerPoint: centerPoint)
-        createGraphCircle(radius: 60, count: meh, paki: .meh, centerPoint: centerPoint)
-        createGraphCircle(radius: 40, count: bad, paki: .bad, centerPoint: centerPoint)
-        createGraphCircle(radius: 20, count: terrible, paki: .terrible, centerPoint: centerPoint)
+        createGraphCircle(radius: 100, count: awesome, paki: .awesome)
+        createGraphCircle(radius: 80, count: good, paki: .good)
+        createGraphCircle(radius: 60, count: meh, paki: .meh)
+        createGraphCircle(radius: 40, count: bad, paki: .bad)
+        createGraphCircle(radius: 20, count: terrible, paki: .terrible)
         
         allPakis = userPosts.map({$0.paki})
         
@@ -118,12 +118,11 @@ class GraphsView: UIView, Reusable {
         let bad = Double(allPakis.filter({$0 == Paki.bad.rawValue}).count)
         let terrible = Double(allPakis.filter({$0 == Paki.terrible.rawValue}).count)
 
-        let centerPoint = CGPoint(x: monthlyGraph.frame.width / 2, y: monthlyGraph.frame.height / 2)
-        createGraphCircle(radius: 100, count: awesome, paki: .awesome, centerPoint: centerPoint)
-        createGraphCircle(radius: 80, count: good, paki: .good, centerPoint: centerPoint)
-        createGraphCircle(radius: 60, count: meh, paki: .meh, centerPoint: centerPoint)
-        createGraphCircle(radius: 40, count: bad, paki: .bad, centerPoint: centerPoint)
-        createGraphCircle(radius: 20, count: terrible, paki: .terrible, centerPoint: centerPoint)
+        createGraphCircle(radius: 100, count: awesome, paki: .awesome)
+        createGraphCircle(radius: 80, count: good, paki: .good)
+        createGraphCircle(radius: 60, count: meh, paki: .meh)
+        createGraphCircle(radius: 40, count: bad, paki: .bad)
+        createGraphCircle(radius: 20, count: terrible, paki: .terrible)
 
         graphTable.reloadData()
         DispatchQueue.main.async {
@@ -133,15 +132,19 @@ class GraphsView: UIView, Reusable {
     }
     
     
-    func createGraphCircle(radius: CGFloat, count: Double, paki: Paki, centerPoint: CGPoint) {
+    func createGraphCircle(radius: CGFloat, count: Double, paki: Paki) {
         
         if count <= 0 {
             return
         }
         
+        let centerPoint = CGPoint(x: monthlyGraph.frame.width / 2, y: monthlyGraph.frame.height / 2)
+        
         let pakiColor = UIColor.getColorFor(paki: paki)
         let arc = (count * 360) / total
         let degrees = CGFloat(arc.deg2rad(arc))
+        
+        print("Degrees \(degrees)")
 
         let trackPath = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: -CGFloat.pi / 2, endAngle: .pi * 2, clockwise: true)
         

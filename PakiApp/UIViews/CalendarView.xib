@@ -10,7 +10,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CalendarView" customModule="PakiApp" customModuleProvider="target">
             <connections>
                 <outlet property="calendar" destination="T7t-YM-huB" id="hl8-bP-ihX"/>
+                <outlet property="calendarViewWidthConst" destination="gMk-sX-Wie" id="km9-i0-2qZ"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="gOS-IM-c7J"/>
+                <outlet property="contentViewWidthConst" destination="4Ht-BA-zGG" id="tLl-Oc-XS6"/>
                 <outlet property="gridViewContainer" destination="iVM-sn-JTT" id="tUG-G7-ywW"/>
                 <outlet property="scrollView" destination="SQI-R6-V9e" id="Mkx-JG-MK3"/>
                 <outlet property="segmentedControl" destination="0yX-dp-Jz0" id="9SI-cG-4bn"/>
@@ -20,44 +22,47 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" interfaceStyle="dark" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="0yX-dp-Jz0">
-                    <rect key="frame" x="0.0" y="64" width="414" height="32"/>
+                    <rect key="frame" x="0.0" y="64" width="375" height="32"/>
                     <segments>
                         <segment title="Year"/>
                         <segment title="Monthly"/>
                     </segments>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
                         <action selector="didChangeTimeFrame:" destination="-1" eventType="valueChanged" id="HYR-gS-wqw"/>
                     </connections>
                 </segmentedControl>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQI-R6-V9e">
-                    <rect key="frame" x="0.0" y="115" width="414" height="747"/>
+                    <rect key="frame" x="0.0" y="115" width="375" height="747"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ro-cv-0hp">
-                            <rect key="frame" x="0.0" y="0.0" width="828" height="748"/>
+                            <rect key="frame" x="0.0" y="0.0" width="750" height="748"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sJa-F5-a4X" customClass="ViewX" customModule="PakiApp" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="748"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="748"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JNc-pZ-3YN">
-                                            <rect key="frame" x="184.5" y="8" width="45" height="24"/>
+                                            <rect key="frame" x="165" y="8" width="45" height="24"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iVM-sn-JTT">
-                                            <rect key="frame" x="0.0" y="40" width="414" height="708"/>
+                                            <rect key="frame" x="0.0" y="40" width="375" height="708"/>
                                         </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="414" id="6c9-O9-ph8"/>
                                         <constraint firstAttribute="bottom" secondItem="iVM-sn-JTT" secondAttribute="bottom" id="7BZ-55-Pkr"/>
                                         <constraint firstItem="iVM-sn-JTT" firstAttribute="leading" secondItem="sJa-F5-a4X" secondAttribute="leading" id="8l7-eV-VPy"/>
                                         <constraint firstItem="iVM-sn-JTT" firstAttribute="top" secondItem="JNc-pZ-3YN" secondAttribute="bottom" constant="8" id="CAs-oH-zkr"/>
                                         <constraint firstItem="JNc-pZ-3YN" firstAttribute="top" secondItem="sJa-F5-a4X" secondAttribute="top" constant="8" id="Fo5-cV-44t"/>
                                         <constraint firstItem="JNc-pZ-3YN" firstAttribute="centerX" secondItem="sJa-F5-a4X" secondAttribute="centerX" id="Qga-QJ-jAp"/>
+                                        <constraint firstAttribute="width" constant="375" id="gMk-sX-Wie"/>
                                         <constraint firstAttribute="trailing" secondItem="iVM-sn-JTT" secondAttribute="trailing" id="jBd-gt-1ql"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
@@ -66,46 +71,57 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T7t-YM-huB" customClass="FSCalendar">
-                                    <rect key="frame" x="414" y="167" width="414" height="414"/>
-                                    <color key="backgroundColor" red="0.18823529410000001" green="0.2666666667" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z9g-Bf-uxl">
+                                    <rect key="frame" x="375" y="0.0" width="375" height="748"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T7t-YM-huB" customClass="FSCalendar">
+                                            <rect key="frame" x="12.5" y="199" width="350" height="350"/>
+                                            <color key="backgroundColor" red="0.18823529410000001" green="0.2666666667" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="350" id="c3d-r4-N0q"/>
+                                                <constraint firstAttribute="width" constant="350" id="qgV-b6-leA"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="todayColor">
+                                                    <color key="value" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="titleDefaultColor">
+                                                    <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="headerTitleColor">
+                                                    <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="weekdayTextColor">
+                                                    <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="todaySelectionColor">
+                                                    <color key="value" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="eventSelectionColor">
+                                                    <color key="value" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="selectionColor">
+                                                    <color key="value" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                    </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="414" id="1Y0-M6-SFQ"/>
+                                        <constraint firstItem="T7t-YM-huB" firstAttribute="centerX" secondItem="z9g-Bf-uxl" secondAttribute="centerX" id="HRw-gf-yr2"/>
+                                        <constraint firstItem="T7t-YM-huB" firstAttribute="centerY" secondItem="z9g-Bf-uxl" secondAttribute="centerY" id="fGW-lF-eaL"/>
                                     </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="todayColor">
-                                            <color key="value" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="titleDefaultColor">
-                                            <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="headerTitleColor">
-                                            <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="weekdayTextColor">
-                                            <color key="value" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="todaySelectionColor">
-                                            <color key="value" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="eventSelectionColor">
-                                            <color key="value" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="selectionColor">
-                                            <color key="value" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
                                 </view>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="T7t-YM-huB" firstAttribute="centerY" secondItem="5ro-cv-0hp" secondAttribute="centerY" id="1Hp-Yw-Z6D"/>
-                                <constraint firstAttribute="width" constant="828" id="4Ht-BA-zGG"/>
+                                <constraint firstAttribute="bottom" secondItem="z9g-Bf-uxl" secondAttribute="bottom" id="1E6-E4-a4l"/>
+                                <constraint firstAttribute="width" constant="750" id="4Ht-BA-zGG"/>
                                 <constraint firstAttribute="bottom" secondItem="sJa-F5-a4X" secondAttribute="bottom" id="5LZ-e4-q90"/>
                                 <constraint firstItem="sJa-F5-a4X" firstAttribute="leading" secondItem="5ro-cv-0hp" secondAttribute="leading" id="5Qr-96-AZB"/>
-                                <constraint firstItem="T7t-YM-huB" firstAttribute="leading" secondItem="sJa-F5-a4X" secondAttribute="trailing" id="9oO-ZA-aHy"/>
+                                <constraint firstAttribute="trailing" secondItem="z9g-Bf-uxl" secondAttribute="trailing" id="BZl-D7-pSz"/>
                                 <constraint firstItem="sJa-F5-a4X" firstAttribute="top" secondItem="5ro-cv-0hp" secondAttribute="top" id="KIM-vz-Vgz"/>
-                                <constraint firstAttribute="trailing" secondItem="T7t-YM-huB" secondAttribute="trailing" id="uqL-AI-PRX"/>
+                                <constraint firstItem="z9g-Bf-uxl" firstAttribute="leading" secondItem="sJa-F5-a4X" secondAttribute="trailing" id="LzD-qh-YLz"/>
+                                <constraint firstItem="z9g-Bf-uxl" firstAttribute="top" secondItem="5ro-cv-0hp" secondAttribute="top" id="mFA-7e-3kl"/>
                             </constraints>
                         </view>
                     </subviews>

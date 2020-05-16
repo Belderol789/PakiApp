@@ -60,6 +60,7 @@ class CommentsVC: GeneralViewController {
                     self.commentHeight += feedHeight
                 }
             }
+            self.allComments.sort(by: {$0.datePosted < $1.datePosted})
             self.filteredComments = self.allComments
             self.commentsCollection.reloadData()
         }

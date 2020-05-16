@@ -16,6 +16,7 @@ class User: Object {
     @objc dynamic var dateCreated: String = "0"
     @objc dynamic var birthday: String?
     @objc dynamic var profilePhotoURL: String?
+    @objc dynamic var coverPhotoURL: String?
     @objc dynamic var email: String?
     @objc dynamic var currentPaki: String?
    
@@ -32,6 +33,6 @@ class User: Object {
         return starList.count
     }
     
-    var starList = List<String>()
+    let starList = List<String>()
     var userPosts = List<UserPost>()
 }

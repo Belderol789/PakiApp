@@ -42,6 +42,9 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
     }
     
     fileprivate func setupUI() {
+        
+        overrideUserInterfaceStyle = .dark
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         view.addGestureRecognizer(tapGesture)
         tabBarController?.tabBar.isHidden = true
@@ -57,6 +60,8 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         credentialView.usernameField.delegate = self
         credentialFields.forEach({
             $0.delegate = self
+            $0.tintColor = .white
+            $0.textColor = .white
         })
         credentialViews.forEach({
             $0.backgroundColor = UIColor.defaultFGColor
@@ -238,6 +243,16 @@ extension CredentialVC: UITextFieldDelegate {
             }
         default:
             break
+        }
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case emailField:
+            passwordField.becomeFirstResponder()
+        default:
+            authenticateUser()
         }
         return true
     }

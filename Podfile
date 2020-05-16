@@ -15,6 +15,7 @@ pod 'Fabric'
 pod 'Crashlytics'
 pod 'Firebase/Firestore'
 pod 'Google-Mobile-Ads-SDK'
+pod 'Firebase/AdMob'
 
 #Utility
 pod 'SDWebImage'

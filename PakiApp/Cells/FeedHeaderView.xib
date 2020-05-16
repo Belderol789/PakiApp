@@ -23,8 +23,8 @@
                                 <constraint firstAttribute="height" constant="40" id="tyo-Z7-ebn"/>
                             </constraints>
                             <segments>
-                                <segment title="Popular"/>
                                 <segment title="Latest"/>
+                                <segment title="Popular"/>
                             </segments>
                             <color key="selectedSegmentTintColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
