@@ -795,7 +795,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="asN-yG-aGr">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="793"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3Wa-nE-GON">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -896,7 +896,6 @@
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="zh5-CX-MOo" secondAttribute="bottom" id="0mm-Cd-4vn"/>
-                            <constraint firstItem="asN-yG-aGr" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="5YJ-4l-eix"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zh5-CX-MOo" secondAttribute="trailing" id="Asj-Rf-XkX"/>
                             <constraint firstItem="buq-QK-e67" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Bse-nK-o3j"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="buq-QK-e67" secondAttribute="trailing" id="EO3-fa-hyj"/>
@@ -905,6 +904,7 @@
                             <constraint firstItem="zh5-CX-MOo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="TuZ-xu-8bM"/>
                             <constraint firstItem="buq-QK-e67" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Vxq-5x-CuA"/>
                             <constraint firstItem="asN-yG-aGr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="YNz-kQ-24W"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="asN-yG-aGr" secondAttribute="bottom" constant="20" id="dlM-il-gFv"/>
                             <constraint firstItem="buq-QK-e67" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="130" id="kUf-Mz-DzK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

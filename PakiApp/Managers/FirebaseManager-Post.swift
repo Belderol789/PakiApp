@@ -124,4 +124,9 @@ extension FirebaseManager {
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
         self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.paki).document(userPost.uid).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
     }
+    
+    func reportPost(post: UserPost) {
+        
+    }
+    
 }

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ReportView" customModule="PakiApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="98x-97-m0L" customClass="ViewX" customModule="PakiApp" customModuleProvider="target">
+                    <rect key="frame" x="57" y="94" width="300" height="375"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Report" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IZ3-xJ-p7k">
+                            <rect key="frame" x="124" y="8" width="52" height="20"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CiG-zi-EjQ">
+                            <rect key="frame" x="0.0" y="36" width="300" height="331"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.1647058824" green="0.23529411759999999" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="CiG-zi-EjQ" secondAttribute="bottom" constant="8" id="3WT-zA-YZe"/>
+                        <constraint firstItem="CiG-zi-EjQ" firstAttribute="leading" secondItem="98x-97-m0L" secondAttribute="leading" id="5LM-Yn-vCA"/>
+                        <constraint firstAttribute="width" constant="300" id="89h-2k-bCA"/>
+                        <constraint firstItem="IZ3-xJ-p7k" firstAttribute="top" secondItem="98x-97-m0L" secondAttribute="top" constant="8" id="8G2-IY-fgy"/>
+                        <constraint firstItem="CiG-zi-EjQ" firstAttribute="top" secondItem="IZ3-xJ-p7k" secondAttribute="bottom" constant="8" id="jmf-hh-Um7"/>
+                        <constraint firstAttribute="width" secondItem="98x-97-m0L" secondAttribute="height" multiplier="1:1.25" id="mHC-mY-AIc"/>
+                        <constraint firstAttribute="trailing" secondItem="CiG-zi-EjQ" secondAttribute="trailing" id="reM-nO-PKh"/>
+                        <constraint firstItem="IZ3-xJ-p7k" firstAttribute="centerX" secondItem="98x-97-m0L" secondAttribute="centerX" id="roN-mi-bzT"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="size" keyPath="textShadowOffset">
+                            <size key="value" width="0.0" height="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2k3-hd-cQJ" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
+                    <rect key="frame" x="82" y="489" width="250" height="40"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="6bm-sX-gSm"/>
+                        <constraint firstAttribute="width" constant="250" id="JCw-I5-DGa"/>
+                    </constraints>
+                    <state key="normal" title="Report">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="size" keyPath="textShadowOffset">
+                            <size key="value" width="0.0" height="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="didTapReport:" destination="iN0-l3-epB" eventType="touchUpInside" id="7qA-Ig-f93"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pOT-79-Ymy">
+                    <rect key="frame" x="183" y="549" width="48" height="30"/>
+                    <state key="normal" title="Cancel">
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="didTapCancel:" destination="iN0-l3-epB" eventType="touchUpInside" id="ba2-tR-SXl"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="98x-97-m0L" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="1MX-gp-uFl"/>
+                <constraint firstItem="pOT-79-Ymy" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="GcJ-7b-UU2"/>
+                <constraint firstItem="pOT-79-Ymy" firstAttribute="top" secondItem="2k3-hd-cQJ" secondAttribute="bottom" constant="20" id="Ndp-ip-ns5"/>
+                <constraint firstItem="2k3-hd-cQJ" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="Pcy-zd-vw8"/>
+                <constraint firstItem="2k3-hd-cQJ" firstAttribute="top" secondItem="98x-97-m0L" secondAttribute="bottom" constant="20" id="VEo-tx-Fls"/>
+                <constraint firstItem="98x-97-m0L" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="50" id="tLD-oP-HGc"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="containerView" destination="98x-97-m0L" id="2ua-yW-ZJ4"/>
+                <outlet property="reportButton" destination="2k3-hd-cQJ" id="j8R-N7-Egp"/>
+                <outlet property="tableView" destination="CiG-zi-EjQ" id="SoM-Pt-He5"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="133"/>
+        </view>
+    </objects>
+</document>

@@ -21,6 +21,7 @@ enum FirebaseKeys: String {
     case birthday
     case uid
     
+    case reportCount
     case commentID
     case commentKey
     case datePosted

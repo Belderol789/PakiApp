@@ -337,7 +337,26 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     
 }
 // MARK: - FeedHeaderProtocol
-extension FeedVC: FeedHeaderProtocol, FeedPostProtocol {
+extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol {
+    
+    func didSubmitReportUser(post: UserPost) {
+        guard let index = feedItems.firstIndex(where: {($0 as? UserPost) == post}) else { return }
+        feedItems.remove(at: index)
+        feedCollection.reloadItems(at: [IndexPath(item: index, section: 0)])
+    }
+    
+    func didReportUser(post: UserPost) {
+        if DatabaseManager.Instance.userIsLoggedIn {
+            let reportView = Bundle.main.loadNibNamed(ReportView.className, owner: self, options: nil)?.first as! ReportView
+            reportView.frame = view.bounds
+            reportView.delegate = self
+            reportView.reportedPost = post
+            view.addSubview(reportView)
+            reportView.setupXib()
+        } else {
+            self.showAlertWith(title: "Authorization Required", message: "Kindly login or signup to continue", actions: [], hasDefaultOK: true)
+        }
+    }
     
     func didSortPosts(byDate: Bool) {
         if byDate {

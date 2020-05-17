@@ -100,7 +100,7 @@ extension UIColor {
         case .bad:
             return UIColor.hexStringToUIColor(hex: "#f9a65c")
         case .terrible:
-            return UIColor.hexStringToUIColor(hex: "#ee3a39")
+            return UIColor.hexStringToUIColor(hex: "#FF575F")
         case .none:
             return .systemGray2
         }

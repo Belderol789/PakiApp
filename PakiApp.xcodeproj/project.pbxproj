@@ -64,6 +64,10 @@
 		E38B08CE246F0D2F009D449E /* WorldVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08CD246F0D2E009D449E /* WorldVC.swift */; };
 		E38B08D124705B76009D449E /* UnifiedNativeAdCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */; };
 		E38B08D224705B76009D449E /* UnifiedNativeAdCVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */; };
+		E38B08D724713B02009D449E /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08D524713B02009D449E /* ReportTableViewCell.swift */; };
+		E38B08D824713B02009D449E /* ReportTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08D624713B02009D449E /* ReportTableViewCell.xib */; };
+		E38B08DA24713DC4009D449E /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08D924713DC4009D449E /* ReportView.swift */; };
+		E38B08DC24713DEB009D449E /* ReportView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08DB24713DEB009D449E /* ReportView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -129,6 +133,10 @@
 		E38B08CD246F0D2E009D449E /* WorldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldVC.swift; sourceTree = "<group>"; };
 		E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedNativeAdCVC.swift; sourceTree = "<group>"; };
 		E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnifiedNativeAdCVC.xib; sourceTree = "<group>"; };
+		E38B08D524713B02009D449E /* ReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
+		E38B08D624713B02009D449E /* ReportTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportTableViewCell.xib; sourceTree = "<group>"; };
+		E38B08D924713DC4009D449E /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
+		E38B08DB24713DEB009D449E /* ReportView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +244,8 @@
 				E33E47252469AA3A00B838DB /* CommentCollectionViewCell.xib */,
 				E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */,
 				E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */,
+				E38B08D524713B02009D449E /* ReportTableViewCell.swift */,
+				E38B08D624713B02009D449E /* ReportTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -272,6 +282,8 @@
 				E33E471C24670B2300B838DB /* CalendarView.xib */,
 				E33E47202467F98E00B838DB /* GraphsView.swift */,
 				E33E47222467F9CE00B838DB /* GraphsView.xib */,
+				E38B08D924713DC4009D449E /* ReportView.swift */,
+				E38B08DB24713DEB009D449E /* ReportView.xib */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -364,6 +376,8 @@
 				E33A733724548BEA00AAD61A /* AnswerView.xib in Resources */,
 				E33A731C2454856E00AAD61A /* FeedHeaderView.xib in Resources */,
 				E33A72FD245477EC00AAD61A /* GoogleService-Info.plist in Resources */,
+				E38B08D824713B02009D449E /* ReportTableViewCell.xib in Resources */,
+				E38B08DC24713DEB009D449E /* ReportView.xib in Resources */,
 				E33A72F22454767F00AAD61A /* Assets.xcassets in Resources */,
 				E33E47272469AA3B00B838DB /* CommentCollectionViewCell.xib in Resources */,
 				E33A73232454856E00AAD61A /* CalendarCollectionViewCell.xib in Resources */,
@@ -447,6 +461,7 @@
 				E38B08D124705B76009D449E /* UnifiedNativeAdCVC.swift in Sources */,
 				E33A732F2454856E00AAD61A /* CommentsVC.swift in Sources */,
 				E33E4713245EA9BB00B838DB /* FirebaseManager-Comment.swift in Sources */,
+				E38B08DA24713DC4009D449E /* ReportView.swift in Sources */,
 				E33E47262469AA3B00B838DB /* CommentCollectionViewCell.swift in Sources */,
 				E33A73402455FD2900AAD61A /* Post.swift in Sources */,
 				E33E471B24670B1000B838DB /* CalendarView.swift in Sources */,
@@ -459,6 +474,7 @@
 				E33A72EB2454767C00AAD61A /* SceneDelegate.swift in Sources */,
 				E33A73262454856E00AAD61A /* ReplyVC.swift in Sources */,
 				E33E47152466AD9700B838DB /* MyTabBarCtrl.swift in Sources */,
+				E38B08D724713B02009D449E /* ReportTableViewCell.swift in Sources */,
 				E33E47212467F98E00B838DB /* GraphsView.swift in Sources */,
 				E33A7346245641F700AAD61A /* FirebaseManager.swift in Sources */,
 				E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */,

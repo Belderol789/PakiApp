@@ -13,6 +13,7 @@ import GoogleMobileAds
 protocol FeedPostProtocol: class {
     func proceedToComments(post: UserPost)
     func starWasUpdated(post: UserPost)
+    func didReportUser(post: UserPost)
 }
 
 class FeedCollectionViewCell: UICollectionViewCell, Reusable {
@@ -128,6 +129,11 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     @IBAction func didShare(_ sender: UIButton) {
         
     }
+    
+    @IBAction func didTapElipse(_ sender: UIButton) {
+        self.delegate?.didReportUser(post: currentPost)
+    }
+    
     
     fileprivate func setupButton(button: UIButton, forImage: String, count: Int) {
         let imageName = count > 0 ? forImage + ".fill" : forImage
