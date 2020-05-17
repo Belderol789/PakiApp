@@ -68,6 +68,7 @@ class UserPost: Object {
         userPost.datePosted = data[FirebaseKeys.datePosted.rawValue] as? Double ?? Date().timeIntervalSinceNow
         userPost.profilePhotoURL = data[FirebaseKeys.profilePhotoURL.rawValue] as? String
         userPost.uid = data[FirebaseKeys.uid.rawValue] as? String ?? ""
+        userPost.reportCount = data[FirebaseKeys.reportCount.rawValue] as? Int ?? 0
         
         userPost.content = data[FirebaseKeys.content.rawValue] as? String ?? ""
         userPost.title = data[FirebaseKeys.title.rawValue] as? String ?? ""

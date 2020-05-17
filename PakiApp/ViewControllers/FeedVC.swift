@@ -28,6 +28,7 @@ class FeedVC: GeneralViewController {
     var numAdsToLoad = 5
     var nativeAds = [GADUnifiedNativeAd]()
     var adLoader: GADAdLoader!
+    let myGroup = DispatchGroup()
     //
     
     let allPakis: [Paki] = [.awesome, .good, .meh, .bad, .terrible]
@@ -66,7 +67,7 @@ class FeedVC: GeneralViewController {
         loadingView.startLoading()
         
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
-        refreshControl.tintColor = UIColor.defaultPurple
+        refreshControl.tintColor = UIColor.white
         feedCollection.alwaysBounceVertical = true
         feedCollection.refreshControl = refreshControl
         
@@ -158,24 +159,24 @@ class FeedVC: GeneralViewController {
         var pakiCount = 0
         
         for paki in allPakis {
+            myGroup.enter()
             FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
                 pakiCount += 1
                 if let post = userPost {
+                    print("Finished request \(pakiCount)")
                     self.allPosts.append(contentsOf: post)
                     self.allPosts.sort(by: {$0.datePosted > $1.datePosted})
                     self.filteredPosts = self.allPosts
-                    print("PakiCount \(pakiCount) AllPaki \(self.allPakis.count)")
-                    if pakiCount == self.allPakis.count {
-                        print("Load all feeds")
-                        self.fillFeedItems()
-                        done?()
-                    }
+                    self.feedCollection.isUserInteractionEnabled = true
+                    self.loadingView.stopLoading()
+                    self.fillFeedItems()
+                    done?()
                 }
-                self.feedCollection.isUserInteractionEnabled = true
-                self.loadingView.stopLoading()
             }
         }
     }
+    
+    
     
     @objc
     private func didPullToRefresh(_ sender: Any) {
@@ -310,13 +311,13 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         if let filteredPost = feedItem as? UserPost {
             let text = filteredPost.content
             let title = filteredPost.title
-            let collectionWidth = collectionView.frame.width
+            let collectionWidth = collectionView.frame.width - 32
             
             let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionWidth).height
             let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height
             let tempFeedHeight = titleHeight + contentHeight + 150
             let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 : tempFeedHeight
-
+            print("FeedHeight text \(text) height \(feedHeight)")
             return CGSize(width: view.frame.size.width - 16, height: feedHeight)
         } else {
             return CGSize(width: view.frame.size.width, height: 80)
@@ -339,10 +340,16 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 // MARK: - FeedHeaderProtocol
 extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol {
     
+    func didSharePost(post: UserPost) {
+        
+    }
+    
+    
     func didSubmitReportUser(post: UserPost) {
         guard let index = feedItems.firstIndex(where: {($0 as? UserPost) == post}) else { return }
         feedItems.remove(at: index)
-        feedCollection.reloadItems(at: [IndexPath(item: index, section: 0)])
+        feedCollection.reloadData()
+        FirebaseManager.Instance.reportPost(post: post)
     }
     
     func didReportUser(post: UserPost) {

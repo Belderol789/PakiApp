@@ -99,6 +99,7 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let comment = filteredComments[indexPath.item]
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCollectionViewCell.className, for: indexPath) as! CommentCollectionViewCell
+        feedCell.delegate = self
         feedCell.commentKey = currentPost.commentKey
         feedCell.setupWith(userComment: comment)
         return feedCell
@@ -135,7 +136,50 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
 
 // MARK: - CommentsHeaderProtocol
 
-extension CommentsVC: CommentsHeaderProtocol {
+extension CommentsVC: CommentsHeaderProtocol, ReportViewProtocol, CommentCellProtocol {
+    
+    func didReportComment(comment: UserPost) {
+        if DatabaseManager.Instance.userIsLoggedIn {
+            let reportView = Bundle.main.loadNibNamed(ReportView.className, owner: self, options: nil)?.first as! ReportView
+            reportView.frame = view.bounds
+            reportView.delegate = self
+            reportView.reportedPost = comment
+            view.addSubview(reportView)
+            reportView.setupXib()
+        } else {
+            self.showAlertWith(title: "Authorization Required", message: "Kindly login or signup to continue", actions: [], hasDefaultOK: true)
+        }
+    }
+    
+    func didSubmitReportUser(post: UserPost) {
+        if post.commentID != nil {
+            guard let index = filteredComments.firstIndex(of: post) else { return }
+            filteredComments.remove(at: index)
+            commentsCollection.reloadData()
+            
+            let text = post.content
+            let title = post.title
+            let titleHeight = title.returnStringHeight(fontSize: 15, width: self.commentsCollection.frame.width).height + 100
+            let feedHeight = text.returnStringHeight(fontSize: 13, width: self.commentsCollection.frame.width).height + titleHeight
+            self.commentHeight -= feedHeight
+            
+        } else {
+            FirebaseManager.Instance.reportPost(post: post)
+        }
+    }
+    
+    func reportPost(post: UserPost) {
+        if DatabaseManager.Instance.userIsLoggedIn {
+            let reportView = Bundle.main.loadNibNamed(ReportView.className, owner: self, options: nil)?.first as! ReportView
+            reportView.frame = view.bounds
+            reportView.delegate = self
+            reportView.reportedPost = post
+            view.addSubview(reportView)
+            reportView.setupXib()
+        } else {
+            self.showAlertWith(title: "Authorization Required", message: "Kindly login or signup to continue", actions: [], hasDefaultOK: true)
+        }
+    }
     
     func starWasUpdated(post: UserPost) {
         self.delegate?.starWasUpdated(post: post)

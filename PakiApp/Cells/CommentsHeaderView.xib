@@ -130,6 +130,9 @@
                             <rect key="frame" x="465" y="16" width="19" height="22"/>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" image="ellipsis" catalog="system"/>
+                            <connections>
+                                <action selector="didTapElipseButton:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="5cp-bf-irv"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.18823529410000001" green="0.2666666667" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>

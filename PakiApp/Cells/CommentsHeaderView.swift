@@ -13,6 +13,7 @@ protocol CommentsHeaderProtocol: class {
     func alertUserToLogin()
     func proceedToReplyPage()
     func starWasUpdated(post: UserPost)
+    func reportPost(post: UserPost)
 }
 
 class CommentsHeaderView: UICollectionReusableView, Reusable {
@@ -112,4 +113,9 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
     
     @IBAction func shareTapped(_ sender: UIButton) {
     }
+    
+    @IBAction func didTapElipseButton(_ sender: UIButton) {
+        self.delegate?.reportPost(post: currentPost)
+    }
+    
 }

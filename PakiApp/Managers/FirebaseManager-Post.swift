@@ -47,7 +47,8 @@ extension FirebaseManager {
                                    FirebaseKeys.starCount.rawValue: userPost.starCount,
                                    FirebaseKeys.starList.rawValue: userPost.starList,
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
-                                   FirebaseKeys.uid.rawValue: userID]
+                                   FirebaseKeys.uid.rawValue: userID,
+                                   FirebaseKeys.reportCount.rawValue: 0]
         
         
         self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
@@ -69,7 +70,8 @@ extension FirebaseManager {
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
                                    FirebaseKeys.postKey.rawValue: userPost.postKey,
                                    FirebaseKeys.commentKey.rawValue: userPost.commentKey!,
-                                   FirebaseKeys.uid.rawValue: userID]
+                                   FirebaseKeys.uid.rawValue: userID,
+                                   FirebaseKeys.reportCount.rawValue: 0]
         
         self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.paki).document(userID).setData(data, merge: true)
         self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
@@ -126,7 +128,11 @@ extension FirebaseManager {
     }
     
     func reportPost(post: UserPost) {
-        
+        let updatedData: [String: Any] = [FirebaseKeys.reportCount.rawValue: post.reportCount + 1]
+        if post.reportCount + 1 < 10 {
+            self.firestoreDB.collection(Identifiers.posts.rawValue).document(post.postKey).collection(post.paki).document(post.uid).updateData(updatedData)
+        } else {
+            self.firestoreDB.collection(Identifiers.posts.rawValue).document(post.postKey).collection(post.paki).document(post.uid).delete()
+        }
     }
-    
 }

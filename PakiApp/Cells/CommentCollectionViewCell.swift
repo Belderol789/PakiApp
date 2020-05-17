@@ -17,6 +17,10 @@ struct UserComment {
     let profilePhotoURL: String?
 }
 
+protocol CommentCellProtocol: class {
+    func didReportComment(comment: UserPost)
+}
+
 class CommentCollectionViewCell: UICollectionViewCell, Reusable {
     
     @IBOutlet weak var commentStarLabel: UILabel!
@@ -27,6 +31,7 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
     @IBOutlet weak var profilePhoto: ImageViewX!
     @IBOutlet weak var starButton: UIButton!
     
+    weak var delegate: CommentCellProtocol?
     var comment: UserPost!
     var commentKey: String!
     
@@ -75,4 +80,10 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
             FirebaseManager.Instance.updateUserStars(uid: comment.uid)
         }
     }
+    
+    @IBAction func didTapReportButton(_ sender: UIButton) {
+        self.delegate?.didReportComment(comment: comment)
+    }
+    
+    
 }

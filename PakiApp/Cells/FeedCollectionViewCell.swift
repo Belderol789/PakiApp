@@ -14,6 +14,7 @@ protocol FeedPostProtocol: class {
     func proceedToComments(post: UserPost)
     func starWasUpdated(post: UserPost)
     func didReportUser(post: UserPost)
+    func didSharePost(post: UserPost)
 }
 
 class FeedCollectionViewCell: UICollectionViewCell, Reusable {
@@ -127,7 +128,7 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     }
     
     @IBAction func didShare(_ sender: UIButton) {
-        
+        self.delegate?.didSharePost(post: currentPost)
     }
     
     @IBAction func didTapElipse(_ sender: UIButton) {
