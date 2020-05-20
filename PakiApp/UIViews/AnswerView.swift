@@ -15,6 +15,7 @@ protocol AnswerViewProtocol: class {
 
 class AnswerView: UIView, Reusable {
     
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var instLabel: UILabel!
     @IBOutlet weak var howAreYouLabel: UILabel!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -98,7 +99,11 @@ class AnswerView: UIView, Reusable {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         shareView.addGestureRecognizer(tapGesture)
         
+        let dateToday = Date().convertToMediumString()
+        dateLabel.text = "\(dateToday)"
+        
         shareView.backgroundColor = UIColor.defaultBGColor
+        howAreYouLabel.textColor = UIColor.defaultPurple
         shareTextView.delegate = self
         titleTextView.delegate = self
         let pakiColor = UIColor.getColorFor(paki: currentPaki)

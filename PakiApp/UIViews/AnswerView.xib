@@ -29,10 +29,19 @@
                                             <constraint firstAttribute="width" secondItem="N6A-sC-GYi" secondAttribute="height" multiplier="1:1" id="nWt-eg-hP8"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today I just feel..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JLr-Un-WSt">
-                                        <rect key="frame" x="83" y="248" width="248.5" height="36"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="December 6, 1994" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JLr-Un-WSt">
+                                        <rect key="frame" x="78.5" y="210" width="257" height="36"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today I just feel..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ovu-aW-NdA">
+                                        <rect key="frame" x="110" y="266" width="194.5" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="XUg-bP-eZg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="25"/>
+                                        <color key="textColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1t-WX-QKf" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
@@ -207,12 +216,14 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="N6A-sC-GYi" firstAttribute="top" secondItem="TNH-Gt-8MY" secondAttribute="bottom" constant="30" id="1VR-SS-89w"/>
+                                    <constraint firstItem="TNH-Gt-8MY" firstAttribute="top" secondItem="ovu-aW-NdA" secondAttribute="bottom" constant="8" id="23G-2o-cXv"/>
                                     <constraint firstItem="Q1t-WX-QKf" firstAttribute="centerX" secondItem="kcA-1m-UOA" secondAttribute="centerX" id="4kr-cX-R8M"/>
                                     <constraint firstItem="Q1t-WX-QKf" firstAttribute="top" secondItem="N6A-sC-GYi" secondAttribute="bottom" constant="40" id="G6e-8M-LQr"/>
+                                    <constraint firstItem="ovu-aW-NdA" firstAttribute="top" secondItem="JLr-Un-WSt" secondAttribute="bottom" constant="20" id="Qgo-Z1-Rb5"/>
                                     <constraint firstItem="3Fz-Nw-Dgd" firstAttribute="leading" secondItem="kcA-1m-UOA" secondAttribute="leading" id="TyH-yP-Hf0"/>
-                                    <constraint firstItem="TNH-Gt-8MY" firstAttribute="top" secondItem="JLr-Un-WSt" secondAttribute="bottom" constant="20" id="X1A-7c-qL7"/>
                                     <constraint firstAttribute="trailing" secondItem="3Fz-Nw-Dgd" secondAttribute="trailing" id="XXV-si-uo3"/>
                                     <constraint firstItem="3Fz-Nw-Dgd" firstAttribute="top" secondItem="Q1t-WX-QKf" secondAttribute="bottom" constant="40" id="eIS-Kg-2W8"/>
+                                    <constraint firstItem="ovu-aW-NdA" firstAttribute="centerX" secondItem="kcA-1m-UOA" secondAttribute="centerX" id="sx9-Eq-ADo"/>
                                 </constraints>
                             </view>
                             <constraints>
@@ -386,10 +397,11 @@
                 <outlet property="badIcon" destination="YiN-Uf-oak" id="Yuq-3h-E7K"/>
                 <outlet property="badLabel" destination="dc8-Rb-u4N" id="gIa-sX-5r4"/>
                 <outlet property="blurHeightConst" destination="52k-ab-0Zu" id="mso-yQ-tpb"/>
+                <outlet property="dateLabel" destination="JLr-Un-WSt" id="Aqk-tr-XqY"/>
                 <outlet property="emojiView" destination="N6A-sC-GYi" id="oRz-if-nfe"/>
                 <outlet property="goodIcon" destination="JTT-dx-6tY" id="4mF-No-CBd"/>
                 <outlet property="goodLabel" destination="41y-zY-3Xq" id="a9I-3b-nqC"/>
-                <outlet property="howAreYouLabel" destination="JLr-Un-WSt" id="RnF-Ll-MFc"/>
+                <outlet property="howAreYouLabel" destination="ovu-aW-NdA" id="LXm-Oy-OdM"/>
                 <outlet property="instLabel" destination="TNH-Gt-8MY" id="nnf-mV-s9N"/>
                 <outlet property="mehIcon" destination="o2g-4Y-yYP" id="scQ-Rv-OwG"/>
                 <outlet property="mehLabel" destination="Pgi-G4-tjI" id="gb2-X9-72W"/>
