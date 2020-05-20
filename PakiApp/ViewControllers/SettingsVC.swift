@@ -164,11 +164,15 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
     }
     
     @IBAction func didTapTermsConditions(_ sender: UIButton) {
-        
+        if let termsConditions = DatabaseManager.Instance.termsConditions {
+           self.openURL(string: termsConditions)
+        }
     }
     
     @IBAction func didTapPrivacyPolicy(_ sender: UIButton) {
-        
+        if let privacyPolicy = DatabaseManager.Instance.privacyPolicy {
+           self.openURL(string: privacyPolicy)
+        }
     }
     
     @IBAction func didLogout(_ sender: ButtonX) {

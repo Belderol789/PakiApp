@@ -14,6 +14,7 @@ class CommentsVC: GeneralViewController {
     @IBOutlet weak var commentsCollection: UICollectionView!
     @IBOutlet weak var commentsField: UITextField!
     @IBOutlet weak var collectionContainer: ViewX!
+    @IBOutlet weak var backButton: UIButton!
     // Constraints
     @IBOutlet weak var commentsHeightConst: NSLayoutConstraint!
     @IBOutlet weak var replyHeightConst: NSLayoutConstraint!
@@ -37,6 +38,7 @@ class CommentsVC: GeneralViewController {
         hideTabbar = true
         setupViewUI()
         getAllComments()
+        AppStoreManager.requestReviewIfAppropriate()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -87,6 +89,12 @@ class CommentsVC: GeneralViewController {
             alertUserToLogin()
         }
     }
+    
+    @IBAction func didTapBack(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
 }
 
 // MARK: - UICollectionView
@@ -137,6 +145,12 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
 // MARK: - CommentsHeaderProtocol
 
 extension CommentsVC: CommentsHeaderProtocol, ReportViewProtocol, CommentCellProtocol {
+    
+    func didSharePost(post: UserPost) {
+        let activityVC = UIActivityViewController(activityItems: ["\(post.username) feeling \(post.paki) \nPosted on \(post.dateString) \n\nTitle: \(post.title) \n\nContent: \(post.content)"], applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+        self.present(activityVC, animated: true, completion: nil)
+    }
     
     func didReportComment(comment: UserPost) {
         if DatabaseManager.Instance.userIsLoggedIn {

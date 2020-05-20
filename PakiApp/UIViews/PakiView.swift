@@ -17,8 +17,10 @@ class PakiView: ViewX, Reusable {
     }
     
     func setupView(with paki: Paki) {
-        self.layer.borderColor = UIColor.systemBackground.cgColor
-        self.layer.borderWidth = 1
+        self.layer.shadowColor = UIColor.white.cgColor
+        self.layer.shadowOpacity = 0.25
+        self.layer.shadowRadius = 1
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
         self.backgroundColor = UIColor.getColorFor(paki: paki)
     }
     

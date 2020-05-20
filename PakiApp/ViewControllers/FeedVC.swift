@@ -28,7 +28,6 @@ class FeedVC: GeneralViewController {
     var numAdsToLoad = 5
     var nativeAds = [GADUnifiedNativeAd]()
     var adLoader: GADAdLoader!
-    let myGroup = DispatchGroup()
     //
     
     let allPakis: [Paki] = [.awesome, .good, .meh, .bad, .terrible]
@@ -40,14 +39,13 @@ class FeedVC: GeneralViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        feedCollection.isUserInteractionEnabled = false
-        print("start loading ads")
+        FirebaseManager.Instance.getSettingsData()
+        
         setupMobileAds()
-        loadingView.blurView.effect = nil
-        credentialHeight.constant = self.view.frame.height / 4
         setupViewUI()
-        resetUserEmoji()
+        
         setupCountDown()
+        checkIfUserLoggedIn()
         NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
     }
     
@@ -62,15 +60,19 @@ class FeedVC: GeneralViewController {
     // MARK: - Functions
     fileprivate func setupViewUI() {
         
+        credentialHeight.constant = self.view.frame.height / 4
+        
+        loadingView.blurView.effect = nil
         loadingView.stopLoading()
         loadingView.setupCircleViews(paki: .all)
         loadingView.startLoading()
         
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
         refreshControl.tintColor = UIColor.white
+        
         feedCollection.alwaysBounceVertical = true
         feedCollection.refreshControl = refreshControl
-        
+        feedCollection.isUserInteractionEnabled = false
         feedCollection.register(UnifiedNativeAdCVC.nib, forCellWithReuseIdentifier: UnifiedNativeAdCVC.className)
         feedCollection.register(FeedCollectionViewCell.nib, forCellWithReuseIdentifier: FeedCollectionViewCell.className)
         feedCollection.register(FeedHeaderView.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedHeaderView.className)
@@ -79,13 +81,36 @@ class FeedVC: GeneralViewController {
         feedCollection.dataSource = self
         
         credentialView.layer.cornerRadius = 15
+        
+        let logoImageView = UIImageView()
+        logoImageView.frame = CGRect(x: 0.0, y: -8.0, width: 40, height: 40)
+        logoImageView.backgroundColor = UIColor.defaultFGColor
+        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.layer.masksToBounds = true
+        logoImageView.layer.borderWidth = 1
+        logoImageView.layer.borderColor = UIColor.white.cgColor
+        logoImageView.layer.cornerRadius = 20
+        
+        let imageItem = UIBarButtonItem.init(customView: logoImageView)
+        let widthConstraint = logoImageView.widthAnchor.constraint(equalToConstant: 40)
+        let heightConstraint = logoImageView.heightAnchor.constraint(equalToConstant: 40)
+        heightConstraint.isActive = true
+        widthConstraint.isActive = true
+        
+        navigationItem.leftBarButtonItem =  imageItem
+        
+        if let profilePhoto = DatabaseManager.Instance.mainUser.profilePhotoURL {
+            logoImageView.sd_setImage(with: URL(string: profilePhoto), completed: nil)
+        } else {
+            logoImageView.image = UIImage(named: "Mascot")
+        }
     }
     
     func checkIfUserLoggedIn() {
         if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.userObject.first != nil  {
             credentialView.isHidden = true
             tabBarController?.tabBar.isHidden = false
-            activateEmojiView(notification: nil)
+            resetUserEmoji()
         } else {
             credentialView.isHidden = false
             tabBarController?.tabBar.isHidden = true
@@ -93,23 +118,20 @@ class FeedVC: GeneralViewController {
     }
     
     func resetUserEmoji() {
-        let today = Date()
-        if let savedDate = DatabaseManager.Instance.savedDate {
-            
-            let hoursPassed = Date().numberTimePassed(passed: savedDate, .hour)
-            
-            print("Hours Passed \(hoursPassed)")
-            if hoursPassed >= 24 {
-                DatabaseManager.Instance.updateUserDefaults(value: today.timeIntervalSince1970, key: .savedDate)
-                DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
-            }
-            
-            checkIfUserLoggedIn()
-            
-        } else {
-            DatabaseManager.Instance.updateUserDefaults(value: today.timeIntervalSince1970, key: .savedDate)
-            checkIfUserLoggedIn()
+        let today = DatabaseManager.Instance.savedDate ?? Date()
+        let tomorrow = Date().tomorrow
+        
+        let todayString = today.convertToMediumString()
+        let tomorrowString = tomorrow.convertToMediumString()
+        
+        print("Today \(todayString) Tomorrow \(tomorrowString)")
+        
+        if todayString != tomorrowString {
+            DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
         }
+        
+        activateEmojiView(notification: nil)
+        
     }
     
     @objc
@@ -156,14 +178,10 @@ class FeedVC: GeneralViewController {
     fileprivate func getAllPosts(done: EmptyClosure?) {
         
         allPosts.removeAll()
-        var pakiCount = 0
         
         for paki in allPakis {
-            myGroup.enter()
             FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
-                pakiCount += 1
                 if let post = userPost {
-                    print("Finished request \(pakiCount)")
                     self.allPosts.append(contentsOf: post)
                     self.allPosts.sort(by: {$0.datePosted > $1.datePosted})
                     self.filteredPosts = self.allPosts
@@ -194,7 +212,7 @@ class FeedVC: GeneralViewController {
     }
     
     func setupMobileAds() {
-
+        
         let options = GADMultipleAdsAdLoaderOptions()
         options.numberOfAds = numAdsToLoad
         
@@ -233,6 +251,11 @@ class FeedVC: GeneralViewController {
         navigationController?.pushViewController(credentialVC, animated: true)
     }
     
+    @IBAction func didSelectTermsConditions(_ sender: UIButton) {
+        if let termsConditions = DatabaseManager.Instance.termsConditions {
+           self.openURL(string: termsConditions)
+        }
+    }
 }
 
 // MARK: - GADUnifiedNativeAdLoaderDelegate
@@ -272,8 +295,13 @@ extension FeedVC: AnswerViewProtocol {
         allPosts.sort(by: {$0.datePosted > $1.datePosted})
         
         let pakiDict: [String] = self.allPosts.map({$0.paki})
+        
         DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
+        DatabaseManager.Instance.updateUserDefaults(value: Date().tomorrow, key: .savedDate)
+        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
+        
+        feedCollection.isUserInteractionEnabled = true
         
         filteredPosts = allPosts
         fillFeedItems()
@@ -341,9 +369,10 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol {
     
     func didSharePost(post: UserPost) {
-        
+        let activityVC = UIActivityViewController(activityItems: ["\(post.username) feeling \(post.paki) \nPosted on \(post.dateString) \n\nTitle: \(post.title) \n\nContent: \(post.content)"], applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+        self.present(activityVC, animated: true, completion: nil)
     }
-    
     
     func didSubmitReportUser(post: UserPost) {
         guard let index = feedItems.firstIndex(where: {($0 as? UserPost) == post}) else { return }

@@ -32,7 +32,7 @@
                             </connections>
                         </segmentedControl>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Today" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dzW-A7-lvM">
-                            <rect key="frame" x="162.5" y="114" width="73" height="18"/>
+                            <rect key="frame" x="162.5" y="114" width="73" height="28"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -59,6 +59,7 @@
                         <constraint firstAttribute="trailing" secondItem="nAH-8Q-sL0" secondAttribute="trailing" id="LzE-BU-AUp"/>
                         <constraint firstItem="nAH-8Q-sL0" firstAttribute="top" secondItem="5Lz-6G-AC3" secondAttribute="top" constant="8" id="Qfg-nm-3GK"/>
                         <constraint firstItem="nAH-8Q-sL0" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" id="at2-yT-kz0"/>
+                        <constraint firstAttribute="bottom" secondItem="dzW-A7-lvM" secondAttribute="bottom" constant="8" id="kED-VT-cp9"/>
                         <constraint firstAttribute="trailing" secondItem="gyL-nu-hD9" secondAttribute="trailing" constant="8" id="o3X-eH-1YW"/>
                         <constraint firstItem="gyL-nu-hD9" firstAttribute="leading" secondItem="5Lz-6G-AC3" secondAttribute="leading" constant="8" id="sn3-C1-9Sv"/>
                     </constraints>

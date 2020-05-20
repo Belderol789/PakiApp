@@ -68,6 +68,7 @@
 		E38B08D824713B02009D449E /* ReportTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08D624713B02009D449E /* ReportTableViewCell.xib */; };
 		E38B08DA24713DC4009D449E /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08D924713DC4009D449E /* ReportView.swift */; };
 		E38B08DC24713DEB009D449E /* ReportView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08DB24713DEB009D449E /* ReportView.xib */; };
+		E38B08DE2472E961009D449E /* AppstoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08DD2472E961009D449E /* AppstoreManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -137,6 +138,7 @@
 		E38B08D624713B02009D449E /* ReportTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportTableViewCell.xib; sourceTree = "<group>"; };
 		E38B08D924713DC4009D449E /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		E38B08DB24713DEB009D449E /* ReportView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportView.xib; sourceTree = "<group>"; };
+		E38B08DD2472E961009D449E /* AppstoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +300,7 @@
 				E33E470E245B1F6D00B838DB /* FirebaseManager-Post.swift */,
 				E33E4712245EA9BA00B838DB /* FirebaseManager-Comment.swift */,
 				E33E471E2467135E00B838DB /* TestManager.swift */,
+				E38B08DD2472E961009D449E /* AppstoreManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				E33A733E2455FBF600AAD61A /* DatabaseManager.swift in Sources */,
 				E33A73312454856E00AAD61A /* ButtonX.swift in Sources */,
 				E33A72E92454767C00AAD61A /* AppDelegate.swift in Sources */,
+				E38B08DE2472E961009D449E /* AppstoreManager.swift in Sources */,
 				E33A73252454856E00AAD61A /* ViewX.swift in Sources */,
 				E33A734E24587FC100AAD61A /* LoadingView.swift in Sources */,
 				E33A72EB2454767C00AAD61A /* SceneDelegate.swift in Sources */,
@@ -620,6 +624,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PakiApp/PakiApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XUN95V9WDZ;
 				INFOPLIST_FILE = PakiApp/Info.plist;
@@ -629,6 +634,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kemuel.PakiApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -640,6 +646,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PakiApp/PakiApp.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XUN95V9WDZ;
 				INFOPLIST_FILE = PakiApp/Info.plist;
@@ -649,6 +656,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kemuel.PakiApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

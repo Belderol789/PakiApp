@@ -44,7 +44,17 @@ class ProfileVC: GeneralViewController {
         usernameLabel.adjustsFontSizeToFitWidth = true
         
         setupCountDown()
-        setupUserData()
+        
+        let mainUser = DatabaseManager.Instance.mainUser
+        currentUser = mainUser
+        
+        if let userUID = DatabaseManager.Instance.userSavedUid, mainUser.uid == nil {
+            FirebaseManager.Instance.getUserData(with: userUID) {
+                self.setupUserData()
+            }
+        } else {
+           setupUserData()
+        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfile(notification:)), name: NSNotification.Name(rawValue: "UpdateProfile"), object: nil)
     }
@@ -77,28 +87,25 @@ class ProfileVC: GeneralViewController {
     }
     
     func setupUserData() {
-        let mainUser = DatabaseManager.Instance.mainUser
-        currentUser = mainUser
+        usernameLabel.text = currentUser.username
         
-        usernameLabel.text = mainUser.username
-        
-        if let photoString = mainUser.profilePhotoURL {
+        if let photoString = currentUser.profilePhotoURL {
             let photoURL = URL(string: photoString)
             userPhotoImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: "mascot"), options: .continueInBackground, completed: nil)
         } else {
             userPhotoImageView.image = UIImage(named: "mascot")
         }
         
-        if let coverPhotoString = mainUser.coverPhotoURL {
+        if let coverPhotoString = currentUser.coverPhotoURL {
             let coverURL = URL(string: coverPhotoString)
             coverPhoto.sd_setImage(with: coverURL, completed: nil)
         }
         
-        let timePassed = Double(mainUser.dateCreated) ?? 0
+        let timePassed = Double(currentUser.dateCreated) ?? 0
         let daysPassed = Date().numberTimePassed(passed: timePassed, .day)
         daysLabel.text = "\(daysPassed)"
         
-        userPosts = mainUser.userPosts.sorted(by: {$0.datePosted > $1.datePosted})
+        userPosts = currentUser.userPosts.sorted(by: {$0.datePosted > $1.datePosted})
 
         if userPosts.count <= 1 {
             FirebaseManager.Instance.getUserPosts { (userPosts) in
@@ -111,7 +118,6 @@ class ProfileVC: GeneralViewController {
             setupCalendarView()
             setupUserStats()
         }
-        
     }
     
     func setupUserStats() {

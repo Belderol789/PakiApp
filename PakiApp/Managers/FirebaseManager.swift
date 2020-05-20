@@ -20,6 +20,7 @@ enum FirebaseKeys: String {
     case coverPhoto
     case birthday
     case uid
+    case mediaURLs
     
     case reportCount
     case commentID
@@ -38,6 +39,11 @@ enum FirebaseKeys: String {
     case currentPaki
 }
 
+enum SettingsKeys: String {
+    case PrivacyPolicy
+    case TermsConditions
+}
+
 enum Identifiers: String {
     case users
     case profilePhoto
@@ -46,6 +52,7 @@ enum Identifiers: String {
     case userPosts
     case pakiCount
     case comments
+    case settings
 }
 
 class FirebaseManager {
@@ -67,6 +74,21 @@ class FirebaseManager {
 
 // MARK: - Firestore Handling
 extension FirebaseManager {
+    
+    // MARK: - Get Settings Data
+    func getSettingsData() {
+        self.firestoreDB.collection(Identifiers.settings.rawValue).document("version1").getDocument { (data, error) in
+            if let data = data?.data() {
+                if let privacyPolicy = data[SettingsKeys.PrivacyPolicy.rawValue] as? String {
+                    DatabaseManager.Instance.updateUserDefaults(value: privacyPolicy, key: .privacyPolicy)
+                }
+                
+                if let termsConditions = data[SettingsKeys.TermsConditions.rawValue] as? String {
+                    DatabaseManager.Instance.updateUserDefaults(value: termsConditions, key: .termsConditions)
+                }
+            }
+        }
+    }
     
     // MARK: - Get User Data
     func getUserData(with uid: String, completed: @escaping () -> Void) {

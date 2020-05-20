@@ -66,7 +66,7 @@
                                     </userDefinedRuntimeAttributes>
                                 </view>
                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4Ud-Ti-IDz">
-                                    <rect key="frame" x="42" y="205" width="330" height="32"/>
+                                    <rect key="frame" x="0.0" y="205" width="414" height="32"/>
                                     <segments>
                                         <segment title="Year"/>
                                         <segment title="Monthly"/>
@@ -93,11 +93,12 @@
                                 <constraint firstItem="N0C-g3-yPP" firstAttribute="top" secondItem="4Ud-Ti-IDz" secondAttribute="bottom" constant="8" id="0ba-Jj-IGC"/>
                                 <constraint firstAttribute="height" constant="1000" id="9Ts-4D-BOy"/>
                                 <constraint firstItem="HpM-Yl-YZp" firstAttribute="leading" secondItem="uoJ-zr-F9u" secondAttribute="leading" constant="40" id="D7j-sI-JLa"/>
+                                <constraint firstItem="4Ud-Ti-IDz" firstAttribute="leading" secondItem="uoJ-zr-F9u" secondAttribute="leading" id="MB3-uw-hpC"/>
                                 <constraint firstItem="YRl-l1-JMl" firstAttribute="top" secondItem="HpM-Yl-YZp" secondAttribute="bottom" constant="8" id="MQt-1m-lAA"/>
                                 <constraint firstAttribute="bottom" secondItem="YRl-l1-JMl" secondAttribute="bottom" id="NGZ-Dl-rU9"/>
-                                <constraint firstItem="4Ud-Ti-IDz" firstAttribute="width" secondItem="N0C-g3-yPP" secondAttribute="width" id="WDD-HG-Ggd"/>
                                 <constraint firstItem="YRl-l1-JMl" firstAttribute="centerX" secondItem="uoJ-zr-F9u" secondAttribute="centerX" id="csQ-Dx-dpb"/>
                                 <constraint firstItem="HpM-Yl-YZp" firstAttribute="top" secondItem="N0C-g3-yPP" secondAttribute="bottom" constant="20" id="dLd-VB-Znu"/>
+                                <constraint firstAttribute="trailing" secondItem="4Ud-Ti-IDz" secondAttribute="trailing" id="g2G-sa-e4y"/>
                                 <constraint firstItem="4Ud-Ti-IDz" firstAttribute="centerX" secondItem="uoJ-zr-F9u" secondAttribute="centerX" id="mU8-io-tQR"/>
                             </constraints>
                         </view>

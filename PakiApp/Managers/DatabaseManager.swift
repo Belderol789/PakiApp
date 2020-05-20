@@ -13,8 +13,13 @@ enum DatabaseKeys: String {
     case userIsLoggedIn
     case userHasAnswered
     case userLightAppearance
+    case userSavedUID
     case savedDate
     case allPakis
+    case termsConditions
+    case privacyPolicy
+    case reviewWorthyActionCount
+    case lastVersion
 }
 
 typealias EmptyClosure = () -> Void
@@ -137,16 +142,36 @@ class DatabaseManager {
         return UserDefaults.standard.bool(forKey: DatabaseKeys.userHasAnswered.rawValue)
     }
     
-    var savedDate: Double? {
-        return UserDefaults.standard.value(forKey: DatabaseKeys.savedDate.rawValue) as? Double
+    var savedDate: Date? {
+        return UserDefaults.standard.value(forKey: DatabaseKeys.savedDate.rawValue) as? Date
     }
     
     var userSetLightAppearance: Bool {
         return UserDefaults.standard.bool(forKey: DatabaseKeys.userLightAppearance.rawValue)
     }
     
+    var userSavedUid: String? {
+        return UserDefaults.standard.string(forKey: DatabaseKeys.userSavedUID.rawValue)
+    }
+    
     var savedAllPakis: [String] {
         return UserDefaults.standard.value(forKey: DatabaseKeys.allPakis.rawValue) as? [String] ?? []
+    }
+    
+    var reviewCount: Int {
+        return UserDefaults.standard.integer(forKey: DatabaseKeys.reviewWorthyActionCount.rawValue)
+    }
+    
+    var lastVersion: String? {
+        return UserDefaults.standard.string(forKey: DatabaseKeys.lastVersion.rawValue)
+    }
+    
+    var termsConditions: String? {
+        return UserDefaults.standard.string(forKey: DatabaseKeys.termsConditions.rawValue)
+    }
+    
+    var privacyPolicy: String? {
+        return UserDefaults.standard.string(forKey: DatabaseKeys.privacyPolicy.rawValue)
     }
     
     func updateUserDefaults(value: Any, key: DatabaseKeys) {

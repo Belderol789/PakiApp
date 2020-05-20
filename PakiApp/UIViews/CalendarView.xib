@@ -75,12 +75,11 @@
                                     <rect key="frame" x="375" y="0.0" width="375" height="748"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T7t-YM-huB" customClass="FSCalendar">
-                                            <rect key="frame" x="12.5" y="199" width="350" height="350"/>
+                                            <rect key="frame" x="16" y="202.5" width="343" height="343"/>
                                             <color key="backgroundColor" red="0.18823529410000001" green="0.2666666667" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="350" id="c3d-r4-N0q"/>
-                                                <constraint firstAttribute="width" constant="350" id="qgV-b6-leA"/>
+                                                <constraint firstAttribute="width" secondItem="T7t-YM-huB" secondAttribute="height" multiplier="1:1" id="jX2-mC-Xjd"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="color" keyPath="todayColor">
@@ -108,8 +107,10 @@
                                         </view>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="T7t-YM-huB" secondAttribute="trailing" constant="16" id="9Yx-4d-xHN"/>
                                         <constraint firstItem="T7t-YM-huB" firstAttribute="centerX" secondItem="z9g-Bf-uxl" secondAttribute="centerX" id="HRw-gf-yr2"/>
                                         <constraint firstItem="T7t-YM-huB" firstAttribute="centerY" secondItem="z9g-Bf-uxl" secondAttribute="centerY" id="fGW-lF-eaL"/>
+                                        <constraint firstItem="T7t-YM-huB" firstAttribute="leading" secondItem="z9g-Bf-uxl" secondAttribute="leading" constant="16" id="lmj-T3-JOk"/>
                                     </constraints>
                                 </view>
                             </subviews>

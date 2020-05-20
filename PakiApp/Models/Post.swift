@@ -44,6 +44,8 @@ class UserPost: Object {
         return starList.count
     }
     
+    var mediaURLs = List<String>()
+    
     var dateString: String {
         let date = Date(timeIntervalSince1970: datePosted)
         return date.convertToMediumString()
@@ -79,6 +81,11 @@ class UserPost: Object {
         if let stars = data[FirebaseKeys.starList.rawValue] as? [String] {
             userPost.starList.append(objectsIn: stars)
         }
+        
+        if let mediaURLs = data[FirebaseKeys.mediaURLs.rawValue] as? [String] {
+            userPost.mediaURLs.append(objectsIn: mediaURLs)
+        }
+        
         userPost.shareCount = data[FirebaseKeys.shareCount.rawValue] as? Int ?? 0
         return userPost
     }

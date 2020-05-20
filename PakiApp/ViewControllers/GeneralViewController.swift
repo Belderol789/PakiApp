@@ -94,6 +94,13 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
         return "\(value)"
     }
     
+    func openURL(string: String) {
+        guard let url = URL(string: string) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
     func reactivateEmojiView() {
         if !DatabaseManager.Instance.userHasAnswered {
             FirebaseManager.Instance.sendEmptyPost()
