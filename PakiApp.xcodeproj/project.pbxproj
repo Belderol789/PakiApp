@@ -69,6 +69,8 @@
 		E38B08DA24713DC4009D449E /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08D924713DC4009D449E /* ReportView.swift */; };
 		E38B08DC24713DEB009D449E /* ReportView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08DB24713DEB009D449E /* ReportView.xib */; };
 		E38B08DE2472E961009D449E /* AppstoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08DD2472E961009D449E /* AppstoreManager.swift */; };
+		E38B08E82476FAC2009D449E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08E72476FAC1009D449E /* ProfileView.swift */; };
+		E38B08EA2476FC62009D449E /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08E92476FC62009D449E /* ProfileView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,6 +141,8 @@
 		E38B08D924713DC4009D449E /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		E38B08DB24713DEB009D449E /* ReportView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReportView.xib; sourceTree = "<group>"; };
 		E38B08DD2472E961009D449E /* AppstoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreManager.swift; sourceTree = "<group>"; };
+		E38B08E72476FAC1009D449E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		E38B08E92476FC62009D449E /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +290,8 @@
 				E33E47222467F9CE00B838DB /* GraphsView.xib */,
 				E38B08D924713DC4009D449E /* ReportView.swift */,
 				E38B08DB24713DEB009D449E /* ReportView.xib */,
+				E38B08E72476FAC1009D449E /* ProfileView.swift */,
+				E38B08E92476FC62009D449E /* ProfileView.xib */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -376,6 +382,7 @@
 			files = (
 				E33A72F52454767F00AAD61A /* LaunchScreen.storyboard in Resources */,
 				E33A73242454856E00AAD61A /* CommentsHeaderView.xib in Resources */,
+				E38B08EA2476FC62009D449E /* ProfileView.xib in Resources */,
 				E33A733724548BEA00AAD61A /* AnswerView.xib in Resources */,
 				E33A731C2454856E00AAD61A /* FeedHeaderView.xib in Resources */,
 				E33A72FD245477EC00AAD61A /* GoogleService-Info.plist in Resources */,
@@ -486,6 +493,7 @@
 				E33A73442456171300AAD61A /* GeneralViewController.swift in Sources */,
 				E33E4711245C649D00B838DB /* SettingsVC.swift in Sources */,
 				E33A734A2457303E00AAD61A /* CredentialView.swift in Sources */,
+				E38B08E82476FAC2009D449E /* ProfileView.swift in Sources */,
 				E33A73332454856E00AAD61A /* CalendarVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,7 +15,6 @@ protocol CredentialViewProtocol: class {
 
 class CredentialView: UIView, Reusable {
     
-
     @IBOutlet var credLabels: [UILabel]!
     @IBOutlet weak var photoButton: UIButton!
     @IBOutlet var contentView: UIView!

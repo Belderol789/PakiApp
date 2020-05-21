@@ -9,8 +9,9 @@
 import UIKit
 import Photos
 import CountryPickerView
+import MessageUI
 
-class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
+class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol, MFMailComposeViewControllerDelegate {
     // IBOutlets
     @IBOutlet weak var credentialView: CredentialView!
     @IBOutlet weak var phoneField: UITextField!
@@ -154,6 +155,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         if message != nil {
             authButton.title = isLogin ? "Login" : "Continue"
             self.showAlertWith(title: "Authentication Error", message: message!, actions: [], hasDefaultOK: true)
+            credentialView.usernameField.text = nil
             credentialView.isHidden = true
         } else {
             print("Sucessfully loaded in user")
@@ -195,6 +197,52 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol {
         pickerController.sourceType = .photoLibrary
         self.present(pickerController, animated: true, completion: nil)
     }
+    
+    func sendEmail() {
+        let email = "krats.apps@gmail.com"
+        let emailURLString = "mailto:\(email)"
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([email])
+            mail.setMessageBody("", isHTML: true)
+            present(mail, animated: true)
+        } else if let emailURL = URL(string: emailURLString), UIApplication.shared.canOpenURL(emailURL) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(emailURL)
+            } else {
+                UIApplication.shared.openURL(emailURL)
+            }
+        } else {
+            print("Device unable to send emails")
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
+    // MARK: -IBActions
+    @IBAction func tapRemainAnonymous(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func tapTermsConditions(_ sender: UIButton) {
+        if let termsConditions = DatabaseManager.Instance.termsConditions {
+            self.openURL(string: termsConditions)
+        }
+    }
+    
+    @IBAction func tapPrivacyPolicy(_ sender: UIButton) {
+        if let privacyPolicy = DatabaseManager.Instance.privacyPolicy {
+            self.openURL(string: privacyPolicy)
+        }
+    }
+    
+    @IBAction func tapContactUs(_ sender: UIButton) {
+        sendEmail()
+    }
+    
     
 }
 

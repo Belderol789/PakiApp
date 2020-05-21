@@ -77,9 +77,6 @@
                                 </constraints>
                                 <color key="tintColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" image="star" catalog="system"/>
-                                <connections>
-                                    <action selector="didUpvoteComment:" destination="gTV-IL-0wX" eventType="touchUpInside" id="AyD-Rp-xK6"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhQ-cV-tbK">
                                 <rect key="frame" x="0.0" y="102" width="40" height="15.5"/>
@@ -87,6 +84,15 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AFO-HD-6fG">
+                                <rect key="frame" x="0.0" y="53" width="40" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="wVv-uV-oKg"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="didUpvoteComment:" destination="gTV-IL-0wX" eventType="touchUpInside" id="TUn-tN-6un"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="ZTq-KM-RtP" firstAttribute="top" secondItem="S3l-2H-z0f" secondAttribute="top" constant="16" id="4bW-cu-neb"/>
@@ -98,6 +104,10 @@
                             <constraint firstItem="OhQ-cV-tbK" firstAttribute="top" secondItem="xJa-qp-2G5" secondAttribute="bottom" constant="8" id="SpR-4y-YaO"/>
                             <constraint firstItem="OhQ-cV-tbK" firstAttribute="leading" secondItem="S3l-2H-z0f" secondAttribute="leading" id="miD-WI-Q7g"/>
                             <constraint firstAttribute="trailing" secondItem="OhQ-cV-tbK" secondAttribute="trailing" id="nNc-jq-D1K"/>
+                            <constraint firstItem="AFO-HD-6fG" firstAttribute="leading" secondItem="S3l-2H-z0f" secondAttribute="leading" id="rud-zy-Sv9"/>
+                            <constraint firstItem="AFO-HD-6fG" firstAttribute="centerY" secondItem="S3l-2H-z0f" secondAttribute="centerY" id="sgK-b2-i4r"/>
+                            <constraint firstItem="AFO-HD-6fG" firstAttribute="centerX" secondItem="S3l-2H-z0f" secondAttribute="centerX" id="tBj-mO-Qdr"/>
+                            <constraint firstAttribute="trailing" secondItem="AFO-HD-6fG" secondAttribute="trailing" id="vJJ-h2-RtN"/>
                         </constraints>
                     </view>
                 </subviews>

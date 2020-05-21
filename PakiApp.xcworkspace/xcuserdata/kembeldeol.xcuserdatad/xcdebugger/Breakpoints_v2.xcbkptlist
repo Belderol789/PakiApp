@@ -7,129 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7AA4C4A3-5CA2-4551-BF74-6E7D36E23CDF"
+            uuid = "CE7F86FD-7DBD-4D2B-BD8C-D8DBA92B8E46"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PakiApp/ViewControllers/CredentialVC.swift"
+            filePath = "PakiApp/ViewControllers/CommentsVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "authenticateUser()"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "starWasUpdated(post:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "7AA4C4A3-5CA2-4551-BF74-6E7D36E23CDF - c02d0348e9e77db4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PakiApp.CredentialVC.authenticateUser() -&gt; ()"
-                  moduleName = "PakiApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kembeldeol/Desktop/PERSONAL%20PROJECTS/PakiApp/PakiApp/ViewControllers/CredentialVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "138"
-                  endingLineNumber = "138"
-                  offsetFromSymbolStart = "9895">
-               </Location>
-               <Location
-                  uuid = "7AA4C4A3-5CA2-4551-BF74-6E7D36E23CDF - 65a8ebe15b7f170a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #6 (Swift.Optional&lt;Swift.String&gt;) -&gt; () in PakiApp.CredentialVC.authenticateUser() -&gt; ()"
-                  moduleName = "PakiApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kembeldeol/Desktop/PERSONAL%20PROJECTS/PakiApp/PakiApp/ViewControllers/CredentialVC.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "139"
-                  endingLineNumber = "139"
-                  offsetFromSymbolStart = "37">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C0687C95-CC13-4E92-A89B-CAD0EB5E1E69"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PakiApp/Managers/FirebaseManager-Auth.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "signUpPhoneUser(verfID:verfCode:username:birth:photo:loginHandler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4632F1EE-BB49-4454-A883-92CB9582780E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PakiApp/Managers/FirebaseManager-Auth.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "signUpPhoneUser(verfID:verfCode:username:birth:photo:loginHandler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B75FAF0F-E377-436C-8088-9EFB4B483E7E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PakiApp/Managers/FirebaseManager-Auth.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "signUpPhoneUser(verfID:verfCode:username:birth:photo:loginHandler:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "B75FAF0F-E377-436C-8088-9EFB4B483E7E - 7d16291bc86dde54"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PakiApp.FirebaseManager.signUpPhoneUser(verfID: Swift.String, verfCode: Swift.String, username: Swift.String, birth: Swift.String, photo: Swift.Optional&lt;Foundation.Data&gt;, loginHandler: Swift.Optional&lt;(Swift.Optional&lt;Swift.String&gt;) -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "PakiApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kembeldeol/Desktop/PERSONAL%20PROJECTS/PakiApp/PakiApp/Managers/FirebaseManager-Auth.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79"
-                  offsetFromSymbolStart = "495">
-               </Location>
-               <Location
-                  uuid = "B75FAF0F-E377-436C-8088-9EFB4B483E7E - 65fae265065ce599"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;__C.FIRAuthDataResult&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in PakiApp.FirebaseManager.signUpPhoneUser(verfID: Swift.String, verfCode: Swift.String, username: Swift.String, birth: Swift.String, photo: Swift.Optional&lt;Foundation.Data&gt;, loginHandler: Swift.Optional&lt;(Swift.Optional&lt;Swift.String&gt;) -&gt; ()&gt;) -&gt; ()"
-                  moduleName = "PakiApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kembeldeol/Desktop/PERSONAL%20PROJECTS/PakiApp/PakiApp/Managers/FirebaseManager-Auth.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "80"
-                  endingLineNumber = "80"
-                  offsetFromSymbolStart = "493">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

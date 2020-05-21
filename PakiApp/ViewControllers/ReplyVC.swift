@@ -29,9 +29,6 @@ class ReplyVC: GeneralViewController {
         didSet {
             sendButton.isUserInteractionEnabled = sendButtonInteraction
             let color: UIColor = sendButtonInteraction ? UIColor.defaultPurple : .systemGray2
-            let textColor: UIColor = sendButtonInteraction ? .white : .lightGray
-            sendButton.setTitleColor(textColor, for: .normal)
-            sendButton.tintColor = textColor
             sendButton.backgroundColor = color
         }
     }

@@ -27,8 +27,7 @@ class ProfileVC: GeneralViewController {
     
     @IBOutlet weak var contentViewWidthConst: NSLayoutConstraint!
     @IBOutlet weak var calendarWidthConst: NSLayoutConstraint!
-    
-    // Constraints
+
     // Variables
     var userPosts: [UserPost] = []
     var currentUser: User!

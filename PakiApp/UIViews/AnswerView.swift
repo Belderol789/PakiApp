@@ -18,10 +18,10 @@ class AnswerView: UIView, Reusable {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var instLabel: UILabel!
     @IBOutlet weak var howAreYouLabel: UILabel!
-    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var emojiView: EmojiRateView!
     @IBOutlet weak var pakiButton: ButtonX!
     @IBOutlet weak var shareButton: ButtonX!
+    @IBOutlet weak var blurView: UIVisualEffectView!
     
     @IBOutlet weak var awesomeIcon: UIImageView!
     @IBOutlet weak var goodIcon: UIImageView!
@@ -41,8 +41,9 @@ class AnswerView: UIView, Reusable {
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var shareView: UIView!
     @IBOutlet weak var shareTextView: UITextView!
-    @IBOutlet weak var blurHeightConst: NSLayoutConstraint!
     @IBOutlet weak var shareLimitLabel: UILabel!
+    
+    @IBOutlet var headerLabels: [UILabel]!
     
     weak var delegate: AnswerViewProtocol?
     var currentPaki: Paki = .meh
@@ -146,14 +147,10 @@ class AnswerView: UIView, Reusable {
     }
     
     @IBAction func didSelectPaki(_ sender: ButtonX) {
-        
-        let scrollOffset = self.frame.height/3
         sender.isUserInteractionEnabled = false
         
         emojiView.isUserInteractionEnabled = false
-        scrollView.scrollToDown(height: scrollOffset)
-        howAreYouLabel.isHidden = true
-        instLabel.isHidden = true
+        headerLabels.forEach({$0.isHidden = true})
         
         let pakiColor = UIColor.getColorFor(paki: currentPaki)
         
@@ -163,7 +160,9 @@ class AnswerView: UIView, Reusable {
             self.pakiButton.layer.shadowColor = UIColor.darkGray.cgColor
         }) { (_) in
             // Show data
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 1.5) {
+                self.pakiButton.alpha = 0
+                self.emojiView.alpha = 0
                 self.statsView.alpha = 1
             }
         }
@@ -174,7 +173,7 @@ class AnswerView: UIView, Reusable {
             self.statsView.alpha = 0
             self.shareView.alpha = 1
         }) { (_) in
-            self.scrollView.isHidden = true
+            self.blurView.isHidden = true
             self.titleTextView.becomeFirstResponder()
         }
     }

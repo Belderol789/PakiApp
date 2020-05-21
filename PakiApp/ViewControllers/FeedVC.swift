@@ -44,6 +44,12 @@ class FeedVC: GeneralViewController {
         setupMobileAds()
         setupViewUI()
         
+        getAllPosts(done: {
+            let pakiDict: [String] = self.allPosts.map({$0.paki})
+            DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
+        })
+        
         setupCountDown()
         checkIfUserLoggedIn()
         NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
@@ -185,9 +191,11 @@ class FeedVC: GeneralViewController {
                     self.allPosts.append(contentsOf: post)
                     self.allPosts.sort(by: {$0.datePosted > $1.datePosted})
                     self.filteredPosts = self.allPosts
+                    self.feedItems.removeAll()
+                    self.feedItems.append(contentsOf: self.filteredPosts)
                     self.feedCollection.isUserInteractionEnabled = true
+                    self.feedCollection.reloadData()
                     self.loadingView.stopLoading()
-                    self.fillFeedItems()
                     done?()
                 }
             }
@@ -231,7 +239,7 @@ class FeedVC: GeneralViewController {
             return
         }
         
-        let adInterval = 5
+        let adInterval = 4
         var index = 4
         
         for nativeAd in nativeAds {
@@ -253,7 +261,7 @@ class FeedVC: GeneralViewController {
     
     @IBAction func didSelectTermsConditions(_ sender: UIButton) {
         if let termsConditions = DatabaseManager.Instance.termsConditions {
-           self.openURL(string: termsConditions)
+            self.openURL(string: termsConditions)
         }
     }
 }
@@ -276,11 +284,8 @@ extension FeedVC: GADUnifiedNativeAdLoaderDelegate {
     }
     
     func adLoaderDidFinishLoading(_ adLoader: GADAdLoader) {
-        getAllPosts(done: {
-            let pakiDict: [String] = self.allPosts.map({$0.paki})
-            DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
-        })
+        addNativeAds()
+        feedCollection.reloadData()
     }
 }
 
@@ -341,11 +346,10 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
             let title = filteredPost.title
             let collectionWidth = collectionView.frame.width - 32
             
-            let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionWidth).height
+            let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionWidth - 50).height
             let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height
-            let tempFeedHeight = titleHeight + contentHeight + 150
+            let tempFeedHeight = titleHeight + contentHeight + 170
             let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 : tempFeedHeight
-            print("FeedHeight text \(text) height \(feedHeight)")
             return CGSize(width: view.frame.size.width - 16, height: feedHeight)
         } else {
             return CGSize(width: view.frame.size.width, height: 80)
@@ -404,13 +408,15 @@ extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol {
     }
     
     func starWasUpdated(post: UserPost) {
-        let post = self.allPosts.filter({$0 == post}).first
+        let post = self.filteredPosts.filter({$0 == post}).first
         guard let uid = DatabaseManager.Instance.mainUser.uid else { return }
         post?.starList.append(uid)
+        fillFeedItems()
     }
     
     func proceedToComments(post: UserPost) {
         let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsVC") as! CommentsVC
+        commentsVC.delegate = self
         commentsVC.currentPost = post
         navigationController?.pushViewController(commentsVC, animated: true)
     }

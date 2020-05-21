@@ -93,8 +93,6 @@ class CommentsVC: GeneralViewController {
     @IBAction func didTapBack(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
-    
-    
 }
 
 // MARK: - UICollectionView
@@ -115,9 +113,7 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let text = filteredComments[indexPath.item].content
-        let title = filteredComments[indexPath.item].title
-        let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionView.frame.width).height + 100
-        let feedHeight = text.returnStringHeight(fontSize: 13, width: collectionView.frame.width).height + titleHeight
+        let feedHeight = text.returnStringHeight(fontSize: 13, width: collectionView.frame.width - 50).height + 130
         return CGSize(width: collectionView.frame.size.width, height: feedHeight)
     }
     

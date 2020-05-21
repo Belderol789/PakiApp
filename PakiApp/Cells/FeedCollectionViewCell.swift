@@ -58,11 +58,7 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         self.backgroundColor = .clear
         // Initialization code
     }
-    
-    func setupFeedCellWith(ad: GADUnifiedNativeAd) {
-        
-    }
-    
+
     func setupFeedCellWith(post: UserPost) {
         currentPost = post
         if let photoURLString = post.profilePhotoURL, let photoURL = URL(string: photoURLString) {
@@ -104,8 +100,8 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
             starCount = post.starCount
             feedStarBtn.isUserInteractionEnabled = !starBool
             feedStarBtn.setImage(UIImage.init(systemName: image), for: .normal)
-            feedStarBtn.setTitle("\(post.starCount)", for: .normal)
         }
+        feedStarBtn.setTitle("\(post.starCount)", for: .normal)
     }
     
     @IBAction func didFavourite(_ sender: UIButton) {

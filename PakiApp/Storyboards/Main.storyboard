@@ -1529,6 +1529,9 @@
                                         <state key="normal" title="Privacy Policy">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tapPrivacyPolicy:" destination="PCt-4a-Ck7" eventType="touchUpInside" id="FRl-nK-Pia"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZ0-OO-OOr">
                                         <rect key="frame" x="135" y="718" width="144" height="32"/>
@@ -1536,6 +1539,9 @@
                                         <state key="normal" title="Contact Team Paki">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tapContactUs:" destination="PCt-4a-Ck7" eventType="touchUpInside" id="NFz-zc-6uf"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lj3-qt-UR7">
                                         <rect key="frame" x="124" y="678" width="166" height="32"/>
@@ -1543,6 +1549,9 @@
                                         <state key="normal" title="Terms and Conditions">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tapTermsConditions:" destination="PCt-4a-Ck7" eventType="touchUpInside" id="Fde-lz-Ifc"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qOk-1t-KWJ">
                                         <rect key="frame" x="139.66666666666666" y="450" width="134.99999999999997" height="30"/>
@@ -1550,6 +1559,9 @@
                                         <state key="normal" title="Remain Anonymous">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tapRemainAnonymous:" destination="PCt-4a-Ck7" eventType="touchUpInside" id="C5t-L1-FLy"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lps-O5-Vfy">
                                         <rect key="frame" x="195.33333333333334" y="347" width="23.333333333333343" height="21"/>
