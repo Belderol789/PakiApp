@@ -87,7 +87,8 @@ class ProfileVC: GeneralViewController {
     }
     
     func setupUserData() {
-        usernameLabel.text = currentUser.username
+        usernameLabel.text = "supermodelqueen"
+            //currentUser.username
         
         if let photoString = currentUser.profilePhotoURL {
             let photoURL = URL(string: photoString)
@@ -106,6 +107,10 @@ class ProfileVC: GeneralViewController {
         daysLabel.text = "\(daysPassed)"
         
         userPosts = currentUser.userPosts.sorted(by: {$0.datePosted > $1.datePosted})
+        userPosts.append(contentsOf: TestManager.getUserPosts())
+        userPosts.append(contentsOf: currentUser.userPosts)
+        userPosts.append(contentsOf: TestManager.getUserPosts())
+        userPosts.append(contentsOf: currentUser.userPosts)
 
         if userPosts.count <= 1 {
             FirebaseManager.Instance.getUserPosts { (userPosts) in

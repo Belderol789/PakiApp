@@ -53,7 +53,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iVM-sn-JTT">
-                                            <rect key="frame" x="0.0" y="40" width="375" height="708"/>
+                                            <rect key="frame" x="0.0" y="40" width="367" height="708"/>
                                         </view>
                                     </subviews>
                                     <constraints>
@@ -63,7 +63,7 @@
                                         <constraint firstItem="JNc-pZ-3YN" firstAttribute="top" secondItem="sJa-F5-a4X" secondAttribute="top" constant="8" id="Fo5-cV-44t"/>
                                         <constraint firstItem="JNc-pZ-3YN" firstAttribute="centerX" secondItem="sJa-F5-a4X" secondAttribute="centerX" id="Qga-QJ-jAp"/>
                                         <constraint firstAttribute="width" constant="375" id="gMk-sX-Wie"/>
-                                        <constraint firstAttribute="trailing" secondItem="iVM-sn-JTT" secondAttribute="trailing" id="jBd-gt-1ql"/>
+                                        <constraint firstAttribute="trailing" secondItem="iVM-sn-JTT" secondAttribute="trailing" constant="8" id="jBd-gt-1ql"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">

@@ -77,13 +77,15 @@ class CalendarView: UIView, Reusable {
     func addGridViews() {
         let year = Calendar.current.component(.year, from: Date())
         yearLabel.text = "\(year)"
-        let width = self.frame.height / 20
+        print("CalendarViewWidth \(calendarViewWidthConst.constant)")
+        print("CalendarViewWidthGrid \(gridViewContainer.frame.width)")
+        let width = calendarViewWidthConst.constant / 15
         
         var x: CGFloat = 0
         var y: CGFloat = 0
         
         for post in userPosts {
-            if x == 20 {
+            if x == 15 {
                 x = 0
                 y += 1
             }

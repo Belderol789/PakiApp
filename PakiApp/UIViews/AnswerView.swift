@@ -30,6 +30,7 @@ class AnswerView: UIView, Reusable {
     @IBOutlet weak var terribleIcon: UIImageView!
     @IBOutlet weak var statsView: UIView!
     
+    @IBOutlet weak var todayIFeel: UILabel!
     @IBOutlet weak var totalPakiLabel: UILabel!
     @IBOutlet weak var awesomeLabel: UILabel!
     @IBOutlet weak var goodLabel: UILabel!
@@ -161,6 +162,7 @@ class AnswerView: UIView, Reusable {
             self.pakiButton.backgroundColor = pakiColor
             self.pakiButton.setTitleColor(.white, for: .normal)
             self.pakiButton.layer.shadowColor = UIColor.darkGray.cgColor
+            self.todayIFeel.alpha = 1
         }) { (_) in
             // Show data
             UIView.animate(withDuration: 1) {

@@ -81,6 +81,9 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
             postFavBtn.isUserInteractionEnabled = !starBool
             postFavBtn.setImage(UIImage.init(systemName: image), for: .normal)
         }
+        
+        userProfilePhoto.image = post.profileImage
+        
     }
     
     func updateComments(count: Int) {

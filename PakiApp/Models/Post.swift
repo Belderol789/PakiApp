@@ -39,6 +39,8 @@ class UserPost: Object {
     @objc dynamic var reportCount: Int = 0
     @objc dynamic var postKey: String = ""
     
+    var profileImage: UIImage?
+    
     var starList = List<String>()
     var starCount: Int {
         return starList.count

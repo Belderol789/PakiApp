@@ -30,7 +30,8 @@ class WorldVC: GeneralViewController {
         view.backgroundColor = UIColor.defaultBGColor
         self.title = "World"
         graphsView.backgroundColor = .clear
-        savedAllPakis = DatabaseManager.Instance.savedAllPakis
+        savedAllPakis = ["awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "awesome", "good", "good", "good", "good", "good", "good", "good", "good", "good", "good", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "meh", "bad", "bad", "bad", "bad", "bad", "bad", "bad", "bad", "bad", "bad", "bad", "terrible", "terrible", "terrible", "terrible", "terrible", "terrible", "terrible", "terrible", "terrible", "terrible", "terrible", "terrible", ]
+            //DatabaseManager.Instance.savedAllPakis
         graphsView.addWorldPakiCircles(allPaki: savedAllPakis)
     }
     

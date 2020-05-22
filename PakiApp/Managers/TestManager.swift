@@ -6,68 +6,84 @@
 //  Copyright © 2020 Krats. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class TestManager {
     
-    static func returnCommentPosts() -> [UserPost] {
+    static func getComments() -> [UserPost] {
+        let firstComment = UserPost()
+        firstComment.paki = "bad"
+        firstComment.username = "youngblood"
+        firstComment.starList.append(objectsIn: ["hello world", "haha", "asjghjsag", "sigjai"])
+        firstComment.content = "Congrats! That does sound awesome when all your hardwork FINALLY pays off"
+        
+        let secondComment = UserPost()
+        secondComment.paki = "meh"
+        secondComment.username = "bballer23"
+        secondComment.starList.append(objectsIn: ["sgasga"])
+        secondComment.content = "Woah congrats! Getting that bread $$$"
+        return [firstComment, secondComment]
+    }
+    
+    static func getUserPosts() -> [UserPost] {
         
         let originPost = UserPost()
         originPost.paki = Paki.awesome.rawValue
-        originPost.username = "Username"
+        originPost.username = "aloecera"
+        originPost.uid = "skjgas"
         originPost.datePosted = Date().tomorrow.timeIntervalSince1970
-        originPost.title = "Hello World"
-        originPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe"
+        originPost.title = "Got a promotion today!"
+        originPost.content = "I'm sooooo happy! If you've been following my posts, you guys know my days have been riddled with bad and terrible days, but today things finally paid off and I feel awesome!"
+        originPost.profileImage = UIImage(named: "model0")
+        originPost.starList.append(objectsIn: ["kjgas", "skjgas", "skjgaks", "kgjakdgjad", "skgjadg", "skgasjg"])
         
         let zeroPost = UserPost()
-        zeroPost.paki = Paki.awesome.rawValue
-        zeroPost.username = "Username"
+        zeroPost.paki = Paki.bad.rawValue
+        zeroPost.username = "supermodelqueen"
         zeroPost.datePosted = Date().tomorrow.timeIntervalSince1970
-        zeroPost.title = "Hello World"
-        zeroPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe"
+        zeroPost.title = "In the veterinarian's clinic right now :("
+        zeroPost.content = "Sushi got sick and so today I'm just feeling really down. I've been with her for 3 hours now getting her checked up. I hope it doesn't turn out to be anything terrible."
+        zeroPost.profileImage = UIImage(named: "model")
     
-        
         let firstPost = UserPost()
-        firstPost.paki = Paki.awesome.rawValue
-        firstPost.username = "Username"
+        firstPost.paki = Paki.meh.rawValue
+        firstPost.username = "AnimeGuru"
+        firstPost.uid = "kjgas"
         firstPost.datePosted = Date().tomorrow.timeIntervalSince1970
-        firstPost.title = "Hello World"
-        firstPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe"
-        
-        
-        let secondPost = UserPost()
-        secondPost.paki = Paki.good.rawValue
-        secondPost.username = "Username"
-        secondPost.datePosted = Date().yesterday.timeIntervalSince1970
-        secondPost.title = "Hello World"
-        secondPost.content = "sklngaksjgnakhgaskhugbaehkugb"
-        
+        firstPost.title = "Stayed Home"
+        firstPost.content = "All I did today was stay home. No hangouts, no meetups, no money to spend, just stayed home watching a few animes and playing video games. I need more friends :("
+        firstPost.profileImage = UIImage(named: "model1")
+        firstPost.starList.append(objectsIn: ["kjgas", "skjgas", "skjgaks", "kgjakdgjad"])
         
         let thirdPost = UserPost()
-        thirdPost.paki = Paki.meh.rawValue
-        thirdPost.username = "Username"
+        thirdPost.paki = Paki.awesome.rawValue
+        thirdPost.username = "manbat"
+        thirdPost.uid = "skjgas"
         thirdPost.datePosted = Date().tomorrow.timeIntervalSince1970
-        thirdPost.title = "Hello World kajsgnlkjasngijangkjaengkaeglaeijgnaieljgnjea"
-        thirdPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe kajshgljangliengliueangiluagniargnaeignaliejgneligneaignaegliuaengliaengljaengaegaekgjengje"
-        
+        thirdPost.title = "Finally went to the gym!"
+        thirdPost.content = "I've always put off going to the gym for many, many excuses, but today I just felt like actually going. So I did. Feel get about working out and feel better about myself. DEFINITELY going to do it again!"
+        thirdPost.starList.append(objectsIn: ["kjgas", "skjgas", "skjgaks", "kgjakdgjad", "skgjadg", "skgasjg"])
         
         let fourthPost = UserPost()
-        fourthPost.paki = Paki.bad.rawValue
-        fourthPost.username = "Username"
+        fourthPost.paki = Paki.awesome.rawValue
+        fourthPost.username = "thelazypotato"
+        fourthPost.uid = "skjgas"
         fourthPost.datePosted = Date().tomorrow.timeIntervalSince1970
-        fourthPost.title = "Hello World"
-        fourthPost.content = "sklngaksjgnakhgaskhugbaehkugb aehgkuae gaegkuaeb gkusbfr wuf wbeg kuwbguiyrbg w uegh weu ghe"
-        
+        fourthPost.title = "Found old photos!"
+        fourthPost.content = "I decided to clean my room today and found old photos of myself and parents. I was so freaking cute before (even now I think!), but today felt awesome looking through memories like that :)"
+        fourthPost.starList.append(objectsIn: ["kjgas", "skjgas", "skjgaks", "kgjakdgjad", "skgjadg", "skgasjg"])
         
         let fifthPost = UserPost()
-        fifthPost.paki = Paki.terrible.rawValue
-        fifthPost.username = "Username"
-        fifthPost.datePosted = Date().yesterday.timeIntervalSince1970
-        fifthPost.title = "Hello"
-        fifthPost.content = "skln"
+        fifthPost.paki = Paki.good.rawValue
+        fifthPost.username = "aloecera"
+        fifthPost.uid = "skjgas"
+        fifthPost.datePosted = Date().tomorrow.timeIntervalSince1970
+        fifthPost.title = "Got a promotion today!"
+        fifthPost.content = "I'm sooooo happy! If you've been following my posts, you guys know my days have been riddled with bad and terrible days, but today things finally paid off and I feel awesome!"
+        fifthPost.starList.append(objectsIn: ["kjgas", "skjgas", "skjgaks", "kgjakdgjad", "skgjadg", "skgasjg"])
         
         
-        return [originPost, secondPost, zeroPost, thirdPost, firstPost, fourthPost, fifthPost]
+        return [originPost, firstPost, zeroPost, thirdPost, fourthPost, fifthPost]
     }
     
     static func returnCalendarUserPosts() -> [UserPost] {

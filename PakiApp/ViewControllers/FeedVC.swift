@@ -40,6 +40,9 @@ class FeedVC: GeneralViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         FirebaseManager.Instance.getSettingsData()
+        //KemTest
+        filteredPosts = TestManager.getUserPosts()
+        feedItems = filteredPosts
         
         setupMobileAds()
         setupViewUI()
@@ -61,18 +64,18 @@ class FeedVC: GeneralViewController {
     fileprivate func setupViewUI() {
         
         credentialHeight.constant = self.view.frame.height / 4
-        
-        loadingView.blurView.effect = nil
-        loadingView.stopLoading()
-        loadingView.setupCircleViews(paki: .all)
-        loadingView.startLoading()
+        //KemTest
+//        loadingView.blurView.effect = nil
+//        loadingView.stopLoading()
+//        loadingView.setupCircleViews(paki: .all)
+//        loadingView.startLoading()
         
         refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
         refreshControl.tintColor = UIColor.white
         
         feedCollection.alwaysBounceVertical = true
         feedCollection.refreshControl = refreshControl
-        feedCollection.isUserInteractionEnabled = false
+        feedCollection.isUserInteractionEnabled = true
         feedCollection.register(UnifiedNativeAdCVC.nib, forCellWithReuseIdentifier: UnifiedNativeAdCVC.className)
         feedCollection.register(FeedCollectionViewCell.nib, forCellWithReuseIdentifier: FeedCollectionViewCell.className)
         feedCollection.register(FeedHeaderView.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedHeaderView.className)
@@ -85,7 +88,7 @@ class FeedVC: GeneralViewController {
         let logoImageView = UIImageView()
         logoImageView.frame = CGRect(x: 0.0, y: -8.0, width: 40, height: 40)
         logoImageView.backgroundColor = UIColor.defaultFGColor
-        logoImageView.contentMode = .scaleAspectFit
+        logoImageView.contentMode = .scaleAspectFill
         logoImageView.layer.masksToBounds = true
         logoImageView.layer.borderWidth = 1
         logoImageView.layer.borderColor = UIColor.white.cgColor
@@ -107,6 +110,7 @@ class FeedVC: GeneralViewController {
     }
     
     func checkIfUserLoggedIn() {
+        activateEmojiView(notification: nil)
         if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.userObject.first != nil  {
             credentialView.isHidden = true
             tabBarController?.tabBar.isHidden = false
@@ -136,6 +140,7 @@ class FeedVC: GeneralViewController {
     
     @objc
     func activateEmojiView(notification: Notification?) {
+        setupEmojiView()
         if !DatabaseManager.Instance.userHasAnswered {
             setupEmojiView()
         }
@@ -193,8 +198,6 @@ class FeedVC: GeneralViewController {
             }
         }
     }
-    
-    
     
     @objc
     private func didPullToRefresh(_ sender: Any) {
@@ -276,11 +279,12 @@ extension FeedVC: GADUnifiedNativeAdLoaderDelegate {
     }
     
     func adLoaderDidFinishLoading(_ adLoader: GADAdLoader) {
-        getAllPosts(done: {
-            let pakiDict: [String] = self.allPosts.map({$0.paki})
-            DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
-        })
+        //KemTest
+//        getAllPosts(done: {
+//            let pakiDict: [String] = self.allPosts.map({$0.paki})
+//            DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
+//            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
+//        })
     }
 }
 
@@ -343,9 +347,9 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
             
             let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionWidth).height
             let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height
-            let tempFeedHeight = titleHeight + contentHeight + 150
+            let tempFeedHeight = titleHeight + contentHeight + 170
             let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 : tempFeedHeight
-            print("FeedHeight text \(text) height \(feedHeight)")
+            print("FeedHeight height \(feedHeight) title \(titleHeight) content \(contentHeight)")
             return CGSize(width: view.frame.size.width - 16, height: feedHeight)
         } else {
             return CGSize(width: view.frame.size.width, height: 80)
@@ -417,7 +421,10 @@ extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol {
     
     func didChoosePaki(_ paki: Paki) {
         currentPaki = paki
-        getPosts(for: paki)
+        feedItems = filteredPosts.filter({$0.pakiCase == paki})
+        feedCollection.reloadData()
+        //KemTest
+//        getPosts(for: paki)
     }
 }
 

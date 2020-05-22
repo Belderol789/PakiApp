@@ -106,6 +106,13 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
             feedStarBtn.setImage(UIImage.init(systemName: image), for: .normal)
             feedStarBtn.setTitle("\(post.starCount)", for: .normal)
         }
+        
+        //KemTest
+        if let profileImage = post.profileImage {
+            feedImageView.image = profileImage
+        } else {
+            feedImageView.image = UIImage(named: post.paki)
+        }
     }
     
     @IBAction func didFavourite(_ sender: UIButton) {

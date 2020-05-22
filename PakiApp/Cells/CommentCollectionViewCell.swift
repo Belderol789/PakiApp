@@ -46,9 +46,10 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
         comment = userComment
         commentText.text = userComment.content
         commentUsername.text = userComment.username
-        userComment.datePosted.getTimeDifference { (date) in
-            self.commentDate.text = date
-        }
+//        userComment.datePosted.getTimeDifference { (date) in
+//            self.commentDate.text = date
+//        }
+        self.commentDate.text = "Just now"
         
         let color = UIColor.getColorFor(paki: userComment.pakiCase)
         pakiBar.backgroundColor = color

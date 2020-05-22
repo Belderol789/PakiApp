@@ -21,7 +21,7 @@ class CommentsVC: GeneralViewController {
     // Variables
     var commentHeight: CGFloat = 0 {
         didSet {
-            print("CommentHeight \(commentHeight)")
+            print("Comment Height \(commentHeight)")
             if commentHeight < view.frame.height - 100 {
               commentsHeightConst.constant = commentHeight
             }
@@ -36,8 +36,10 @@ class CommentsVC: GeneralViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideTabbar = true
+        allComments = TestManager.getComments()
+        filteredComments = allComments
         setupViewUI()
-        getAllComments()
+        //getAllComments()
         AppStoreManager.requestReviewIfAppropriate()
     }
     
@@ -101,6 +103,7 @@ class CommentsVC: GeneralViewController {
 extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("commentHeight called")
         return filteredComments.count
     }
     
@@ -115,9 +118,9 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let text = filteredComments[indexPath.item].content
-        let title = filteredComments[indexPath.item].title
-        let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionView.frame.width).height + 100
-        let feedHeight = text.returnStringHeight(fontSize: 13, width: collectionView.frame.width).height + titleHeight
+        let feedHeight = text.returnStringHeight(fontSize: 13, width: collectionView.frame.width - 60).height + 120
+        print("commentHeight \(feedHeight) text \(text)")
+        commentHeight += feedHeight
         return CGSize(width: collectionView.frame.size.width, height: feedHeight)
     }
     
