@@ -25,12 +25,35 @@ class ProfileView: UIView, Reusable {
         self.removeFromSuperview()
     }
     
-    func setupProfile(user: User) {
+    func setupProfile(user: UserPost) {
         if let photo = user.profilePhotoURL {
             profilePhoto.sd_setImage(with: URL(string: photo), completed: nil)
         }
         usernameLabel.text = user.username
         
-    }
+        FirebaseManager.Instance.getUserPosts(userID: user.uid) { (userPosts) in
+            let width = self.frame.width / 10
+            
+            var x: CGFloat = 0
+            var y: CGFloat = 0
+            
+            for post in userPosts {
+                if x == 10 {
+                    x = 0
+                    y += 1
+                }
+                
+                let pakiView = PakiView()
+                let paki = post.pakiCase
+                
+                pakiView.setupView(with: paki)
+                pakiView.frame = CGRect(x: x * width, y: y * width, width: width, height: width)
+                pakiView.layer.borderColor = UIColor.white.cgColor
+                pakiView.layer.borderWidth = 0.5
+                self.containerView.addSubview(pakiView)
 
+                x += 1
+            }
+        }
+    }
 }

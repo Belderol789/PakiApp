@@ -110,15 +110,25 @@
                             <constraint firstAttribute="trailing" secondItem="AFO-HD-6fG" secondAttribute="trailing" id="vJJ-h2-RtN"/>
                         </constraints>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pxn-Mz-Fkm">
+                        <rect key="frame" x="11" y="16" width="40" height="40"/>
+                        <connections>
+                            <action selector="didTapProfile:" destination="gTV-IL-0wX" eventType="touchUpInside" id="2q4-NJ-nGa"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <color key="backgroundColor" red="0.18823529410000001" green="0.2666666667" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="S3l-2H-z0f" firstAttribute="leading" secondItem="C2O-31-uKw" secondAttribute="trailing" constant="8" id="3wm-Jn-st5"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6eZ-KH-b1f" secondAttribute="bottom" constant="8" id="4B3-26-H9s"/>
+                <constraint firstItem="pxn-Mz-Fkm" firstAttribute="width" secondItem="RwY-WW-xu1" secondAttribute="width" id="8gl-yr-wgD"/>
                 <constraint firstItem="0a1-s6-KAM" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="DGT-a3-Cac"/>
                 <constraint firstItem="C2O-31-uKw" firstAttribute="centerY" secondItem="RwY-WW-xu1" secondAttribute="centerY" id="GPg-Zd-M71"/>
+                <constraint firstItem="pxn-Mz-Fkm" firstAttribute="centerY" secondItem="RwY-WW-xu1" secondAttribute="centerY" id="Jpe-Vp-W0I"/>
                 <constraint firstItem="6eZ-KH-b1f" firstAttribute="top" secondItem="RwY-WW-xu1" secondAttribute="bottom" constant="8" id="LgP-iU-ma8"/>
+                <constraint firstItem="pxn-Mz-Fkm" firstAttribute="height" secondItem="RwY-WW-xu1" secondAttribute="height" id="PLB-Yt-BDd"/>
+                <constraint firstItem="pxn-Mz-Fkm" firstAttribute="centerX" secondItem="RwY-WW-xu1" secondAttribute="centerX" id="S8t-kC-Nke"/>
                 <constraint firstItem="RwY-WW-xu1" firstAttribute="leading" secondItem="0a1-s6-KAM" secondAttribute="trailing" constant="8" id="Ssm-pi-y9P"/>
                 <constraint firstAttribute="bottom" secondItem="S3l-2H-z0f" secondAttribute="bottom" id="UlT-n1-2nX"/>
                 <constraint firstItem="C2O-31-uKw" firstAttribute="leading" secondItem="RwY-WW-xu1" secondAttribute="trailing" constant="8" id="aYU-xl-IHG"/>

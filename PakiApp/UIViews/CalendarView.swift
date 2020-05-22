@@ -77,13 +77,15 @@ class CalendarView: UIView, Reusable {
     func addGridViews() {
         let year = Calendar.current.component(.year, from: Date())
         yearLabel.text = "\(year)"
-        let width = self.frame.height / 20
+        
+        let rowLimit: CGFloat = 15
+        let width = self.contentView.frame.width / rowLimit
         
         var x: CGFloat = 0
         var y: CGFloat = 0
         
         for post in userPosts {
-            if x == 20 {
+            if x == rowLimit {
                 x = 0
                 y += 1
             }
@@ -93,6 +95,8 @@ class CalendarView: UIView, Reusable {
             
             pakiView.setupView(with: paki)
             pakiView.frame = CGRect(x: x * width, y: y * width, width: width, height: width)
+            pakiView.layer.borderColor = UIColor.white.cgColor
+            pakiView.layer.borderWidth = 0.5
             gridViewContainer.addSubview(pakiView)
             
             let key = "\(Int(x))\(Int(y))"

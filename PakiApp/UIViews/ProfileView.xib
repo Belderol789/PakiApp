@@ -20,21 +20,21 @@
                             <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mascot" translatesAutoresizingMaskIntoConstraints="NO" id="ocb-lG-isR" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
-                                    <rect key="frame" x="8" y="10" width="30" height="30"/>
+                                    <rect key="frame" x="8" y="5" width="40" height="40"/>
                                     <color key="backgroundColor" red="0.18823529410000001" green="0.2666666667" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="30" id="gt3-nc-bO9"/>
-                                        <constraint firstAttribute="height" constant="30" id="tkP-cy-d6j"/>
+                                        <constraint firstAttribute="width" constant="40" id="gt3-nc-bO9"/>
+                                        <constraint firstAttribute="height" constant="40" id="tkP-cy-d6j"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                            <real key="value" value="15"/>
+                                            <real key="value" value="20"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hp-Vj-Jfw">
-                                    <rect key="frame" x="46" y="15" width="320" height="20"/>
-                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                    <rect key="frame" x="56" y="13.5" width="310" height="23.5"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>

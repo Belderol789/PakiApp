@@ -19,6 +19,7 @@ struct UserComment {
 
 protocol CommentCellProtocol: class {
     func didReportComment(comment: UserPost)
+    func didTapProfile(post: UserPost)
 }
 
 class CommentCollectionViewCell: UICollectionViewCell, Reusable {
@@ -45,6 +46,7 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
     func setupWith(userComment: UserPost) {
         comment = userComment
         commentText.text = userComment.content
+        commentText.adjustsFontSizeToFitWidth = true
         commentUsername.text = userComment.username
         userComment.datePosted.getTimeDifference { (date) in
             self.commentDate.text = date
@@ -85,5 +87,8 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
         self.delegate?.didReportComment(comment: comment)
     }
     
+    @IBAction func didTapProfile(_ sender: UIButton) {
+        self.delegate?.didTapProfile(post: comment)
+    }
     
 }

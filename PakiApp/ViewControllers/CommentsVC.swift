@@ -113,7 +113,7 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let text = filteredComments[indexPath.item].content
-        let feedHeight = text.returnStringHeight(fontSize: 13, width: collectionView.frame.width - 50).height + 130
+        let feedHeight = text.returnStringHeight(fontSize: 13, width: collectionView.frame.width - 50).height + 120
         return CGSize(width: collectionView.frame.size.width, height: feedHeight)
     }
     
@@ -141,6 +141,13 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
 // MARK: - CommentsHeaderProtocol
 
 extension CommentsVC: CommentsHeaderProtocol, ReportViewProtocol, CommentCellProtocol {
+    
+    func didTapProfile(post: UserPost) {
+        let profileView = Bundle.main.loadNibNamed(ProfileView.className, owner: self, options: nil)?.first as! ProfileView
+        profileView.frame = view.bounds
+        profileView.setupProfile(user: post)
+        view.addSubview(profileView)
+    }
     
     func didSharePost(post: UserPost) {
         let activityVC = UIActivityViewController(activityItems: ["\(post.username) feeling \(post.paki) \nPosted on \(post.dateString) \n\nTitle: \(post.title) \n\nContent: \(post.content)"], applicationActivities: nil)

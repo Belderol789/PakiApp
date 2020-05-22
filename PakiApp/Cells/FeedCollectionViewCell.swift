@@ -15,6 +15,7 @@ protocol FeedPostProtocol: class {
     func starWasUpdated(post: UserPost)
     func didReportUser(post: UserPost)
     func didSharePost(post: UserPost)
+    func didViewProfile(uid: UserPost)
 }
 
 class FeedCollectionViewCell: UICollectionViewCell, Reusable {
@@ -129,6 +130,10 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     
     @IBAction func didTapElipse(_ sender: UIButton) {
         self.delegate?.didReportUser(post: currentPost)
+    }
+    
+    @IBAction func didTapProfile(_ sender: UIButton) {
+        self.delegate?.didViewProfile(uid: currentPost)
     }
     
     

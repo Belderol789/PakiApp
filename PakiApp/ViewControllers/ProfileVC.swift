@@ -105,9 +105,11 @@ class ProfileVC: GeneralViewController {
         daysLabel.text = "\(daysPassed)"
         
         userPosts = currentUser.userPosts.sorted(by: {$0.datePosted > $1.datePosted})
+        
+        guard let userID = currentUser.uid else { return }
 
         if userPosts.count <= 1 {
-            FirebaseManager.Instance.getUserPosts { (userPosts) in
+            FirebaseManager.Instance.getUserPosts(userID: userID) { (userPosts) in
                 DatabaseManager.Instance.saveUserPosts(userPosts)
                 self.userPosts = userPosts.sorted(by: {$0.datePosted > $1.datePosted})
                 self.setupCalendarView()

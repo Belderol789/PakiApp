@@ -134,6 +134,12 @@
                                 <action selector="didTapElipseButton:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="5cp-bf-irv"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JRi-n5-2LS">
+                            <rect key="frame" x="16" y="16" width="50" height="50"/>
+                            <connections>
+                                <action selector="didTapProfile:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="mlc-gc-vcz"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.18823529410000001" green="0.2666666667" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -141,10 +147,14 @@
                         <constraint firstAttribute="trailing" secondItem="6pq-zQ-ZyM" secondAttribute="trailing" constant="16" id="3LO-Mk-UOy"/>
                         <constraint firstAttribute="trailing" secondItem="EHH-Iw-Oye" secondAttribute="trailing" constant="16" id="4hA-aO-vkZ"/>
                         <constraint firstItem="EHH-Iw-Oye" firstAttribute="leading" secondItem="FYW-0H-lfF" secondAttribute="leading" constant="16" id="59z-EC-EFg"/>
+                        <constraint firstItem="JRi-n5-2LS" firstAttribute="centerY" secondItem="rlG-eH-hVm" secondAttribute="centerY" id="7k9-py-7lM"/>
+                        <constraint firstItem="JRi-n5-2LS" firstAttribute="height" secondItem="rlG-eH-hVm" secondAttribute="height" id="9Jc-QO-cNp"/>
                         <constraint firstItem="XPc-ae-4Yd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6pq-zQ-ZyM" secondAttribute="bottom" constant="8" id="9uK-Ru-dOS"/>
+                        <constraint firstItem="JRi-n5-2LS" firstAttribute="centerX" secondItem="rlG-eH-hVm" secondAttribute="centerX" id="AY8-6s-iFu"/>
                         <constraint firstItem="6pq-zQ-ZyM" firstAttribute="top" secondItem="EHH-Iw-Oye" secondAttribute="bottom" constant="8" id="Ac0-Jf-o4X"/>
                         <constraint firstItem="5pJ-na-ogW" firstAttribute="top" secondItem="FYW-0H-lfF" secondAttribute="top" constant="16" id="D8g-Ct-QvM"/>
                         <constraint firstItem="1as-eG-qiH" firstAttribute="leading" secondItem="rlG-eH-hVm" secondAttribute="trailing" constant="16" id="Fif-OE-FF9"/>
+                        <constraint firstItem="JRi-n5-2LS" firstAttribute="width" secondItem="rlG-eH-hVm" secondAttribute="width" id="GjP-a4-gQI"/>
                         <constraint firstAttribute="trailing" secondItem="5pJ-na-ogW" secondAttribute="trailing" constant="16" id="Ns7-fM-7no"/>
                         <constraint firstItem="bub-h2-0of" firstAttribute="top" secondItem="MQL-lB-Dh5" secondAttribute="bottom" constant="8" id="Nws-3g-Ihi"/>
                         <constraint firstItem="MQL-lB-Dh5" firstAttribute="top" secondItem="XPc-ae-4Yd" secondAttribute="bottom" constant="4" id="PhK-Lz-bhh"/>

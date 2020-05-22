@@ -372,6 +372,13 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 // MARK: - FeedHeaderProtocol
 extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol {
     
+    func didViewProfile(uid: UserPost) {
+        let profileView = Bundle.main.loadNibNamed(ProfileView.className, owner: self, options: nil)?.first as! ProfileView
+        profileView.frame = view.bounds
+        profileView.setupProfile(user: uid)
+        view.addSubview(profileView)
+    }
+    
     func didSharePost(post: UserPost) {
         let activityVC = UIActivityViewController(activityItems: ["\(post.username) feeling \(post.paki) \nPosted on \(post.dateString) \n\nTitle: \(post.title) \n\nContent: \(post.content)"], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view

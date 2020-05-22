@@ -22,7 +22,7 @@ extension FirebaseManager {
             }
         }
     }
-
+    
     func setupPakiCount(count: [String: Any]) {
         let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         self.firestoreDB.collection(Identifiers.pakiCount.rawValue).document(postKey).setData(count, merge: true)
@@ -99,28 +99,26 @@ extension FirebaseManager {
             }
         }
     }
-
+    
     // MARK: - Get User Posts
-    func getUserPosts(completed: @escaping ([UserPost]) -> Void) {
-        if let userID = DatabaseManager.Instance.mainUser.uid {
-            self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).getDocuments { (snapshot, error) in
-                if let error = error {
-                    print("Calendar error \(error.localizedDescription)")
-                } else if let documents = snapshot?.documents {
-                    
-                    var userPosts = [UserPost]()
-                    
-                    for document in documents {
-                        let data = document.data()
-                        let userPost = UserPost.convert(data: data)
-                        userPosts.append(userPost)
-                    }
-                    completed(userPosts)
+    func getUserPosts(userID: String, completed: @escaping ([UserPost]) -> Void) {
+        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Calendar error \(error.localizedDescription)")
+            } else if let documents = snapshot?.documents {
+                
+                var userPosts = [UserPost]()
+                
+                for document in documents {
+                    let data = document.data()
+                    let userPost = UserPost.convert(data: data)
+                    userPosts.append(userPost)
                 }
+                completed(userPosts)
             }
         }
     }
-
+    
     // MARK: - Update Post Data
     func updatePostsStar(userPost: UserPost) {
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
