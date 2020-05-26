@@ -57,6 +57,13 @@ class ProfileVC: GeneralViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfile(notification:)), name: NSNotification.Name(rawValue: "UpdateProfile"), object: nil)
     }
+    
+    @IBAction func didGoToSettings(_ sender: ButtonX) {
+        let settingsVC = self.storyboard?.instantiateViewController(identifier: "SettingsVC") as! SettingsVC
+        settingsVC.delegate = self
+        self.present(settingsVC, animated: true, completion: nil)
+    }
+    
 
     @IBAction func didChangeSegment(_ sender: UISegmentedControl) {
         let width = view.frame.width
@@ -144,7 +151,13 @@ class ProfileVC: GeneralViewController {
     }
 }
 
-extension ProfileVC: CalendarViewProtocol {
+extension ProfileVC: CalendarViewProtocol, SettingsVCProtocol {
+    
+    func userDidLogoutDelete() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserDidLogout"), object: nil)
+        self.tabBarController?.selectedIndex = 1
+    }
+    
     
     func showMemoriesView(post: UserPost) {
         let calendarVC = self.storyboard?.instantiateViewController(withIdentifier: "CalendarVC") as! CalendarVC

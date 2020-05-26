@@ -150,7 +150,6 @@ class AnswerView: UIView, Reusable {
         sender.isUserInteractionEnabled = false
         
         emojiView.isUserInteractionEnabled = false
-        headerLabels.forEach({$0.isHidden = true})
         
         let pakiColor = UIColor.getColorFor(paki: currentPaki)
         
@@ -161,6 +160,7 @@ class AnswerView: UIView, Reusable {
         }) { (_) in
             // Show data
             UIView.animate(withDuration: 1.5) {
+                self.headerLabels.forEach({$0.alpha = 0})
                 self.pakiButton.alpha = 0
                 self.emojiView.alpha = 0
                 self.statsView.alpha = 1

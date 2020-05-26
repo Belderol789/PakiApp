@@ -114,7 +114,7 @@ extension FirebaseManager {
     
     func logoutUser(complete: EmptyClosure) {
         do {
-            DatabaseManager.Instance.deleteAll()
+            DatabaseManager.Instance.updateUserDefaults(value: false, key: .userIsLoggedIn)
             try Auth.auth().signOut()
             complete()
         } catch {

@@ -19,6 +19,7 @@ class FeedVC: GeneralViewController {
     // Constraints
     @IBOutlet weak var credentialHeight: NSLayoutConstraint!
     // Variables
+    var logoImageView: UIImageView!
     var feedItems: [AnyObject] = []
     var filteredPosts: [UserPost] = []
     var allPosts: [UserPost] = []
@@ -53,6 +54,7 @@ class FeedVC: GeneralViewController {
         setupCountDown()
         checkIfUserLoggedIn()
         NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userDidLogout(notification:)), name: NSNotification.Name(rawValue: "UserDidLogout"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +66,12 @@ class FeedVC: GeneralViewController {
     }
     
     // MARK: - Functions
+    @objc
+    func userDidLogout(notification: Notification) {
+        logoImageView.image = nil
+        checkIfUserLoggedIn()
+    }
+    
     fileprivate func setupViewUI() {
         
         credentialHeight.constant = self.view.frame.height / 4
@@ -88,7 +96,7 @@ class FeedVC: GeneralViewController {
         
         credentialView.layer.cornerRadius = 15
         
-        let logoImageView = UIImageView()
+        self.logoImageView = UIImageView()
         logoImageView.frame = CGRect(x: 0.0, y: -8.0, width: 40, height: 40)
         logoImageView.backgroundColor = UIColor.defaultFGColor
         logoImageView.contentMode = .scaleAspectFit
@@ -97,7 +105,12 @@ class FeedVC: GeneralViewController {
         logoImageView.layer.borderColor = UIColor.white.cgColor
         logoImageView.layer.cornerRadius = 20
         
+        let profileButton = UIButton()
+        profileButton.frame = CGRect(x: 0.0, y: -8.0, width: 40, height: 40)
+        profileButton.target(forAction: #selector(goToProfile), withSender: nil)
+        
         let imageItem = UIBarButtonItem.init(customView: logoImageView)
+        imageItem.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToProfile)))
         let widthConstraint = logoImageView.widthAnchor.constraint(equalToConstant: 40)
         let heightConstraint = logoImageView.heightAnchor.constraint(equalToConstant: 40)
         heightConstraint.isActive = true
@@ -109,6 +122,13 @@ class FeedVC: GeneralViewController {
             logoImageView.sd_setImage(with: URL(string: profilePhoto), completed: nil)
         } else {
             logoImageView.image = UIImage(named: "Mascot")
+        }
+    }
+    
+    @objc
+    func goToProfile() {
+        if DatabaseManager.Instance.userIsLoggedIn {
+            self.tabBarController?.selectedIndex = 0
         }
     }
     
@@ -134,17 +154,13 @@ class FeedVC: GeneralViewController {
         
         if todayString != tomorrowString {
             DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
+            activateEmojiView(notification: nil)
         }
-        
-        activateEmojiView(notification: nil)
-        
     }
     
     @objc
     func activateEmojiView(notification: Notification?) {
-        if !DatabaseManager.Instance.userHasAnswered {
-            setupEmojiView()
-        }
+        setupEmojiView()
     }
     
     fileprivate func setupEmojiView() {

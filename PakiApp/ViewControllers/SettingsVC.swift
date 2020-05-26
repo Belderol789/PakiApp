@@ -17,6 +17,10 @@ enum NotifName: String {
     case AppearanceChanged
 }
 
+protocol SettingsVCProtocol: class {
+    func userDidLogoutDelete()
+}
+
 class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UITextFieldDelegate {
     //IBOutlets
     @IBOutlet weak var profileImageView: ImageViewX!
@@ -25,6 +29,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
     @IBOutlet weak var saveButton: TransitionButton!
     @IBOutlet weak var coverPhotoImageView: UIImageView!
     
+    weak var delegate: SettingsVCProtocol?
     var isProfilePhoto: Bool = true
     var didUpdatePhoto: Bool = false
     
@@ -178,8 +183,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
     @IBAction func didLogout(_ sender: ButtonX) {
         self.showAlertWith(title: "Logout", message: "This will log you out of Paki", actions: [UIAlertAction(title: "Logout", style: .default, handler: { (_) in
             FirebaseManager.Instance.logoutUser {
-                self.navigationController?.popViewController(animated: true)
-                self.tabBarController?.selectedIndex = 1
+                self.returnToLogoutState()
             }
         }), UIAlertAction(title: "Cancel", style: .cancel, handler: nil)], hasDefaultOK: false)
     }
@@ -190,12 +194,17 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
         }), UIAlertAction(title: "Cancel", style: .cancel, handler: nil)], hasDefaultOK: false)
     }
     
+    fileprivate func returnToLogoutState() {
+        self.dismiss(animated: true) {
+            self.delegate?.userDidLogoutDelete()
+        }
+    }
+    
     fileprivate func deleteUserForGood() {
         let user = DatabaseManager.Instance.mainUser
         FirebaseManager.Instance.deleteUser { (success) in
             if success {
-                self.navigationController?.popViewController(animated: true)
-                self.tabBarController?.selectedIndex = 1
+                self.returnToLogoutState()
             } else {
                 let alert = UIAlertController(title: "Kindly login again", message: "Deleting of account requires authentication from owner", preferredStyle: .alert)
                 if user.email != nil {
@@ -212,8 +221,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
                             if let message = message {
                                 self.showAlertWith(title: "Error", message: message, actions: [], hasDefaultOK: true)
                             } else {
-                                self.navigationController?.popViewController(animated: true)
-                                self.tabBarController?.selectedIndex = 1
+                                self.returnToLogoutState()
                             }
                         }
                     }

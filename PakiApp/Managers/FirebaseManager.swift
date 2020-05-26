@@ -92,11 +92,10 @@ extension FirebaseManager {
     
     // MARK: - Get User Data
     func getUserData(with uid: String, completed: @escaping () -> Void) {
-        guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
         self.firestoreDB.collection(Identifiers.users.rawValue).document(uid).getDocument { (snapshot, error) in
             if let snapshotData = snapshot?.data() {
                 DatabaseManager.Instance.saveUserData(snapshotData, completed: {
-                    FirebaseManager.Instance.getUserPosts(userID: userID) { (userPosts) in
+                    FirebaseManager.Instance.getUserPosts(userID: uid) { (userPosts) in
                         DatabaseManager.Instance.saveUserPosts(userPosts)
                     }
                     completed()
