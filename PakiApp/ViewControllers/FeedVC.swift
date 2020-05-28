@@ -44,6 +44,7 @@ class FeedVC: GeneralViewController {
         
         setupMobileAds()
         setupViewUI()
+        addTutorialPages()
         
         getAllPosts(done: {
             let pakiDict: [String] = self.allPosts.map({$0.paki})
@@ -123,6 +124,13 @@ class FeedVC: GeneralViewController {
         } else {
             logoImageView.image = UIImage(named: "Mascot")
         }
+    }
+    
+    fileprivate func addTutorialPages() {
+        let tutorialView = UINib(nibName: TutorialView.className, bundle: nil).instantiate(withOwner: self, options: nil).first as! TutorialView
+        tutorialView.frame = view.bounds
+        tutorialView.setupXib()
+        view.addSubview(tutorialView)
     }
     
     @objc

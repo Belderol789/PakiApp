@@ -71,6 +71,10 @@
 		E38B08DE2472E961009D449E /* AppstoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08DD2472E961009D449E /* AppstoreManager.swift */; };
 		E38B08E82476FAC2009D449E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08E72476FAC1009D449E /* ProfileView.swift */; };
 		E38B08EA2476FC62009D449E /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08E92476FC62009D449E /* ProfileView.xib */; };
+		E3D9742A247E87D500D7B702 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D97429247E87D500D7B702 /* TutorialView.swift */; };
+		E3D9742C247E87F800D7B702 /* TutorialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3D9742B247E87F800D7B702 /* TutorialView.xib */; };
+		E3D9742F247E88F900D7B702 /* ImageCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D9742D247E88F900D7B702 /* ImageCollectionCell.swift */; };
+		E3D97430247E88F900D7B702 /* ImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3D9742E247E88F900D7B702 /* ImageCollectionCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -143,6 +147,10 @@
 		E38B08DD2472E961009D449E /* AppstoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreManager.swift; sourceTree = "<group>"; };
 		E38B08E72476FAC1009D449E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		E38B08E92476FC62009D449E /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
+		E3D97429247E87D500D7B702 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
+		E3D9742B247E87F800D7B702 /* TutorialView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TutorialView.xib; sourceTree = "<group>"; };
+		E3D9742D247E88F900D7B702 /* ImageCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionCell.swift; sourceTree = "<group>"; };
+		E3D9742E247E88F900D7B702 /* ImageCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCollectionCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +260,8 @@
 				E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */,
 				E38B08D524713B02009D449E /* ReportTableViewCell.swift */,
 				E38B08D624713B02009D449E /* ReportTableViewCell.xib */,
+				E3D9742D247E88F900D7B702 /* ImageCollectionCell.swift */,
+				E3D9742E247E88F900D7B702 /* ImageCollectionCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -292,6 +302,8 @@
 				E38B08DB24713DEB009D449E /* ReportView.xib */,
 				E38B08E72476FAC1009D449E /* ProfileView.swift */,
 				E38B08E92476FC62009D449E /* ProfileView.xib */,
+				E3D97429247E87D500D7B702 /* TutorialView.swift */,
+				E3D9742B247E87F800D7B702 /* TutorialView.xib */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -382,10 +394,12 @@
 			files = (
 				E33A72F52454767F00AAD61A /* LaunchScreen.storyboard in Resources */,
 				E33A73242454856E00AAD61A /* CommentsHeaderView.xib in Resources */,
+				E3D97430247E88F900D7B702 /* ImageCollectionCell.xib in Resources */,
 				E38B08EA2476FC62009D449E /* ProfileView.xib in Resources */,
 				E33A733724548BEA00AAD61A /* AnswerView.xib in Resources */,
 				E33A731C2454856E00AAD61A /* FeedHeaderView.xib in Resources */,
 				E33A72FD245477EC00AAD61A /* GoogleService-Info.plist in Resources */,
+				E3D9742C247E87F800D7B702 /* TutorialView.xib in Resources */,
 				E38B08D824713B02009D449E /* ReportTableViewCell.xib in Resources */,
 				E38B08DC24713DEB009D449E /* ReportView.xib in Resources */,
 				E33A72F22454767F00AAD61A /* Assets.xcassets in Resources */,
@@ -453,6 +467,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3D9742F247E88F900D7B702 /* ImageCollectionCell.swift in Sources */,
 				E33A73532458BD2A00AAD61A /* User.swift in Sources */,
 				E33A732A2454856E00AAD61A /* ExtensionsManager.swift in Sources */,
 				E33A731D2454856E00AAD61A /* ProfileVC.swift in Sources */,
@@ -463,6 +478,7 @@
 				E33A73282454856E00AAD61A /* FeedCollectionViewCell.swift in Sources */,
 				E33A73212454856E00AAD61A /* CommentsHeaderView.swift in Sources */,
 				E33A73322454856E00AAD61A /* StatsTableViewCell.swift in Sources */,
+				E3D9742A247E87D500D7B702 /* TutorialView.swift in Sources */,
 				E33A731B2454856E00AAD61A /* CalendarCollectionViewCell.swift in Sources */,
 				E33A731A2454856E00AAD61A /* PakiView.swift in Sources */,
 				E33A73482456448600AAD61A /* CredentialVC.swift in Sources */,

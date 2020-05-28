@@ -16,6 +16,8 @@ pod 'Crashlytics'
 pod 'Firebase/Firestore'
 pod 'Google-Mobile-Ads-SDK'
 pod 'Firebase/AdMob'
+pod 'FacebookCore'
+pod 'FacebookLogin'
 
 #Utility
 pod 'SDWebImage'
