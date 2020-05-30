@@ -16,6 +16,13 @@ class TutorialView: UIView, Reusable {
     @IBOutlet weak var tutorialSkip: ButtonX!
     
     var tutorialImages: [UIImage] = []
+    var currentPage: Int = 0 {
+        didSet {
+            if currentPage == tutorialImages.count - 1 {
+                tutorialNext.setTitle("Done", for: .normal)
+            }
+        }
+    }
     
     override class func awakeFromNib() {
         super.awakeFromNib()
@@ -36,11 +43,16 @@ class TutorialView: UIView, Reusable {
     
     @IBAction func didTapNext(_ sender: ButtonX) {
         tutorialCollectionView.scrollToNextItem(width: tutorialCollectionView.frame.width)
-        
+        currentPage += 1
+        if currentPage == tutorialImages.count {
+            DatabaseManager.Instance.updateUserDefaults(value: true, key: .notFirstTime)
+            self.removeFromSuperview()
+        }
     }
     
     
     @IBAction func didTapSkip(_ sender: ButtonX) {
+        DatabaseManager.Instance.updateUserDefaults(value: true, key: .notFirstTime)
         self.removeFromSuperview()
     }
     

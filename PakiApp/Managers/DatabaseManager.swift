@@ -20,6 +20,7 @@ enum DatabaseKeys: String {
     case privacyPolicy
     case reviewWorthyActionCount
     case lastVersion
+    case notFirstTime
 }
 
 typealias EmptyClosure = () -> Void
@@ -172,6 +173,10 @@ class DatabaseManager {
     
     var privacyPolicy: String? {
         return UserDefaults.standard.string(forKey: DatabaseKeys.privacyPolicy.rawValue)
+    }
+    
+    var notFirstTime: Bool {
+        return UserDefaults.standard.bool(forKey: DatabaseKeys.notFirstTime.rawValue)
     }
     
     func updateUserDefaults(value: Any, key: DatabaseKeys) {

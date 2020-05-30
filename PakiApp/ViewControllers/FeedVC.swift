@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
+import FacebookCore
 
 class FeedVC: GeneralViewController {
     
@@ -44,7 +45,10 @@ class FeedVC: GeneralViewController {
         
         setupMobileAds()
         setupViewUI()
-        addTutorialPages()
+        
+        if !DatabaseManager.Instance.notFirstTime {
+           addTutorialPages()
+        }
         
         getAllPosts(done: {
             let pakiDict: [String] = self.allPosts.map({$0.paki})
@@ -141,6 +145,10 @@ class FeedVC: GeneralViewController {
     }
     
     func checkIfUserLoggedIn() {
+        if let token = AccessToken.current {
+            DatabaseManager.Instance.updateUserDefaults(value: !token.isExpired, key: .userIsLoggedIn)
+        }
+        
         if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.userObject.first != nil  {
             credentialView.isHidden = true
             tabBarController?.tabBar.isHidden = false

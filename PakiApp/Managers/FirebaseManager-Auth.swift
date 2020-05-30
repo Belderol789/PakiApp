@@ -8,6 +8,7 @@
 
 import Foundation
 import Firebase
+import FirebaseAuth
 
 typealias LoginHandler = (_ msg: String?) -> Void;
 struct LoginErrorCode {
@@ -37,8 +38,6 @@ extension FirebaseManager {
                                                FirebaseKeys.dateCreated.rawValue: "\(dateCreated)",
                     FirebaseKeys.starList.rawValue: [uid]]
                 
-                DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
-                
                 if let datum = photo {
                     self.saveToStorage(datum: datum, identifier: .profilePhoto, storagePath: uid) { (photoURL) in
                         userData[FirebaseKeys.profilePhotoURL.rawValue] = photoURL
@@ -57,7 +56,6 @@ extension FirebaseManager {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
             } else if let uid = result?.user.uid {
                 self.getUserData(with: uid) {
-                    DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                     loginHandler?(nil)
                 }
             }
@@ -84,7 +82,6 @@ extension FirebaseManager {
                 var userData: [String: Any] = [FirebaseKeys.username.rawValue: username,
                                                FirebaseKeys.birthday.rawValue: birth,
                                                FirebaseKeys.uid.rawValue: uid]
-                DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                 
                 if let datum = photo {
                     self.saveToStorage(datum: datum, identifier: .profilePhoto, storagePath: Identifiers.profilePhoto.rawValue) { (photoURL) in
@@ -105,10 +102,35 @@ extension FirebaseManager {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
             } else if let uid = result?.user.uid {
                 self.getUserData(with: uid) {
-                    DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                     loginHandler?(nil)
                 }
             }
+        }
+    }
+    
+    func loginWithFacebookUser(token: String, loginHandler: LoginHandler?) {
+        let credential = FacebookAuthProvider.credential(withAccessToken: token)
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if let error = error {
+                loginHandler?(error.localizedDescription)
+                return
+            }
+            loginHandler?(nil)
+        }
+    }
+    
+    func loginWithApplUser(idTokenString: String, nonce: String, loginHandler: LoginHandler?) {
+        let credential = OAuthProvider.credential(withProviderID: "apple.com",
+                                                  idToken: idTokenString,
+                                                  rawNonce: nonce)
+        
+        // Sign in with Firebase.
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if (error != nil) {
+                loginHandler?(error?.localizedDescription)
+                return
+            }
+            loginHandler?(nil)
         }
     }
     

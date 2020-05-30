@@ -98,6 +98,7 @@ extension FirebaseManager {
                     FirebaseManager.Instance.getUserPosts(userID: uid) { (userPosts) in
                         DatabaseManager.Instance.saveUserPosts(userPosts)
                     }
+                    DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                     completed()
                 })
             }
@@ -121,6 +122,7 @@ extension FirebaseManager {
             if err != nil {
                 self.handleErrors(error: err! as NSError, loginHandler: loginHandler)
             } else {
+                DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                 DatabaseManager.Instance.saveUserData(data, completed: {})
                 loginHandler?(nil)
             }

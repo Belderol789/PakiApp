@@ -12,6 +12,7 @@ import SDWebImage
 import SafariServices
 import MessageUI
 import TransitionButton
+import FacebookLogin
 
 enum NotifName: String {
     case AppearanceChanged
@@ -183,6 +184,8 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
     @IBAction func didLogout(_ sender: ButtonX) {
         self.showAlertWith(title: "Logout", message: "This will log you out of Paki", actions: [UIAlertAction(title: "Logout", style: .default, handler: { (_) in
             FirebaseManager.Instance.logoutUser {
+                let loginManager = LoginManager()
+                loginManager.logOut()
                 self.returnToLogoutState()
             }
         }), UIAlertAction(title: "Cancel", style: .cancel, handler: nil)], hasDefaultOK: false)

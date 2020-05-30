@@ -10,6 +10,11 @@ import UIKit
 import Photos
 import CountryPickerView
 import MessageUI
+import FacebookLogin
+import FacebookCore
+import FirebaseAuth
+import AuthenticationServices
+import CryptoKit
 
 class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol, MFMailComposeViewControllerDelegate {
     // IBOutlets
@@ -22,8 +27,11 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol, MFM
     @IBOutlet var credentialViews: [ViewX]!
     @IBOutlet var credentialFields: [UITextField]!
     @IBOutlet weak var loadingView: LoadingView!
+    @IBOutlet weak var facebookBtnContainer: UIView!
+    @IBOutlet weak var appleContainerView: UIView!
     
     // Variables
+    fileprivate var currentNonce: String?
     var authButton: UIBarButtonItem!
     var isLogin: Bool = false
     var phoneNumber: String?
@@ -40,6 +48,55 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol, MFM
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAlternativeAuth()
+    }
+    
+    fileprivate func setupAlternativeAuth() {
+        
+        let loginButton = FBLoginButton()
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        loginButton.permissions = ["public_profile", "email"]
+        loginButton.delegate = self
+        facebookBtnContainer.addSubview(loginButton)
+        facebookBtnContainer.layer.cornerRadius = 15
+        facebookBtnContainer.layer.masksToBounds = true
+        NSLayoutConstraint.activate([
+            loginButton.centerYAnchor.constraint(equalTo: facebookBtnContainer.centerYAnchor),
+            loginButton.leadingAnchor.constraint(equalTo: facebookBtnContainer.leadingAnchor, constant: 0),
+            loginButton.trailingAnchor.constraint(equalTo: facebookBtnContainer.trailingAnchor, constant: 0),
+            loginButton.topAnchor.constraint(equalTo: facebookBtnContainer.topAnchor, constant: 0),
+            loginButton.bottomAnchor.constraint(equalTo: facebookBtnContainer.bottomAnchor, constant: 0)
+        ])
+        
+        let appleButton = ASAuthorizationAppleIDButton()
+        appleButton.translatesAutoresizingMaskIntoConstraints = false
+        appleButton.addTarget(self, action: #selector(didTapAppleButton), for: .touchDown)
+        appleContainerView.addSubview(appleButton)
+        appleContainerView.layer.cornerRadius = 15
+        appleContainerView.layer.masksToBounds = true
+        NSLayoutConstraint.activate([
+            appleButton.centerYAnchor.constraint(equalTo: appleContainerView.centerYAnchor),
+            appleButton.leadingAnchor.constraint(equalTo: appleContainerView.leadingAnchor, constant: 0),
+            appleButton.trailingAnchor.constraint(equalTo: appleContainerView.trailingAnchor, constant: 0),
+            appleButton.topAnchor.constraint(equalTo: appleContainerView.topAnchor, constant: 0),
+            appleButton.bottomAnchor.constraint(equalTo: appleContainerView.bottomAnchor, constant: 0)
+        ])
+    }
+    
+    @objc
+    func didTapAppleButton() {
+        let nonce = randomNonceString()
+        currentNonce = nonce
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = sha256(nonce)
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        
+        controller.performRequests()
     }
     
     fileprivate func setupUI() {
@@ -248,7 +305,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol, MFM
 
 // MARK: - CountryPickerViewDelegate
 extension CredentialVC: CountryPickerViewDelegate {
-
+    
     func countryPickerView(_ countryPickerView: CountryPickerView, didSelectCountry country: Country) {
         self.countryCode = country.phoneCode
         self.phoneField.becomeFirstResponder()
@@ -303,6 +360,154 @@ extension CredentialVC: UITextFieldDelegate {
             authenticateUser()
         }
         return true
+    }
+    
+}
+
+// MARK: - Facebook Login
+extension CredentialVC: LoginButtonDelegate {
+    
+    func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
+        guard let tokenString = AccessToken.current?.tokenString, result != nil else {
+            self.showAlertWith(title: "Login Error", message: "There was an error with your login attempt", actions: [], hasDefaultOK: true)
+            return
+        }
+        
+        loadingView.isHidden = false
+        loadingView.startLoading()
+        
+        
+        FirebaseManager.Instance.loginWithFacebookUser(token: tokenString) { (message) in
+            if let message = message {
+                self.showAlertWith(title: "Error", message: message, actions: [], hasDefaultOK: true)
+            } else {
+                FacebookCore.Profile.loadCurrentProfile { (profile, error) in
+                    
+                    var userInfo: [String: Any] = [:]
+                    guard let userUID = profile?.userID, let userName = profile?.name else { return }
+                    
+                    let dateCreated = Date().timeIntervalSince1970
+                    
+                    userInfo[FirebaseKeys.dateCreated.rawValue] = "\(dateCreated)"
+                    userInfo[FirebaseKeys.uid.rawValue] = userUID
+                    userInfo[FirebaseKeys.username.rawValue] = userName
+                    
+                    if let userImage = profile?.imageURL(forMode: .normal, size: CGSize(width: 250, height: 200)) {
+                        userInfo[FirebaseKeys.profilePhotoURL.rawValue] = userImage.absoluteString
+                    }
+                    
+                    print("FBUser info \(userInfo)")
+                    FirebaseManager.Instance.updateFirebase(data: userInfo, identifier: .users, mainID: userUID) { (message) in
+                        self.userHasAuthenticated(message)
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
+        FirebaseManager.Instance.logoutUser {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserDidLogout"), object: nil)
+        }
+    }
+}
+
+// MARK: - Apple Signin
+extension CredentialVC: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+          guard let nonce = currentNonce else {
+            fatalError("Invalid state: A login callback was received, but no login request was sent.")
+          }
+          guard let appleIDToken = appleIDCredential.identityToken else {
+            print("Unable to fetch identity token")
+            return
+          }
+          guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+            return
+          }
+            
+            var userData: [String: Any] = [:]
+            userData[FirebaseKeys.uid.rawValue] = appleIDCredential.user
+            userData[FirebaseKeys.username.rawValue] = appleIDCredential.fullName?.givenName ?? "Anonymous"
+            userData[FirebaseKeys.email.rawValue] = appleIDCredential.email
+            
+            let dateCreated = Date().timeIntervalSince1970
+            userData[FirebaseKeys.dateCreated.rawValue] = "\(dateCreated)"
+            
+            print("AppleUserData \(userData)")
+            
+            loadingView.startLoading()
+            loadingView.isHidden = false
+            
+          // Initialize a Firebase credential.
+            FirebaseManager.Instance.loginWithApplUser(idTokenString: idTokenString, nonce: nonce) { (message) in
+                if let message = message {
+                    self.showAlertWith(title: "Error", message: message, actions: [], hasDefaultOK: true)
+                } else {
+                    FirebaseManager.Instance.updateFirebase(data: userData, identifier: .users, mainID: appleIDCredential.user) { (message) in
+                        self.userHasAuthenticated(message)
+                    }
+                }
+            }
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        showAlertWith(title: "Error", message: error.localizedDescription, actions: [], hasDefaultOK: true)
+        loadingView.stopLoading()
+    }
+    
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return view.window!
+    }
+    
+    private func randomNonceString(length: Int = 32) -> String {
+      precondition(length > 0)
+      let charset: Array<Character> =
+          Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+      var result = ""
+      var remainingLength = length
+
+      while remainingLength > 0 {
+        let randoms: [UInt8] = (0 ..< 16).map { _ in
+          var random: UInt8 = 0
+          let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+          if errorCode != errSecSuccess {
+            fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+          }
+          return random
+        }
+
+        randoms.forEach { random in
+          if remainingLength == 0 {
+            return
+          }
+
+          if random < charset.count {
+            result.append(charset[Int(random)])
+            remainingLength -= 1
+          }
+        }
+      }
+
+      return result
+    }
+    
+    
+    @available(iOS 13, *)
+    private func sha256(_ input: String) -> String {
+      let inputData = Data(input.utf8)
+      let hashedData = SHA256.hash(data: inputData)
+      let hashString = hashedData.compactMap {
+        return String(format: "%02x", $0)
+      }.joined()
+
+      return hashString
     }
     
 }
