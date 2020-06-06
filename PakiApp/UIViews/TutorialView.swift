@@ -18,9 +18,8 @@ class TutorialView: UIView, Reusable {
     var tutorialImages: [UIImage] = []
     var currentPage: Int = 0 {
         didSet {
-            if currentPage == tutorialImages.count - 1 {
-                tutorialNext.setTitle("Done", for: .normal)
-            }
+            let buttonTitle: String = currentPage == tutorialImages.count - 1 ? "Done" : "Next"
+            tutorialNext.setTitle(buttonTitle, for: .normal)
         }
     }
     
