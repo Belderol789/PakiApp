@@ -38,11 +38,12 @@ class LoadingView: UIView, Reusable {
     func setupCircleViews(paki: Paki) {
         self.isHidden = false
         let color = UIColor.getColorFor(paki: paki)
-        circleLoading.colors(color1: .label, color2: .systemGray, color3: .tertiarySystemGroupedBackground)
+        circleLoading.colors(color1: .white, color2: .systemGray, color3: .black)
         bigCircleLoading.colors(color1: color, color2: color, color3: color)
     }
     
     func startLoading() {
+        self.isHidden = false
         circleLoading.start()
         bigCircleLoading.start()
     }

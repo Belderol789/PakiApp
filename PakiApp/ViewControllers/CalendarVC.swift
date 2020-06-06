@@ -135,7 +135,7 @@ extension CalendarVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
             let contentHeight = calendar.content.returnStringHeight(fontSize: 17, width: 340).height
             let totalHeight = titleHeight + contentHeight + 200
             
-            return CGSize(width: collectionView.frame.width, height: totalHeight)
+            return CGSize(width: view.frame.size.width, height: totalHeight)
         } else {
             return CGSize(width: view.frame.size.width, height: 80)
         }

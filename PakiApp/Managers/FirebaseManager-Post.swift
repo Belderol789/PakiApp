@@ -70,6 +70,7 @@ extension FirebaseManager {
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
                                    FirebaseKeys.postKey.rawValue: userPost.postKey,
                                    FirebaseKeys.commentKey.rawValue: userPost.commentKey!,
+                                   FirebaseKeys.mediaURLs.rawValue: Array(userPost.mediaURLs),
                                    FirebaseKeys.uid.rawValue: userID,
                                    FirebaseKeys.reportCount.rawValue: 0]
         
@@ -133,4 +134,30 @@ extension FirebaseManager {
             self.firestoreDB.collection(Identifiers.posts.rawValue).document(post.postKey).collection(post.paki).document(post.uid).delete()
         }
     }
+    
+    
+    // MARK: - Image Upload
+    func saveImagesToStorage(images: [UIImage], completed: @escaping ([String]) -> Void) {
+        let imageData: [Data] = images.map({return $0.compressTo(1)!})
+        
+        var photoURLs: [String] = []
+
+        for datum in imageData {
+            let storageRef = Storage.storage().reference().child(Identifiers.posts.rawValue).child("\(UUID().uuidString).jpg")
+            
+            storageRef.putData(datum, metadata: nil) { (metaData, error) in
+                if error == nil {
+                    storageRef.downloadURL(completion: { (url, err) in
+                        if let photoURL = url?.absoluteString {
+                            photoURLs.append(photoURL)
+                            if photoURLs.count == images.count {
+                                completed(photoURLs)
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
 }

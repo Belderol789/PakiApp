@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -10,14 +10,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CommentsHeaderView" id="U6b-Vx-4bR" customClass="CommentsHeaderView" customModule="PakiApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="500" height="291"/>
+            <rect key="frame" x="0.0" y="0.0" width="500" height="476"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FYW-0H-lfF" customClass="ViewX" customModule="PakiApp" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="500" height="291"/>
+                    <rect key="frame" x="0.0" y="0.0" width="500" height="476"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pq-zQ-ZyM">
-                            <rect key="frame" x="16" y="114" width="468" height="79.5"/>
+                            <rect key="frame" x="16" y="292" width="468" height="79.5"/>
                             <string key="text">This is the content of the text. It can be as long or short as the user wants, but will have a maximum of 500 characters. This is the content of the text. It can be as long or short as the user wants, but will have a maximum of 500 characters.</string>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -66,7 +66,7 @@
                             </subviews>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MQL-lB-Dh5">
-                            <rect key="frame" x="16" y="244" width="468" height="30"/>
+                            <rect key="frame" x="16" y="429" width="468" height="30"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="WUF-Mc-YJG">
                                     <rect key="frame" x="0.0" y="0.0" width="468" height="30"/>
@@ -74,7 +74,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rn6-FB-9yT">
                                             <rect key="frame" x="0.0" y="0.0" width="155.5" height="30"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                            <state key="normal" title=" Favourite" image="star" catalog="system">
+                                            <state key="normal" title="    Favourite" image="star" catalog="system">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                             </state>
                                             <connections>
@@ -84,7 +84,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCb-31-cAZ">
                                             <rect key="frame" x="156.5" y="0.0" width="155" height="30"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                            <state key="normal" title=" Reply" image="Comment (filled)">
+                                            <state key="normal" title="    Reply" image="Comment (filled)">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                             </state>
                                             <connections>
@@ -94,7 +94,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kao-QA-XKi">
                                             <rect key="frame" x="312.5" y="0.0" width="155.5" height="30"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
-                                            <state key="normal" title=" Share" image="share">
+                                            <state key="normal" title="    Share" image="share">
                                                 <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                             </state>
                                             <connections>
@@ -113,14 +113,14 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XPc-ae-4Yd">
-                            <rect key="frame" x="0.0" y="239" width="500" height="1"/>
+                            <rect key="frame" x="0.0" y="424" width="500" height="1"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="ujQ-VR-d6C"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bub-h2-0of">
-                            <rect key="frame" x="0.0" y="282" width="500" height="1"/>
+                            <rect key="frame" x="0.0" y="467" width="500" height="1"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="fxi-Ph-V63"/>
@@ -140,6 +140,38 @@
                                 <action selector="didTapProfile:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="mlc-gc-vcz"/>
                             </connections>
                         </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WaO-Xl-uvg">
+                            <rect key="frame" x="20" y="114" width="460" height="170"/>
+                            <subviews>
+                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="oqQ-Sq-p4l">
+                                    <rect key="frame" x="0.0" y="0.0" width="460" height="170"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="YTx-4L-2uO">
+                                        <size key="itemSize" width="128" height="128"/>
+                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    </collectionViewFlowLayout>
+                                </collectionView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CzQ-aQ-dYz">
+                                    <rect key="frame" x="0.0" y="0.0" width="460" height="170"/>
+                                    <connections>
+                                        <action selector="didViewMedia:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="6Z1-cG-CZG"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="CzQ-aQ-dYz" secondAttribute="trailing" id="0M3-33-SXu"/>
+                                <constraint firstAttribute="bottom" secondItem="oqQ-Sq-p4l" secondAttribute="bottom" id="8fD-WN-lJ0"/>
+                                <constraint firstItem="CzQ-aQ-dYz" firstAttribute="leading" secondItem="WaO-Xl-uvg" secondAttribute="leading" id="FcP-g7-f88"/>
+                                <constraint firstItem="oqQ-Sq-p4l" firstAttribute="top" secondItem="WaO-Xl-uvg" secondAttribute="top" id="Ki5-77-4cd"/>
+                                <constraint firstAttribute="bottom" secondItem="CzQ-aQ-dYz" secondAttribute="bottom" id="QPH-By-tPz"/>
+                                <constraint firstAttribute="height" constant="170" id="ZSf-Xx-bY0"/>
+                                <constraint firstItem="CzQ-aQ-dYz" firstAttribute="top" secondItem="WaO-Xl-uvg" secondAttribute="top" id="aSm-XR-QHq"/>
+                                <constraint firstAttribute="trailing" secondItem="oqQ-Sq-p4l" secondAttribute="trailing" id="gjJ-Q4-E3e"/>
+                                <constraint firstItem="oqQ-Sq-p4l" firstAttribute="leading" secondItem="WaO-Xl-uvg" secondAttribute="leading" id="yJm-Cf-vwb"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.18823529410000001" green="0.2666666667" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -148,13 +180,16 @@
                         <constraint firstAttribute="trailing" secondItem="EHH-Iw-Oye" secondAttribute="trailing" constant="16" id="4hA-aO-vkZ"/>
                         <constraint firstItem="EHH-Iw-Oye" firstAttribute="leading" secondItem="FYW-0H-lfF" secondAttribute="leading" constant="16" id="59z-EC-EFg"/>
                         <constraint firstItem="JRi-n5-2LS" firstAttribute="centerY" secondItem="rlG-eH-hVm" secondAttribute="centerY" id="7k9-py-7lM"/>
+                        <constraint firstItem="WaO-Xl-uvg" firstAttribute="leading" secondItem="FYW-0H-lfF" secondAttribute="leading" constant="20" id="7vT-DN-Xet"/>
                         <constraint firstItem="JRi-n5-2LS" firstAttribute="height" secondItem="rlG-eH-hVm" secondAttribute="height" id="9Jc-QO-cNp"/>
                         <constraint firstItem="XPc-ae-4Yd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6pq-zQ-ZyM" secondAttribute="bottom" constant="8" id="9uK-Ru-dOS"/>
                         <constraint firstItem="JRi-n5-2LS" firstAttribute="centerX" secondItem="rlG-eH-hVm" secondAttribute="centerX" id="AY8-6s-iFu"/>
-                        <constraint firstItem="6pq-zQ-ZyM" firstAttribute="top" secondItem="EHH-Iw-Oye" secondAttribute="bottom" constant="8" id="Ac0-Jf-o4X"/>
                         <constraint firstItem="5pJ-na-ogW" firstAttribute="top" secondItem="FYW-0H-lfF" secondAttribute="top" constant="16" id="D8g-Ct-QvM"/>
                         <constraint firstItem="1as-eG-qiH" firstAttribute="leading" secondItem="rlG-eH-hVm" secondAttribute="trailing" constant="16" id="Fif-OE-FF9"/>
                         <constraint firstItem="JRi-n5-2LS" firstAttribute="width" secondItem="rlG-eH-hVm" secondAttribute="width" id="GjP-a4-gQI"/>
+                        <constraint firstItem="6pq-zQ-ZyM" firstAttribute="top" secondItem="WaO-Xl-uvg" secondAttribute="bottom" constant="8" id="H9r-qe-cY3"/>
+                        <constraint firstItem="WaO-Xl-uvg" firstAttribute="top" secondItem="EHH-Iw-Oye" secondAttribute="bottom" constant="8" id="IFM-rT-8Qo"/>
+                        <constraint firstAttribute="trailing" secondItem="WaO-Xl-uvg" secondAttribute="trailing" constant="20" id="Nh5-fb-QiG"/>
                         <constraint firstAttribute="trailing" secondItem="5pJ-na-ogW" secondAttribute="trailing" constant="16" id="Ns7-fM-7no"/>
                         <constraint firstItem="bub-h2-0of" firstAttribute="top" secondItem="MQL-lB-Dh5" secondAttribute="bottom" constant="8" id="Nws-3g-Ihi"/>
                         <constraint firstItem="MQL-lB-Dh5" firstAttribute="top" secondItem="XPc-ae-4Yd" secondAttribute="bottom" constant="4" id="PhK-Lz-bhh"/>
@@ -188,7 +223,10 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>
+                <outlet property="collectionContainer" destination="WaO-Xl-uvg" id="Tg8-K4-pjf"/>
                 <outlet property="containerView" destination="FYW-0H-lfF" id="1N0-wZ-HSY"/>
+                <outlet property="mediaHeightConst" destination="ZSf-Xx-bY0" id="msJ-8d-WkV"/>
+                <outlet property="postCollectionView" destination="oqQ-Sq-p4l" id="Y0K-AO-kiH"/>
                 <outlet property="postContentLabel" destination="6pq-zQ-ZyM" id="JiY-Vc-TNw"/>
                 <outlet property="postDateLabel" destination="I5U-ec-hxp" id="Xid-4I-rFI"/>
                 <outlet property="postFavBtn" destination="rn6-FB-9yT" id="Ovw-tB-9Yw"/>
@@ -202,7 +240,7 @@
                 <outletCollection property="postBtns" destination="rn6-FB-9yT" collectionClass="NSMutableArray" id="WXM-HJ-6oU"/>
                 <outletCollection property="postBtns" destination="kao-QA-XKi" collectionClass="NSMutableArray" id="IvD-Ph-8mW"/>
             </connections>
-            <point key="canvasLocation" x="266.66666666666669" y="212.61160714285714"/>
+            <point key="canvasLocation" x="266.66666666666669" y="273.88392857142856"/>
         </collectionReusableView>
     </objects>
     <resources>

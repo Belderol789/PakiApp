@@ -102,7 +102,11 @@ extension UIColor {
         case .terrible:
             return UIColor.hexStringToUIColor(hex: "#FF575F")
         case .none:
-            return .systemGray2
+            if #available(iOS 13.0, *) {
+                return .systemGray2
+            } else {
+                return .darkGray
+            }
         }
     }
     

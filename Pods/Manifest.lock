@@ -310,6 +310,7 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - OpalImagePicker (3.0.0)
   - Realm (4.3.0):
     - Realm/Headers (= 4.3.0)
   - Realm/Headers (4.3.0)
@@ -340,6 +341,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FSCalendar
   - Google-Mobile-Ads-SDK
+  - OpalImagePicker
   - RealmSwift
   - SDWebImage
   - SkyFloatingLabelTextField
@@ -383,6 +385,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
+    - OpalImagePicker
     - Realm
     - RealmSwift
     - SDWebImage
@@ -426,6 +429,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 43b8b64263023d4f32caa0b40f4c8bfa3c5f36d8
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  OpalImagePicker: 38e772dd93a54431fc516b33e1f337c50f745834
   Realm: 9357c3589555793e1860a7104a7412bca4a48d99
   RealmSwift: 402f1e379a8ef82c635313037b043f0f06de880c
   SDWebImage: 5bf6aec6481ae2a062bdc59f9d6c1d1e552090e0
@@ -434,6 +438,6 @@ SPEC CHECKSUMS:
   TransitionButton: fb271583d9c9e4bb116b97103047e5157653f233
   TTGEmojiRate: 9b295b22e42874acfd717a9ae606e259995b83d0
 
-PODFILE CHECKSUM: 3d3171b2a3ff5f4e21db36abb2382e9835aab425
+PODFILE CHECKSUM: 0a2ca6eb3e93cc31cbc915650622eee12af4080c
 
 COCOAPODS: 1.8.4

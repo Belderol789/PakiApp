@@ -26,6 +26,7 @@ pod 'RealmSwift'
 pod 'CountryPickerView'
 pod 'SwiftIcons'
 pod 'FSCalendar'
+pod 'OpalImagePicker'
 
 #UI
 pod 'CircleLoading'

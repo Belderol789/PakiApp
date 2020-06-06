@@ -62,9 +62,10 @@ class CredentialView: UIView, Reusable {
     
     func setupPhoneLogin() {
         photoButton.isUserInteractionEnabled = false
+        photoButton.isHidden = true
         credLabels.forEach({$0.isHidden = true})
         usernameView.isHidden = true
-        profileImageView.image = UIImage(named: "mascot")
+        profileImageView.image = UIImage(named: "Icon")
         birthPicker.isHidden = true
     }
     

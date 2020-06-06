@@ -45,6 +45,9 @@ class UserPost: Object {
     }
     
     var mediaURLs = List<String>()
+    var hasMedia: Bool {
+        return !mediaURLs.isEmpty
+    }
     
     var dateString: String {
         let date = Date(timeIntervalSince1970: datePosted)

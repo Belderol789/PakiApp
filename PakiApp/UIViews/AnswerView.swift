@@ -8,9 +8,11 @@
 
 import UIKit
 import TTGEmojiRate
+import OpalImagePicker
 
 protocol AnswerViewProtocol: class {
     func didFinishAnswer(post: UserPost)
+    func presentImageController(_ controller: UIImagePickerController)
 }
 
 class AnswerView: UIView, Reusable {
@@ -43,11 +45,17 @@ class AnswerView: UIView, Reusable {
     @IBOutlet weak var shareTextView: UITextView!
     @IBOutlet weak var shareLimitLabel: UILabel!
     
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var loadingVIew: LoadingView!
+    
     @IBOutlet var headerLabels: [UILabel]!
     
     weak var delegate: AnswerViewProtocol?
     var currentPaki: Paki = .meh
     var pakiData: [String: Any] = [:]
+    var photos: [UIImage] = []
     
     var shareBtnInternaction: Bool = false {
         didSet {
@@ -97,6 +105,19 @@ class AnswerView: UIView, Reusable {
     }
     
     func setupEmojiView() {
+        
+        scrollView.alpha = 0
+        self.backgroundColor = UIColor.defaultBGColor
+        
+        if let layout = collectionView.collectionViewLayout as? PinterestLayout {
+            layout.delegate = self
+            collectionView.register(ImageCollectionCell.nib, forCellWithReuseIdentifier: ImageCollectionCell.className)
+            collectionView.delegate = self
+            collectionView.dataSource = self
+            collectionView.contentInset = UIEdgeInsets(top: 23, left: 16, bottom: 10, right: 16)
+        }
+        collectionView.backgroundColor = .clear
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         shareView.addGestureRecognizer(tapGesture)
         
@@ -171,7 +192,7 @@ class AnswerView: UIView, Reusable {
     @IBAction func didContinueToShare(_ sender: ButtonX) {
         UIView.animate(withDuration: 1, animations: {
             self.statsView.alpha = 0
-            self.shareView.alpha = 1
+            self.scrollView.alpha = 1
         }) { (_) in
             self.blurView.isHidden = true
             self.titleTextView.becomeFirstResponder()
@@ -179,6 +200,8 @@ class AnswerView: UIView, Reusable {
     }
     
     @IBAction func didShare(_ sender: ButtonX) {
+        
+        loadingVIew.startLoading()
         
         let mainUser = DatabaseManager.Instance.mainUser
         let userPost: UserPost = UserPost()
@@ -196,20 +219,79 @@ class AnswerView: UIView, Reusable {
         let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         userPost.postKey = postKey
         
+        if photos.isEmpty {
+            FirebaseManager.Instance.sendPostToFirebase(userPost)
+            self.delegate?.didFinishAnswer(post: userPost)
+            self.stopLoading()
+        } else {
+            FirebaseManager.Instance.saveImagesToStorage(images: photos) { (photoURLs) in
+                userPost.mediaURLs.append(objectsIn: photoURLs)
+                FirebaseManager.Instance.sendPostToFirebase(userPost)
+                self.delegate?.didFinishAnswer(post: userPost)
+                self.stopLoading()
+            }
+        }
+        
         DatabaseManager.Instance.updateRealm(key: FirebaseKeys.currentPaki.rawValue, value: currentPaki.rawValue)
         DatabaseManager.Instance.updateUserDefaults(value: true, key: .userHasAnswered)
         
         let count = self.pakiData[currentPaki.rawValue] as? Int ?? 0
         pakiData[currentPaki.rawValue] = count + 1
         FirebaseManager.Instance.setupPakiCount(count: pakiData)
-        FirebaseManager.Instance.sendPostToFirebase(userPost)
         
-        self.delegate?.didFinishAnswer(post: userPost)
+    }
+    
+    func stopLoading() {
+        self.loadingVIew.stopLoading()
         UIView.animate(withDuration: 0.5, animations: {
             self.alpha = 0
         }) { (_) in
             self.removeFromSuperview()
         }
+    }
+    
+    @IBAction func didTapCamera(_ sender: ButtonX) {
+        openImageOptions(type: .camera)
+    }
+    
+    @IBAction func didTapGallery(_ sender: ButtonX) {
+        openImageOptions(type: .photoLibrary)
+    }
+    
+    fileprivate func openImageOptions(type: UIImagePickerController.SourceType) {
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.allowsEditing = true
+        pickerController.mediaTypes = ["public.image"]
+        pickerController.sourceType = type
+        delegate?.presentImageController(pickerController)
+    }
+    
+    fileprivate func reloadImageColletion() {
+        if let layout = collectionView.collectionViewLayout as? PinterestLayout {
+            layout.cache.removeAll()
+            layout.prepare()
+            collectionView.reloadData()
+        }
+    }
+    
+}
+// MARK - ImagePickerController
+extension AnswerView: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        
+        if let editedImage = info[.editedImage] as? UIImage {
+            photos.append(editedImage)
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            photos.append(originalImage)
+        }
+        
+        reloadImageColletion()
     }
 }
 
@@ -222,7 +304,7 @@ extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
         }
     }
     
-     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let limit = textView == titleTextView ? 100 : 500
         return textView.text.count + (text.count - range.length) <= limit
     }
@@ -235,5 +317,45 @@ extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
             self.shareLimitLabel.text = "\(currentCount)/500"
         }
         self.shareBtnInternaction = (currentCount <= 500 && currentCount > 0) && (titleTextView.text != "")
+    }
+}
+
+extension AnswerView: PinterestLayoutDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, ImageCollectionCellProtocol {
+    
+    func didRemoveImage(_ image: UIImage?) {
+        if let index = photos.firstIndex(of: image!) {
+            photos.remove(at: index)
+            collectionView.reloadData()
+        }
+        reloadImageColletion()
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionCell", for: indexPath as IndexPath) as! ImageCollectionCell
+        cell.imageView.image = photos[indexPath.item]
+        cell.imageView.contentMode = .scaleAspectFill
+        cell.closeButton.isHidden = false
+        cell.imageView.backgroundColor = UIColor.defaultFGColor
+        cell.imageView.layer.cornerRadius = 15
+        cell.imageView.layer.masksToBounds = true
+        cell.delegate = self
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemSize = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
+        return CGSize(width: itemSize, height: itemSize)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat {
+        let randomzier = CGFloat.random(in: 250...300)
+        let photoHeight = photos[indexPath.item].size.height > 300 ? randomzier : photos[indexPath.item].size.height
+        print("Photo Height \(photoHeight)")
+        return photoHeight
     }
 }

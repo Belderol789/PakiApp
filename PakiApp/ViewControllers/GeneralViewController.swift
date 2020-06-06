@@ -11,14 +11,18 @@ import UIKit
 class GeneralViewController: UIViewController, UINavigationControllerDelegate {
     
     var isProfile: Bool  = false
-    var hideTabbar: Bool = false
+    var hideTabbar: Bool = false {
+        didSet {
+            self.tabBarController?.tabBar.isHidden = hideTabbar
+        }
+    }
     var navigationBar: Bool = false
     
     var viewCenter: CGRect = .zero
     var currentText: String = ""
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        let appearance: UIStatusBarStyle = DatabaseManager.Instance.userSetLightAppearance ? .lightContent : .darkContent
+        let appearance: UIStatusBarStyle = .lightContent
         return appearance
     }
 

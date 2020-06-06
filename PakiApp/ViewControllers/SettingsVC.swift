@@ -198,6 +198,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
     }
     
     fileprivate func returnToLogoutState() {
+        DatabaseManager.Instance.deleteAll()
         self.dismiss(animated: true) {
             self.delegate?.userDidLogoutDelete()
         }

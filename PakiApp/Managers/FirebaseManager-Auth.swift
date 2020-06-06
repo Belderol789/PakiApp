@@ -79,9 +79,13 @@ extension FirebaseManager {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
             } else if let uid = result?.user.uid {
                 
+                let dateCreated = Date().timeIntervalSince1970
+                
                 var userData: [String: Any] = [FirebaseKeys.username.rawValue: username,
-                                               FirebaseKeys.birthday.rawValue: birth,
-                                               FirebaseKeys.uid.rawValue: uid]
+                                                              FirebaseKeys.birthday.rawValue: birth,
+                                                              FirebaseKeys.uid.rawValue: uid,
+                                                              FirebaseKeys.dateCreated.rawValue: "\(dateCreated)",
+                                   FirebaseKeys.starList.rawValue: [uid]]
                 
                 if let datum = photo {
                     self.saveToStorage(datum: datum, identifier: .profilePhoto, storagePath: Identifiers.profilePhoto.rawValue) { (photoURL) in

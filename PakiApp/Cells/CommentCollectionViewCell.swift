@@ -59,8 +59,8 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
         
         commentStarLabel.text = "\(userComment.starCount)"
         if let userId = DatabaseManager.Instance.mainUser.uid {
-            let starImage: String = userComment.starList.contains(userId) ? "star.fill" : "star"
-            starButton.setImage(UIImage.init(systemName: starImage), for: .normal)
+            let starImage: String = userComment.starList.contains(userId) ? "star-fill" : "star-empty"
+            starButton.setImage(UIImage(named: starImage), for: .normal)
             starButton.tintColor = color
         }
         
@@ -77,7 +77,7 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
             let currentCount = comment.starList.count + 1
             commentStarLabel.text = "\(currentCount)"
             
-            sender.setImage(UIImage.init(systemName: "star.fill"), for: .normal)
+            sender.setImage(UIImage(named: "star-fill"), for: .normal)
             FirebaseManager.Instance.updateCommentStar(post: comment, commentKey: commentKey)
             FirebaseManager.Instance.updateUserStars(uid: comment.uid)
         }

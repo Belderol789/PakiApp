@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CommentsVCProtocol: class {
+    func showTabbarController()
+}
+
 class CommentsVC: GeneralViewController {
     // IBOutlets
     @IBOutlet weak var commentsContainer: ViewX!
@@ -15,10 +19,12 @@ class CommentsVC: GeneralViewController {
     @IBOutlet weak var commentsField: UITextField!
     @IBOutlet weak var collectionContainer: ViewX!
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var imageDisplayView: ImageDisplayView!
     // Constraints
     @IBOutlet weak var commentsHeightConst: NSLayoutConstraint!
     @IBOutlet weak var replyHeightConst: NSLayoutConstraint!
     // Variables
+    weak var commentDelegate: CommentsVCProtocol?
     var commentHeight: CGFloat = 0 {
         didSet {
             print("CommentHeight \(commentHeight)")
@@ -41,8 +47,14 @@ class CommentsVC: GeneralViewController {
         AppStoreManager.requestReviewIfAppropriate()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        hideTabbar = true
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        hideTabbar = false
     }
     
     func getAllComments() {
@@ -91,7 +103,8 @@ class CommentsVC: GeneralViewController {
     }
     
     @IBAction func didTapBack(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
+        self.commentDelegate?.showTabbarController()
     }
 }
 
@@ -106,7 +119,7 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
         let comment = filteredComments[indexPath.item]
         let feedCell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentCollectionViewCell.className, for: indexPath) as! CommentCollectionViewCell
         feedCell.delegate = self
-        feedCell.commentKey = currentPost.commentKey
+        feedCell.commentKey = self.currentPost.commentKey
         feedCell.setupWith(userComment: comment)
         return feedCell
     }
@@ -121,14 +134,15 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CommentsHeaderView.className, for: indexPath) as! CommentsHeaderView
         header.commentCount = allComments.count
         header.delegate = self
-        header.setupCommentsView(post: currentPost)
+        header.setupCommentsView(post: self.currentPost)
         return header
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let text = currentPost.content
-        let title = currentPost.title
-        let titleHeight = title.returnStringHeight(fontSize: 17, width: collectionView.frame.width).height + 180
+        let text = self.currentPost.content
+        let title = self.currentPost.title
+        let media: CGFloat = self.currentPost.hasMedia ? 180 : 0
+        let titleHeight = title.returnStringHeight(fontSize: 17, width: collectionView.frame.width).height + 180 + media
         let feedHeight = text.returnStringHeight(fontSize: 15, width: collectionView.frame.width).height + titleHeight
         if commentHeight == 0 {
            commentHeight += feedHeight
@@ -141,6 +155,14 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
 // MARK: - CommentsHeaderProtocol
 
 extension CommentsVC: CommentsHeaderProtocol, ReportViewProtocol, CommentCellProtocol {
+    
+    func didShowMediaView(images: [String]) {
+        imageDisplayView.setupCollection(images: images)
+        imageDisplayView.isHidden = false
+        UIView.animate(withDuration: 0.3) {
+            self.imageDisplayView.alpha = 1
+        }
+    }
     
     func didTapProfile(post: UserPost) {
         let profileView = Bundle.main.loadNibNamed(ProfileView.className, owner: self, options: nil)?.first as! ProfileView
@@ -207,7 +229,7 @@ extension CommentsVC: CommentsHeaderProtocol, ReportViewProtocol, CommentCellPro
     }
     
     func proceedToReplyPage() {
-        let replyVC = storyboard?.instantiateViewController(identifier: "ReplyViewController") as! ReplyVC
+        let replyVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ReplyVC") as! ReplyVC
         replyVC.currentPost = currentPost
         self.present(replyVC, animated: true, completion: nil)
     }

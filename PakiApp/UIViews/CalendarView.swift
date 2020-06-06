@@ -52,8 +52,6 @@ class CalendarView: UIView, Reusable {
         self.addSubview(contentView)
         segmentedControl.addUnderlineForSelectedSegment()
         calendar.layer.cornerRadius = 15
-        calendar.delegate = self
-        calendar.dataSource = self
         
     }
     
@@ -63,6 +61,7 @@ class CalendarView: UIView, Reusable {
         if sender.selectedSegmentIndex == 0 {
             scrollView.scrollToPreviousItem(width: width)
         } else {
+            calendar.reloadData()
             scrollView.scrollToNextItem(width: width)
         }
     }
@@ -71,7 +70,11 @@ class CalendarView: UIView, Reusable {
     func setupUserPosts() {
         userPosts.forEach({postPakiDict[$0.dateString] = $0.pakiCase})
         postDates = userPosts.map({$0.dateString})
-        calendar.reloadData()
+        
+        print("PostDates \(postDates)")
+        
+        calendar.delegate = self
+        calendar.dataSource = self
     }
 
     func addGridViews() {
@@ -143,7 +146,7 @@ class CalendarView: UIView, Reusable {
             if selectedPaki != pakiView {
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     self.selectedPaki?.layer.transform = CATransform3DIdentity
-                    self.selectedPaki?.layer.borderColor = UIColor.systemBackground.cgColor
+                    self.selectedPaki?.layer.borderColor = UIColor.clear.cgColor
                 }, completion: nil)
             }
             
@@ -152,13 +155,13 @@ class CalendarView: UIView, Reusable {
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 pakiView.layer.transform = CATransform3DMakeScale(3, 3, 3)
-                pakiView.layer.borderColor = UIColor.label.cgColor
+                pakiView.layer.borderColor = UIColor.white.cgColor
             })
             
             if gesture.state == .ended {
                 UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     pakiView.layer.transform = CATransform3DIdentity
-                    pakiView.layer.borderColor = UIColor.systemBackground.cgColor
+                    pakiView.layer.borderColor = UIColor.clear.cgColor
                 }, completion: { (_) in
                     self.gridTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
                         timer.invalidate()
@@ -186,10 +189,27 @@ extension CalendarView: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
         let dateString = date.convertToMediumString()
         if let paki = postPakiDict[dateString] {
             return UIColor.getColorFor(paki: paki)
+        } else {
+            return .clear
         }
-        return .clear
     }
     
+    func maximumDate(for calendar: FSCalendar) -> Date {
+        return Date()
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
+        return .white
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleSelectionColorFor date: Date) -> UIColor? {
+        return .white
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, subtitleDefaultColorFor date: Date) -> UIColor? {
+        return .white
+    }
+
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         let dateString = date.convertToMediumString()
         guard let userPost = userPosts.filter({$0.dateString == dateString}).first else { return }

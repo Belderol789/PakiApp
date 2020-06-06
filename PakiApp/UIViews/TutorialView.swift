@@ -85,6 +85,7 @@ extension TutorialView: UICollectionViewDelegateFlowLayout, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         tutorialPageControl.currentPage = indexPath.item
+        currentPage = indexPath.item
     }
     
 }

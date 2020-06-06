@@ -74,6 +74,7 @@ class FeedVC: GeneralViewController {
     @objc
     func userDidLogout(notification: Notification) {
         logoImageView.image = nil
+        hideTabbar = true
         checkIfUserLoggedIn()
     }
     
@@ -151,11 +152,11 @@ class FeedVC: GeneralViewController {
         
         if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.userObject.first != nil  {
             credentialView.isHidden = true
-            tabBarController?.tabBar.isHidden = false
+            hideTabbar = false
             resetUserEmoji()
         } else {
             credentialView.isHidden = false
-            tabBarController?.tabBar.isHidden = true
+            hideTabbar = true
         }
     }
     
@@ -286,7 +287,7 @@ class FeedVC: GeneralViewController {
     
     // MARK: - IBActions
     @IBAction func didSelectCredential(_ sender: ButtonX) {
-        let credentialVC = storyboard?.instantiateViewController(identifier: CredentialVC.className) as! CredentialVC
+        let credentialVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CredentialVC") as! CredentialVC
         credentialVC.isLogin = (sender.tag == 1)
         navigationController?.pushViewController(credentialVC, animated: true)
     }
@@ -323,6 +324,11 @@ extension FeedVC: GADUnifiedNativeAdLoaderDelegate {
 
 // MARK: - AnswerView
 extension FeedVC: AnswerViewProtocol {
+    
+    func presentImageController(_ controller: UIImagePickerController) {
+        self.present(controller, animated: true, completion: nil)
+    }
+    
     func didFinishAnswer(post: UserPost) {
         
         loadingView.stopLoading()
@@ -374,6 +380,7 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         let feedItem = feedItems[indexPath.item]
         
         if let filteredPost = feedItem as? UserPost {
+            let mediaHeight: CGFloat = filteredPost.hasMedia ? 180 : 0
             let text = filteredPost.content
             let title = filteredPost.title
             let collectionWidth = collectionView.frame.width - 32
@@ -381,10 +388,16 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
             let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionWidth - 50).height
             let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height
             let tempFeedHeight = titleHeight + contentHeight + 170
-            let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 : tempFeedHeight
+            let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 + mediaHeight : tempFeedHeight + mediaHeight
             return CGSize(width: view.frame.size.width - 16, height: feedHeight)
         } else {
             return CGSize(width: view.frame.size.width, height: 80)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let filteredPost = feedItems[indexPath.item] as? UserPost {
+            proceedToComments(post: filteredPost)
         }
     }
     
@@ -402,7 +415,12 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
     
 }
 // MARK: - FeedHeaderProtocol
-extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol {
+extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol, CommentsVCProtocol {
+    
+    func showTabbarController() {
+        print("Showing tabbar")
+        self.hideTabbar = false
+    }
     
     func didViewProfile(uid: UserPost) {
         let profileView = Bundle.main.loadNibNamed(ProfileView.className, owner: self, options: nil)?.first as! ProfileView
@@ -420,6 +438,7 @@ extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol {
     func didSubmitReportUser(post: UserPost) {
         guard let index = feedItems.firstIndex(where: {($0 as? UserPost) == post}) else { return }
         feedItems.remove(at: index)
+        filteredPosts.remove(at: index)
         feedCollection.reloadData()
         FirebaseManager.Instance.reportPost(post: post)
     }
@@ -454,7 +473,8 @@ extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol {
     }
     
     func proceedToComments(post: UserPost) {
-        let commentsVC = storyboard?.instantiateViewController(identifier: "CommentsVC") as! CommentsVC
+        let commentsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CommentsVC") as! CommentsVC
+        commentsVC.commentDelegate = self
         commentsVC.delegate = self
         commentsVC.currentPost = post
         navigationController?.pushViewController(commentsVC, animated: true)

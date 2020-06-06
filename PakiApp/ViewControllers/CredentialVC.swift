@@ -68,21 +68,24 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol, MFM
             loginButton.bottomAnchor.constraint(equalTo: facebookBtnContainer.bottomAnchor, constant: 0)
         ])
         
-        let appleButton = ASAuthorizationAppleIDButton()
-        appleButton.translatesAutoresizingMaskIntoConstraints = false
-        appleButton.addTarget(self, action: #selector(didTapAppleButton), for: .touchDown)
-        appleContainerView.addSubview(appleButton)
-        appleContainerView.layer.cornerRadius = 15
-        appleContainerView.layer.masksToBounds = true
-        NSLayoutConstraint.activate([
-            appleButton.centerYAnchor.constraint(equalTo: appleContainerView.centerYAnchor),
-            appleButton.leadingAnchor.constraint(equalTo: appleContainerView.leadingAnchor, constant: 0),
-            appleButton.trailingAnchor.constraint(equalTo: appleContainerView.trailingAnchor, constant: 0),
-            appleButton.topAnchor.constraint(equalTo: appleContainerView.topAnchor, constant: 0),
-            appleButton.bottomAnchor.constraint(equalTo: appleContainerView.bottomAnchor, constant: 0)
-        ])
+        if #available(iOS 13.0, *) {
+            let appleButton = ASAuthorizationAppleIDButton()
+            appleButton.translatesAutoresizingMaskIntoConstraints = false
+            appleButton.addTarget(self, action: #selector(didTapAppleButton), for: .touchDown)
+            appleContainerView.addSubview(appleButton)
+            appleContainerView.layer.cornerRadius = 15
+            appleContainerView.layer.masksToBounds = true
+            NSLayoutConstraint.activate([
+                appleButton.centerYAnchor.constraint(equalTo: appleContainerView.centerYAnchor),
+                appleButton.leadingAnchor.constraint(equalTo: appleContainerView.leadingAnchor, constant: 0),
+                appleButton.trailingAnchor.constraint(equalTo: appleContainerView.trailingAnchor, constant: 0),
+                appleButton.topAnchor.constraint(equalTo: appleContainerView.topAnchor, constant: 0),
+                appleButton.bottomAnchor.constraint(equalTo: appleContainerView.bottomAnchor, constant: 0)
+            ])
+        }
     }
     
+    @available(iOS 13.0, *)
     @objc
     func didTapAppleButton() {
         let nonce = randomNonceString()
@@ -101,7 +104,9 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol, MFM
     
     fileprivate func setupUI() {
         
-        overrideUserInterfaceStyle = .dark
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .dark
+        }
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         view.addGestureRecognizer(tapGesture)
@@ -127,7 +132,7 @@ class CredentialVC: GeneralViewController, Reusable, CredentialViewProtocol, MFM
         
         let cpv = CountryPickerView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
         cpv.delegate = self
-        cpv.textColor = .systemGray2
+        cpv.textColor = .systemGray
         cpv.font = UIFont(name: "HelveticaNeue-Medium", size: 15)!
         
         self.countryCode = cpv.selectedCountry.phoneCode
@@ -414,6 +419,7 @@ extension CredentialVC: LoginButtonDelegate {
 }
 
 // MARK: - Apple Signin
+@available(iOS 13.0, *)
 extension CredentialVC: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {

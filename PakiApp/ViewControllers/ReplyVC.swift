@@ -28,7 +28,7 @@ class ReplyVC: GeneralViewController {
     var sendButtonInteraction: Bool = false {
         didSet {
             sendButton.isUserInteractionEnabled = sendButtonInteraction
-            let color: UIColor = sendButtonInteraction ? UIColor.defaultPurple : .systemGray2
+            let color: UIColor = sendButtonInteraction ? UIColor.defaultPurple : .systemGray
             sendButton.backgroundColor = color
         }
     }
@@ -83,8 +83,8 @@ extension ReplyVC: UITextViewDelegate {
         
         replyContainerHeightConst.constant = textHeight > 200 ? textHeight + 20 : 220
         
-        self.sendButtonInteraction = (currentCount <= 300 && currentCount > 0) && (textView.text != "")
-        self.limitLabel.text = "\(currentCount)/300"
+        self.sendButtonInteraction = (currentCount <= 200 && currentCount > 0) && (textView.text != "")
+        self.limitLabel.text = "\(currentCount)/200"
     }
     
 }

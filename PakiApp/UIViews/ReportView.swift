@@ -38,12 +38,18 @@ class ReportView: UIView, Reusable {
     }
     
     func setupXib() {
+        self.alpha = 0
         reportButton.backgroundColor = UIColor.systemPink
         containerView.backgroundColor = UIColor.defaultBGColor
         tableView.backgroundColor = .clear
         tableView.register(ReportTableViewCell.nib, forCellReuseIdentifier: ReportTableViewCell.className)
         tableView.delegate = self
         tableView.dataSource = self
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alpha = 1
+        }) { (_) in
+        }
     }
     
     @IBAction func didTapReport(_ sender: ButtonX) {
@@ -52,7 +58,11 @@ class ReportView: UIView, Reusable {
     }
     
     @IBAction func didTapCancel(_ sender: UIButton) {
-        self.removeFromSuperview()
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alpha = 0
+        }) { (_) in
+            self.removeFromSuperview()
+        }
     }
 }
 

@@ -8,9 +8,15 @@
 
 import UIKit
 
+protocol ImageCollectionCellProtocol: class {
+    func didRemoveImage(_ image: UIImage?)
+}
+
 class ImageCollectionCell: UICollectionViewCell, Reusable {
     
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var imageView: ImageViewX!
+    weak var delegate: ImageCollectionCellProtocol?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,4 +25,8 @@ class ImageCollectionCell: UICollectionViewCell, Reusable {
 
     }
 
+    @IBAction func didTapRemoveImage(_ sender: UIButton) {
+        delegate?.didRemoveImage(imageView.image)
+    }
+    
 }

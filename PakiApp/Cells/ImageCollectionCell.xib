@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -19,6 +19,18 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Osj-7B-sdg" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="187" height="314"/>
                     </imageView>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8yR-za-qKA">
+                        <rect key="frame" x="157" y="0.0" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="Ok6-Lp-2kj"/>
+                            <constraint firstAttribute="height" constant="30" id="qUA-vK-P5y"/>
+                        </constraints>
+                        <color key="tintColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                        <state key="normal" image="xmark.circle.fill" catalog="system"/>
+                        <connections>
+                            <action selector="didTapRemoveImage:" destination="gTV-IL-0wX" eventType="touchUpInside" id="hrr-5W-eYM"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <constraints>
@@ -26,13 +38,19 @@
                 <constraint firstItem="Osj-7B-sdg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Z76-yk-F0L"/>
                 <constraint firstAttribute="trailing" secondItem="Osj-7B-sdg" secondAttribute="trailing" id="hd6-LC-fF3"/>
                 <constraint firstAttribute="bottom" secondItem="Osj-7B-sdg" secondAttribute="bottom" id="i6h-QU-wjT"/>
+                <constraint firstItem="8yR-za-qKA" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="kx1-Fi-whx"/>
+                <constraint firstAttribute="trailing" secondItem="8yR-za-qKA" secondAttribute="trailing" id="zom-Hh-ORM"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="187" height="314"/>
             <connections>
+                <outlet property="closeButton" destination="8yR-za-qKA" id="ii4-5l-VR1"/>
                 <outlet property="imageView" destination="Osj-7B-sdg" id="GjW-GW-rFH"/>
             </connections>
             <point key="canvasLocation" x="238.40579710144928" y="220.98214285714286"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="xmark.circle.fill" catalog="system" width="128" height="121"/>
+    </resources>
 </document>

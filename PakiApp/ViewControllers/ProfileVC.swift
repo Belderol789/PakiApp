@@ -42,6 +42,10 @@ class ProfileVC: GeneralViewController {
         coverPhoto.backgroundColor = UIColor.defaultPurple
         usernameLabel.adjustsFontSizeToFitWidth = true
         
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .normal)
+        segmentedControl.setTitleTextAttributes(titleTextAttributes, for: .selected)
+        
         setupCountDown()
         
         let mainUser = DatabaseManager.Instance.mainUser
@@ -59,7 +63,7 @@ class ProfileVC: GeneralViewController {
     }
     
     @IBAction func didGoToSettings(_ sender: ButtonX) {
-        let settingsVC = self.storyboard?.instantiateViewController(identifier: "SettingsVC") as! SettingsVC
+        let settingsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
         settingsVC.delegate = self
         self.present(settingsVC, animated: true, completion: nil)
     }
@@ -97,9 +101,9 @@ class ProfileVC: GeneralViewController {
         
         if let photoString = currentUser.profilePhotoURL {
             let photoURL = URL(string: photoString)
-            userPhotoImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: "mascot"), options: .continueInBackground, completed: nil)
+            userPhotoImageView.sd_setImage(with: photoURL, placeholderImage: UIImage(named: "Mascot"), options: .continueInBackground, completed: nil)
         } else {
-            userPhotoImageView.image = UIImage(named: "mascot")
+            userPhotoImageView.image = UIImage(named: "Mascot")
         }
         
         if let coverPhotoString = currentUser.coverPhotoURL {
@@ -115,16 +119,13 @@ class ProfileVC: GeneralViewController {
         
         guard let userID = currentUser.uid else { return }
 
-        if userPosts.count <= 1 {
-            FirebaseManager.Instance.getUserPosts(userID: userID) { (userPosts) in
-                DatabaseManager.Instance.saveUserPosts(userPosts)
-                self.userPosts = userPosts.sorted(by: {$0.datePosted > $1.datePosted})
+        FirebaseManager.Instance.getUserPosts(userID: userID) { (userPosts) in
+            DatabaseManager.Instance.saveUserPosts(userPosts)
+            self.userPosts = userPosts.sorted(by: {$0.datePosted > $1.datePosted})
+            self.setupUserStats()
+            DispatchQueue.main.async {
                 self.setupCalendarView()
-                self.setupUserStats()
             }
-        } else {
-            setupCalendarView()
-            setupUserStats()
         }
     }
     
@@ -139,8 +140,6 @@ class ProfileVC: GeneralViewController {
     }
     
     func setupCalendarView() {
-        print("ViewWidth \(view.frame.width)")
-        
         calendarView.calendarViewWidthConst.constant = view.frame.width
         calendarView.contentViewWidthConst.constant = view.frame.width * 2
         calendarView.scrollView.contentSize.width = view.frame.width * 2
