@@ -19,7 +19,7 @@ class User: Object {
     @objc dynamic var coverPhotoURL: String?
     @objc dynamic var email: String?
     @objc dynamic var currentPaki: String?
-   
+    @objc dynamic var number: String?
     
     var pakiCase: Paki {
         return Paki(rawValue: currentPaki ?? "none")!

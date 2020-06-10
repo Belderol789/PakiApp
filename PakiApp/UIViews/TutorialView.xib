@@ -67,10 +67,10 @@
                     </constraints>
                 </stackView>
                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="kp8-zj-tdU">
-                    <rect key="frame" x="20" y="745" width="374" height="37"/>
+                    <rect key="frame" x="20" y="765" width="374" height="37"/>
                 </pageControl>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="lfd-PU-gjn">
-                    <rect key="frame" x="20" y="64" width="374" height="661"/>
+                    <rect key="frame" x="20" y="64" width="374" height="701"/>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="yfm-9L-vkB">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -83,10 +83,10 @@
             <constraints>
                 <constraint firstItem="lfd-PU-gjn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="7Io-TJ-45b"/>
                 <constraint firstItem="lfd-PU-gjn" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="Ndx-yZ-Zwr"/>
-                <constraint firstItem="C6w-Mj-5hg" firstAttribute="top" secondItem="kp8-zj-tdU" secondAttribute="bottom" constant="20" id="PYG-jO-Ajt"/>
+                <constraint firstItem="C6w-Mj-5hg" firstAttribute="top" secondItem="kp8-zj-tdU" secondAttribute="bottom" id="PYG-jO-Ajt"/>
                 <constraint firstItem="kp8-zj-tdU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="SKY-lC-UMj"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="lfd-PU-gjn" secondAttribute="trailing" constant="20" id="SoW-GW-Ik3"/>
-                <constraint firstItem="kp8-zj-tdU" firstAttribute="top" secondItem="lfd-PU-gjn" secondAttribute="bottom" constant="20" id="aBG-cN-Orv"/>
+                <constraint firstItem="kp8-zj-tdU" firstAttribute="top" secondItem="lfd-PU-gjn" secondAttribute="bottom" id="aBG-cN-Orv"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="C6w-Mj-5hg" secondAttribute="trailing" constant="20" id="fB0-K6-hyd"/>
                 <constraint firstItem="C6w-Mj-5hg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="nFn-xU-74n"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="C6w-Mj-5hg" secondAttribute="bottom" constant="20" id="q7F-zJ-jEI"/>

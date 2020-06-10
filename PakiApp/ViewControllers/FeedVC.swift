@@ -200,37 +200,24 @@ class FeedVC: GeneralViewController {
         filteredPosts.removeAll()
         filteredPosts = selectedPaki == .all ? allPosts : allPosts.filter({$0.pakiCase == selectedPaki})
         
-        if filteredPosts.isEmpty {
-            FirebaseManager.Instance.getPostFor(paki: selectedPaki) { (userPost) in
-                if let post = userPost {
-                    self.filteredPosts.append(contentsOf: post)
-                }
-                self.fillFeedItems()
-                self.loadingView.stopLoading()
-            }
-        } else {
-            fillFeedItems()
-            loadingView.stopLoading()
-        }
+        fillFeedItems()
+        loadingView.stopLoading()
     }
     
     fileprivate func getAllPosts(done: EmptyClosure?) {
         
         allPosts.removeAll()
-        
-        for paki in allPakis {
-            FirebaseManager.Instance.getPostFor(paki: paki) { (userPost) in
-                if let post = userPost {
-                    self.allPosts.append(contentsOf: post)
-                    self.allPosts.sort(by: {$0.datePosted > $1.datePosted})
-                    self.filteredPosts = self.allPosts
-                    self.feedItems.removeAll()
-                    self.feedItems.append(contentsOf: self.filteredPosts)
-                    self.feedCollection.isUserInteractionEnabled = true
-                    self.feedCollection.reloadData()
-                    self.loadingView.stopLoading()
-                    done?()
-                }
+        FirebaseManager.Instance.getAllPostFor { (userPost) in
+            if let post = userPost {
+                self.allPosts.append(contentsOf: post)
+                self.allPosts.sort(by: {$0.datePosted > $1.datePosted})
+                self.filteredPosts = self.allPosts
+                self.feedItems.removeAll()
+                self.feedItems.append(contentsOf: self.filteredPosts)
+                self.feedCollection.isUserInteractionEnabled = true
+                self.feedCollection.reloadData()
+                self.loadingView.stopLoading()
+                done?()
             }
         }
     }

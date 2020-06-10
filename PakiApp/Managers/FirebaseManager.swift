@@ -91,16 +91,18 @@ extension FirebaseManager {
     }
     
     // MARK: - Get User Data
-    func getUserData(with uid: String, completed: @escaping () -> Void) {
+    func getUserData(with uid: String, completed: @escaping (Bool) -> Void) {
         self.firestoreDB.collection(Identifiers.users.rawValue).document(uid).getDocument { (snapshot, error) in
-            if let snapshotData = snapshot?.data() {
+            if let snap = snapshot, let snapshotData = snap.data(), snap.exists {
                 DatabaseManager.Instance.saveUserData(snapshotData, completed: {
                     FirebaseManager.Instance.getUserPosts(userID: uid) { (userPosts) in
                         DatabaseManager.Instance.saveUserPosts(userPosts)
                     }
                     DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
-                    completed()
+                    completed(true)
                 })
+            } else {
+                completed(false)
             }
         }
     }

@@ -9,8 +9,8 @@
 import UIKit
 
 protocol CredentialViewProtocol: class {
-    func enableSignup(birthday: Bool)
     func didSelectProfilePhoto()
+    func didSelectSignup(data: [String: Any])
 }
 
 class CredentialView: UIView, Reusable {
@@ -25,10 +25,19 @@ class CredentialView: UIView, Reusable {
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var phoneCodeView: ViewX!
     @IBOutlet weak var usernameView: ViewX!
+    @IBOutlet weak var signupBtn: ButtonX!
     
     weak var delegate: CredentialViewProtocol?
     var birthdayValid: Bool = false
+    var isPhone: Bool = false
     var birthday: String?
+    var enableSignup: Bool = false {
+        didSet {
+            signupBtn.isUserInteractionEnabled = enableSignup
+            let signupColor: UIColor = enableSignup ? UIColor.defaultPurple : .lightGray
+            signupBtn.backgroundColor = signupColor
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,6 +59,8 @@ class CredentialView: UIView, Reusable {
         profileImageView.layer.borderColor = UIColor.white.cgColor
         profileImageView.backgroundColor = UIColor.defaultFGColor
         
+        usernameField.delegate = self
+        phoneField.delegate = self
         usernameView.backgroundColor = UIColor.defaultFGColor
         phoneCodeView.backgroundColor = UIColor.defaultFGColor
         usernameField.textColor = .white
@@ -84,14 +95,41 @@ class CredentialView: UIView, Reusable {
         guard let year = ageComponents.year else { return }
         
         ageLabel.text = "\(year)"
-        birthday = dateFormatter.string(from: birthdate)
-        birthdayValid = year >= 16
         
-        if let username = usernameField.text {
-            let enableSignup = birthdayValid && !username.isEmpty
-            delegate?.enableSignup(birthday: enableSignup)
+        let enableYear = year >= 13
+        ageLabel.textColor = enableYear ? .white : .lightGray
+        
+        if enableYear {
+            birthday = dateFormatter.string(from: birthdate)
+            enableSignup = usernameField.text != ""
         }
     }
-    
-    
+
+    @IBAction func didTapSignup(_ sender: ButtonX) {
+        var userData: [String: Any] = [:]
+        userData[FirebaseKeys.username.rawValue] = usernameField.text
+        userData[FirebaseKeys.birthday.rawValue] = birthday
+        if isPhone {
+            if phoneField.text == "" {
+                return
+            }
+            userData[FirebaseKeys.number.rawValue] = phoneField.text
+        }
+        
+        if let profilePhoto = profileImageView.image?.compressTo(1) {
+            userData[FirebaseKeys.profilePhotoURL.rawValue] = profilePhoto
+            delegate?.didSelectSignup(data: userData)
+        } else {
+            delegate?.didSelectSignup(data: userData)
+        }
+    }
+}
+
+extension CredentialView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if usernameField.text != "" && birthday != nil {
+            enableSignup = true
+        }
+        return true
+    }
 }

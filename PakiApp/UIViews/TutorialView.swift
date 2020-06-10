@@ -29,12 +29,13 @@ class TutorialView: UIView, Reusable {
     
     
     func setupXib() {
-        for i in 0..<3 {
+        for i in 0..<4 {
             tutorialImages.append(UIImage(named: "tutorial-\(i)")!)
         }
         tutorialPageControl.numberOfPages = tutorialImages.count
         tutorialCollectionView.backgroundColor = .clear
-        tutorialCollectionView.layer.cornerRadius = 20
+        tutorialCollectionView.layer.cornerRadius = 15
+        tutorialCollectionView.layer.masksToBounds = true
         tutorialCollectionView.register(ImageCollectionCell.nib, forCellWithReuseIdentifier: ImageCollectionCell.className)
         tutorialCollectionView.delegate = self
         tutorialCollectionView.dataSource = self
@@ -55,7 +56,6 @@ class TutorialView: UIView, Reusable {
         self.removeFromSuperview()
     }
     
-    
 }
 
 extension TutorialView: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
@@ -67,6 +67,10 @@ extension TutorialView: UICollectionViewDelegateFlowLayout, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionCell.className, for: indexPath) as! ImageCollectionCell
         imageCell.imageView.image = tutorialImages[indexPath.item]
+        imageCell.imageView.contentMode = .scaleAspectFit
+        imageCell.imageView.layer.cornerRadius = 15
+        imageCell.imageView.layer.masksToBounds = true
+        imageCell.contentView.backgroundColor = .clear
         return imageCell
     }
     

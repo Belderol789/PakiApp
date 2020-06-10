@@ -52,7 +52,7 @@ class ProfileVC: GeneralViewController {
         currentUser = mainUser
         
         if let userUID = DatabaseManager.Instance.userSavedUid, mainUser.uid == nil {
-            FirebaseManager.Instance.getUserData(with: userUID) {
+            FirebaseManager.Instance.getUserData(with: userUID) {_ in
                 self.setupUserData()
             }
         } else {

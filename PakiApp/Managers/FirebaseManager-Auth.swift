@@ -23,29 +23,14 @@ struct LoginErrorCode {
 
 // MARK: - Authentication
 extension FirebaseManager {
-    func signupUser(email: String, password: String, username: String, birth: String, photo: Data?, loginHandler: LoginHandler?) {
+
+    func signupUser(email: String, password: String, loginHandler: LoginHandler?) {
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             if error != nil {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
             } else if let uid = result?.user.uid {
-                
-                let dateCreated = Date().timeIntervalSince1970
-                
-                var userData: [String: Any] = [FirebaseKeys.username.rawValue: username,
-                                               FirebaseKeys.birthday.rawValue: birth,
-                                               FirebaseKeys.uid.rawValue: uid,
-                                               FirebaseKeys.email.rawValue: email,
-                                               FirebaseKeys.dateCreated.rawValue: "\(dateCreated)",
-                    FirebaseKeys.starList.rawValue: [uid]]
-                
-                if let datum = photo {
-                    self.saveToStorage(datum: datum, identifier: .profilePhoto, storagePath: uid) { (photoURL) in
-                        userData[FirebaseKeys.profilePhotoURL.rawValue] = photoURL
-                        self.updateFirebase(data: userData, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
-                    }
-                } else {
-                    self.updateFirebase(data: userData, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
-                }
+                DatabaseManager.Instance.updateUserDefaults(value: uid, key: .userSavedUID)
+                loginHandler?(nil)
             }
         }
     }
@@ -55,14 +40,18 @@ extension FirebaseManager {
             if error != nil {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
             } else if let uid = result?.user.uid {
-                self.getUserData(with: uid) {
-                    loginHandler?(nil)
+                self.getUserData(with: uid) { completed in
+                    if completed {
+                        loginHandler?(nil)
+                    } else {
+                        loginHandler?("Network Error. Kindly check your internet connection")
+                    }
                 }
             }
         }
     }
     
-    func authenticateUser(phone: String, verifyWithID: @escaping (String) -> Void, loginHandler: LoginHandler?) {
+    func authenticatePhoneUser(phone: String, verifyWithID: @escaping (String) -> Void, loginHandler: LoginHandler?) {
         PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { (verify, error) in
             if error != nil {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
@@ -72,69 +61,72 @@ extension FirebaseManager {
         }
     }
     
-    func signUpPhoneUser(verfID: String, verfCode: String, username: String, birth: String, photo: Data?, loginHandler: LoginHandler?) {
+    func proceedPhoneUser(verfID: String, verfCode: String, userData: [String: Any], loginHandler: LoginHandler?) {
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: verfID, verificationCode: verfCode)
         Auth.auth().signIn(with: credential) { (result, error) in
             if error != nil {
                 self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
             } else if let uid = result?.user.uid {
-                
-                let dateCreated = Date().timeIntervalSince1970
-                
-                var userData: [String: Any] = [FirebaseKeys.username.rawValue: username,
-                                                              FirebaseKeys.birthday.rawValue: birth,
-                                                              FirebaseKeys.uid.rawValue: uid,
-                                                              FirebaseKeys.dateCreated.rawValue: "\(dateCreated)",
-                                   FirebaseKeys.starList.rawValue: [uid]]
-                
-                if let datum = photo {
-                    self.saveToStorage(datum: datum, identifier: .profilePhoto, storagePath: Identifiers.profilePhoto.rawValue) { (photoURL) in
-                        userData[FirebaseKeys.profilePhotoURL.rawValue] = photoURL
-                        self.updateFirebase(data: userData, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
+                self.getUserData(with: uid) { completed in
+                    if completed {
+                        loginHandler?(nil)
+                    } else {
+                        DatabaseManager.Instance.updateUserDefaults(value: uid, key: .userSavedUID)
+                        var data = userData
+                        data[FirebaseKeys.uid.rawValue] = uid
+                        if let imageData = userData[FirebaseKeys.profilePhotoURL.rawValue] as? Data {
+                            self.saveToStorage(datum: imageData, identifier: .profilePhoto, storagePath: uid) { (profilePhotoURL) in
+                                data[FirebaseKeys.profilePhotoURL.rawValue] = profilePhotoURL
+                                self.updateFirebase(data: data, identifier: .users, mainID: uid, loginHandler: loginHandler)
+                            }
+                        } else {
+                            self.updateFirebase(data: data, identifier: .users, mainID: uid, loginHandler: loginHandler)
+                        }
                     }
-                } else {
-                    self.updateFirebase(data: userData, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
                 }
             }
         }
     }
     
-    func loginPhoneUser(verfID: String, verfCode: String, loginHandler: LoginHandler?) {
-        let credential = PhoneAuthProvider.provider().credential(withVerificationID: verfID, verificationCode: verfCode)
-        Auth.auth().signIn(with: credential) { (result, error) in
-            if error != nil {
-                self.handleErrors(error: error! as NSError, loginHandler: loginHandler)
-            } else if let uid = result?.user.uid {
-                self.getUserData(with: uid) {
-                    loginHandler?(nil)
-                }
-            }
-        }
-    }
-    
-    func loginWithFacebookUser(token: String, loginHandler: LoginHandler?) {
+    func loginWithFacebookUser(token: String, userData: [String: Any], loginHandler: LoginHandler?) {
         let credential = FacebookAuthProvider.credential(withAccessToken: token)
         Auth.auth().signIn(with: credential) { (authResult, error) in
             if let error = error {
-                loginHandler?(error.localizedDescription)
-                return
+                self.handleErrors(error: error as NSError, loginHandler: loginHandler)
+            } else if let uid = authResult?.user.uid {
+                self.getUserData(with: uid) { completed in
+                    if completed {
+                        loginHandler?(nil)
+                    } else {
+                        var data = userData
+                        data[FirebaseKeys.uid.rawValue] = uid
+                        self.updateFirebase(data: data, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
+                    }
+                }
             }
-            loginHandler?(nil)
         }
     }
     
-    func loginWithApplUser(idTokenString: String, nonce: String, loginHandler: LoginHandler?) {
+    func loginWithApplUser(idTokenString: String, nonce: String, userData: [String: Any], loginHandler: LoginHandler?) {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
         
         // Sign in with Firebase.
         Auth.auth().signIn(with: credential) { (authResult, error) in
-            if (error != nil) {
-                loginHandler?(error?.localizedDescription)
-                return
+            if let error = error {
+                self.handleErrors(error: error as NSError, loginHandler: loginHandler)
+            } else if let uid = authResult?.user.uid {
+                self.getUserData(with: uid) { completed in
+                    if completed {
+                        loginHandler?(nil)
+                    } else {
+                        var data = userData
+                        data[FirebaseKeys.uid.rawValue] = uid
+                        self.updateFirebase(data: data, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
+                    }
+                }
             }
-            loginHandler?(nil)
         }
     }
     

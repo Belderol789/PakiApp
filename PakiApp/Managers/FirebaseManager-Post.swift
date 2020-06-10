@@ -50,7 +50,6 @@ extension FirebaseManager {
                                    FirebaseKeys.uid.rawValue: userID,
                                    FirebaseKeys.reportCount.rawValue: 0]
         
-        
         self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
         DatabaseManager.Instance.savePost(post: userPost)
     }
@@ -74,16 +73,16 @@ extension FirebaseManager {
                                    FirebaseKeys.uid.rawValue: userID,
                                    FirebaseKeys.reportCount.rawValue: 0]
         
-        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.paki).document(userID).setData(data, merge: true)
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(userID).setData(data, merge: true)
         self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
         DatabaseManager.Instance.savePost(post: userPost)
     }
     // MARK: - Get Feed Post
-    func getPostFor(paki: Paki, completed: @escaping ([UserPost]?) -> Void) {
+    func getAllPostFor(completed: @escaping ([UserPost]?) -> Void) {
         
         let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         print("Getting Post with key \(postKey)")
-        self.firestoreDB.collection(Identifiers.posts.rawValue).document(postKey).collection(paki.rawValue).getDocuments { (snapshot, error) in
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(postKey).collection(postKey).getDocuments { (snapshot, error) in
             if error != nil {
                 print("Post error \(error!.localizedDescription)")
                 completed(nil)
