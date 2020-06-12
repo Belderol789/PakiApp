@@ -10,6 +10,7 @@ import UIKit
 
 protocol CredentialViewProtocol: class {
     func didSelectProfilePhoto()
+    func didViewEndUserLicenseAgreement()
     func didSelectSignup(data: [String: Any])
 }
 
@@ -30,6 +31,7 @@ class CredentialView: UIView, Reusable {
     weak var delegate: CredentialViewProtocol?
     var birthdayValid: Bool = false
     var isPhone: Bool = false
+    var isLogin: Bool = false
     var birthday: String?
     var enableSignup: Bool = false {
         didSet {
@@ -72,6 +74,8 @@ class CredentialView: UIView, Reusable {
     }
     
     func setupPhoneLogin() {
+        isLogin = true
+        signupBtn.setTitle("Login", for: .normal)
         photoButton.isUserInteractionEnabled = false
         photoButton.isHidden = true
         credLabels.forEach({$0.isHidden = true})
@@ -82,6 +86,10 @@ class CredentialView: UIView, Reusable {
     
     @IBAction func didSelectPhoto(_ sender: UIButton) {
         delegate?.didSelectProfilePhoto()
+    }
+    
+    @IBAction func didTapTermsAndConditions(_ sender: UIButton) {
+        delegate?.didViewEndUserLicenseAgreement()
     }
     
     @IBAction func didSelectBirthday(_ sender: UIDatePicker) {
@@ -106,6 +114,12 @@ class CredentialView: UIView, Reusable {
     }
 
     @IBAction func didTapSignup(_ sender: ButtonX) {
+        
+        if isLogin && isPhone && phoneField.text != "" {
+            delegate?.didSelectSignup(data: [FirebaseKeys.number.rawValue: phoneField.text!])
+            return
+        }
+        
         var userData: [String: Any] = [:]
         userData[FirebaseKeys.username.rawValue] = usernameField.text
         userData[FirebaseKeys.birthday.rawValue] = birthday
@@ -127,7 +141,7 @@ class CredentialView: UIView, Reusable {
 
 extension CredentialView: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if usernameField.text != "" && birthday != nil {
+        if usernameField.text != "" && birthday != nil || phoneField.text != "" {
             enableSignup = true
         }
         return true

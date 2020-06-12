@@ -79,7 +79,7 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
             
             sender.setImage(UIImage(named: "star-fill"), for: .normal)
             FirebaseManager.Instance.updateCommentStar(post: comment, commentKey: commentKey)
-            FirebaseManager.Instance.updateUserStars(uid: comment.uid)
+            FirebaseManager.Instance.updateUserStars(uid: comment.userUID)
         }
     }
     

@@ -48,16 +48,9 @@ class ProfileVC: GeneralViewController {
         
         setupCountDown()
         
-        let mainUser = DatabaseManager.Instance.mainUser
-        currentUser = mainUser
+        currentUser = DatabaseManager.Instance.mainUser
         
-        if let userUID = DatabaseManager.Instance.userSavedUid, mainUser.uid == nil {
-            FirebaseManager.Instance.getUserData(with: userUID) {_ in
-                self.setupUserData()
-            }
-        } else {
-           setupUserData()
-        }
+        self.setupUserData()
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfile(notification:)), name: NSNotification.Name(rawValue: "UpdateProfile"), object: nil)
     }
@@ -67,7 +60,6 @@ class ProfileVC: GeneralViewController {
         settingsVC.delegate = self
         self.present(settingsVC, animated: true, completion: nil)
     }
-    
 
     @IBAction func didChangeSegment(_ sender: UISegmentedControl) {
         let width = view.frame.width
@@ -88,11 +80,9 @@ class ProfileVC: GeneralViewController {
             if let username = notificationObject[FirebaseKeys.username.rawValue] as? String {
                 usernameLabel.text = username
             }
-            
             if let cover = notificationObject[FirebaseKeys.coverPhoto.rawValue] as? UIImage {
                 coverPhoto.image = cover
             }
-            
         }
     }
     

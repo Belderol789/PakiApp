@@ -110,7 +110,7 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
             postFavBtn.tintColor = color
             
             FirebaseManager.Instance.updatePostsStar(userPost: currentPost)
-            FirebaseManager.Instance.updateUserStars(uid: currentPost.uid)
+            FirebaseManager.Instance.updateUserStars(uid: currentPost.userUID)
             self.delegate?.starWasUpdated(post: currentPost)
         } else {
             self.delegate?.alertUserToLogin()

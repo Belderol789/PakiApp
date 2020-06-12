@@ -65,6 +65,8 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Paki is requesting access to your photo library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Paki is requesting access to use your camera</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

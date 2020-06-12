@@ -71,6 +71,7 @@ extension FirebaseManager {
                                    FirebaseKeys.commentKey.rawValue: userPost.commentKey!,
                                    FirebaseKeys.mediaURLs.rawValue: Array(userPost.mediaURLs),
                                    FirebaseKeys.uid.rawValue: userID,
+                                   FirebaseKeys.nsfw.rawValue: userPost.nsfw,
                                    FirebaseKeys.reportCount.rawValue: 0]
         
         self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(userID).setData(data, merge: true)
@@ -82,6 +83,7 @@ extension FirebaseManager {
         
         let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
         print("Getting Post with key \(postKey)")
+        let blockedList = DatabaseManager.Instance.mainUser.blockedList
         self.firestoreDB.collection(Identifiers.posts.rawValue).document(postKey).collection(postKey).getDocuments { (snapshot, error) in
             if error != nil {
                 print("Post error \(error!.localizedDescription)")
@@ -91,7 +93,10 @@ extension FirebaseManager {
                 for document in documents {
                     let data = document.data()
                     let post = UserPost.convert(data: data)
-                    userPosts.append(post)
+                    if !blockedList.contains(post.userUID) {
+                        userPosts.append(post)
+                    }
+                    print("User blockedList \(blockedList) uid \(post.userUID)")
                 }
                 completed(userPosts)
             } else {
@@ -122,18 +127,18 @@ extension FirebaseManager {
     // MARK: - Update Post Data
     func updatePostsStar(userPost: UserPost) {
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
-        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.paki).document(userPost.uid).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.paki).document(userPost.userUID).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
     }
     
     func reportPost(post: UserPost) {
         let updatedData: [String: Any] = [FirebaseKeys.reportCount.rawValue: post.reportCount + 1]
         if post.reportCount + 1 < 10 {
-            self.firestoreDB.collection(Identifiers.posts.rawValue).document(post.postKey).collection(post.paki).document(post.uid).updateData(updatedData)
+            self.firestoreDB.collection(Identifiers.posts.rawValue).document(post.postKey).collection(post.paki).document(post.userUID).updateData(updatedData)
         } else {
-            self.firestoreDB.collection(Identifiers.posts.rawValue).document(post.postKey).collection(post.paki).document(post.uid).delete()
+            self.firestoreDB.collection(Identifiers.posts.rawValue).document(post.postKey).collection(post.paki).document(post.userUID).delete()
         }
+        reportUserWith(uid: post.userUID)
     }
-    
     
     // MARK: - Image Upload
     func saveImagesToStorage(images: [UIImage], completed: @escaping ([String]) -> Void) {

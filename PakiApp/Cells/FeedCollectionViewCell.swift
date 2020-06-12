@@ -42,6 +42,8 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     @IBOutlet weak var feedStackHeightConst: NSLayoutConstraint!
     @IBOutlet weak var mediaHeightConst: NSLayoutConstraint!
     
+    @IBOutlet weak var nsfwBlurView: UIVisualEffectView!
+    
     // Variables
     let starImage = "star"
     let commentImage = "bubble.left.and.bubble.right"
@@ -59,7 +61,6 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         containerView.backgroundColor = UIColor.defaultFGColor
         contentView.backgroundColor = .clear
         self.backgroundColor = .clear
-        // Initialization code
     }
 
     func setupFeedCellWith(post: UserPost) {
@@ -69,6 +70,9 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         } else {
             feedImageView.image = UIImage(named: post.paki)
         }
+        
+        nsfwBlurView.isHidden = !post.nsfw
+        
         cellColor = UIColor.getColorFor(paki: post.pakiCase)
         let containerLayer = containerView.layer
         containerLayer.borderColor = cellColor.cgColor
@@ -116,6 +120,13 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         mediaCollectionView.reloadData()
     }
     
+    @IBAction func didRemoveNSFWView(_ sender: UIButton) {
+        if DatabaseManager.Instance.mainUser.uid != nil {
+            self.nsfwBlurView.isHidden = true
+        }
+    }
+    
+    
     @IBAction func didFavourite(_ sender: UIButton) {
         if DatabaseManager.Instance.userIsLoggedIn {
             let updatedCount = currentPost.starCount + 1
@@ -126,7 +137,7 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
             feedStarBtn.tintColor = color
             
             FirebaseManager.Instance.updatePostsStar(userPost: currentPost)
-            FirebaseManager.Instance.updateUserStars(uid: currentPost.uid)
+            FirebaseManager.Instance.updateUserStars(uid: currentPost.userUID)
             self.delegate?.starWasUpdated(post: currentPost)
         }
     }

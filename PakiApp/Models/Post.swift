@@ -27,7 +27,7 @@ class UserPost: Object {
     @objc dynamic var username: String = ""
     @objc dynamic var datePosted: Double = 0
     @objc dynamic var profilePhotoURL: String?
-    @objc dynamic var uid: String = ""
+    @objc dynamic var userUID: String = ""
     
     @objc dynamic var title: String = ""
     @objc dynamic var content: String = ""
@@ -38,7 +38,8 @@ class UserPost: Object {
     @objc dynamic var shareCount: Int = 0
     @objc dynamic var reportCount: Int = 0
     @objc dynamic var postKey: String = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
-    
+    @objc dynamic var nsfw: Bool = false
+
     var starList = List<String>()
     var starCount: Int {
         return starList.count
@@ -72,8 +73,9 @@ class UserPost: Object {
         userPost.paki = data[FirebaseKeys.paki.rawValue] as? String ?? ""
         userPost.datePosted = data[FirebaseKeys.datePosted.rawValue] as? Double ?? Date().timeIntervalSinceNow
         userPost.profilePhotoURL = data[FirebaseKeys.profilePhotoURL.rawValue] as? String
-        userPost.uid = data[FirebaseKeys.uid.rawValue] as? String ?? ""
+        userPost.userUID = data[FirebaseKeys.uid.rawValue] as? String ?? ""
         userPost.reportCount = data[FirebaseKeys.reportCount.rawValue] as? Int ?? 0
+        userPost.nsfw = data[FirebaseKeys.nsfw.rawValue] as? Bool ?? false
         
         userPost.content = data[FirebaseKeys.content.rawValue] as? String ?? ""
         userPost.title = data[FirebaseKeys.title.rawValue] as? String ?? ""
@@ -92,5 +94,4 @@ class UserPost: Object {
         userPost.shareCount = data[FirebaseKeys.shareCount.rawValue] as? Int ?? 0
         return userPost
     }
-    
 }

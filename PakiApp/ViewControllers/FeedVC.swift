@@ -45,7 +45,7 @@ class FeedVC: GeneralViewController {
         
         setupMobileAds()
         setupViewUI()
-        
+
         if !DatabaseManager.Instance.notFirstTime {
            addTutorialPages()
         }
@@ -333,7 +333,9 @@ extension FeedVC: AnswerViewProtocol {
         
         feedCollection.isUserInteractionEnabled = true
         
-        filteredPosts = allPosts
+        let blockedList = DatabaseManager.Instance.mainUser.blockedList
+        
+        filteredPosts = allPosts.filter({!blockedList.contains($0.userUID)})
         fillFeedItems()
     }
 }
@@ -369,12 +371,10 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         if let filteredPost = feedItem as? UserPost {
             let mediaHeight: CGFloat = filteredPost.hasMedia ? 180 : 0
             let text = filteredPost.content
-            let title = filteredPost.title
             let collectionWidth = collectionView.frame.width - 32
             
-            let titleHeight = title.returnStringHeight(fontSize: 15, width: collectionWidth - 50).height
             let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height
-            let tempFeedHeight = titleHeight + contentHeight + 170
+            let tempFeedHeight = contentHeight + 160
             let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 + mediaHeight : tempFeedHeight + mediaHeight
             return CGSize(width: view.frame.size.width - 16, height: feedHeight)
         } else {

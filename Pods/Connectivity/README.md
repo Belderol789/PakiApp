@@ -17,6 +17,7 @@ Connectivity's objective is to solve the captive portal problem whereby an iOS d
 To learn more about how to use Connectivity, take a look at the [keynote presentation](https://github.com/rwbutler/Connectivity/blob/master/docs/presentations/connectivity.pdf), check out the [blog post](https://medium.com/@rwbutler/solving-the-captive-portal-problem-on-ios-9a53ba2b381e), or make use of the table of contents below:
 
 - [Features](#features)
+- [What's New in Connectivity 4.0.0?](#whats-new-in-connectivity-400)
 - [What's New in Connectivity 3.0.0?](#whats-new-in-connectivity-300)
 - [Installation](#installation)
 	- [Cocoapods](#cocoapods)
@@ -33,6 +34,7 @@ To learn more about how to use Connectivity, take a look at the [keynote present
 	- [SSL](#ssl)
 	- [Threshold](#threshold)
 	- [Response Validation](#response-validation)
+- [Known Issues](#known-issues)
 - [Author](#author)
 - [License](#license)
 - [Additional Software](#additional-software)
@@ -45,6 +47,10 @@ To learn more about how to use Connectivity, take a look at the [keynote present
 - [x] Detect when connected to a router that has no Internet access.
 - [x] Be notified of changes in Internet connectivity.
 - [x] Polling connectivity checks may be performed where a constant network connection is required (optional).
+
+## What's new in Connectivity 4.0.0?
+
+Connectivity 4.0.0 adds [`Connectivity.Publisher`](https://github.com/rwbutler/Connectivity/blob/master/Connectivity/Classes/Combine/ConnectivityPublisher.swift) enabling Connectivity to be used with Apple's [Combine](https://developer.apple.com/documentation/combine) framework. For more information see the example using Combine in the sample app.
 
 ## What's new in Connectivity 3.0.0?
 
@@ -61,8 +67,6 @@ Or if you are using Carthage add the following to your `Cartfile`:
 ```ogdl
 github "rwbutler/Connectivity" ~> 2.2.1
 ```
-
-Connectivity 3.2.0
 
 ## Installation
 
@@ -275,7 +279,7 @@ Listening for `Notification.Name.ConnectivityDidChange`, the `object` property o
 
 ### Polling
 
-In certain cases you may need to be kept constantly apprised of changes in connectivity state and therefore may wish to enable polling. Where enabled, Connectivity will not wait on changes in Reachability state but will poll the connectivity URLs every 10 seconds (this value is configurable). `ConnectivityDidChange` notifications and the closures assigned to the `whenConnected` and `whenDisconnected` properties will be invoked only where changes in connectivity state occur.
+In certain cases you may need to be kept constantly apprised of changes in connectivity state and therefore may wish to enable polling. Where enabled, Connectivity will not wait on changes in Reachability state but will poll the connectivity URLs every 10 seconds (this value is configurable by setting the value of the `pollingInterval` property). `ConnectivityDidChange` notifications and the closures assigned to the `whenConnected` and `whenDisconnected` properties will be invoked only where changes in connectivity state occur.
 
 To enable polling:
 
@@ -319,6 +323,16 @@ Supplied validators include:
 - `ConnectivityResponseContainsStringValidator`: Determines whether the response string contains an expected string.
 - `ConnectivityResponseRegExValidator`: Determines whether the response string matches a given regular expression.
 
+## Known Issues
+
+### Caller responsible for retaining the `Connectivity` object
+
+Please ensure that any implementation making use of this framework holds a strong reference to the `Connectivity` object for the duration of its use (as an instance variable or otherwise). If the object is deallocated before the callback is invoked, the result will be non-deterministic.
+
+### Simulator issues
+
+Before reporting a bug please ensure that you have tested on a physical device as on simulator changes in network adapter state are not reported correctly by iOS frameworks particularly when transitioning from a disconnected -> connected state. This behaviour functions correctly on a physical device. Setting `isPollingEnabled = true` and specifying an appropriate `pollingInterval` when running on simulator will resolve this issue.
+
 ## Author
 
 [Ross Butler](https://github.com/rwbutler)
@@ -354,6 +368,7 @@ Connectivity is available under the MIT license. See the [LICENSE file](./LICENS
 
 ### Tools
 
+* [Clear DerivedData](https://github.com/rwbutler/ClearDerivedData) - Utility to quickly clear your DerivedData directory simply by typing `cdd` from the Terminal.
 * [Config Validator](https://github.com/rwbutler/ConfigValidator) - Config Validator validates & uploads your configuration files and cache clears your CDN as part of your CI process.
 * [IPA Uploader](https://github.com/rwbutler/IPAUploader) - Uploads your apps to TestFlight & App Store.
 * [Palette](https://github.com/rwbutler/TypographyKitPalette) - Makes your [TypographyKit](https://github.com/rwbutler/TypographyKit) color palette available in Xcode Interface Builder.

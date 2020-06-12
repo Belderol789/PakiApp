@@ -33,6 +33,7 @@ class User: Object {
         return starList.count
     }
     
+    let blockedList = List<String>()
     let starList = List<String>()
     var userPosts = List<UserPost>()
 }

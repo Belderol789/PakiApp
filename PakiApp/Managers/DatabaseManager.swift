@@ -21,6 +21,7 @@ enum DatabaseKeys: String {
     case reviewWorthyActionCount
     case lastVersion
     case notFirstTime
+    case eula
 }
 
 typealias EmptyClosure = () -> Void
@@ -79,6 +80,8 @@ class DatabaseManager {
                 try self.realm.write {
                     if key == FirebaseKeys.starList.rawValue, let uid = value as? String {
                         mainUser.starList.append(uid)
+                    } else if key == FirebaseKeys.blockedList.rawValue, let list = value as? [String] {
+                        mainUser.blockedList.append(objectsIn: list)
                     } else {
                         mainUser[key] = value
                     }
@@ -94,9 +97,9 @@ class DatabaseManager {
     func saveUserPosts(_ posts: [UserPost]) {
         
         var filteredPosts = [UserPost]()
-        let userPosts = mainUser.userPosts.map({$0.dateString})
+        let userPostsDates = mainUser.userPosts.map({$0.dateString})
         for post in posts {
-            if !userPosts.contains(post.dateString) {
+            if !userPostsDates.contains(post.dateString) {
                 filteredPosts.append(post)
             }
         }
@@ -131,6 +134,16 @@ class DatabaseManager {
             }
         } catch {
             print("Could not save user post")
+        }
+    }
+    
+    func updateBlockedList(uid: String) {
+        do {
+            try self.realm.write {
+                self.mainUser.blockedList.append(uid)
+            }
+        } catch {
+            print("Could not block \(uid)")
         }
     }
     
@@ -173,6 +186,10 @@ class DatabaseManager {
     
     var privacyPolicy: String? {
         return UserDefaults.standard.string(forKey: DatabaseKeys.privacyPolicy.rawValue)
+    }
+    
+    var eula: String? {
+        return UserDefaults.standard.string(forKey: DatabaseKeys.eula.rawValue)
     }
     
     var notFirstTime: Bool {

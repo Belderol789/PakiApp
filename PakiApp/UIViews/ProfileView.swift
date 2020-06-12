@@ -31,7 +31,7 @@ class ProfileView: UIView, Reusable {
         }
         usernameLabel.text = user.username
         
-        FirebaseManager.Instance.getUserPosts(userID: user.uid) { (userPosts) in
+        FirebaseManager.Instance.getUserPosts(userID: user.userUID) { (userPosts) in
             let width = self.frame.width / 10
             
             var x: CGFloat = 0

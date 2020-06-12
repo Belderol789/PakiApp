@@ -143,6 +143,12 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
         view.endEditing(true)
     }
     
+    func didViewEndUserLicenseAgreement() {
+        if let eula = DatabaseManager.Instance.eula {
+            self.openURL(string: eula)
+        }
+    }
+    
     @IBAction func userDidAuthenticate(_ sender: TransitionButton) {
         authenticateUser()
     }
@@ -176,6 +182,8 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
                 self.phoneField.text = nil
                 self.verificationID = verificationID
                 self.setupCredentialView(isPhone: true)
+                
+                print("Verification code \(verificationID)")
                 
             }) { (message) in
                 self.signupButton.stopAnimation()
@@ -243,10 +251,12 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
         self.present(pickerController, animated: true, completion: nil)
     }
     
-    
     func setupCredentialView(isPhone: Bool) {
         credentialView.isHidden = false
         credentialView.isPhone = isPhone
+        if isLogin {
+            credentialView.setupPhoneLogin()
+        }
         credentialView.phoneCodeView.isHidden = !isPhone
         UIView.animate(withDuration: 0.3) {
             self.credentialView.alpha = 1

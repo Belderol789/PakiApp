@@ -17,7 +17,6 @@ protocol AnswerViewProtocol: class {
 
 class AnswerView: UIView, Reusable {
     
-    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var instLabel: UILabel!
     @IBOutlet weak var howAreYouLabel: UILabel!
     @IBOutlet weak var emojiView: EmojiRateView!
@@ -47,6 +46,8 @@ class AnswerView: UIView, Reusable {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var nsfwSwitch: UISwitch!
     
     @IBOutlet weak var loadingVIew: LoadingView!
     
@@ -121,9 +122,6 @@ class AnswerView: UIView, Reusable {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         shareView.addGestureRecognizer(tapGesture)
         
-        let dateToday = Date().convertToMediumString()
-        dateLabel.text = "\(dateToday)"
-        
         shareView.backgroundColor = UIColor.defaultBGColor
         howAreYouLabel.textColor = UIColor.defaultPurple
         shareTextView.delegate = self
@@ -188,8 +186,9 @@ class AnswerView: UIView, Reusable {
             }
         }
     }
-    
+
     @IBAction func didContinueToShare(_ sender: ButtonX) {
+        scrollView.isHidden = false
         UIView.animate(withDuration: 1, animations: {
             self.statsView.alpha = 0
             self.scrollView.alpha = 1
@@ -205,7 +204,8 @@ class AnswerView: UIView, Reusable {
         
         let mainUser = DatabaseManager.Instance.mainUser
         let userPost: UserPost = UserPost()
-        
+
+        userPost.nsfw = nsfwSwitch.isOn
         userPost.username = mainUser.username!
         userPost.paki = currentPaki.rawValue
         userPost.profilePhotoURL = mainUser.profilePhotoURL
@@ -305,7 +305,7 @@ extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let limit = textView == titleTextView ? 100 : 500
+        let limit = textView == titleTextView ? 100 : 300
         return textView.text.count + (text.count - range.length) <= limit
     }
     
@@ -314,9 +314,9 @@ extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
         if textView == titleTextView {
             self.titleLimitLabel.text = "\(currentCount)/100"
         } else {
-            self.shareLimitLabel.text = "\(currentCount)/500"
+            self.shareLimitLabel.text = "\(currentCount)/300"
         }
-        self.shareBtnInternaction = (currentCount <= 500 && currentCount > 0) && (titleTextView.text != "")
+        self.shareBtnInternaction = (currentCount <= 300 && currentCount > 0) && (titleTextView.text != "")
     }
 }
 

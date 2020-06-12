@@ -103,5 +103,5 @@ extension ReportView: UITableViewDataSource {
         
         return reportCell
     }
-    
+
 }
