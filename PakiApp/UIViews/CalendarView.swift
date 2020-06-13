@@ -94,12 +94,13 @@ class CalendarView: UIView, Reusable {
             }
             
             let pakiView = PakiView()
-            let paki = post.pakiCase
             
-            pakiView.setupView(with: paki)
+            pakiView.setupView(with: post)
             pakiView.frame = CGRect(x: x * width, y: y * width, width: width, height: width)
             pakiView.layer.borderColor = UIColor.white.cgColor
             pakiView.layer.borderWidth = 0.5
+            pakiView.isUserInteractionEnabled = true
+            pakiView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(gesture:))))
             gridViewContainer.addSubview(pakiView)
             
             let key = "\(Int(x))\(Int(y))"
@@ -110,22 +111,12 @@ class CalendarView: UIView, Reusable {
         }
         
         gridViewContainer.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan(gesture:))))
-        gridViewContainer.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(gesture:))))
     }
     
     @objc
     func handleTap(gesture: UITapGestureRecognizer) {
-        let width = self.frame.width / 20
-        let location = gesture.location(in: gridViewContainer)
-        
-        let x = Int(location.x / width)
-        let y = Int(location.y / width)
-        let key = "\(x)\(y)"
-        
-        if let pakiView = pakiViews[key], pakiView.backgroundColor != .clear {
-            selectedPaki = pakiView
-            guard let post = postDict[key] else { return }
-            delegate?.showMemoriesView(post: post)
+        if let post = (gesture.view as? PakiView)?.currentPost {
+           delegate?.showMemoriesView(post: post)
         }
     }
     
@@ -139,6 +130,8 @@ class CalendarView: UIView, Reusable {
         
         let key = "\(x)\(y)"
         if let pakiView = pakiViews[key], pakiView.backgroundColor != .clear {
+            
+            print("PakiView Exists")
             
             self.gridTimer?.invalidate()
             self.gridTimer = nil
@@ -159,6 +152,7 @@ class CalendarView: UIView, Reusable {
             })
             
             if gesture.state == .ended {
+                print("PakiView gesture ended")
                 UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     pakiView.layer.transform = CATransform3DIdentity
                     pakiView.layer.borderColor = UIColor.clear.cgColor

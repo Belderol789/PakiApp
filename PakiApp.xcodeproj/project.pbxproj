@@ -65,6 +65,7 @@
 		E361452C2484A17200EC4C91 /* ImageDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E361452B2484A17200EC4C91 /* ImageDisplayView.swift */; };
 		E361452E2484A18600EC4C91 /* ImageDisplayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E361452D2484A18600EC4C91 /* ImageDisplayView.xib */; };
 		E37388202493EB21008F700F /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E373881F2493EB21008F700F /* FilterView.swift */; };
+		E37388222493EC7C008F700F /* FilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E37388212493EC7C008F700F /* FilterView.xib */; };
 		E38B08CE246F0D2F009D449E /* WorldVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08CD246F0D2E009D449E /* WorldVC.swift */; };
 		E38B08D124705B76009D449E /* UnifiedNativeAdCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */; };
 		E38B08D224705B76009D449E /* UnifiedNativeAdCVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */; };
@@ -145,6 +146,7 @@
 		E361452B2484A17200EC4C91 /* ImageDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayView.swift; sourceTree = "<group>"; };
 		E361452D2484A18600EC4C91 /* ImageDisplayView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageDisplayView.xib; sourceTree = "<group>"; };
 		E373881F2493EB21008F700F /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		E37388212493EC7C008F700F /* FilterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterView.xib; sourceTree = "<group>"; };
 		E38B08CD246F0D2E009D449E /* WorldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldVC.swift; sourceTree = "<group>"; };
 		E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedNativeAdCVC.swift; sourceTree = "<group>"; };
 		E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnifiedNativeAdCVC.xib; sourceTree = "<group>"; };
@@ -316,6 +318,7 @@
 				E361452B2484A17200EC4C91 /* ImageDisplayView.swift */,
 				E361452D2484A18600EC4C91 /* ImageDisplayView.xib */,
 				E373881F2493EB21008F700F /* FilterView.swift */,
+				E37388212493EC7C008F700F /* FilterView.xib */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				E33E47272469AA3B00B838DB /* CommentCollectionViewCell.xib in Resources */,
 				E33A73232454856E00AAD61A /* CalendarCollectionViewCell.xib in Resources */,
 				E33A734C2457326F00AAD61A /* CredentialView.xib in Resources */,
+				E37388222493EC7C008F700F /* FilterView.xib in Resources */,
 				E38B08D224705B76009D449E /* UnifiedNativeAdCVC.xib in Resources */,
 				E33A73272454856E00AAD61A /* PakiView.xib in Resources */,
 				E33A73222454856E00AAD61A /* FeedCollectionViewCell.xib in Resources */,
@@ -489,7 +493,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/PakiApp/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n#\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/PakiApp/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

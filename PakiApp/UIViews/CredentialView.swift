@@ -104,7 +104,7 @@ class CredentialView: UIView, Reusable {
         
         ageLabel.text = "\(year)"
         
-        let enableYear = year >= 13
+        let enableYear = year >= 17
         ageLabel.textColor = enableYear ? .white : .lightGray
         
         if enableYear {
@@ -123,6 +123,7 @@ class CredentialView: UIView, Reusable {
         var userData: [String: Any] = [:]
         userData[FirebaseKeys.username.rawValue] = usernameField.text
         userData[FirebaseKeys.birthday.rawValue] = birthday
+        userData[FirebaseKeys.dateCreated.rawValue] = "\(Date().timeIntervalSince1970)"
         if isPhone {
             if phoneField.text == "" {
                 return

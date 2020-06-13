@@ -112,6 +112,7 @@ class ProfileVC: GeneralViewController {
         FirebaseManager.Instance.getUserPosts(userID: userID) { (userPosts) in
             DatabaseManager.Instance.saveUserPosts(userPosts)
             self.userPosts = userPosts.sorted(by: {$0.datePosted > $1.datePosted})
+            self.userPosts.append(contentsOf: userPosts)
             self.setupUserStats()
             DispatchQueue.main.async {
                 self.setupCalendarView()
@@ -149,13 +150,12 @@ extension ProfileVC: CalendarViewProtocol, SettingsVCProtocol {
     
     
     func showMemoriesView(post: UserPost) {
-        let calendarVC = self.storyboard?.instantiateViewController(withIdentifier: "CalendarVC") as! CalendarVC
+        let calendarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarVC") as! CalendarVC
         calendarVC.userPosts = userPosts
         guard let index = userPosts.firstIndex(of: post) else { return }
         print("Post Index \(index)")
-        self.present(calendarVC, animated: true) {
-            calendarVC.scrollToPost(index: index)
-        }
+        calendarVC.postTag = index
+        self.present(calendarVC, animated: true)
     }
     
 }

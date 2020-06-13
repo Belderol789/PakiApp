@@ -13,7 +13,7 @@ class User: Object {
     
     @objc dynamic var uid: String?
     @objc dynamic var username: String?
-    @objc dynamic var dateCreated: String = "0"
+    @objc dynamic var dateCreated: String = "\(Date().timeIntervalSince1970)"
     @objc dynamic var birthday: String?
     @objc dynamic var profilePhotoURL: String?
     @objc dynamic var coverPhotoURL: String?

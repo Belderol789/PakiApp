@@ -39,6 +39,7 @@ class UserPost: Object {
     @objc dynamic var reportCount: Int = 0
     @objc dynamic var postKey: String = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
     @objc dynamic var nsfw: Bool = false
+    @objc dynamic var postPrivate: Bool = false
 
     var starList = List<String>()
     var starCount: Int {

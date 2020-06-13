@@ -30,6 +30,11 @@ class CalendarVC: GeneralViewController, Reusable {
         AppStoreManager.requestReviewIfAppropriate()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        scrollToPost(index: postTag)
+    }
+    
     func setupVCUI() {
         calendarItems.append(contentsOf: userPosts)
         view.backgroundColor = UIColor.defaultBGColor
@@ -60,7 +65,7 @@ class CalendarVC: GeneralViewController, Reusable {
     }
     
     func scrollToPost(index: Int) {
-        calendarCollectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .bottom, animated: true)
+        calendarCollectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .top, animated: true)
     }
     
     func addNativeAds() {

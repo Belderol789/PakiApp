@@ -16,14 +16,25 @@ class FeedVC: GeneralViewController {
     @IBOutlet weak var feedCollection: UICollectionView!
     @IBOutlet weak var credentialView: UIVisualEffectView!
     @IBOutlet weak var loadingView: LoadingView!
+    weak var emojiView: AnswerView?
+    var answerButton: UIButton!
     private let refreshControl = UIRefreshControl()
     // Constraints
     @IBOutlet weak var credentialHeight: NSLayoutConstraint!
     // Variables
-    var logoImageView: UIImageView!
     var feedItems: [AnyObject] = []
     var filteredPosts: [UserPost] = []
     var allPosts: [UserPost] = []
+    
+    var activateAnswerBtn: Bool = false {
+        didSet {
+            answerButton.isUserInteractionEnabled = activateAnswerBtn
+            let tintColor = activateAnswerBtn ? UIColor.defaultPurple : .lightGray
+            answerButton.tintColor = tintColor
+            let image = activateAnswerBtn ? "add" : "cancel"
+            answerButton.setImage(UIImage(named: image), for: .normal)
+        }
+    }
     
     // Mobile Ads
     let adUnitID = "ca-app-pub-8278458623868241/8855941562"
@@ -57,25 +68,16 @@ class FeedVC: GeneralViewController {
         })
         
         setupCountDown()
-        checkIfUserLoggedIn()
-        NotificationCenter.default.addObserver(self, selector: #selector(activateEmojiView(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
+        checkIfUserLoggedIn(notification: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(checkIfUserLoggedIn(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(userDidLogout(notification:)), name: NSNotification.Name(rawValue: "UserDidLogout"), object: nil)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
+
     // MARK: - Functions
     @objc
     func userDidLogout(notification: Notification) {
-        logoImageView.image = nil
         hideTabbar = true
-        checkIfUserLoggedIn()
+        checkIfUserLoggedIn(notification: nil)
     }
     
     fileprivate func setupViewUI() {
@@ -92,7 +94,6 @@ class FeedVC: GeneralViewController {
         
         feedCollection.alwaysBounceVertical = true
         feedCollection.refreshControl = refreshControl
-        feedCollection.isUserInteractionEnabled = false
         feedCollection.register(UnifiedNativeAdCVC.nib, forCellWithReuseIdentifier: UnifiedNativeAdCVC.className)
         feedCollection.register(FeedCollectionViewCell.nib, forCellWithReuseIdentifier: FeedCollectionViewCell.className)
         feedCollection.register(FeedHeaderView.nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeedHeaderView.className)
@@ -101,36 +102,25 @@ class FeedVC: GeneralViewController {
         feedCollection.dataSource = self
         
         credentialView.layer.cornerRadius = 15
+
+        let dateLabel = UILabel()
+        dateLabel.frame = CGRect(x: 0.0, y: -8.0, width: 100, height: 40)
+        dateLabel.text = Date().convertToString(with: "LLLL d")
+        dateLabel.textColor = .white
         
-        self.logoImageView = UIImageView()
-        logoImageView.frame = CGRect(x: 0.0, y: -8.0, width: 40, height: 40)
-        logoImageView.backgroundColor = UIColor.defaultFGColor
-        logoImageView.contentMode = .scaleAspectFit
-        logoImageView.layer.masksToBounds = true
-        logoImageView.layer.borderWidth = 1
-        logoImageView.layer.borderColor = UIColor.white.cgColor
-        logoImageView.layer.cornerRadius = 20
+        let leftItem = UIBarButtonItem.init(customView: dateLabel)
+        navigationItem.leftBarButtonItem = leftItem
         
-        let profileButton = UIButton()
-        profileButton.frame = CGRect(x: 0.0, y: -8.0, width: 40, height: 40)
-        profileButton.target(forAction: #selector(goToProfile), withSender: nil)
-        
-        let imageItem = UIBarButtonItem.init(customView: logoImageView)
-        imageItem.customView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToProfile)))
-        let widthConstraint = logoImageView.widthAnchor.constraint(equalToConstant: 40)
-        let heightConstraint = logoImageView.heightAnchor.constraint(equalToConstant: 40)
-        heightConstraint.isActive = true
-        widthConstraint.isActive = true
-        
-        navigationItem.leftBarButtonItem =  imageItem
-        
-        if let profilePhoto = DatabaseManager.Instance.mainUser.profilePhotoURL {
-            logoImageView.sd_setImage(with: URL(string: profilePhoto), completed: nil)
-        } else {
-            logoImageView.image = UIImage(named: "Mascot")
-        }
+        answerButton = UIButton()
+        answerButton?.frame = CGRect(x: 0.0, y: -8.0, width: 40, height: 40)
+        answerButton?.addTarget(self, action: #selector(setupEmojiView), for: .touchUpInside)
+        answerButton?.setImage(UIImage(named: "add"), for: .normal)
+        answerButton?.tintColor = UIColor.defaultPurple
+
+        let rightItem = UIBarButtonItem.init(customView: answerButton!)
+        navigationItem.rightBarButtonItem = rightItem
     }
-    
+
     fileprivate func addTutorialPages() {
         let tutorialView = UINib(nibName: TutorialView.className, bundle: nil).instantiate(withOwner: self, options: nil).first as! TutorialView
         tutorialView.frame = view.bounds
@@ -139,22 +129,18 @@ class FeedVC: GeneralViewController {
     }
     
     @objc
-    func goToProfile() {
-        if DatabaseManager.Instance.userIsLoggedIn {
-            self.tabBarController?.selectedIndex = 0
-        }
-    }
-    
-    func checkIfUserLoggedIn() {
+    func checkIfUserLoggedIn(notification: Notification?) {
         if let token = AccessToken.current {
             DatabaseManager.Instance.updateUserDefaults(value: !token.isExpired, key: .userIsLoggedIn)
         }
         
         if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.userObject.first != nil  {
             credentialView.isHidden = true
+            activateAnswerBtn = true
             hideTabbar = false
             resetUserEmoji()
         } else {
+            activateAnswerBtn = false
             credentialView.isHidden = false
             hideTabbar = true
         }
@@ -166,29 +152,28 @@ class FeedVC: GeneralViewController {
         
         let todayString = today.convertToMediumString()
         let tomorrowString = tomorrow.convertToMediumString()
-        
-        print("Today \(todayString) Tomorrow \(tomorrowString)")
-        
+
         if todayString != tomorrowString {
             DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
-            activateEmojiView(notification: nil)
+            setupEmojiView()
         }
     }
-    
+
     @objc
-    func activateEmojiView(notification: Notification?) {
-        setupEmojiView()
-    }
-    
     fileprivate func setupEmojiView() {
         hideTabbar = true
-        tabBarController?.tabBar.isHidden = true
-        let emojiView = Bundle.main.loadNibNamed(AnswerView.className, owner: self, options: nil)?.first as! AnswerView
-        emojiView.delegate = self
-        emojiView.frame = self.view.bounds
-        emojiView.setupEmojiView()
-        emojiView.getUpdatedPakiCount()
-        view.addSubview(emojiView)
+        if emojiView == nil {
+            emojiView = Bundle.main.loadNibNamed(AnswerView.className, owner: self, options: nil)?.first as? AnswerView
+            emojiView?.alpha = 0
+            emojiView?.frame = self.view.bounds
+            emojiView?.delegate = self
+            emojiView?.setupEmojiView()
+            emojiView?.getUpdatedPakiCount()
+            view.addSubview(emojiView!)
+            UIView.animate(withDuration: 0.3) {
+                self.emojiView?.alpha = 1
+            }
+        }
     }
     
     fileprivate func getPosts(for selectedPaki: Paki) {
@@ -278,12 +263,6 @@ class FeedVC: GeneralViewController {
         credentialVC.isLogin = (sender.tag == 1)
         navigationController?.pushViewController(credentialVC, animated: true)
     }
-    
-    @IBAction func didSelectTermsConditions(_ sender: UIButton) {
-        if let termsConditions = DatabaseManager.Instance.termsConditions {
-            self.openURL(string: termsConditions)
-        }
-    }
 }
 
 // MARK: - GADUnifiedNativeAdLoaderDelegate
@@ -312,6 +291,11 @@ extension FeedVC: GADUnifiedNativeAdLoaderDelegate {
 // MARK: - AnswerView
 extension FeedVC: AnswerViewProtocol {
     
+    func didCancelAnswer() {
+        hideTabbar = false
+        emojiView = nil
+    }
+    
     func presentImageController(_ controller: UIImagePickerController) {
         self.present(controller, animated: true, completion: nil)
     }
@@ -320,8 +304,14 @@ extension FeedVC: AnswerViewProtocol {
         
         loadingView.stopLoading()
         credentialView.isHidden = true
-        tabBarController?.tabBar.isHidden = false
-        allPosts.append(post)
+        hideTabbar = false
+        if let userUID = DatabaseManager.Instance.mainUser.uid {
+            allPosts.removeAll(where: {$0.userUID == userUID})
+        }
+        if !post.postPrivate {
+           allPosts.append(post)
+        }
+        
         allPosts.sort(by: {$0.datePosted > $1.datePosted})
         
         let pakiDict: [String] = self.allPosts.map({$0.paki})
@@ -330,9 +320,7 @@ extension FeedVC: AnswerViewProtocol {
         DatabaseManager.Instance.updateUserDefaults(value: Date().tomorrow, key: .savedDate)
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
-        
-        feedCollection.isUserInteractionEnabled = true
-        
+
         let blockedList = DatabaseManager.Instance.mainUser.blockedList
         
         filteredPosts = allPosts.filter({!blockedList.contains($0.userUID)})
@@ -373,8 +361,8 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
             let text = filteredPost.content
             let collectionWidth = collectionView.frame.width - 32
             
-            let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height
-            let tempFeedHeight = contentHeight + 160
+            let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height + 160
+            let tempFeedHeight = contentHeight > 250 ? contentHeight : 250
             let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 + mediaHeight : tempFeedHeight + mediaHeight
             return CGSize(width: view.frame.size.width - 16, height: feedHeight)
         } else {

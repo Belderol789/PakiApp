@@ -38,6 +38,7 @@ enum FirebaseKeys: String {
     case shareCount
     case postKey
     case nsfw
+    case postPrivate
     case currentPaki
 }
 

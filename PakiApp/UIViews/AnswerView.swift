@@ -12,6 +12,7 @@ import OpalImagePicker
 
 protocol AnswerViewProtocol: class {
     func didFinishAnswer(post: UserPost)
+    func didCancelAnswer()
     func presentImageController(_ controller: UIImagePickerController)
 }
 
@@ -20,6 +21,7 @@ class AnswerView: UIView, Reusable {
     @IBOutlet weak var instLabel: UILabel!
     @IBOutlet weak var howAreYouLabel: UILabel!
     @IBOutlet weak var emojiView: EmojiRateView!
+    @IBOutlet weak var filterView: FilterView!
     @IBOutlet weak var pakiButton: ButtonX!
     @IBOutlet weak var shareButton: ButtonX!
     @IBOutlet weak var blurView: UIVisualEffectView!
@@ -46,9 +48,7 @@ class AnswerView: UIView, Reusable {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    @IBOutlet weak var nsfwSwitch: UISwitch!
-    
+
     @IBOutlet weak var loadingVIew: LoadingView!
     
     @IBOutlet var headerLabels: [UILabel]!
@@ -64,10 +64,6 @@ class AnswerView: UIView, Reusable {
             shareButton.alpha = shareBtnInternaction ? 1.0 : 0.5
             shareButton.backgroundColor = shareBtnInternaction ? UIColor.defaultPurple : UIColor.lightGray
         }
-    }
-    
-    override class func awakeFromNib() {
-        super.awakeFromNib()
     }
     
     @objc
@@ -123,7 +119,6 @@ class AnswerView: UIView, Reusable {
         shareView.addGestureRecognizer(tapGesture)
         
         shareView.backgroundColor = UIColor.defaultBGColor
-        howAreYouLabel.textColor = UIColor.defaultPurple
         shareTextView.delegate = self
         titleTextView.delegate = self
         let pakiColor = UIColor.getColorFor(paki: currentPaki)
@@ -163,6 +158,7 @@ class AnswerView: UIView, Reusable {
             self.emojiView.backgroundColor = pakiColor
             self.emojiView.rateColor = .black
         }
+        filterView.delegate = self
     }
     
     @IBAction func didSelectPaki(_ sender: ButtonX) {
@@ -199,47 +195,21 @@ class AnswerView: UIView, Reusable {
     }
     
     @IBAction func didShare(_ sender: ButtonX) {
-        
-        loadingVIew.startLoading()
-        
-        let mainUser = DatabaseManager.Instance.mainUser
-        let userPost: UserPost = UserPost()
-
-        userPost.nsfw = nsfwSwitch.isOn
-        userPost.username = mainUser.username!
-        userPost.paki = currentPaki.rawValue
-        userPost.profilePhotoURL = mainUser.profilePhotoURL
-        userPost.content = shareTextView.text
-        userPost.title = titleTextView.text ?? "N/A"
-        
-        userPost.commentKey = UUID().uuidString
-        userPost.datePosted = Date().timeIntervalSince1970
-        userPost.starList.append(mainUser.uid!)
-        
-        let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
-        userPost.postKey = postKey
-        
-        if photos.isEmpty {
-            FirebaseManager.Instance.sendPostToFirebase(userPost)
-            self.delegate?.didFinishAnswer(post: userPost)
-            self.stopLoading()
-        } else {
-            FirebaseManager.Instance.saveImagesToStorage(images: photos) { (photoURLs) in
-                userPost.mediaURLs.append(objectsIn: photoURLs)
-                FirebaseManager.Instance.sendPostToFirebase(userPost)
-                self.delegate?.didFinishAnswer(post: userPost)
-                self.stopLoading()
-            }
+        filterView.isHidden = false
+        UIView.animate(withDuration: 0.3) {
+            self.filterView.alpha = 1
         }
-        
-        DatabaseManager.Instance.updateRealm(key: FirebaseKeys.currentPaki.rawValue, value: currentPaki.rawValue)
-        DatabaseManager.Instance.updateUserDefaults(value: true, key: .userHasAnswered)
-        
-        let count = self.pakiData[currentPaki.rawValue] as? Int ?? 0
-        pakiData[currentPaki.rawValue] = count + 1
-        FirebaseManager.Instance.setupPakiCount(count: pakiData)
-        
     }
+    
+    @IBAction func didCancelAnswer(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alpha = 0
+        }) { _ in
+            self.delegate?.didCancelAnswer()
+            self.removeFromSuperview()
+        }
+    }
+    
     
     func stopLoading() {
         self.loadingVIew.stopLoading()
@@ -330,7 +300,6 @@ extension AnswerView: PinterestLayoutDelegate, UICollectionViewDelegateFlowLayou
         reloadImageColletion()
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
@@ -357,5 +326,52 @@ extension AnswerView: PinterestLayoutDelegate, UICollectionViewDelegateFlowLayou
         let photoHeight = photos[indexPath.item].size.height > 300 ? randomzier : photos[indexPath.item].size.height
         print("Photo Height \(photoHeight)")
         return photoHeight
+    }
+}
+
+// MARK: - FilterViewProtocol
+extension AnswerView: FilterViewProtocol {
+    
+    func didApplyFilters(data: [String : Any]) {
+        loadingVIew.startLoading()
+        
+        let mainUser = DatabaseManager.Instance.mainUser
+        let userPost: UserPost = UserPost()
+
+        userPost.nsfw = data[FirebaseKeys.nsfw.rawValue] as! Bool
+        userPost.postPrivate = data[FirebaseKeys.postPrivate.rawValue] as! Bool
+        
+        userPost.username = mainUser.username!
+        userPost.paki = currentPaki.rawValue
+        userPost.profilePhotoURL = mainUser.profilePhotoURL
+        userPost.content = shareTextView.text
+        userPost.title = titleTextView.text ?? "N/A"
+        
+        userPost.commentKey = UUID().uuidString
+        userPost.datePosted = Date().timeIntervalSince1970
+        userPost.starList.append(mainUser.uid!)
+        
+        let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        userPost.postKey = postKey
+        
+        if photos.isEmpty {
+            FirebaseManager.Instance.sendPostToFirebase(userPost)
+            self.delegate?.didFinishAnswer(post: userPost)
+            self.stopLoading()
+        } else {
+            FirebaseManager.Instance.saveImagesToStorage(images: photos) { (photoURLs) in
+                userPost.mediaURLs.append(objectsIn: photoURLs)
+                FirebaseManager.Instance.sendPostToFirebase(userPost)
+                self.delegate?.didFinishAnswer(post: userPost)
+                self.stopLoading()
+            }
+        }
+        
+        DatabaseManager.Instance.updateRealm(key: FirebaseKeys.currentPaki.rawValue, value: currentPaki.rawValue)
+        DatabaseManager.Instance.updateUserDefaults(value: true, key: .userHasAnswered)
+        
+        let count = self.pakiData[currentPaki.rawValue] as? Int ?? 0
+        pakiData[currentPaki.rawValue] = count + 1
+        FirebaseManager.Instance.setupPakiCount(count: pakiData)
     }
 }
