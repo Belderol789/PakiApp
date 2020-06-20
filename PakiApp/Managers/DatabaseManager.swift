@@ -22,6 +22,7 @@ enum DatabaseKeys: String {
     case lastVersion
     case notFirstTime
     case eula
+    case eulaText
 }
 
 typealias EmptyClosure = () -> Void
@@ -69,7 +70,6 @@ class DatabaseManager {
             try self.realm.write {
                 self.realm.add(mainUser)
                 print("User saved to Realm")
-                completed()
             }
         } catch {
             print("Could not add user")
@@ -84,6 +84,10 @@ class DatabaseManager {
                         mainUser.blockedList.append(objectsIn: list)
                     } else {
                         mainUser[key] = value
+                    }
+                    
+                    if key == FirebaseKeys.uid.rawValue {
+                       completed()
                     }
                     
                     print("Saved to Realm \(key) - \(value)")
@@ -186,6 +190,10 @@ class DatabaseManager {
     
     var privacyPolicy: String? {
         return UserDefaults.standard.string(forKey: DatabaseKeys.privacyPolicy.rawValue)
+    }
+    
+    var eulaText: String? {
+        return UserDefaults.standard.string(forKey: DatabaseKeys.eulaText.rawValue)
     }
     
     var eula: String? {

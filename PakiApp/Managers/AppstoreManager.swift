@@ -46,7 +46,7 @@ enum AppStoreManager {
         
         // 9.
         databaseManager.updateUserDefaults(value: 0, key: .reviewWorthyActionCount)
-        databaseManager.updateUserDefaults(value: currentVersion, key: .lastVersion)
+        databaseManager.updateUserDefaults(value: currentVersion ?? lastVersion!, key: .lastVersion)
     }
     
 }

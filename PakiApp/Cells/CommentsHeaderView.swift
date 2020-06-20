@@ -56,15 +56,16 @@ class CommentsHeaderView: UICollectionReusableView, Reusable {
         userProfilePhoto.layer.borderColor = color.cgColor
         userProfilePhoto.sd_setImage(with: post.photoURL, placeholderImage: UIImage(named: post.paki), options: .continueInBackground, completed: nil)
         
-        postFavBtn.setTitle("\(post.starCount)", for: .normal)
-        
-        if let count = commentCount {
-            postReplyBtn.setTitle(" \(count)", for: .normal)
-        }
+        postFavBtn.setTitle("   \(post.starCount)", for: .normal)
+        postReplyBtn.setTitle("   \(commentCount ?? 0)", for: .normal)
         
         containerView.backgroundColor = UIColor.defaultFGColor
         containerView.layer.borderColor = color.cgColor
         containerView.layer.shadowColor = color.cgColor
+        
+        if let uid = DatabaseManager.Instance.mainUser.uid {
+            postOptionsBtn.isHidden = uid == post.userUID
+        }
         
         postTitleLabel.text = post.title
         postContentLabel.text = post.content
@@ -164,8 +165,9 @@ extension CommentsHeaderView: UICollectionViewDelegateFlowLayout, UICollectionVi
         if currentPost.mediaURLs.count == 1 {
             return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
         } else {
-            let randomzier = CGFloat.random(in: 100...150)
-            let itemSize: CGFloat = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 3
+            let collectionHeight = collectionView.frame.height
+            let randomzier = CGFloat.random(in: (collectionHeight - 20)...collectionHeight)
+            let itemSize: CGFloat = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
             return CGSize(width: itemSize, height: randomzier)
         }
     }

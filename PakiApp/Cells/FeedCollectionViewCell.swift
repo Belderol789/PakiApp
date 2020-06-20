@@ -91,6 +91,10 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         feedContent.text = post.content
         feedTitle.text = post.title
         
+        if let uid = DatabaseManager.Instance.mainUser.uid {
+            feedElipseBtn.isHidden = uid == post.userUID
+        }
+        
         feedUsername.text = post.username
         post.datePosted.getTimeDifference { (date) in
             self.feedDate.text = date
@@ -188,8 +192,9 @@ extension FeedCollectionViewCell: UICollectionViewDelegateFlowLayout, UICollecti
         if currentPost.mediaURLs.count == 1 {
             return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
         } else {
-            let randomzier = CGFloat.random(in: 100...150)
-            let itemSize: CGFloat = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 3
+            let collectionHeight = collectionView.frame.height
+            let randomzier = CGFloat.random(in: (collectionHeight - 20)...collectionHeight)
+            let itemSize: CGFloat = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
             return CGSize(width: itemSize, height: randomzier)
         }
     }

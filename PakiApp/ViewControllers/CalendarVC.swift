@@ -136,9 +136,10 @@ extension CalendarVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
         let calenderItem = calendarItems[indexPath.item]
         
         if let calendar = calenderItem as? UserPost {
+            let mediaHeight: CGFloat = calendar.hasMedia ? 150 : 0
             let titleHeight = calendar.title.returnStringHeight(fontSize: 20, width: 340).height
             let contentHeight = calendar.content.returnStringHeight(fontSize: 17, width: 340).height
-            let totalHeight = titleHeight + contentHeight + 200
+            let totalHeight = titleHeight + contentHeight + mediaHeight + 200
             
             return CGSize(width: view.frame.size.width, height: totalHeight)
         } else {
@@ -154,7 +155,6 @@ extension CalendarVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
                 commentVC.backButton.isHidden = false
             }
         }
-        // Go to comments
     }
 
 }

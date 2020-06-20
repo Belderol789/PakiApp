@@ -13,6 +13,7 @@ class ImageDisplayView: UIView, Reusable {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var pageController: UIPageControl!
     
     var mediaImages: [String] = []
     
@@ -68,6 +69,10 @@ extension ImageDisplayView: UICollectionViewDelegateFlowLayout, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.frame.size
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        pageController.currentPage = indexPath.item
     }
     
 }

@@ -112,7 +112,6 @@ class ProfileVC: GeneralViewController {
         FirebaseManager.Instance.getUserPosts(userID: userID) { (userPosts) in
             DatabaseManager.Instance.saveUserPosts(userPosts)
             self.userPosts = userPosts.sorted(by: {$0.datePosted > $1.datePosted})
-            self.userPosts.append(contentsOf: userPosts)
             self.setupUserStats()
             DispatchQueue.main.async {
                 self.setupCalendarView()
@@ -122,8 +121,15 @@ class ProfileVC: GeneralViewController {
     
     func setupUserStats() {
         postsLabel.text = "\(userPosts.count)"
-        pakiView.backgroundColor = UIColor.getColorFor(paki: currentUser.pakiCase)
-        pakiText.text = currentUser.currentPaki?.capitalized
+        
+        if let currentPaki = currentUser.currentPaki {
+            pakiView.backgroundColor = UIColor.getColorFor(paki: currentUser.pakiCase)
+            pakiText.text = currentPaki.capitalized
+        } else if let paki = userPosts.last {
+            pakiView.backgroundColor = UIColor.getColorFor(paki: paki.pakiCase)
+            pakiText.text = paki.paki.capitalized
+        }
+        
         
         FirebaseManager.Instance.getUserStars { (starList) in
             self.starsLabel.text = "\(starList.count)"

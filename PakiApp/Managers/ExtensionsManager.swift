@@ -117,7 +117,8 @@ extension UIColor {
     }
     static var defaultFGColor: UIColor {
         let isLight = DatabaseManager.Instance.userSetLightAppearance
-        return isLight ? .white : hexStringToUIColor(hex: "30444E")
+        return isLight ? .white : hexStringToUIColor(hex: "465A64")
+        //30444E
     }
     
     static func hexStringToUIColor(hex:String) -> UIColor {

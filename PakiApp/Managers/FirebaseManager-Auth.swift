@@ -100,7 +100,16 @@ extension FirebaseManager {
                     } else {
                         var data = userData
                         data[FirebaseKeys.uid.rawValue] = uid
-                        self.updateFirebase(data: data, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
+                        data[FirebaseKeys.tokenString.rawValue] = nil
+                        data["isApple"] = nil
+                        if let imageData = userData[FirebaseKeys.profilePhotoURL.rawValue] as? Data {
+                            self.saveToStorage(datum: imageData, identifier: .profilePhoto, storagePath: uid) { (profilePhotoURL) in
+                                data[FirebaseKeys.profilePhotoURL.rawValue] = profilePhotoURL
+                                self.updateFirebase(data: data, identifier: .users, mainID: uid, loginHandler: loginHandler)
+                            }
+                        } else {
+                            self.updateFirebase(data: data, identifier: .users, mainID: uid, loginHandler: loginHandler)
+                        }
                     }
                 }
             }
@@ -123,7 +132,16 @@ extension FirebaseManager {
                     } else {
                         var data = userData
                         data[FirebaseKeys.uid.rawValue] = uid
-                        self.updateFirebase(data: data, identifier: Identifiers.users, mainID: uid, loginHandler: loginHandler)
+                        data[FirebaseKeys.tokenString.rawValue] = nil
+                        data["isApple"] = nil
+                        if let imageData = userData[FirebaseKeys.profilePhotoURL.rawValue] as? Data {
+                            self.saveToStorage(datum: imageData, identifier: .profilePhoto, storagePath: uid) { (profilePhotoURL) in
+                                data[FirebaseKeys.profilePhotoURL.rawValue] = profilePhotoURL
+                                self.updateFirebase(data: data, identifier: .users, mainID: uid, loginHandler: loginHandler)
+                            }
+                        } else {
+                            self.updateFirebase(data: data, identifier: .users, mainID: uid, loginHandler: loginHandler)
+                        }
                     }
                 }
             }

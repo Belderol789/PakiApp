@@ -45,7 +45,6 @@ extension FirebaseManager {
                                    FirebaseKeys.paki.rawValue: userPost.paki,
                                    FirebaseKeys.shareCount.rawValue: userPost.shareCount,
                                    FirebaseKeys.starCount.rawValue: userPost.starCount,
-                                   FirebaseKeys.starList.rawValue: userPost.starList,
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
                                    FirebaseKeys.uid.rawValue: userID,
                                    FirebaseKeys.reportCount.rawValue: 0]
@@ -131,7 +130,7 @@ extension FirebaseManager {
     // MARK: - Update Post Data
     func updatePostsStar(userPost: UserPost) {
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
-        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.paki).document(userPost.userUID).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(userPost.userUID).updateData([FirebaseKeys.starList.rawValue: FieldValue.arrayUnion([userID])])
     }
     
     func reportPost(post: UserPost) {

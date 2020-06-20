@@ -141,13 +141,17 @@ extension CommentsVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let text = self.currentPost.content
         let title = self.currentPost.title
-        let media: CGFloat = self.currentPost.hasMedia ? 180 : 0
-        let titleHeight = title.returnStringHeight(fontSize: 17, width: collectionView.frame.width).height + 180 + media
-        let feedHeight = text.returnStringHeight(fontSize: 15, width: collectionView.frame.width).height + titleHeight
+        let media: CGFloat = self.currentPost.hasMedia ? 160 : 0
+        let titleHeight = title.returnStringHeight(fontSize: 17, width: collectionView.frame.width - 40).height
+        let feedHeight = text.returnStringHeight(fontSize: 15, width: collectionView.frame.width - 40).height
+        let totalHeight = feedHeight + titleHeight + media + 220
+        
+        print("CommentFeedHeight \(totalHeight)")
+        
         if commentHeight == 0 {
-           commentHeight += feedHeight
+           commentHeight += totalHeight
         }
-        return CGSize(width: view.frame.size.width, height: feedHeight)
+        return CGSize(width: view.frame.size.width, height: totalHeight)
     }
     
 }

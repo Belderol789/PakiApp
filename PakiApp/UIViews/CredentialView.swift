@@ -22,17 +22,15 @@ class CredentialView: UIView, Reusable {
     @IBOutlet weak var profileImageView: ImageViewX!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var phoneField: UITextField!
-    @IBOutlet weak var birthPicker: UIDatePicker!
-    @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var phoneCodeView: ViewX!
     @IBOutlet weak var usernameView: ViewX!
     @IBOutlet weak var signupBtn: ButtonX!
     
     weak var delegate: CredentialViewProtocol?
-    var birthdayValid: Bool = false
+    var userData: [String: Any] = [:]
     var isPhone: Bool = false
+    var isThirdParty: Bool = false
     var isLogin: Bool = false
-    var birthday: String?
     var enableSignup: Bool = false {
         didSet {
             signupBtn.isUserInteractionEnabled = enableSignup
@@ -69,8 +67,6 @@ class CredentialView: UIView, Reusable {
         usernameField.tintColor = .white
         phoneField.textColor = .white
         phoneField.tintColor = .white
-        
-        birthPicker.setValue(UIColor.white, forKeyPath: "textColor")
     }
     
     func setupPhoneLogin() {
@@ -81,48 +77,31 @@ class CredentialView: UIView, Reusable {
         credLabels.forEach({$0.isHidden = true})
         usernameView.isHidden = true
         profileImageView.image = UIImage(named: "Icon")
-        birthPicker.isHidden = true
+    }
+    
+    func setupThirdParty(data: [String: Any]?) {
+        userData = data ?? [:]
+        if let username = data?[FirebaseKeys.username.rawValue] as? String {
+            usernameField.text = username
+            enableSignup = true
+        }
+        if let photo = data?[FirebaseKeys.profilePhotoURL.rawValue] as? String {
+            profileImageView.sd_setImage(with: URL(string: photo), completed: nil)
+        }
     }
     
     @IBAction func didSelectPhoto(_ sender: UIButton) {
         delegate?.didSelectProfilePhoto()
     }
-    
-    @IBAction func didTapTermsAndConditions(_ sender: UIButton) {
-        delegate?.didViewEndUserLicenseAgreement()
-    }
-    
-    @IBAction func didSelectBirthday(_ sender: UIDatePicker) {
-        let birthdate = sender.date
-        let now = Date()
-        let calendar = Calendar.current
-        let ageComponents = calendar.dateComponents([.day, .month, .year], from: birthdate, to: now)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy"
-        
-        guard let year = ageComponents.year else { return }
-        
-        ageLabel.text = "\(year)"
-        
-        let enableYear = year >= 17
-        ageLabel.textColor = enableYear ? .white : .lightGray
-        
-        if enableYear {
-            birthday = dateFormatter.string(from: birthdate)
-            enableSignup = usernameField.text != ""
-        }
-    }
 
     @IBAction func didTapSignup(_ sender: ButtonX) {
-        
+        self.resignFirstResponder()
         if isLogin && isPhone && phoneField.text != "" {
             delegate?.didSelectSignup(data: [FirebaseKeys.number.rawValue: phoneField.text!])
             return
         }
         
-        var userData: [String: Any] = [:]
         userData[FirebaseKeys.username.rawValue] = usernameField.text
-        userData[FirebaseKeys.birthday.rawValue] = birthday
         userData[FirebaseKeys.dateCreated.rawValue] = "\(Date().timeIntervalSince1970)"
         if isPhone {
             if phoneField.text == "" {
@@ -130,7 +109,7 @@ class CredentialView: UIView, Reusable {
             }
             userData[FirebaseKeys.number.rawValue] = phoneField.text
         }
-        
+
         if let profilePhoto = profileImageView.image?.compressTo(1) {
             userData[FirebaseKeys.profilePhotoURL.rawValue] = profilePhoto
             delegate?.didSelectSignup(data: userData)
@@ -142,7 +121,13 @@ class CredentialView: UIView, Reusable {
 
 extension CredentialView: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if usernameField.text != "" && birthday != nil || phoneField.text != "" {
+        if usernameField.text != "" {
+            if isPhone {
+                enableSignup = phoneField.text != ""
+            } else {
+                enableSignup = true
+            }
+        } else if isPhone && phoneField.text != "" {
             enableSignup = true
         }
         return true

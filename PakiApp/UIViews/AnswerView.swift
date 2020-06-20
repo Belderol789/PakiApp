@@ -275,14 +275,14 @@ extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let limit = textView == titleTextView ? 100 : 300
+        let limit = textView == titleTextView ? 50 : 300
         return textView.text.count + (text.count - range.length) <= limit
     }
     
     func textViewDidChange(_ textView: UITextView) {
         let currentCount = textView.text.count
         if textView == titleTextView {
-            self.titleLimitLabel.text = "\(currentCount)/100"
+            self.titleLimitLabel.text = "\(currentCount)/50"
         } else {
             self.shareLimitLabel.text = "\(currentCount)/300"
         }

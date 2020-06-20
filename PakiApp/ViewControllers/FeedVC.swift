@@ -134,11 +134,13 @@ class FeedVC: GeneralViewController {
             DatabaseManager.Instance.updateUserDefaults(value: !token.isExpired, key: .userIsLoggedIn)
         }
         
-        if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.userObject.first != nil  {
+        if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.mainUser.uid != nil  {
+            if !allPosts.map({$0.userUID}).contains(DatabaseManager.Instance.mainUser.uid!) {
+                resetUserEmoji()
+            }
             credentialView.isHidden = true
             activateAnswerBtn = true
             hideTabbar = false
-            resetUserEmoji()
         } else {
             activateAnswerBtn = false
             credentialView.isHidden = false
@@ -357,13 +359,14 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
         let feedItem = feedItems[indexPath.item]
         
         if let filteredPost = feedItem as? UserPost {
-            let mediaHeight: CGFloat = filteredPost.hasMedia ? 180 : 0
+            let mediaHeight: CGFloat = filteredPost.hasMedia ? 140 : 0
             let text = filteredPost.content
             let collectionWidth = collectionView.frame.width - 32
             
-            let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height + 160
-            let tempFeedHeight = contentHeight > 250 ? contentHeight : 250
+            let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height + 180
+            let tempFeedHeight = contentHeight > 200 ? contentHeight : 200
             let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 + mediaHeight : tempFeedHeight + mediaHeight
+            print("PostHeight \(feedHeight)")
             return CGSize(width: view.frame.size.width - 16, height: feedHeight)
         } else {
             return CGSize(width: view.frame.size.width, height: 80)

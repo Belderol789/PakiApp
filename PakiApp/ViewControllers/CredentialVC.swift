@@ -32,6 +32,11 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
     @IBOutlet weak var appleContainerView: UIView!
     
     @IBOutlet weak var credentialView: CredentialView!
+    @IBOutlet weak var eulaView: UIView!
+    @IBOutlet weak var eulaSwitch: UISwitch!
+    @IBOutlet weak var eulaTextView: UITextView!
+    @IBOutlet weak var eulaButton: TransitionButton!
+    
     
     @IBOutlet weak var signupButton: TransitionButton!
     // Variables
@@ -41,10 +46,17 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
             signupButton.backgroundColor = enableAuthButton ? UIColor.defaultPurple : .lightGray
         }
     }
+    var enableEULA: Bool = false {
+        didSet {
+            eulaButton.isUserInteractionEnabled = enableEULA
+            eulaButton.backgroundColor = enableEULA ? UIColor.defaultPurple : .lightGray
+        }
+    }
     fileprivate var currentNonce: String?
     var isLogin: Bool = false
     var countryCode: String?
     var verificationID: String?
+    var userData: [String: Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +83,7 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
         ])
         
         if #available(iOS 13.0, *) {
-            let appleButton = ASAuthorizationAppleIDButton()
+            let appleButton = ASAuthorizationAppleIDButton(type: .default, style: .white)
             appleButton.translatesAutoresizingMaskIntoConstraints = false
             appleButton.addTarget(self, action: #selector(didTapAppleButton), for: .touchDown)
             appleContainerView.addSubview(appleButton)
@@ -136,6 +148,10 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
         self.countryCode = cpv.selectedCountry.phoneCode
         countryField.leftView = cpv
         countryField.leftViewMode = .always
+        
+        if let eulaText = DatabaseManager.Instance.eulaText {
+            eulaTextView.text = eulaText
+        }
     }
     
     @objc
@@ -164,7 +180,7 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
                     if let error = message {
                         self.showAlertWith(title: "Error Signing up", message: error, actions: [], hasDefaultOK: true)
                     } else {
-                        self.setupCredentialView(isPhone: false)
+                        self.setupCredentialView(isPhone: false, withData: nil)
                     }
                 }
             } else {
@@ -181,7 +197,7 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
                 self.signupButton.stopAnimation()
                 self.phoneField.text = nil
                 self.verificationID = verificationID
-                self.setupCredentialView(isPhone: true)
+                self.setupCredentialView(isPhone: true, withData: nil)
                 
                 print("Verification code \(verificationID)")
                 
@@ -193,32 +209,10 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
     }
     
     func didSelectSignup(data: [String : Any]) {
-        
-        loadingView.isHidden = false
-        loadingView.startLoading()
-        
-        var userData = data
-        
-        if let phoneCode = data[FirebaseKeys.number.rawValue] as? String {
-            FirebaseManager.Instance.proceedPhoneUser(verfID: verificationID!, verfCode: phoneCode, userData: data) { (message) in
-                self.userHasAuthenticated(message)
-            }
-        } else if let uid = DatabaseManager.Instance.userSavedUid {
-            
-            userData[FirebaseKeys.uid.rawValue] = uid
-            
-            if let profileData = data[FirebaseKeys.profilePhotoURL.rawValue] as? Data {
-                FirebaseManager.Instance.saveToStorage(datum: profileData, identifier: .profilePhoto, storagePath: uid) { (profilePhotoURL) in
-                    userData[FirebaseKeys.profilePhotoURL.rawValue] = profilePhotoURL
-                    FirebaseManager.Instance.updateFirebase(data: userData, identifier: .users, mainID: uid) { (message) in
-                        self.userHasAuthenticated(message)
-                    }
-                }
-            } else {
-                FirebaseManager.Instance.updateFirebase(data: userData, identifier: .users, mainID: uid) { (message) in
-                    self.userHasAuthenticated(message)
-                }
-            }
+        userData = data
+        eulaView.isHidden = false
+        UIView.animate(withDuration: 0.3) {
+            self.eulaView.alpha = 1
         }
     }
     
@@ -251,13 +245,14 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
         self.present(pickerController, animated: true, completion: nil)
     }
     
-    func setupCredentialView(isPhone: Bool) {
+    func setupCredentialView(isPhone: Bool, withData: [String: Any]?) {
         credentialView.isHidden = false
         credentialView.isPhone = isPhone
         if isLogin {
             credentialView.setupPhoneLogin()
         }
         credentialView.phoneCodeView.isHidden = !isPhone
+        credentialView.setupThirdParty(data: withData)
         UIView.animate(withDuration: 0.3) {
             self.credentialView.alpha = 1
         }
@@ -314,6 +309,48 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
     @IBAction func tapContactUs(_ sender: UIButton) {
         sendEmail()
     }
+    
+    @IBAction func didSwitchEula(_ sender: UISwitch) {
+        enableEULA = sender.isOn
+    }
+    
+    @IBAction func didAgreeToEula(_ sender: TransitionButton) {
+        loadingView.isHidden = false
+        loadingView.startLoading()
+        if let tokenID = userData[FirebaseKeys.tokenString.rawValue] as? String, let isApple = userData["isApple"] as? Bool {
+              if isApple {
+                  FirebaseManager.Instance.loginWithApplUser(idTokenString: tokenID, nonce: currentNonce!, userData: userData) { (message) in
+                      self.userHasAuthenticated(message)
+                  }
+              } else {
+                  FirebaseManager.Instance.loginWithFacebookUser(token: tokenID, userData: userData) { (message) in
+                      self.userHasAuthenticated(message)
+                  }
+              }
+          } else if let phoneCode = userData[FirebaseKeys.number.rawValue] as? String {
+              FirebaseManager.Instance.proceedPhoneUser(verfID: verificationID!, verfCode: phoneCode, userData: userData) { (message) in
+                  self.userHasAuthenticated(message)
+              }
+          } else if let uid = DatabaseManager.Instance.userSavedUid {
+              
+              userData[FirebaseKeys.uid.rawValue] = uid
+              
+              if let profileData = userData[FirebaseKeys.profilePhotoURL.rawValue] as? Data {
+                  FirebaseManager.Instance.saveToStorage(datum: profileData, identifier: .profilePhoto, storagePath: uid) { (profilePhotoURL) in
+                    self.userData[FirebaseKeys.profilePhotoURL.rawValue] = profilePhotoURL
+                    FirebaseManager.Instance.updateFirebase(data: self.userData, identifier: .users, mainID: uid) { (message) in
+                          self.userHasAuthenticated(message)
+                      }
+                  }
+              } else {
+                  FirebaseManager.Instance.updateFirebase(data: userData, identifier: .users, mainID: uid) { (message) in
+                      self.userHasAuthenticated(message)
+                  }
+              }
+          }
+    }
+    
+    
 }
 // MARK: - UIImagePickerController
 extension CredentialVC: UIImagePickerControllerDelegate {
@@ -380,27 +417,26 @@ extension CredentialVC: LoginButtonDelegate {
             self.showAlertWith(title: "Login Error", message: "There was an error with your login attempt", actions: [], hasDefaultOK: true)
             return
         }
-        
-        loadingView.isHidden = false
-        loadingView.startLoading()
-        
+
         FacebookCore.Profile.loadCurrentProfile { (profile, error) in
             
             var userInfo: [String: Any] = [:]
             let userName = profile?.name ?? UUID().uuidString
             
-            let dateCreated = Date().timeIntervalSince1970
-            
-            userInfo[FirebaseKeys.dateCreated.rawValue] = "\(dateCreated)"
             userInfo[FirebaseKeys.username.rawValue] = userName
+            userInfo[FirebaseKeys.tokenString.rawValue] = tokenString
+            userInfo["isApple"] = false
             
             if let userImage = profile?.imageURL(forMode: .normal, size: CGSize(width: 250, height: 200)) {
                 userInfo[FirebaseKeys.profilePhotoURL.rawValue] = userImage.absoluteString
             }
             
+            self.setupCredentialView(isPhone: false, withData: userInfo)
+            /*
             FirebaseManager.Instance.loginWithFacebookUser(token: tokenString, userData: userInfo) { (message) in
                 self.userHasAuthenticated(message)
             }
+             */
         }
     }
     
@@ -417,7 +453,7 @@ extension CredentialVC: ASAuthorizationControllerDelegate, ASAuthorizationContro
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            guard let nonce = currentNonce else {
+            guard currentNonce != nil else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
             guard let appleIDToken = appleIDCredential.identityToken else {
@@ -429,17 +465,19 @@ extension CredentialVC: ASAuthorizationControllerDelegate, ASAuthorizationContro
                 return
             }
             
-            var userData: [String: Any] = [:]
-            userData[FirebaseKeys.username.rawValue] = appleIDCredential.fullName?.givenName ?? "Anonymous"
-            userData[FirebaseKeys.dateCreated.rawValue] = "\(Date().timeIntervalSince1970)"
+            var userInfo: [String: Any] = [:]
+            userInfo[FirebaseKeys.tokenString.rawValue] = idTokenString
+            userInfo[FirebaseKeys.username.rawValue] = appleIDCredential.fullName?.givenName ?? "Anonymous"
+            userInfo["isApple"] = true
+
+            self.setupCredentialView(isPhone: false, withData: userInfo)
             
-            loadingView.startLoading()
-            loadingView.isHidden = false
-            
+            /*
             // Initialize a Firebase credential.
             FirebaseManager.Instance.loginWithApplUser(idTokenString: idTokenString, nonce: nonce, userData: userData) { (message) in
                 self.userHasAuthenticated(message)
             }
+             */
         }
     }
     

@@ -18,9 +18,10 @@ enum FirebaseKeys: String {
     case coverPhotoURL
     case photo
     case coverPhoto
-    case birthday
+    //case birthday
     case uid
     case mediaURLs
+    case tokenString
     
     case reportCount
     case commentID
@@ -46,6 +47,7 @@ enum SettingsKeys: String {
     case PrivacyPolicy
     case TermsConditions
     case EULA
+    case EULAText
 }
 
 enum Identifiers: String {
@@ -94,6 +96,11 @@ extension FirebaseManager {
                 if let eula = data[SettingsKeys.EULA.rawValue] as? String {
                     DatabaseManager.Instance.updateUserDefaults(value: eula, key: .eula)
                 }
+                
+                if let eulaText = data[SettingsKeys.EULAText.rawValue] as? String {
+                    DatabaseManager.Instance.updateUserDefaults(value: eulaText, key: .eulaText)
+                }
+                
             }
         }
     }
@@ -102,12 +109,12 @@ extension FirebaseManager {
     func getUserData(with uid: String, completed: @escaping (Bool) -> Void) {
         self.firestoreDB.collection(Identifiers.users.rawValue).document(uid).getDocument { (snapshot, error) in
             if let snap = snapshot, let snapshotData = snap.data(), snap.exists {
+                DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                 DatabaseManager.Instance.saveUserData(snapshotData, completed: {
+                    completed(true)
                     FirebaseManager.Instance.getUserPosts(userID: uid) { (userPosts) in
                         DatabaseManager.Instance.saveUserPosts(userPosts)
                     }
-                    DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
-                    completed(true)
                 })
             } else {
                 completed(false)

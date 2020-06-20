@@ -63,10 +63,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Paki is requesting access to your photo library</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Paki is requesting access to use your camera</string>
+	<string>Paki is requesting access to your camera so you can take and upload photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Paki is requesting access to your photo library so you can choose and upload photos</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

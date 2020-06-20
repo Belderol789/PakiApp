@@ -31,6 +31,8 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
     @IBOutlet weak var pakiBar: UIView!
     @IBOutlet weak var profilePhoto: ImageViewX!
     @IBOutlet weak var starButton: UIButton!
+    @IBOutlet weak var elipseBtn: UIButton!
+    
     
     weak var delegate: CommentCellProtocol?
     var comment: UserPost!
@@ -50,6 +52,10 @@ class CommentCollectionViewCell: UICollectionViewCell, Reusable {
         commentUsername.text = userComment.username
         userComment.datePosted.getTimeDifference { (date) in
             self.commentDate.text = date
+        }
+        
+        if let uid = DatabaseManager.Instance.mainUser.uid {
+            elipseBtn.isHidden = uid == userComment.userUID
         }
         
         let color = UIColor.getColorFor(paki: userComment.pakiCase)

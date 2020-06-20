@@ -18,12 +18,20 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     @IBOutlet weak var dateView: ViewX!
     @IBOutlet weak var dividerView: UIView!
     
+    @IBOutlet weak var contentCollection: UICollectionView!
+    @IBOutlet weak var contentHeightConst: NSLayoutConstraint!
+    
+    var currentPost: UserPost!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
     }
     
     func setupCalendarView(post: UserPost) {
+        
+        currentPost = post
+        
         let color = UIColor.getColorFor(paki: post.pakiCase)
         contentView.backgroundColor = .clear
         self.backgroundColor = .clear
@@ -36,5 +44,42 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
         contentLabel.text = post.content
         let date = Date(timeIntervalSince1970: post.datePosted)
         dateLabel.text = date.convertToString(with: "LLLL dd, yyyy")
+        
+        contentCollection.register(ImageCollectionCell.nib, forCellWithReuseIdentifier: ImageCollectionCell.className)
+        contentCollection.delegate = self
+        contentCollection.dataSource = self
+        contentCollection.backgroundColor = .clear
+        contentHeightConst.constant = post.hasMedia ? 170 : 0
+        
+        contentCollection.reloadData()
+    }
+}
+
+extension CalendarCollectionViewCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return currentPost.mediaURLs.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionCell", for: indexPath as IndexPath) as! ImageCollectionCell
+        let mediaURLs = currentPost.mediaURLs
+        cell.imageView.sd_setImage(with: URL(string: mediaURLs[indexPath.item]), completed: nil)
+        cell.imageView.contentMode = .scaleAspectFill
+        cell.imageView.backgroundColor = UIColor.defaultFGColor
+        cell.imageView.layer.cornerRadius = 15
+        cell.imageView.layer.masksToBounds = true
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if currentPost.mediaURLs.count == 1 {
+            return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
+        } else {
+            let collectionHeight = collectionView.frame.height
+            let randomzier = CGFloat.random(in: (collectionHeight - 20)...collectionHeight)
+            let itemSize: CGFloat = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
+            return CGSize(width: itemSize, height: randomzier)
+        }
     }
 }
