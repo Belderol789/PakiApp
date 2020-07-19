@@ -12,7 +12,6 @@ import OpalImagePicker
 
 protocol AnswerViewProtocol: class {
     func didFinishAnswer(post: UserPost)
-    func didCancelAnswer()
     func presentImageController(_ controller: UIImagePickerController)
 }
 
@@ -196,21 +195,12 @@ class AnswerView: UIView, Reusable {
     
     @IBAction func didShare(_ sender: ButtonX) {
         filterView.isHidden = false
+        self.endEditing(true)
         UIView.animate(withDuration: 0.3) {
             self.filterView.alpha = 1
         }
     }
-    
-    @IBAction func didCancelAnswer(_ sender: UIButton) {
-        UIView.animate(withDuration: 0.3, animations: {
-            self.alpha = 0
-        }) { _ in
-            self.delegate?.didCancelAnswer()
-            self.removeFromSuperview()
-        }
-    }
-    
-    
+
     func stopLoading() {
         self.loadingVIew.stopLoading()
         UIView.animate(withDuration: 0.5, animations: {
@@ -275,7 +265,7 @@ extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let limit = textView == titleTextView ? 50 : 300
+        let limit = textView == titleTextView ? 50 : 500
         return textView.text.count + (text.count - range.length) <= limit
     }
     
@@ -284,9 +274,9 @@ extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
         if textView == titleTextView {
             self.titleLimitLabel.text = "\(currentCount)/50"
         } else {
-            self.shareLimitLabel.text = "\(currentCount)/300"
+            self.shareLimitLabel.text = "\(currentCount)/500"
         }
-        self.shareBtnInternaction = (currentCount <= 300 && currentCount > 0) && (titleTextView.text != "")
+        self.shareBtnInternaction = (currentCount <= 500 && currentCount > 0) && (titleTextView.text != "")
     }
 }
 

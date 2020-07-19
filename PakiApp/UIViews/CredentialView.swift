@@ -25,16 +25,20 @@ class CredentialView: UIView, Reusable {
     @IBOutlet weak var phoneCodeView: ViewX!
     @IBOutlet weak var usernameView: ViewX!
     @IBOutlet weak var signupBtn: ButtonX!
+    @IBOutlet weak var agePicker: UIDatePicker!
     
     weak var delegate: CredentialViewProtocol?
     var userData: [String: Any] = [:]
     var isPhone: Bool = false
     var isThirdParty: Bool = false
     var isLogin: Bool = false
+    
+    var ageValid: Bool = false
+    var hasUsername: Bool = false
     var enableSignup: Bool = false {
         didSet {
-            signupBtn.isUserInteractionEnabled = enableSignup
-            let signupColor: UIColor = enableSignup ? UIColor.defaultPurple : .lightGray
+            signupBtn.isUserInteractionEnabled = (hasUsername && ageValid)
+            let signupColor: UIColor = (hasUsername && ageValid) ? UIColor.defaultPurple : .lightGray
             signupBtn.backgroundColor = signupColor
         }
     }
@@ -83,11 +87,23 @@ class CredentialView: UIView, Reusable {
         userData = data ?? [:]
         if let username = data?[FirebaseKeys.username.rawValue] as? String {
             usernameField.text = username
-            enableSignup = true
+            hasUsername = true
         }
         if let photo = data?[FirebaseKeys.profilePhotoURL.rawValue] as? String {
             profileImageView.sd_setImage(with: URL(string: photo), completed: nil)
         }
+    }
+
+    @IBAction func birthdayPicker(_ sender: UIDatePicker) {
+        let birthday = sender.date
+        let now = Date()
+        let calendar = Calendar.current
+        let ageComponents = calendar.dateComponents([.day, .month, .year], from: birthday, to: now)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        
+        ageValid = (ageComponents.year! >= 18)
+        enableSignup = true
     }
     
     @IBAction func didSelectPhoto(_ sender: UIButton) {
@@ -122,14 +138,15 @@ class CredentialView: UIView, Reusable {
 extension CredentialView: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if usernameField.text != "" {
-            if isPhone {
-                enableSignup = phoneField.text != ""
+            if isPhone && phoneField.text != "" {
+                hasUsername = true
             } else {
-                enableSignup = true
+                hasUsername = true
             }
-        } else if isPhone && phoneField.text != "" {
-            enableSignup = true
+        } else {
+            hasUsername = false
         }
+        enableSignup = true
         return true
     }
 }

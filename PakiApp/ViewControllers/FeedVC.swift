@@ -11,24 +11,28 @@ import GoogleMobileAds
 import FacebookCore
 
 class FeedVC: GeneralViewController {
-    
     // IBOutlets
     @IBOutlet weak var feedCollection: UICollectionView!
     @IBOutlet weak var credentialView: UIVisualEffectView!
     @IBOutlet weak var loadingView: LoadingView!
-    weak var emojiView: AnswerView?
-    var answerButton: UIButton!
-    private let refreshControl = UIRefreshControl()
     // Constraints
     @IBOutlet weak var credentialHeight: NSLayoutConstraint!
     // Variables
+    
+    weak var emojiView: AnswerView? {
+        didSet {
+            activateAnswerBtn = emojiView == nil
+         }
+    }
+    var answerButton: UIButton!
+    private let refreshControl = UIRefreshControl()
+    
     var feedItems: [AnyObject] = []
     var filteredPosts: [UserPost] = []
     var allPosts: [UserPost] = []
     
     var activateAnswerBtn: Bool = false {
         didSet {
-            answerButton.isUserInteractionEnabled = activateAnswerBtn
             let tintColor = activateAnswerBtn ? UIColor.defaultPurple : .lightGray
             answerButton.tintColor = tintColor
             let image = activateAnswerBtn ? "add" : "cancel"
@@ -77,6 +81,8 @@ class FeedVC: GeneralViewController {
     @objc
     func userDidLogout(notification: Notification) {
         hideTabbar = true
+        emojiView?.removeFromSuperview()
+        emojiView = nil
         checkIfUserLoggedIn(notification: nil)
     }
     
@@ -85,7 +91,6 @@ class FeedVC: GeneralViewController {
         credentialHeight.constant = self.view.frame.height / 4
         
         loadingView.blurView.effect = nil
-        loadingView.stopLoading()
         loadingView.setupCircleViews(paki: .all)
         loadingView.startLoading()
         
@@ -138,13 +143,13 @@ class FeedVC: GeneralViewController {
             if !allPosts.map({$0.userUID}).contains(DatabaseManager.Instance.mainUser.uid!) {
                 resetUserEmoji()
             }
-            credentialView.isHidden = true
-            activateAnswerBtn = true
             hideTabbar = false
+            credentialView.isHidden = true
+            answerButton.isUserInteractionEnabled = true
         } else {
-            activateAnswerBtn = false
-            credentialView.isHidden = false
             hideTabbar = true
+            answerButton.isUserInteractionEnabled = false
+            credentialView.isHidden = false
         }
     }
     
@@ -163,7 +168,6 @@ class FeedVC: GeneralViewController {
 
     @objc
     fileprivate func setupEmojiView() {
-        hideTabbar = true
         if emojiView == nil {
             emojiView = Bundle.main.loadNibNamed(AnswerView.className, owner: self, options: nil)?.first as? AnswerView
             emojiView?.alpha = 0
@@ -175,6 +179,9 @@ class FeedVC: GeneralViewController {
             UIView.animate(withDuration: 0.3) {
                 self.emojiView?.alpha = 1
             }
+        } else {
+            emojiView?.removeFromSuperview()
+            emojiView = nil
         }
     }
     
@@ -292,21 +299,16 @@ extension FeedVC: GADUnifiedNativeAdLoaderDelegate {
 
 // MARK: - AnswerView
 extension FeedVC: AnswerViewProtocol {
-    
-    func didCancelAnswer() {
-        hideTabbar = false
-        emojiView = nil
-    }
-    
+
     func presentImageController(_ controller: UIImagePickerController) {
         self.present(controller, animated: true, completion: nil)
     }
     
     func didFinishAnswer(post: UserPost) {
-        
+
         loadingView.stopLoading()
         credentialView.isHidden = true
-        hideTabbar = false
+        
         if let userUID = DatabaseManager.Instance.mainUser.uid {
             allPosts.removeAll(where: {$0.userUID == userUID})
         }
@@ -316,7 +318,7 @@ extension FeedVC: AnswerViewProtocol {
         
         allPosts.sort(by: {$0.datePosted > $1.datePosted})
         
-        let pakiDict: [String] = self.allPosts.map({$0.paki})
+        let pakiDict: [String] = allPosts.map({$0.paki})
         
         DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
         DatabaseManager.Instance.updateUserDefaults(value: Date().tomorrow, key: .savedDate)
@@ -364,7 +366,7 @@ extension FeedVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
             let collectionWidth = collectionView.frame.width - 32
             
             let contentHeight = text.returnStringHeight(fontSize: 15, width: collectionWidth).height + 180
-            let tempFeedHeight = contentHeight > 200 ? contentHeight : 200
+            let tempFeedHeight = contentHeight > 220 ? contentHeight : 220
             let feedHeight: CGFloat = tempFeedHeight > 500 ? 500 + mediaHeight : tempFeedHeight + mediaHeight
             print("PostHeight \(feedHeight)")
             return CGSize(width: view.frame.size.width - 16, height: feedHeight)

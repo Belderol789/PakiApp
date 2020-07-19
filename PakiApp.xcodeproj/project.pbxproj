@@ -76,6 +76,8 @@
 		E38B08DE2472E961009D449E /* AppstoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08DD2472E961009D449E /* AppstoreManager.swift */; };
 		E38B08E82476FAC2009D449E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08E72476FAC1009D449E /* ProfileView.swift */; };
 		E38B08EA2476FC62009D449E /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08E92476FC62009D449E /* ProfileView.xib */; };
+		E3D1E82D24B8DCD50043C643 /* EulaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D1E82C24B8DCD50043C643 /* EulaView.swift */; };
+		E3D1E82F24B8DD2C0043C643 /* EulaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3D1E82E24B8DD2C0043C643 /* EulaView.xib */; };
 		E3D9742A247E87D500D7B702 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D97429247E87D500D7B702 /* TutorialView.swift */; };
 		E3D9742C247E87F800D7B702 /* TutorialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3D9742B247E87F800D7B702 /* TutorialView.xib */; };
 		E3D9742F247E88F900D7B702 /* ImageCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D9742D247E88F900D7B702 /* ImageCollectionCell.swift */; };
@@ -157,6 +159,8 @@
 		E38B08DD2472E961009D449E /* AppstoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreManager.swift; sourceTree = "<group>"; };
 		E38B08E72476FAC1009D449E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		E38B08E92476FC62009D449E /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
+		E3D1E82C24B8DCD50043C643 /* EulaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EulaView.swift; sourceTree = "<group>"; };
+		E3D1E82E24B8DD2C0043C643 /* EulaView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EulaView.xib; sourceTree = "<group>"; };
 		E3D97429247E87D500D7B702 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		E3D9742B247E87F800D7B702 /* TutorialView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TutorialView.xib; sourceTree = "<group>"; };
 		E3D9742D247E88F900D7B702 /* ImageCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionCell.swift; sourceTree = "<group>"; };
@@ -319,6 +323,8 @@
 				E361452D2484A18600EC4C91 /* ImageDisplayView.xib */,
 				E373881F2493EB21008F700F /* FilterView.swift */,
 				E37388212493EC7C008F700F /* FilterView.xib */,
+				E3D1E82C24B8DCD50043C643 /* EulaView.swift */,
+				E3D1E82E24B8DD2C0043C643 /* EulaView.xib */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -429,6 +435,7 @@
 				E33A73222454856E00AAD61A /* FeedCollectionViewCell.xib in Resources */,
 				E33A73502458803600AAD61A /* LoadingView.xib in Resources */,
 				E33A72FF2454851300AAD61A /* Main.storyboard in Resources */,
+				E3D1E82F24B8DD2C0043C643 /* EulaView.xib in Resources */,
 				E33E471D24670B2300B838DB /* CalendarView.xib in Resources */,
 				E33A73292454856E00AAD61A /* StatsTableViewCell.xib in Resources */,
 				E33E47192466D1B400B838DB /* PakiCollectionViewCell.xib in Resources */,
@@ -545,6 +552,7 @@
 				E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */,
 				E33E471F2467135E00B838DB /* TestManager.swift in Sources */,
 				E33A73442456171300AAD61A /* GeneralViewController.swift in Sources */,
+				E3D1E82D24B8DCD50043C643 /* EulaView.swift in Sources */,
 				E33E4711245C649D00B838DB /* SettingsVC.swift in Sources */,
 				E33A734A2457303E00AAD61A /* CredentialView.swift in Sources */,
 				E38B08E82476FAC2009D449E /* ProfileView.swift in Sources */,
@@ -688,7 +696,7 @@
 				CODE_SIGN_ENTITLEMENTS = PakiApp/PakiApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = XUN95V9WDZ;
 				INFOPLIST_FILE = PakiApp/Info.plist;
@@ -697,7 +705,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kemuel.PakiApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -714,7 +722,7 @@
 				CODE_SIGN_ENTITLEMENTS = PakiApp/PakiApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = XUN95V9WDZ;
 				INFOPLIST_FILE = PakiApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -722,7 +730,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kemuel.PakiApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

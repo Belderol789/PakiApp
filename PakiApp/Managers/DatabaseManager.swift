@@ -22,6 +22,7 @@ enum DatabaseKeys: String {
     case lastVersion
     case notFirstTime
     case eula
+    case eulaAgree
     case eulaText
 }
 
@@ -196,10 +197,14 @@ class DatabaseManager {
         return UserDefaults.standard.string(forKey: DatabaseKeys.eulaText.rawValue)
     }
     
-    var eula: String? {
+    var eulaURL: String? {
         return UserDefaults.standard.string(forKey: DatabaseKeys.eula.rawValue)
     }
     
+    var eulaAgree: Bool {
+        return UserDefaults.standard.bool(forKey: DatabaseKeys.eulaAgree.rawValue)
+    }
+
     var notFirstTime: Bool {
         return UserDefaults.standard.bool(forKey: DatabaseKeys.notFirstTime.rawValue)
     }

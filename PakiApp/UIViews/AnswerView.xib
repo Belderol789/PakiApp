@@ -262,7 +262,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/300" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiZ-fm-iVu">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/500" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiZ-fm-iVu">
                                                     <rect key="frame" x="187" y="0.0" width="187" height="30"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -435,18 +435,6 @@
                         <constraint firstItem="mkw-kE-DR0" firstAttribute="width" secondItem="Do6-WU-f8P" secondAttribute="width" id="yKg-L6-lPm"/>
                     </constraints>
                 </scrollView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z3s-ph-NBr">
-                    <rect key="frame" x="20" y="20" width="30" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="oAC-8N-bJI"/>
-                        <constraint firstAttribute="width" constant="30" id="rlb-cz-EHZ"/>
-                    </constraints>
-                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <state key="normal" image="cancel"/>
-                    <connections>
-                        <action selector="didCancelAnswer:" destination="iN0-l3-epB" eventType="touchUpInside" id="kwQ-GI-JRC"/>
-                    </connections>
-                </button>
                 <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fOE-Qw-9rQ" customClass="FilterView" customModule="PakiApp" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                 </view>
@@ -461,14 +449,12 @@
                 <constraint firstItem="n65-e3-EuF" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="8QB-Jx-1Xa"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Do6-WU-f8P" secondAttribute="trailing" id="A2W-q6-bJQ"/>
                 <constraint firstItem="fOE-Qw-9rQ" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="INc-xb-sho"/>
-                <constraint firstItem="Z3s-ph-NBr" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="Kju-fp-OBe"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Rfo-O2-62c" secondAttribute="bottom" id="LZy-Rr-eMB"/>
                 <constraint firstItem="Rfo-O2-62c" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="PQf-EG-ZBs"/>
                 <constraint firstItem="n65-e3-EuF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TtZ-jc-GdJ"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="fOE-Qw-9rQ" secondAttribute="trailing" id="YQu-me-SnM"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Do6-WU-f8P" secondAttribute="bottom" id="aAz-rw-hX3"/>
                 <constraint firstItem="Rfo-O2-62c" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="lDB-Sf-YLi"/>
-                <constraint firstItem="Z3s-ph-NBr" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="o76-MN-FYT"/>
                 <constraint firstItem="Do6-WU-f8P" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="rq3-wD-lIa"/>
                 <constraint firstItem="fOE-Qw-9rQ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="sYV-Mm-Als"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Rfo-O2-62c" secondAttribute="trailing" id="tT8-H5-lMP"/>
@@ -514,7 +500,6 @@
         <image name="awesome" width="133" height="133"/>
         <image name="bad" width="133" height="133"/>
         <image name="camera.fill" catalog="system" width="128" height="96"/>
-        <image name="cancel" width="32" height="32"/>
         <image name="good" width="133" height="133"/>
         <image name="meh" width="133" height="133"/>
         <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="98"/>
