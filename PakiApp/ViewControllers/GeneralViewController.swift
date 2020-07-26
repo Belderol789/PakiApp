@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MessageUI
 
-class GeneralViewController: UIViewController, UINavigationControllerDelegate {
+class GeneralViewController: UIViewController, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate {
     
     var isProfile: Bool  = false
     var hideTabbar: Bool = false {
@@ -37,6 +38,26 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+    
+    func sendEmail() {
+        let email = "krats.apps@gmail.com"
+        let emailURLString = "mailto:\(email)"
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients([email])
+            mail.setMessageBody("", isHTML: true)
+            present(mail, animated: true)
+        } else if let emailURL = URL(string: emailURLString), UIApplication.shared.canOpenURL(emailURL) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(emailURL)
+            } else {
+                UIApplication.shared.openURL(emailURL)
+            }
+        } else {
+            print("Device unable to send emails")
+        }
     }
     
     func setupCountDown() {
@@ -112,6 +133,10 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate {
         DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
         self.setupCountDown()
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
     }
     
 }

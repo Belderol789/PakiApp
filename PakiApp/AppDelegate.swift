@@ -39,6 +39,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             annotation: options[UIApplication.OpenURLOptionsKey.annotation]
         )
     }
+    
+      func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let firebaseAuth = Auth.auth()
+        firebaseAuth.setAPNSToken(deviceToken, type: .unknown)
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        let firebaseAuth = Auth.auth()
+        if (firebaseAuth.canHandleNotification(userInfo)){
+            print(userInfo)
+            return
+        }
+    }
 
     // MARK: UISceneSession Lifecycle
 

@@ -17,7 +17,6 @@ class WorldVC: GeneralViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCountDown()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(receivedAllPaki(notification:)), name: NSNotification.Name(rawValue: "AllPakis"), object: nil)
     }
     

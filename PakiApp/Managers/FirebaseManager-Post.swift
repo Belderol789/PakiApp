@@ -57,6 +57,7 @@ extension FirebaseManager {
         
         guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
         
+        let uniquePostID: String = UUID().uuidString
         let data: [String: Any] = [FirebaseKeys.username.rawValue: userPost.username,
                                    FirebaseKeys.profilePhotoURL.rawValue: userPost.profilePhotoURL ?? "",
                                    FirebaseKeys.datePosted.rawValue: userPost.datePosted,
@@ -66,19 +67,19 @@ extension FirebaseManager {
                                    FirebaseKeys.shareCount.rawValue: userPost.shareCount,
                                    FirebaseKeys.starList.rawValue: Array(userPost.starList),
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
+                                   FirebaseKeys.postID.rawValue: uniquePostID,
                                    FirebaseKeys.postKey.rawValue: userPost.postKey,
                                    FirebaseKeys.commentKey.rawValue: userPost.commentKey!,
-                                   FirebaseKeys.mediaURLs.rawValue: Array(userPost.mediaURLs),
                                    FirebaseKeys.uid.rawValue: userID,
-                                   FirebaseKeys.nsfw.rawValue: userPost.nsfw,
-                                   FirebaseKeys.postPrivate.rawValue: userPost.postPrivate,
                                    FirebaseKeys.reportCount.rawValue: 0]
         
-        if !userPost.postPrivate {
-           self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(userID).setData(data, merge: true)
-        }
+//        if !userPost.postPrivate {
+//
+//        }
         
-        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(uniquePostID).setData(data, merge: true)
+        
+        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(userPost.postKey).document(uniquePostID).setData(data, merge: true)
         DatabaseManager.Instance.savePost(post: userPost)
     }
     // MARK: - Get Feed Post

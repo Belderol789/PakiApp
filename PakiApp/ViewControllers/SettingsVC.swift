@@ -22,7 +22,7 @@ protocol SettingsVCProtocol: class {
     func userDidLogoutDelete()
 }
 
-class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UITextFieldDelegate {
+class SettingsVC: GeneralViewController, UITextFieldDelegate {
     //IBOutlets
     @IBOutlet weak var profileImageView: ImageViewX!
     @IBOutlet weak var profileUsername: SkyFloatingLabelTextField!
@@ -126,31 +126,7 @@ class SettingsVC: GeneralViewController, MFMailComposeViewControllerDelegate, UI
             present(svc, animated: true, completion: nil)
         }
     }
-    
-    func sendEmail() {
-        let email = "krats.apps@gmail.com"
-        let emailURLString = "mailto:\(email)"
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients([email])
-            mail.setMessageBody("", isHTML: true)
-            present(mail, animated: true)
-        } else if let emailURL = URL(string: emailURLString), UIApplication.shared.canOpenURL(emailURL) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(emailURL)
-            } else {
-                UIApplication.shared.openURL(emailURL)
-            }
-        } else {
-            print("Device unable to send emails")
-        }
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
-    }
-
+ 
     @IBAction func didOpenGallery(_ sender: UIButton) {
         isProfilePhoto = sender.tag == 0
         let pickerController = UIImagePickerController()

@@ -134,10 +134,6 @@ class GraphsView: UIView, Reusable {
     
     func createGraphCircle(radius: CGFloat, count: Double, paki: Paki) {
         
-        if count <= 0 {
-            return
-        }
-        
         let centerPoint = CGPoint(x: monthlyGraph.frame.width / 2, y: monthlyGraph.frame.height / 2)
         
         let pakiColor = UIColor.getColorFor(paki: paki)
@@ -154,6 +150,10 @@ class GraphsView: UIView, Reusable {
         trackLayer.strokeColor = UIColor.defaultBGColor.cgColor
         trackLayer.lineWidth = 10
         monthlyGraph.layer.addSublayer(trackLayer)
+        
+        if count <= 0 {
+            return
+        }
         
         let circularPath = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: -CGFloat.pi / 2, endAngle: degrees, clockwise: true)
         

@@ -289,6 +289,27 @@ extension Double {
     
 }
 
+// MARK: - ScrollView
+extension UIScrollView {
+    func moveToNextView() {
+        let contentOffset = CGFloat(self.contentOffset.x + self.bounds.size.width)
+        self.moveToFrame(contentOffset: contentOffset)
+    }
+    
+    func moveToPreviousView() {
+        let contentOffset = CGFloat(self.contentOffset.x - self.bounds.size.width)
+        self.moveToFrame(contentOffset: contentOffset)
+    }
+    
+    func scrollToPage(page: Int, animated: Bool) {
+        var frame: CGRect = self.bounds
+        frame.origin.x = frame.size.width * CGFloat(page)
+        frame.origin.y = 0
+        self.scrollRectToVisible(frame, animated: animated)
+    }
+    
+}
+
 // MARK: - Date
 extension Date {
     

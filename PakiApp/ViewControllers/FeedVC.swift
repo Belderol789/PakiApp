@@ -18,27 +18,15 @@ class FeedVC: GeneralViewController {
     // Constraints
     @IBOutlet weak var credentialHeight: NSLayoutConstraint!
     // Variables
+    @IBOutlet weak var answerButton: UIButton!
+    @IBOutlet weak var answerContainer: ViewX!
     
-    weak var emojiView: AnswerView? {
-        didSet {
-            activateAnswerBtn = emojiView == nil
-         }
-    }
-    var answerButton: UIButton!
+    weak var emojiView: AnswerView?
     private let refreshControl = UIRefreshControl()
     
     var feedItems: [AnyObject] = []
     var filteredPosts: [UserPost] = []
     var allPosts: [UserPost] = []
-    
-    var activateAnswerBtn: Bool = false {
-        didSet {
-            let tintColor = activateAnswerBtn ? UIColor.defaultPurple : .lightGray
-            answerButton.tintColor = tintColor
-            let image = activateAnswerBtn ? "add" : "cancel"
-            answerButton.setImage(UIImage(named: image), for: .normal)
-        }
-    }
     
     // Mobile Ads
     let adUnitID = "ca-app-pub-8278458623868241/8855941562"
@@ -57,7 +45,7 @@ class FeedVC: GeneralViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         FirebaseManager.Instance.getSettingsData()
-        
+        DatabaseManager.Instance.updateUserDefaults(value: [], key: .allPakis)
         setupMobileAds()
         setupViewUI()
 
@@ -67,14 +55,25 @@ class FeedVC: GeneralViewController {
         
         getAllPosts(done: {
             let pakiDict: [String] = self.allPosts.map({$0.paki})
+            self.checkIfUserLoggedIn(notification: nil) {
+                if !self.allPosts.map({$0.userUID}).contains(DatabaseManager.Instance.mainUser.uid!) {
+                    self.resetUserEmoji()
+                }
+            }
             DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
         })
         
         setupCountDown()
-        checkIfUserLoggedIn(notification: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(checkIfUserLoggedIn(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
+        checkIfUserLoggedIn(notification: nil, completed: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(checkIfUserLoggedIn(notification:completed:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(userDidLogout(notification:)), name: NSNotification.Name(rawValue: "UserDidLogout"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadingView.circleLoading.start()
+        loadingView.bigCircleLoading.start()
     }
 
     // MARK: - Functions
@@ -83,7 +82,7 @@ class FeedVC: GeneralViewController {
         hideTabbar = true
         emojiView?.removeFromSuperview()
         emojiView = nil
-        checkIfUserLoggedIn(notification: nil)
+        checkIfUserLoggedIn(notification: nil, completed: nil)
     }
     
     fileprivate func setupViewUI() {
@@ -115,15 +114,6 @@ class FeedVC: GeneralViewController {
         
         let leftItem = UIBarButtonItem.init(customView: dateLabel)
         navigationItem.leftBarButtonItem = leftItem
-        
-        answerButton = UIButton()
-        answerButton?.frame = CGRect(x: 0.0, y: -8.0, width: 40, height: 40)
-        answerButton?.addTarget(self, action: #selector(setupEmojiView), for: .touchUpInside)
-        answerButton?.setImage(UIImage(named: "add"), for: .normal)
-        answerButton?.tintColor = UIColor.defaultPurple
-
-        let rightItem = UIBarButtonItem.init(customView: answerButton!)
-        navigationItem.rightBarButtonItem = rightItem
     }
 
     fileprivate func addTutorialPages() {
@@ -134,21 +124,19 @@ class FeedVC: GeneralViewController {
     }
     
     @objc
-    func checkIfUserLoggedIn(notification: Notification?) {
+    func checkIfUserLoggedIn(notification: Notification?, completed: (() -> Void)?) {
         if let token = AccessToken.current {
             DatabaseManager.Instance.updateUserDefaults(value: !token.isExpired, key: .userIsLoggedIn)
         }
         
         if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.mainUser.uid != nil  {
-            if !allPosts.map({$0.userUID}).contains(DatabaseManager.Instance.mainUser.uid!) {
-                resetUserEmoji()
-            }
+            completed?()
+            answerContainer.isHidden = false
             hideTabbar = false
             credentialView.isHidden = true
-            answerButton.isUserInteractionEnabled = true
         } else {
+            answerContainer.isHidden = true
             hideTabbar = true
-            answerButton.isUserInteractionEnabled = false
             credentialView.isHidden = false
         }
     }
@@ -186,20 +174,12 @@ class FeedVC: GeneralViewController {
     }
     
     fileprivate func getPosts(for selectedPaki: Paki) {
-        
-        loadingView.stopLoading()
-        loadingView.setupCircleViews(paki: selectedPaki)
-        loadingView.startLoading()
-        
         filteredPosts.removeAll()
         filteredPosts = selectedPaki == .all ? allPosts : allPosts.filter({$0.pakiCase == selectedPaki})
-        
         fillFeedItems()
-        loadingView.stopLoading()
     }
     
     fileprivate func getAllPosts(done: EmptyClosure?) {
-        
         allPosts.removeAll()
         FirebaseManager.Instance.getAllPostFor { (userPost) in
             if let post = userPost {
@@ -215,7 +195,6 @@ class FeedVC: GeneralViewController {
             }
         }
     }
-    
     
     
     @objc
@@ -272,6 +251,11 @@ class FeedVC: GeneralViewController {
         credentialVC.isLogin = (sender.tag == 1)
         navigationController?.pushViewController(credentialVC, animated: true)
     }
+    
+    @IBAction func didTapPost(_ sender: UIButton) {
+        setupEmojiView()
+    }
+    
 }
 
 // MARK: - GADUnifiedNativeAdLoaderDelegate
@@ -286,6 +270,11 @@ extension FeedVC: GADUnifiedNativeAdLoaderDelegate {
         
         getAllPosts(done: {
             let pakiDict: [String] = self.allPosts.map({$0.paki})
+            self.checkIfUserLoggedIn(notification: nil) {
+                if !self.allPosts.map({$0.userUID}).contains(DatabaseManager.Instance.mainUser.uid!) {
+                    self.resetUserEmoji()
+                }
+            }
             DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
         })
@@ -299,13 +288,19 @@ extension FeedVC: GADUnifiedNativeAdLoaderDelegate {
 
 // MARK: - AnswerView
 extension FeedVC: AnswerViewProtocol {
+    
+    func didCancelAnswer() {
+        emojiView = nil
+    }
 
     func presentImageController(_ controller: UIImagePickerController) {
         self.present(controller, animated: true, completion: nil)
     }
     
     func didFinishAnswer(post: UserPost) {
-
+        emojiView = nil
+        emojiView?.removeFromSuperview()
+        
         loadingView.stopLoading()
         credentialView.isHidden = true
         

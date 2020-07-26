@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		48C3480AC9285D35D439DAD8 /* Pods_PakiApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16173FCBCA9AF0B1C41B7F4F /* Pods_PakiApp.framework */; };
+		E32B54D124CD00F700843339 /* SignupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B54D024CD00F700843339 /* SignupVC.swift */; };
+		E32B54D324CD324B00843339 /* PhoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32B54D224CD324B00843339 /* PhoneView.swift */; };
+		E32B54D524CD325C00843339 /* PhoneView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E32B54D424CD325C00843339 /* PhoneView.xib */; };
 		E33A72E92454767C00AAD61A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A72E82454767C00AAD61A /* AppDelegate.swift */; };
 		E33A72EB2454767C00AAD61A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A72EA2454767C00AAD61A /* SceneDelegate.swift */; };
 		E33A72F22454767F00AAD61A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E33A72F12454767F00AAD61A /* Assets.xcassets */; };
@@ -42,8 +45,6 @@
 		E33A73442456171300AAD61A /* GeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73432456171200AAD61A /* GeneralViewController.swift */; };
 		E33A7346245641F700AAD61A /* FirebaseManager-User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A7345245641F700AAD61A /* FirebaseManager-User.swift */; };
 		E33A73482456448600AAD61A /* CredentialVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73472456448600AAD61A /* CredentialVC.swift */; };
-		E33A734A2457303E00AAD61A /* CredentialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73492457303E00AAD61A /* CredentialView.swift */; };
-		E33A734C2457326F00AAD61A /* CredentialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A734B2457326E00AAD61A /* CredentialView.xib */; };
 		E33A734E24587FC100AAD61A /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A734D24587FC100AAD61A /* LoadingView.swift */; };
 		E33A73502458803600AAD61A /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E33A734F2458803600AAD61A /* LoadingView.xib */; };
 		E33A73532458BD2A00AAD61A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33A73522458BD2900AAD61A /* User.swift */; };
@@ -88,6 +89,9 @@
 		16173FCBCA9AF0B1C41B7F4F /* Pods_PakiApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PakiApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFFE840B331C6E12264914B6 /* Pods-PakiApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PakiApp.release.xcconfig"; path = "Target Support Files/Pods-PakiApp/Pods-PakiApp.release.xcconfig"; sourceTree = "<group>"; };
 		E2307E0B639014F274A68296 /* Pods-PakiApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PakiApp.debug.xcconfig"; path = "Target Support Files/Pods-PakiApp/Pods-PakiApp.debug.xcconfig"; sourceTree = "<group>"; };
+		E32B54D024CD00F700843339 /* SignupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupVC.swift; sourceTree = "<group>"; };
+		E32B54D224CD324B00843339 /* PhoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneView.swift; sourceTree = "<group>"; };
+		E32B54D424CD325C00843339 /* PhoneView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhoneView.xib; sourceTree = "<group>"; };
 		E33A72E52454767C00AAD61A /* PakiApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PakiApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E33A72E82454767C00AAD61A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E33A72EA2454767C00AAD61A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,8 +128,6 @@
 		E33A73432456171200AAD61A /* GeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewController.swift; sourceTree = "<group>"; };
 		E33A7345245641F700AAD61A /* FirebaseManager-User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseManager-User.swift"; sourceTree = "<group>"; };
 		E33A73472456448600AAD61A /* CredentialVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialVC.swift; sourceTree = "<group>"; };
-		E33A73492457303E00AAD61A /* CredentialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialView.swift; sourceTree = "<group>"; };
-		E33A734B2457326E00AAD61A /* CredentialView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CredentialView.xib; sourceTree = "<group>"; };
 		E33A734D24587FC100AAD61A /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		E33A734F2458803600AAD61A /* LoadingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingView.xib; sourceTree = "<group>"; };
 		E33A73512458998400AAD61A /* PakiApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PakiApp.entitlements; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				E33E4710245C649D00B838DB /* SettingsVC.swift */,
 				E33E47142466AD9700B838DB /* MyTabBarCtrl.swift */,
 				E38B08CD246F0D2E009D449E /* WorldVC.swift */,
+				E32B54D024CD00F700843339 /* SignupVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -305,8 +308,6 @@
 				E33A730D2454856200AAD61A /* PakiView.xib */,
 				E33A733424548B9A00AAD61A /* AnswerView.swift */,
 				E33A733624548BEA00AAD61A /* AnswerView.xib */,
-				E33A73492457303E00AAD61A /* CredentialView.swift */,
-				E33A734B2457326E00AAD61A /* CredentialView.xib */,
 				E33A734D24587FC100AAD61A /* LoadingView.swift */,
 				E33A734F2458803600AAD61A /* LoadingView.xib */,
 				E33E471A24670B1000B838DB /* CalendarView.swift */,
@@ -325,6 +326,8 @@
 				E37388212493EC7C008F700F /* FilterView.xib */,
 				E3D1E82C24B8DCD50043C643 /* EulaView.swift */,
 				E3D1E82E24B8DD2C0043C643 /* EulaView.xib */,
+				E32B54D224CD324B00843339 /* PhoneView.swift */,
+				E32B54D424CD325C00843339 /* PhoneView.xib */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -426,9 +429,9 @@
 				E361452E2484A18600EC4C91 /* ImageDisplayView.xib in Resources */,
 				E38B08DC24713DEB009D449E /* ReportView.xib in Resources */,
 				E33A72F22454767F00AAD61A /* Assets.xcassets in Resources */,
+				E32B54D524CD325C00843339 /* PhoneView.xib in Resources */,
 				E33E47272469AA3B00B838DB /* CommentCollectionViewCell.xib in Resources */,
 				E33A73232454856E00AAD61A /* CalendarCollectionViewCell.xib in Resources */,
-				E33A734C2457326F00AAD61A /* CredentialView.xib in Resources */,
 				E37388222493EC7C008F700F /* FilterView.xib in Resources */,
 				E38B08D224705B76009D449E /* UnifiedNativeAdCVC.xib in Resources */,
 				E33A73272454856E00AAD61A /* PakiView.xib in Resources */,
@@ -500,7 +503,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n#\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/PakiApp/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/PakiApp/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -520,10 +523,12 @@
 				E33A73282454856E00AAD61A /* FeedCollectionViewCell.swift in Sources */,
 				E361452C2484A17200EC4C91 /* ImageDisplayView.swift in Sources */,
 				E33A73212454856E00AAD61A /* CommentsHeaderView.swift in Sources */,
+				E32B54D324CD324B00843339 /* PhoneView.swift in Sources */,
 				E33A73322454856E00AAD61A /* StatsTableViewCell.swift in Sources */,
 				E3D9742A247E87D500D7B702 /* TutorialView.swift in Sources */,
 				E33A731B2454856E00AAD61A /* CalendarCollectionViewCell.swift in Sources */,
 				E33A731A2454856E00AAD61A /* PakiView.swift in Sources */,
+				E32B54D124CD00F700843339 /* SignupVC.swift in Sources */,
 				E33A73482456448600AAD61A /* CredentialVC.swift in Sources */,
 				E361452A24822AD400EC4C91 /* PinterestLayout.swift in Sources */,
 				E33A733524548B9A00AAD61A /* AnswerView.swift in Sources */,
@@ -554,7 +559,6 @@
 				E33A73442456171300AAD61A /* GeneralViewController.swift in Sources */,
 				E3D1E82D24B8DCD50043C643 /* EulaView.swift in Sources */,
 				E33E4711245C649D00B838DB /* SettingsVC.swift in Sources */,
-				E33A734A2457303E00AAD61A /* CredentialView.swift in Sources */,
 				E38B08E82476FAC2009D449E /* ProfileView.swift in Sources */,
 				E33A73332454856E00AAD61A /* CalendarVC.swift in Sources */,
 			);

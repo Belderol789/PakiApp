@@ -115,7 +115,6 @@ extension FirebaseManager {
                 var data = userData
                 data[FirebaseKeys.uid.rawValue] = uid
                 data[FirebaseKeys.tokenString.rawValue] = nil
-                data["isApple"] = nil
                 if let imageData = userData[FirebaseKeys.profilePhotoURL.rawValue] as? Data {
                     self.saveToStorage(datum: imageData, identifier: .profilePhoto, storagePath: uid) { (profilePhotoURL) in
                         data[FirebaseKeys.profilePhotoURL.rawValue] = profilePhotoURL
@@ -153,7 +152,6 @@ extension FirebaseManager {
         let credential = OAuthProvider.credential(withProviderID: "apple.com",
                                                   idToken: idTokenString,
                                                   rawNonce: nonce)
-        
         // Sign in with Firebase.
         Auth.auth().signIn(with: credential) { (authResult, error) in
             if let error = error {
@@ -162,7 +160,6 @@ extension FirebaseManager {
                 var data = userData
                 data[FirebaseKeys.uid.rawValue] = uid
                 data[FirebaseKeys.tokenString.rawValue] = nil
-                data["isApple"] = nil
                 if let imageData = userData[FirebaseKeys.profilePhotoURL.rawValue] as? Data {
                     self.saveToStorage(datum: imageData, identifier: .profilePhoto, storagePath: uid) { (profilePhotoURL) in
                         data[FirebaseKeys.profilePhotoURL.rawValue] = profilePhotoURL

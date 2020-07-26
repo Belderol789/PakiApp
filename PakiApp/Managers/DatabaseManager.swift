@@ -209,7 +209,7 @@ class DatabaseManager {
         return UserDefaults.standard.bool(forKey: DatabaseKeys.notFirstTime.rawValue)
     }
     
-    func updateUserDefaults(value: Any, key: DatabaseKeys) {
+    func updateUserDefaults(value: Any?, key: DatabaseKeys) {
         UserDefaults.standard.setValue(value, forKey: key.rawValue)
     }
     

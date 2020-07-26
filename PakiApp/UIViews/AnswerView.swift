@@ -11,6 +11,7 @@ import TTGEmojiRate
 import OpalImagePicker
 
 protocol AnswerViewProtocol: class {
+    func didCancelAnswer()
     func didFinishAnswer(post: UserPost)
     func presentImageController(_ controller: UIImagePickerController)
 }
@@ -20,7 +21,6 @@ class AnswerView: UIView, Reusable {
     @IBOutlet weak var instLabel: UILabel!
     @IBOutlet weak var howAreYouLabel: UILabel!
     @IBOutlet weak var emojiView: EmojiRateView!
-    @IBOutlet weak var filterView: FilterView!
     @IBOutlet weak var pakiButton: ButtonX!
     @IBOutlet weak var shareButton: ButtonX!
     @IBOutlet weak var blurView: UIVisualEffectView!
@@ -46,10 +46,7 @@ class AnswerView: UIView, Reusable {
     @IBOutlet weak var shareLimitLabel: UILabel!
     
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var collectionView: UICollectionView!
-
     @IBOutlet weak var loadingVIew: LoadingView!
-    
     @IBOutlet var headerLabels: [UILabel]!
     
     weak var delegate: AnswerViewProtocol?
@@ -105,14 +102,14 @@ class AnswerView: UIView, Reusable {
         scrollView.alpha = 0
         self.backgroundColor = UIColor.defaultBGColor
         
-        if let layout = collectionView.collectionViewLayout as? PinterestLayout {
-            layout.delegate = self
-            collectionView.register(ImageCollectionCell.nib, forCellWithReuseIdentifier: ImageCollectionCell.className)
-            collectionView.delegate = self
-            collectionView.dataSource = self
-            collectionView.contentInset = UIEdgeInsets(top: 23, left: 16, bottom: 10, right: 16)
-        }
-        collectionView.backgroundColor = .clear
+//        if let layout = collectionView.collectionViewLayout as? PinterestLayout {
+//            layout.delegate = self
+//            collectionView.register(ImageCollectionCell.nib, forCellWithReuseIdentifier: ImageCollectionCell.className)
+//            collectionView.delegate = self
+//            collectionView.dataSource = self
+//            collectionView.contentInset = UIEdgeInsets(top: 23, left: 16, bottom: 10, right: 16)
+//        }
+//        collectionView.backgroundColor = .clear
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         shareView.addGestureRecognizer(tapGesture)
@@ -157,7 +154,58 @@ class AnswerView: UIView, Reusable {
             self.emojiView.backgroundColor = pakiColor
             self.emojiView.rateColor = .black
         }
-        filterView.delegate = self
+    }
+    
+    func stopLoading() {
+        self.loadingVIew.stopLoading()
+        UIView.animate(withDuration: 0.5, animations: {
+            self.alpha = 0
+        }) { (_) in
+            self.removeFromSuperview()
+        }
+    }
+    
+    func didSharePost() {
+        loadingVIew.startLoading()
+        
+        let mainUser = DatabaseManager.Instance.mainUser
+        let userPost: UserPost = UserPost()
+        let postKey = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        
+        userPost.username = mainUser.username!
+        userPost.paki = currentPaki.rawValue
+        userPost.profilePhotoURL = mainUser.profilePhotoURL
+        userPost.content = shareTextView.text
+        userPost.title = titleTextView.text
+        userPost.commentKey = UUID().uuidString
+        userPost.datePosted = Date().timeIntervalSince1970
+        userPost.starList.append(mainUser.uid!)
+        userPost.postKey = postKey
+        
+        FirebaseManager.Instance.sendPostToFirebase(userPost)
+        self.delegate?.didFinishAnswer(post: userPost)
+        self.stopLoading()
+        
+        
+        /*
+        if photos.isEmpty {
+            
+        } else {
+            FirebaseManager.Instance.saveImagesToStorage(images: photos) { (photoURLs) in
+                userPost.mediaURLs.append(objectsIn: photoURLs)
+                FirebaseManager.Instance.sendPostToFirebase(userPost)
+                self.delegate?.didFinishAnswer(post: userPost)
+                self.stopLoading()
+            }
+        }
+        */
+        
+        DatabaseManager.Instance.updateRealm(key: FirebaseKeys.currentPaki.rawValue, value: currentPaki.rawValue)
+        DatabaseManager.Instance.updateUserDefaults(value: postKey, key: .userHasAnswered)
+        
+        let count = self.pakiData[currentPaki.rawValue] as? Int ?? 0
+        pakiData[currentPaki.rawValue] = count + 1
+        FirebaseManager.Instance.setupPakiCount(count: pakiData)
     }
     
     @IBAction func didSelectPaki(_ sender: ButtonX) {
@@ -194,66 +242,50 @@ class AnswerView: UIView, Reusable {
     }
     
     @IBAction func didShare(_ sender: ButtonX) {
-        filterView.isHidden = false
         self.endEditing(true)
-        UIView.animate(withDuration: 0.3) {
-            self.filterView.alpha = 1
-        }
     }
 
-    func stopLoading() {
-        self.loadingVIew.stopLoading()
-        UIView.animate(withDuration: 0.5, animations: {
-            self.alpha = 0
-        }) { (_) in
-            self.removeFromSuperview()
-        }
+    @IBAction func didTapCancel(_ sender: UIButton) {
+        self.delegate?.didCancelAnswer()
+        self.removeFromSuperview()
     }
     
-    @IBAction func didTapCamera(_ sender: ButtonX) {
-        openImageOptions(type: .camera)
-    }
+//    fileprivate func openImageOptions(type: UIImagePickerController.SourceType) {
+//        let pickerController = UIImagePickerController()
+//        pickerController.delegate = self
+//        pickerController.allowsEditing = true
+//        pickerController.mediaTypes = ["public.image"]
+//        pickerController.sourceType = type
+//        delegate?.presentImageController(pickerController)
+//    }
     
-    @IBAction func didTapGallery(_ sender: ButtonX) {
-        openImageOptions(type: .photoLibrary)
-    }
-    
-    fileprivate func openImageOptions(type: UIImagePickerController.SourceType) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.allowsEditing = true
-        pickerController.mediaTypes = ["public.image"]
-        pickerController.sourceType = type
-        delegate?.presentImageController(pickerController)
-    }
-    
-    fileprivate func reloadImageColletion() {
-        if let layout = collectionView.collectionViewLayout as? PinterestLayout {
-            layout.cache.removeAll()
-            layout.prepare()
-            collectionView.reloadData()
-        }
-    }
+//    fileprivate func reloadImageColletion() {
+//        if let layout = collectionView.collectionViewLayout as? PinterestLayout {
+//            layout.cache.removeAll()
+//            layout.prepare()
+//            collectionView.reloadData()
+//        }
+//    }
     
 }
 // MARK - ImagePickerController
-extension AnswerView: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true)
-        
-        if let editedImage = info[.editedImage] as? UIImage {
-            photos.append(editedImage)
-        } else if let originalImage = info[.originalImage] as? UIImage {
-            photos.append(originalImage)
-        }
-        
-        reloadImageColletion()
-    }
-}
+//extension AnswerView: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//        picker.dismiss(animated: true, completion: nil)
+//    }
+//
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//        picker.dismiss(animated: true)
+//
+//        if let editedImage = info[.editedImage] as? UIImage {
+//            photos.append(editedImage)
+//        } else if let originalImage = info[.originalImage] as? UIImage {
+//            photos.append(originalImage)
+//        }
+//
+//        reloadImageColletion()
+//    }
+//}
 
 // MARK: - AnwerFields
 extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
@@ -280,44 +312,44 @@ extension AnswerView: UITextViewDelegate, UITextFieldDelegate {
     }
 }
 
-extension AnswerView: PinterestLayoutDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, ImageCollectionCellProtocol {
-    
-    func didRemoveImage(_ image: UIImage?) {
-        if let index = photos.firstIndex(of: image!) {
-            photos.remove(at: index)
-            collectionView.reloadData()
-        }
-        reloadImageColletion()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionCell", for: indexPath as IndexPath) as! ImageCollectionCell
-        cell.imageView.image = photos[indexPath.item]
-        cell.imageView.contentMode = .scaleAspectFill
-        cell.closeButton.isHidden = false
-        cell.imageView.backgroundColor = UIColor.defaultFGColor
-        cell.imageView.layer.cornerRadius = 15
-        cell.imageView.layer.masksToBounds = true
-        cell.delegate = self
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemSize = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
-        return CGSize(width: itemSize, height: itemSize)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat {
-        let randomzier = CGFloat.random(in: 250...300)
-        let photoHeight = photos[indexPath.item].size.height > 300 ? randomzier : photos[indexPath.item].size.height
-        print("Photo Height \(photoHeight)")
-        return photoHeight
-    }
-}
+//extension AnswerView: PinterestLayoutDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, ImageCollectionCellProtocol {
+//
+//    func didRemoveImage(_ image: UIImage?) {
+//        if let index = photos.firstIndex(of: image!) {
+//            photos.remove(at: index)
+//            collectionView.reloadData()
+//        }
+//        reloadImageColletion()
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return photos.count
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCollectionCell", for: indexPath as IndexPath) as! ImageCollectionCell
+//        cell.imageView.image = photos[indexPath.item]
+//        cell.imageView.contentMode = .scaleAspectFill
+//        cell.closeButton.isHidden = false
+//        cell.imageView.backgroundColor = UIColor.defaultFGColor
+//        cell.imageView.layer.cornerRadius = 15
+//        cell.imageView.layer.masksToBounds = true
+//        cell.delegate = self
+//        return cell
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let itemSize = (collectionView.frame.width - (collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
+//        return CGSize(width: itemSize, height: itemSize)
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat {
+//        let randomzier = CGFloat.random(in: 250...300)
+//        let photoHeight = photos[indexPath.item].size.height > 300 ? randomzier : photos[indexPath.item].size.height
+//        print("Photo Height \(photoHeight)")
+//        return photoHeight
+//    }
+//}
 
 // MARK: - FilterViewProtocol
 extension AnswerView: FilterViewProtocol {

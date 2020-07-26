@@ -12,13 +12,15 @@ import Firebase
 enum FirebaseKeys: String {
     case email
     case password
+    case phoneCode
+    case phoneID
     case number
     case username
     case profilePhotoURL
     case coverPhotoURL
     case photo
     case coverPhoto
-    //case birthday
+    case birthday
     case uid
     case mediaURLs
     case tokenString
@@ -38,6 +40,7 @@ enum FirebaseKeys: String {
     case commentCount
     case shareCount
     case postKey
+    case postID
     case nsfw
     case postPrivate
     case currentPaki

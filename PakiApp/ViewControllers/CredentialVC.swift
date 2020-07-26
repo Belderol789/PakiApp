@@ -17,8 +17,8 @@ import AuthenticationServices
 import CryptoKit
 import TransitionButton
 
-class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewControllerDelegate, CredentialViewProtocol {
-
+class CredentialVC: GeneralViewController, Reusable {
+    
     // IBOutlets
     @IBOutlet weak var phoneField: UITextField!
     @IBOutlet weak var emailField: UITextField!
@@ -31,12 +31,7 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
     @IBOutlet weak var facebookBtnContainer: UIView!
     @IBOutlet weak var appleContainerView: UIView!
     
-    @IBOutlet weak var credentialView: CredentialView!
-    @IBOutlet weak var eulaView: UIView!
-    @IBOutlet weak var eulaSwitch: UISwitch!
-    @IBOutlet weak var eulaTextView: UITextView!
-    @IBOutlet weak var eulaButton: TransitionButton!
-    
+    @IBOutlet weak var phoneView: PhoneView!
     
     @IBOutlet weak var signupButton: TransitionButton!
     // Variables
@@ -46,17 +41,11 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
             signupButton.backgroundColor = enableAuthButton ? UIColor.defaultPurple : .lightGray
         }
     }
-    var enableEULA: Bool = false {
-        didSet {
-            eulaButton.isUserInteractionEnabled = enableEULA
-            eulaButton.backgroundColor = enableEULA ? UIColor.defaultPurple : .lightGray
-        }
-    }
     fileprivate var currentNonce: String?
     var isLogin: Bool = false
+    
     var countryCode: String?
     var verificationID: String?
-    var userData: [String: Any] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,7 +127,6 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
         credentialViews.forEach({
             $0.backgroundColor = UIColor.defaultFGColor
         })
-        credentialView.delegate = self
         
         let cpv = CountryPickerView(frame: CGRect(x: 0, y: 0, width: 120, height: 20))
         cpv.delegate = self
@@ -149,9 +137,7 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
         countryField.leftView = cpv
         countryField.leftViewMode = .always
         
-        if let eulaText = DatabaseManager.Instance.eulaText {
-            eulaTextView.text = eulaText
-        }
+        phoneView.delegate = self
     }
     
     @objc
@@ -176,7 +162,7 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
                     if let error = message {
                         self.showAlertWith(title: "Error Signing up", message: error, actions: [], hasDefaultOK: true)
                     } else {
-                        self.setupCredentialView(isPhone: false, withData: nil)
+                        self.proceedToSignup(data: nil, type: .email)
                     }
                 }
             } else {
@@ -193,9 +179,8 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
                 self.signupButton.stopAnimation()
                 self.phoneField.text = nil
                 self.verificationID = verificationID
-                self.setupCredentialView(isPhone: true, withData: nil)
                 
-                print("Verification code \(verificationID)")
+                self.phoneView.isHidden = false
                 
             }) { (message) in
                 self.signupButton.stopAnimation()
@@ -204,58 +189,18 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
         }
     }
     
-    func didSelectSignup(data: [String : Any]) {
-        userData = data
-        eulaView.isHidden = false
-        view.endEditing(true)
-        UIView.animate(withDuration: 0.3) {
-            self.eulaView.alpha = 1
+    fileprivate func proceedToSignup(data: [String: Any]?, type: SignupType) {
+        let signupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignupVC") as! SignupVC
+        signupVC.type = type
+        signupVC.appleNonce = currentNonce
+        self.present(signupVC, animated: true) {
+            if let userData = data {
+                signupVC.setupThirdParty(data: userData)
+            }
         }
     }
     
-    func didSelectProfilePhoto() {
-        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-        switch photoAuthorizationStatus {
-        case .authorized:
-            presentPhotoLibrary()
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization({
-                (newStatus) in
-                DispatchQueue.main.async {
-                    if newStatus ==  PHAuthorizationStatus.authorized {
-                        self.presentPhotoLibrary()
-                    }else{
-                        print("User denied")
-                    }
-                }})
-        default:
-            break
-        }
-    }
-    
-    fileprivate func presentPhotoLibrary() {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.allowsEditing = true
-        pickerController.mediaTypes = ["public.image"]
-        pickerController.sourceType = .photoLibrary
-        self.present(pickerController, animated: true, completion: nil)
-    }
-    
-    func setupCredentialView(isPhone: Bool, withData: [String: Any]?) {
-        credentialView.isHidden = false
-        credentialView.isPhone = isPhone
-        if isLogin {
-            credentialView.setupPhoneLogin()
-        }
-        credentialView.phoneCodeView.isHidden = !isPhone
-        credentialView.setupThirdParty(data: withData)
-        UIView.animate(withDuration: 0.3) {
-            self.credentialView.alpha = 1
-        }
-    }
-    
-    func userHasAuthenticated(_ message: String?) {
+    fileprivate func userHasAuthenticated(_ message: String?) {
         loadingView.stopLoading()
         signupButton.stopAnimation()
         if message != nil {
@@ -264,30 +209,6 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
             navigationController?.popViewController(animated: true)
         }
-    }
-    
-    func sendEmail() {
-        let email = "krats.apps@gmail.com"
-        let emailURLString = "mailto:\(email)"
-        if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients([email])
-            mail.setMessageBody("", isHTML: true)
-            present(mail, animated: true)
-        } else if let emailURL = URL(string: emailURLString), UIApplication.shared.canOpenURL(emailURL) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(emailURL)
-            } else {
-                UIApplication.shared.openURL(emailURL)
-            }
-        } else {
-            print("Device unable to send emails")
-        }
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
     }
     
     // MARK: -IBActions
@@ -309,65 +230,6 @@ class CredentialVC: GeneralViewController, Reusable, MFMailComposeViewController
     
     @IBAction func tapContactUs(_ sender: UIButton) {
         sendEmail()
-    }
-    
-    @IBAction func didSwitchEula(_ sender: UISwitch) {
-        enableEULA = sender.isOn
-    }
-    
-    @IBAction func didAgreeToEula(_ sender: TransitionButton) {
-        DatabaseManager.Instance.updateUserDefaults(value: true, key: .eulaAgree)
-        loadingView.isHidden = false
-        loadingView.startLoading()
-        if let tokenID = userData[FirebaseKeys.tokenString.rawValue] as? String, let isApple = userData["isApple"] as? Bool {
-              if isApple {
-                  FirebaseManager.Instance.signupWithAppleUser(idTokenString: tokenID, nonce: currentNonce!, userData: userData) { (message) in
-                      self.userHasAuthenticated(message)
-                  }
-              } else {
-                  FirebaseManager.Instance.signupWithFacebookUser(token: tokenID, userData: userData) { (message) in
-                      self.userHasAuthenticated(message)
-                  }
-              }
-          } else if let phoneCode = userData[FirebaseKeys.number.rawValue] as? String {
-              FirebaseManager.Instance.proceedPhoneUser(verfID: verificationID!, verfCode: phoneCode, userData: userData) { (message) in
-                  self.userHasAuthenticated(message)
-              }
-          } else if let uid = DatabaseManager.Instance.userSavedUid {
-              
-              userData[FirebaseKeys.uid.rawValue] = uid
-              
-              if let profileData = userData[FirebaseKeys.profilePhotoURL.rawValue] as? Data {
-                  FirebaseManager.Instance.saveToStorage(datum: profileData, identifier: .profilePhoto, storagePath: uid) { (profilePhotoURL) in
-                    self.userData[FirebaseKeys.profilePhotoURL.rawValue] = profilePhotoURL
-                    FirebaseManager.Instance.updateFirebase(data: self.userData, identifier: .users, mainID: uid) { (message) in
-                          self.userHasAuthenticated(message)
-                      }
-                  }
-              } else {
-                  FirebaseManager.Instance.updateFirebase(data: userData, identifier: .users, mainID: uid) { (message) in
-                      self.userHasAuthenticated(message)
-                  }
-              }
-          }
-    }
-    
-    
-}
-// MARK: - UIImagePickerController
-extension CredentialVC: UIImagePickerControllerDelegate {
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true)
-
-        guard let image = info[.editedImage] as? UIImage else {
-            return
-        }
-        credentialView.profileImageView.image = image
     }
 }
 
@@ -408,6 +270,17 @@ extension CredentialVC: UITextFieldDelegate {
         }
         return true
     }
+}
+
+// MARK: - PhoneView
+extension CredentialVC: PhoneViewProtocol {
+    
+    func submitCode(code: String) {
+        self.phoneView.isHidden = true
+        let phoneData: [String: Any] = [FirebaseKeys.phoneID.rawValue: verificationID!,
+                                        FirebaseKeys.phoneCode.rawValue: code]
+        proceedToSignup(data: phoneData, type: .phone)
+    }
     
 }
 
@@ -433,13 +306,11 @@ extension CredentialVC: LoginButtonDelegate {
                 
                 userInfo[FirebaseKeys.username.rawValue] = userName
                 userInfo[FirebaseKeys.tokenString.rawValue] = tokenString
-                userInfo["isApple"] = false
                 
                 if let userImage = profile?.imageURL(forMode: .normal, size: CGSize(width: 250, height: 200)) {
-                    userInfo[FirebaseKeys.profilePhotoURL.rawValue] = userImage.absoluteString
+                    userInfo[FirebaseKeys.profilePhotoURL.rawValue] = userImage
                 }
-                
-                self.setupCredentialView(isPhone: false, withData: userInfo)
+                self.proceedToSignup(data: userInfo, type: .facebook)
             }
         }
     }
@@ -477,10 +348,7 @@ extension CredentialVC: ASAuthorizationControllerDelegate, ASAuthorizationContro
                 var userInfo: [String: Any] = [:]
                 userInfo[FirebaseKeys.tokenString.rawValue] = idTokenString
                 userInfo[FirebaseKeys.username.rawValue] = appleIDCredential.fullName?.givenName ?? "Anonymous"
-                userInfo["isApple"] = true
-
-                // login checker
-                self.setupCredentialView(isPhone: false, withData: userInfo)
+                proceedToSignup(data: userInfo, type: .apple)
             }
         }
     }
@@ -489,7 +357,6 @@ extension CredentialVC: ASAuthorizationControllerDelegate, ASAuthorizationContro
         showAlertWith(title: "Error", message: error.localizedDescription, actions: [], hasDefaultOK: true)
         loadingView.stopLoading()
     }
-    
     
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return view.window!
