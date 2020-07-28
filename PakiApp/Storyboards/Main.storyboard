@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PCt-4a-Ck7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XPm-c1-W98">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -436,7 +436,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dEd-gK-6a8">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="235"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jrn-8u-yy1">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
@@ -446,7 +446,7 @@
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oZ3-0U-fRP">
-                                        <rect key="frame" x="0.0" y="100" width="320" height="150"/>
+                                        <rect key="frame" x="0.0" y="100" width="320" height="135"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mascot" translatesAutoresizingMaskIntoConstraints="NO" id="p9l-9T-8lH" customClass="ImageViewX" customModule="PakiApp" customModuleProvider="target">
                                                 <rect key="frame" x="20" y="-40" width="80" height="80"/>
@@ -626,23 +626,23 @@
                                     <constraint firstItem="oZ3-0U-fRP" firstAttribute="top" secondItem="jrn-8u-yy1" secondAttribute="bottom" id="t3M-La-kCT"/>
                                     <constraint firstItem="oZ3-0U-fRP" firstAttribute="leading" secondItem="dEd-gK-6a8" secondAttribute="leading" id="uYS-EM-SQc"/>
                                     <constraint firstAttribute="trailing" secondItem="oZ3-0U-fRP" secondAttribute="trailing" id="y2p-B6-PXt"/>
-                                    <constraint firstAttribute="height" constant="250" id="zD3-8g-Vae"/>
+                                    <constraint firstAttribute="height" constant="235" id="zD3-8g-Vae"/>
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQy-44-ubC">
-                                <rect key="frame" x="0.0" y="293" width="320" height="226"/>
+                                <rect key="frame" x="0.0" y="270" width="320" height="241"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8zA-Ds-cG4">
-                                        <rect key="frame" x="0.0" y="0.0" width="828" height="222.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="828" height="237.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xnr-oq-8Aw" customClass="CalendarView" customModule="PakiApp" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="222.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="237.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="414" id="MSG-Ft-Qij"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xgd-mV-A0p" customClass="GraphsView" customModule="PakiApp" customModuleProvider="target">
-                                                <rect key="frame" x="414" y="0.0" width="414" height="222.5"/>
+                                                <rect key="frame" x="414" y="0.0" width="414" height="237.5"/>
                                             </view>
                                         </subviews>
                                         <constraints>
@@ -666,7 +666,7 @@
                                 </constraints>
                             </scrollView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Mbf-Wj-weL">
-                                <rect key="frame" x="0.0" y="258" width="320" height="32"/>
+                                <rect key="frame" x="0.0" y="235" width="320" height="32"/>
                                 <segments>
                                     <segment title="Calendar"/>
                                     <segment title="Graphs"/>
@@ -676,20 +676,52 @@
                                     <action selector="didChangeSegment:" destination="w8I-zH-zDp" eventType="valueChanged" id="Jxo-Ii-urP"/>
                                 </connections>
                             </segmentedControl>
+                            <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Jm-9H-7SI" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
+                                <rect key="frame" x="255" y="454" width="45" height="45"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LsZ-sb-8Bc">
+                                        <rect key="frame" x="7.5" y="7.5" width="30" height="30"/>
+                                        <color key="backgroundColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="8AB-Fn-BPr"/>
+                                            <constraint firstAttribute="height" constant="30" id="Ske-tt-cTG"/>
+                                        </constraints>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="feather"/>
+                                        <connections>
+                                            <action selector="didCreateLocalPost:" destination="w8I-zH-zDp" eventType="touchUpInside" id="4Lo-c1-4cU"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="LsZ-sb-8Bc" firstAttribute="centerX" secondItem="4Jm-9H-7SI" secondAttribute="centerX" id="Lxv-tD-IYF"/>
+                                    <constraint firstAttribute="width" secondItem="4Jm-9H-7SI" secondAttribute="height" multiplier="1:1" id="VRe-JP-iiW"/>
+                                    <constraint firstItem="LsZ-sb-8Bc" firstAttribute="centerY" secondItem="4Jm-9H-7SI" secondAttribute="centerY" id="hLE-dS-0JK"/>
+                                    <constraint firstAttribute="width" constant="45" id="sQ0-jV-E1b"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="22.5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="fQy-44-ubC" firstAttribute="top" secondItem="Mbf-Wj-weL" secondAttribute="bottom" constant="4" id="Grw-vR-kS2"/>
                             <constraint firstItem="dEd-gK-6a8" firstAttribute="top" secondItem="6UL-Kk-vHy" secondAttribute="top" id="Hp1-T3-IGG"/>
-                            <constraint firstItem="HF9-dz-0i5" firstAttribute="bottom" secondItem="fQy-44-ubC" secondAttribute="bottom" id="KG8-nS-PKg"/>
+                            <constraint firstItem="HF9-dz-0i5" firstAttribute="bottom" secondItem="fQy-44-ubC" secondAttribute="bottom" constant="8" id="KG8-nS-PKg"/>
                             <constraint firstItem="fQy-44-ubC" firstAttribute="leading" secondItem="HF9-dz-0i5" secondAttribute="leading" id="MAk-Wf-mav"/>
+                            <constraint firstItem="HF9-dz-0i5" firstAttribute="bottom" secondItem="4Jm-9H-7SI" secondAttribute="bottom" constant="20" id="Sgn-fP-wry"/>
                             <constraint firstItem="HF9-dz-0i5" firstAttribute="trailing" secondItem="fQy-44-ubC" secondAttribute="trailing" id="T3h-0k-8n1"/>
                             <constraint firstItem="Mbf-Wj-weL" firstAttribute="centerX" secondItem="HF9-dz-0i5" secondAttribute="centerX" id="XuA-zh-p7b"/>
                             <constraint firstItem="dEd-gK-6a8" firstAttribute="leading" secondItem="HF9-dz-0i5" secondAttribute="leading" id="da1-TW-kjk"/>
                             <constraint firstItem="Mbf-Wj-weL" firstAttribute="leading" secondItem="HF9-dz-0i5" secondAttribute="leading" id="dpK-ml-7LI"/>
                             <constraint firstItem="dEd-gK-6a8" firstAttribute="trailing" secondItem="HF9-dz-0i5" secondAttribute="trailing" id="h9D-0G-aIE"/>
                             <constraint firstItem="HF9-dz-0i5" firstAttribute="trailing" secondItem="Mbf-Wj-weL" secondAttribute="trailing" id="n3u-QI-gQ8"/>
-                            <constraint firstItem="Mbf-Wj-weL" firstAttribute="top" secondItem="dEd-gK-6a8" secondAttribute="bottom" constant="8" id="wNG-er-7cy"/>
+                            <constraint firstItem="HF9-dz-0i5" firstAttribute="trailing" secondItem="4Jm-9H-7SI" secondAttribute="trailing" constant="20" id="v5R-EV-Q0p"/>
+                            <constraint firstItem="Mbf-Wj-weL" firstAttribute="top" secondItem="dEd-gK-6a8" secondAttribute="bottom" id="wNG-er-7cy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HF9-dz-0i5"/>
                     </view>
@@ -709,6 +741,7 @@
                         <outlet property="postsLabel" destination="ORm-Ek-fWN" id="gt3-JA-ZHB"/>
                         <outlet property="scrollView" destination="fQy-44-ubC" id="E7N-r5-RWM"/>
                         <outlet property="segmentedControl" destination="Mbf-Wj-weL" id="34K-op-tUy"/>
+                        <outlet property="settingsButton" destination="Ceb-eR-U3k" id="PXU-Og-kyj"/>
                         <outlet property="starsLabel" destination="Uhx-kH-Dvl" id="MD0-o2-FyE"/>
                         <outlet property="userPhotoImageView" destination="p9l-9T-8lH" id="nbP-NN-Z0n"/>
                         <outlet property="usernameLabel" destination="ez8-Tt-gxi" id="FlC-d4-6do"/>
@@ -1313,6 +1346,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uzl-sq-8Wn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3862.3188405797105" y="433.92857142857139"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="iPf-DU-gEf">
+            <objects>
+                <viewController id="FBp-Tk-qcs" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zUc-gC-1iE">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="VQg-QJ-efu"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2us-Ae-FN3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2498" y="433"/>
         </scene>
         <!--My Tab Bar Ctrl-->
         <scene sceneID="FLE-n5-j1o">

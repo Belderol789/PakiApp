@@ -65,8 +65,6 @@
 		E361452A24822AD400EC4C91 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E361452924822AD400EC4C91 /* PinterestLayout.swift */; };
 		E361452C2484A17200EC4C91 /* ImageDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E361452B2484A17200EC4C91 /* ImageDisplayView.swift */; };
 		E361452E2484A18600EC4C91 /* ImageDisplayView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E361452D2484A18600EC4C91 /* ImageDisplayView.xib */; };
-		E37388202493EB21008F700F /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E373881F2493EB21008F700F /* FilterView.swift */; };
-		E37388222493EC7C008F700F /* FilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E37388212493EC7C008F700F /* FilterView.xib */; };
 		E38B08CE246F0D2F009D449E /* WorldVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08CD246F0D2E009D449E /* WorldVC.swift */; };
 		E38B08D124705B76009D449E /* UnifiedNativeAdCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */; };
 		E38B08D224705B76009D449E /* UnifiedNativeAdCVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */; };
@@ -77,8 +75,9 @@
 		E38B08DE2472E961009D449E /* AppstoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08DD2472E961009D449E /* AppstoreManager.swift */; };
 		E38B08E82476FAC2009D449E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38B08E72476FAC1009D449E /* ProfileView.swift */; };
 		E38B08EA2476FC62009D449E /* ProfileView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E38B08E92476FC62009D449E /* ProfileView.xib */; };
-		E3D1E82D24B8DCD50043C643 /* EulaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D1E82C24B8DCD50043C643 /* EulaView.swift */; };
-		E3D1E82F24B8DD2C0043C643 /* EulaView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3D1E82E24B8DD2C0043C643 /* EulaView.xib */; };
+		E3C4BFD924CE67D2001632CC /* TutorialCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C4BFD724CE67D2001632CC /* TutorialCollectionViewCell.swift */; };
+		E3C4BFDA24CE67D2001632CC /* TutorialCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3C4BFD824CE67D2001632CC /* TutorialCollectionViewCell.xib */; };
+		E3C4BFDE24CF243B001632CC /* LabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C4BFDD24CF243B001632CC /* LabelX.swift */; };
 		E3D9742A247E87D500D7B702 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D97429247E87D500D7B702 /* TutorialView.swift */; };
 		E3D9742C247E87F800D7B702 /* TutorialView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3D9742B247E87F800D7B702 /* TutorialView.xib */; };
 		E3D9742F247E88F900D7B702 /* ImageCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D9742D247E88F900D7B702 /* ImageCollectionCell.swift */; };
@@ -149,8 +148,6 @@
 		E361452924822AD400EC4C91 /* PinterestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		E361452B2484A17200EC4C91 /* ImageDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayView.swift; sourceTree = "<group>"; };
 		E361452D2484A18600EC4C91 /* ImageDisplayView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageDisplayView.xib; sourceTree = "<group>"; };
-		E373881F2493EB21008F700F /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
-		E37388212493EC7C008F700F /* FilterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterView.xib; sourceTree = "<group>"; };
 		E38B08CD246F0D2E009D449E /* WorldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldVC.swift; sourceTree = "<group>"; };
 		E38B08CF24705B76009D449E /* UnifiedNativeAdCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedNativeAdCVC.swift; sourceTree = "<group>"; };
 		E38B08D024705B76009D449E /* UnifiedNativeAdCVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnifiedNativeAdCVC.xib; sourceTree = "<group>"; };
@@ -161,8 +158,9 @@
 		E38B08DD2472E961009D449E /* AppstoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreManager.swift; sourceTree = "<group>"; };
 		E38B08E72476FAC1009D449E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		E38B08E92476FC62009D449E /* ProfileView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileView.xib; sourceTree = "<group>"; };
-		E3D1E82C24B8DCD50043C643 /* EulaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EulaView.swift; sourceTree = "<group>"; };
-		E3D1E82E24B8DD2C0043C643 /* EulaView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EulaView.xib; sourceTree = "<group>"; };
+		E3C4BFD724CE67D2001632CC /* TutorialCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialCollectionViewCell.swift; sourceTree = "<group>"; };
+		E3C4BFD824CE67D2001632CC /* TutorialCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TutorialCollectionViewCell.xib; sourceTree = "<group>"; };
+		E3C4BFDD24CF243B001632CC /* LabelX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelX.swift; sourceTree = "<group>"; };
 		E3D97429247E87D500D7B702 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		E3D9742B247E87F800D7B702 /* TutorialView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TutorialView.xib; sourceTree = "<group>"; };
 		E3D9742D247E88F900D7B702 /* ImageCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionCell.swift; sourceTree = "<group>"; };
@@ -252,6 +250,7 @@
 				E33A73112454856600AAD61A /* ImageViewX.swift */,
 				E33A730B2454856000AAD61A /* ViewX.swift */,
 				E361452924822AD400EC4C91 /* PinterestLayout.swift */,
+				E3C4BFDD24CF243B001632CC /* LabelX.swift */,
 			);
 			path = IBDesignables;
 			sourceTree = "<group>";
@@ -279,6 +278,8 @@
 				E38B08D624713B02009D449E /* ReportTableViewCell.xib */,
 				E3D9742D247E88F900D7B702 /* ImageCollectionCell.swift */,
 				E3D9742E247E88F900D7B702 /* ImageCollectionCell.xib */,
+				E3C4BFD724CE67D2001632CC /* TutorialCollectionViewCell.swift */,
+				E3C4BFD824CE67D2001632CC /* TutorialCollectionViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -322,10 +323,6 @@
 				E3D9742B247E87F800D7B702 /* TutorialView.xib */,
 				E361452B2484A17200EC4C91 /* ImageDisplayView.swift */,
 				E361452D2484A18600EC4C91 /* ImageDisplayView.xib */,
-				E373881F2493EB21008F700F /* FilterView.swift */,
-				E37388212493EC7C008F700F /* FilterView.xib */,
-				E3D1E82C24B8DCD50043C643 /* EulaView.swift */,
-				E3D1E82E24B8DD2C0043C643 /* EulaView.xib */,
 				E32B54D224CD324B00843339 /* PhoneView.swift */,
 				E32B54D424CD325C00843339 /* PhoneView.xib */,
 			);
@@ -426,19 +423,18 @@
 				E33A72FD245477EC00AAD61A /* GoogleService-Info.plist in Resources */,
 				E3D9742C247E87F800D7B702 /* TutorialView.xib in Resources */,
 				E38B08D824713B02009D449E /* ReportTableViewCell.xib in Resources */,
+				E3C4BFDA24CE67D2001632CC /* TutorialCollectionViewCell.xib in Resources */,
 				E361452E2484A18600EC4C91 /* ImageDisplayView.xib in Resources */,
 				E38B08DC24713DEB009D449E /* ReportView.xib in Resources */,
 				E33A72F22454767F00AAD61A /* Assets.xcassets in Resources */,
 				E32B54D524CD325C00843339 /* PhoneView.xib in Resources */,
 				E33E47272469AA3B00B838DB /* CommentCollectionViewCell.xib in Resources */,
 				E33A73232454856E00AAD61A /* CalendarCollectionViewCell.xib in Resources */,
-				E37388222493EC7C008F700F /* FilterView.xib in Resources */,
 				E38B08D224705B76009D449E /* UnifiedNativeAdCVC.xib in Resources */,
 				E33A73272454856E00AAD61A /* PakiView.xib in Resources */,
 				E33A73222454856E00AAD61A /* FeedCollectionViewCell.xib in Resources */,
 				E33A73502458803600AAD61A /* LoadingView.xib in Resources */,
 				E33A72FF2454851300AAD61A /* Main.storyboard in Resources */,
-				E3D1E82F24B8DD2C0043C643 /* EulaView.xib in Resources */,
 				E33E471D24670B2300B838DB /* CalendarView.xib in Resources */,
 				E33A73292454856E00AAD61A /* StatsTableViewCell.xib in Resources */,
 				E33E47192466D1B400B838DB /* PakiCollectionViewCell.xib in Resources */,
@@ -503,7 +499,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/PakiApp/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n#\"${PODS_ROOT}/FirebaseCrashlytics/upload-symbols\" -gsp \"${PROJECT_DIR}/PakiApp/GoogleService-Info.plist\" -p ios \"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -524,6 +520,7 @@
 				E361452C2484A17200EC4C91 /* ImageDisplayView.swift in Sources */,
 				E33A73212454856E00AAD61A /* CommentsHeaderView.swift in Sources */,
 				E32B54D324CD324B00843339 /* PhoneView.swift in Sources */,
+				E3C4BFD924CE67D2001632CC /* TutorialCollectionViewCell.swift in Sources */,
 				E33A73322454856E00AAD61A /* StatsTableViewCell.swift in Sources */,
 				E3D9742A247E87D500D7B702 /* TutorialView.swift in Sources */,
 				E33A731B2454856E00AAD61A /* CalendarCollectionViewCell.swift in Sources */,
@@ -533,6 +530,7 @@
 				E361452A24822AD400EC4C91 /* PinterestLayout.swift in Sources */,
 				E33A733524548B9A00AAD61A /* AnswerView.swift in Sources */,
 				E33A73202454856E00AAD61A /* FeedVC.swift in Sources */,
+				E3C4BFDE24CF243B001632CC /* LabelX.swift in Sources */,
 				E38B08D124705B76009D449E /* UnifiedNativeAdCVC.swift in Sources */,
 				E33A732F2454856E00AAD61A /* CommentsVC.swift in Sources */,
 				E33E4713245EA9BB00B838DB /* FirebaseManager-Comment.swift in Sources */,
@@ -548,7 +546,6 @@
 				E33A73252454856E00AAD61A /* ViewX.swift in Sources */,
 				E33A734E24587FC100AAD61A /* LoadingView.swift in Sources */,
 				E33A72EB2454767C00AAD61A /* SceneDelegate.swift in Sources */,
-				E37388202493EB21008F700F /* FilterView.swift in Sources */,
 				E33A73262454856E00AAD61A /* ReplyVC.swift in Sources */,
 				E33E47152466AD9700B838DB /* MyTabBarCtrl.swift in Sources */,
 				E38B08D724713B02009D449E /* ReportTableViewCell.swift in Sources */,
@@ -557,7 +554,6 @@
 				E33E470F245B1F6D00B838DB /* FirebaseManager-Post.swift in Sources */,
 				E33E471F2467135E00B838DB /* TestManager.swift in Sources */,
 				E33A73442456171300AAD61A /* GeneralViewController.swift in Sources */,
-				E3D1E82D24B8DCD50043C643 /* EulaView.swift in Sources */,
 				E33E4711245C649D00B838DB /* SettingsVC.swift in Sources */,
 				E38B08E82476FAC2009D449E /* ProfileView.swift in Sources */,
 				E33A73332454856E00AAD61A /* CalendarVC.swift in Sources */,

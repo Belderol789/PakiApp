@@ -51,9 +51,14 @@ class UserPost: Object {
         return !mediaURLs.isEmpty
     }
     
+    var isToday: Bool {
+        let date = Date(timeIntervalSince1970: datePosted).convertToMediumString()
+        let today = Date().convertToMediumString()
+        return date == today
+    }
+    
     var dateString: String {
-        let date = Date(timeIntervalSince1970: datePosted)
-        return date.convertToMediumString()
+        return Date(timeIntervalSince1970: datePosted).convertToMediumString()
     }
     
     var pakiCase: Paki {

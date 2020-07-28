@@ -25,6 +25,8 @@ class ProfileVC: GeneralViewController {
     @IBOutlet weak var coverPhoto: UIImageView!
     @IBOutlet weak var pakiText: UILabel!
     
+    @IBOutlet weak var settingsButton: ButtonX!
+    
     @IBOutlet weak var contentViewWidthConst: NSLayoutConstraint!
     @IBOutlet weak var calendarWidthConst: NSLayoutConstraint!
 
@@ -55,6 +57,22 @@ class ProfileVC: GeneralViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfile(notification:)), name: NSNotification.Name(rawValue: "UpdateProfile"), object: nil)
     }
     
+    @IBAction func didCreateLocalPost(_ sender: UIButton) {
+        guard let emojiView = Bundle.main.loadNibNamed(AnswerView.className, owner: self, options: nil)?.first as? AnswerView else { return }
+        emojiView.alpha = 0
+        emojiView.frame = self.view.bounds
+        emojiView.togglePrivacy = false
+        emojiView.privacySwitch.isUserInteractionEnabled = DatabaseManager.Instance.mainUser.uid != nil
+        emojiView.delegate = self
+        emojiView.setupEmojiView()
+        emojiView.getUpdatedPakiCount()
+        view.addSubview(emojiView)
+        UIView.animate(withDuration: 0.3) {
+            emojiView.alpha = 1
+        }
+    }
+    
+    
     @IBAction func didGoToSettings(_ sender: ButtonX) {
         let settingsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
         settingsVC.delegate = self
@@ -69,6 +87,10 @@ class ProfileVC: GeneralViewController {
             graphsView.addAllYear(posts: userPosts)
             scrollView.scrollToNextItem(width: width)
         }
+    }
+    
+    func checkIfUserLoggedIn() -> Bool {
+        return DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.mainUser.uid != nil
     }
     
     @objc
@@ -87,6 +109,7 @@ class ProfileVC: GeneralViewController {
     }
     
     func setupUserData() {
+        
         usernameLabel.text = currentUser.username
         
         if let photoString = currentUser.profilePhotoURL {
@@ -117,6 +140,12 @@ class ProfileVC: GeneralViewController {
                 self.setupCalendarView()
             }
         }
+        
+        if !checkIfUserLoggedIn() {
+            settingsButton.isUserInteractionEnabled = false
+            settingsButton.tintColor = .lightGray
+        }
+        
     }
     
     func setupUserStats() {
@@ -149,19 +178,34 @@ class ProfileVC: GeneralViewController {
 
 extension ProfileVC: CalendarViewProtocol, SettingsVCProtocol {
     
+    func showMemoriesView(postKey: String) {
+        let calendarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarVC") as! CalendarVC
+        calendarVC.userPosts = userPosts
+        calendarVC.postKey = postKey
+        self.present(calendarVC, animated: true)
+    }
+    
     func userDidLogoutDelete() {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "UserDidLogout"), object: nil)
         self.tabBarController?.selectedIndex = 1
     }
+}
+
+extension ProfileVC: AnswerViewProtocol {
     
+    func didCancelAnswer() {
+        
+    }
     
-    func showMemoriesView(post: UserPost) {
-        let calendarVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarVC") as! CalendarVC
-        calendarVC.userPosts = userPosts
-        guard let index = userPosts.firstIndex(of: post) else { return }
-        print("Post Index \(index)")
-        calendarVC.postTag = index
-        self.present(calendarVC, animated: true)
+    func didFinishAnswer(post: UserPost) {
+        userPosts.append(post)
+        userPosts = userPosts.sorted(by: {$0.datePosted > $1.datePosted})
+        setupUserStats()
+        setupCalendarView()
+    }
+    
+    func presentImageController(_ controller: UIImagePickerController) {
+        
     }
     
 }

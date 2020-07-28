@@ -11,19 +11,19 @@ import UIKit
 class PakiView: ViewX, Reusable {
     
     var viewTag: Int = 0
-    var currentPost: UserPost?
+    var postKey: String?
 
     override class func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    func setupView(with post: UserPost) {
-        currentPost = post
+    func setupView(with postKey: String, paki: Paki) {
+        self.postKey = postKey
         self.layer.shadowColor = UIColor.white.cgColor
         self.layer.shadowOpacity = 0.25
         self.layer.shadowRadius = 1
         self.layer.shadowOffset = CGSize(width: 0, height: 1)
-        self.backgroundColor = UIColor.getColorFor(paki: post.pakiCase)
+        self.backgroundColor = UIColor.getColorFor(paki: paki)
     }
     
 }

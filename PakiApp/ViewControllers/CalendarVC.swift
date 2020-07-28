@@ -16,8 +16,9 @@ class CalendarVC: GeneralViewController, Reusable {
     @IBOutlet weak var totalLabel: UILabel!
     // Variables
     var userPosts: [UserPost] = []
+    var calendarPosts: [UserPost] = []
+    var postKey: String = ""
     var calendarItems: [AnyObject] = []
-    var postTag: Int = 0
     let adUnitID = "ca-app-pub-8278458623868241/2398893160"
     var numAdsToLoad = 5
     var nativeAds = [GADUnifiedNativeAd]()
@@ -29,22 +30,17 @@ class CalendarVC: GeneralViewController, Reusable {
         setupMobileAds()
         AppStoreManager.requestReviewIfAppropriate()
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        scrollToPost(index: postTag)
-    }
+
     
     func setupVCUI() {
-        calendarItems.append(contentsOf: userPosts)
+        calendarPosts = userPosts.filter({$0.postKey == self.postKey})
+        calendarItems.append(contentsOf: calendarPosts)
         view.backgroundColor = UIColor.defaultBGColor
         calendarCollectionView.register(CalendarCollectionViewCell.nib, forCellWithReuseIdentifier: CalendarCollectionViewCell.className)
         calendarCollectionView.register(UnifiedNativeAdCVC.nib, forCellWithReuseIdentifier: UnifiedNativeAdCVC.className)
         calendarCollectionView.delegate = self
         calendarCollectionView.dataSource = self
         calendarCollectionView.backgroundColor = .clear
-        calendarCollectionView.scrollToItem(at: IndexPath(item: postTag, section: 0), at: .right, animated: true)
-        
         totalLabel.text = "Total: \(userPosts.count)"
     }
     
@@ -77,7 +73,7 @@ class CalendarVC: GeneralViewController, Reusable {
         var index = 0
         
         for nativeAd in nativeAds {
-            if index < userPosts.count {
+            if index < calendarPosts.count {
                 calendarItems.insert(nativeAd, at: index)
                 index += adInterval
             } else {

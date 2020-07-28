@@ -14,63 +14,59 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="C6w-Mj-5hg">
-                    <rect key="frame" x="20" y="802" width="374" height="40"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzk-NJ-O1Y" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="177" height="40"/>
-                            <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                            <state key="normal" title="Skip">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="20"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="didTapSkip:" destination="iN0-l3-epB" eventType="touchUpInside" id="2Ji-tE-dPH"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSb-7X-hjt" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
-                            <rect key="frame" x="197" y="0.0" width="177" height="40"/>
-                            <color key="backgroundColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
-                            <state key="normal" title="Next">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="20"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="size" keyPath="textShadowOffset">
-                                    <size key="value" width="0.0" height="2"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
-                                    <real key="value" value="3"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
-                                    <real key="value" value="1"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
-                                    <color key="value" cocoaTouchSystemColor="darkTextColor"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="didTapNext:" destination="iN0-l3-epB" eventType="touchUpInside" id="ZWo-Am-g4w"/>
-                            </connections>
-                        </button>
-                    </subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzk-NJ-O1Y" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
+                    <rect key="frame" x="334" y="786" width="60" height="60"/>
+                    <color key="backgroundColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="MWd-sp-Fwf"/>
+                        <constraint firstAttribute="width" constant="60" id="izS-v4-K7r"/>
+                        <constraint firstAttribute="width" secondItem="yzk-NJ-O1Y" secondAttribute="height" multiplier="1:1" id="lJt-pJ-YHK"/>
                     </constraints>
-                </stackView>
-                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="kp8-zj-tdU">
-                    <rect key="frame" x="20" y="765" width="374" height="37"/>
-                </pageControl>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="lfd-PU-gjn">
-                    <rect key="frame" x="20" y="64" width="374" height="701"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                    <state key="normal" title="Skip">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="didTapSkip:" destination="iN0-l3-epB" eventType="touchUpInside" id="2Ji-tE-dPH"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cSb-7X-hjt" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
+                    <rect key="frame" x="20" y="786" width="306" height="60"/>
+                    <color key="backgroundColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="6XW-Rn-KKJ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                    <state key="normal" title="Next">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="size" keyPath="textShadowOffset">
+                            <size key="value" width="0.0" height="2"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                            <real key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                            <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="didTapNext:" destination="iN0-l3-epB" eventType="touchUpInside" id="ZWo-Am-g4w"/>
+                    </connections>
+                </button>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="lfd-PU-gjn">
+                    <rect key="frame" x="20" y="64" width="374" height="645"/>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="yfm-9L-vkB">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -78,18 +74,25 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="kp8-zj-tdU">
+                    <rect key="frame" x="20" y="729" width="374" height="37"/>
+                    <color key="pageIndicatorTintColor" red="0.23529411759999999" green="0.31372549020000001" blue="0.35294117650000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="currentPageIndicatorTintColor" red="0.45882352939999999" green="0.37254901959999998" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                </pageControl>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" red="0.1647058824" green="0.23529411759999999" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="yzk-NJ-O1Y" firstAttribute="centerY" secondItem="cSb-7X-hjt" secondAttribute="centerY" id="50q-MW-5zx"/>
                 <constraint firstItem="lfd-PU-gjn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="7Io-TJ-45b"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="cSb-7X-hjt" secondAttribute="bottom" constant="16" id="8SJ-Df-QuR"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="yzk-NJ-O1Y" secondAttribute="trailing" constant="20" id="Bih-4L-cnl"/>
+                <constraint firstItem="yzk-NJ-O1Y" firstAttribute="leading" secondItem="cSb-7X-hjt" secondAttribute="trailing" constant="8" id="F8Q-Kw-3Qx"/>
                 <constraint firstItem="lfd-PU-gjn" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="Ndx-yZ-Zwr"/>
-                <constraint firstItem="C6w-Mj-5hg" firstAttribute="top" secondItem="kp8-zj-tdU" secondAttribute="bottom" id="PYG-jO-Ajt"/>
                 <constraint firstItem="kp8-zj-tdU" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="SKY-lC-UMj"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="lfd-PU-gjn" secondAttribute="trailing" constant="20" id="SoW-GW-Ik3"/>
-                <constraint firstItem="kp8-zj-tdU" firstAttribute="top" secondItem="lfd-PU-gjn" secondAttribute="bottom" id="aBG-cN-Orv"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="C6w-Mj-5hg" secondAttribute="trailing" constant="20" id="fB0-K6-hyd"/>
-                <constraint firstItem="C6w-Mj-5hg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="nFn-xU-74n"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="C6w-Mj-5hg" secondAttribute="bottom" constant="20" id="q7F-zJ-jEI"/>
+                <constraint firstItem="kp8-zj-tdU" firstAttribute="top" secondItem="lfd-PU-gjn" secondAttribute="bottom" constant="20" id="aBG-cN-Orv"/>
+                <constraint firstItem="yzk-NJ-O1Y" firstAttribute="top" secondItem="kp8-zj-tdU" secondAttribute="bottom" constant="20" id="wR6-1t-rig"/>
+                <constraint firstItem="cSb-7X-hjt" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="yQE-Z1-jgS"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="kp8-zj-tdU" secondAttribute="trailing" constant="20" id="yRG-Ts-qUi"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

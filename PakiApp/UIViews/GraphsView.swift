@@ -93,7 +93,6 @@ class GraphsView: UIView, Reusable {
         let bad = Double(userPosts.filter({$0.pakiCase == .bad}).count)
         let terrible = Double(userPosts.filter({$0.pakiCase == .terrible}).count)
         
-        let centerPoint = CGPoint(x: contentView.frame.width / 2 - 40, y: contentView.frame.height / 2 - 80)
         createGraphCircle(radius: 100, count: awesome, paki: .awesome)
         createGraphCircle(radius: 80, count: good, paki: .good)
         createGraphCircle(radius: 60, count: meh, paki: .meh)

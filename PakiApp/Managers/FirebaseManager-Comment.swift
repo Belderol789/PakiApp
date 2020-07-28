@@ -19,7 +19,7 @@ extension FirebaseManager {
         let uniqueID = UUID().uuidString
         
         let commentData: [String: Any] = [FirebaseKeys.datePosted.rawValue: dateSent,
-                                          FirebaseKeys.username.rawValue: mainUser.username!,
+                                          FirebaseKeys.username.rawValue: mainUser.username,
                                           FirebaseKeys.profilePhotoURL.rawValue: mainUser.profilePhotoURL ?? "",
                                           FirebaseKeys.content.rawValue: text,
                                           FirebaseKeys.paki.rawValue: mainUser.currentPaki ?? "none",

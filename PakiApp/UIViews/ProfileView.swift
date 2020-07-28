@@ -45,7 +45,7 @@ class ProfileView: UIView, Reusable {
                 
                 let pakiView = PakiView()
                 
-                pakiView.setupView(with: post)
+                //pakiView.setupView(with: post)
                 pakiView.frame = CGRect(x: x * width, y: y * width, width: width, height: width)
                 pakiView.layer.borderColor = UIColor.white.cgColor
                 pakiView.layer.borderWidth = 0.5

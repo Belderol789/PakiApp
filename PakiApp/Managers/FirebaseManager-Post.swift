@@ -34,24 +34,24 @@ extension FirebaseManager {
     }
     
     // MARK: - Post Empty
-    func sendEmptyPost() {
-        guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
-        let userPost = UserPost()
-        let data: [String: Any] = [FirebaseKeys.username.rawValue: userPost.username,
-                                   FirebaseKeys.profilePhotoURL.rawValue: userPost.profilePhotoURL ?? "",
-                                   FirebaseKeys.datePosted.rawValue: userPost.datePosted,
-                                   FirebaseKeys.title.rawValue: userPost.title,
-                                   FirebaseKeys.content.rawValue: userPost.content,
-                                   FirebaseKeys.paki.rawValue: userPost.paki,
-                                   FirebaseKeys.shareCount.rawValue: userPost.shareCount,
-                                   FirebaseKeys.starCount.rawValue: userPost.starCount,
-                                   FirebaseKeys.commentCount.rawValue: userPost.commentCount,
-                                   FirebaseKeys.uid.rawValue: userID,
-                                   FirebaseKeys.reportCount.rawValue: 0]
-        
-        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
-        DatabaseManager.Instance.savePost(post: userPost)
-    }
+//    func sendEmptyPost() {
+//        guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
+//        let userPost = UserPost()
+//        let data: [String: Any] = [FirebaseKeys.username.rawValue: userPost.username,
+//                                   FirebaseKeys.profilePhotoURL.rawValue: userPost.profilePhotoURL ?? "",
+//                                   FirebaseKeys.datePosted.rawValue: userPost.datePosted,
+//                                   FirebaseKeys.title.rawValue: userPost.title,
+//                                   FirebaseKeys.content.rawValue: userPost.content,
+//                                   FirebaseKeys.paki.rawValue: userPost.paki,
+//                                   FirebaseKeys.shareCount.rawValue: userPost.shareCount,
+//                                   FirebaseKeys.starCount.rawValue: userPost.starCount,
+//                                   FirebaseKeys.commentCount.rawValue: userPost.commentCount,
+//                                   FirebaseKeys.uid.rawValue: userID,
+//                                   FirebaseKeys.reportCount.rawValue: 0]
+//
+//        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postKey).setData(data, merge: true)
+//        DatabaseManager.Instance.savePost(post: userPost)
+//    }
     // MARK: - Post
     func sendPostToFirebase(_ userPost: UserPost) {
         
@@ -73,13 +73,11 @@ extension FirebaseManager {
                                    FirebaseKeys.uid.rawValue: userID,
                                    FirebaseKeys.reportCount.rawValue: 0]
         
-//        if !userPost.postPrivate {
-//
-//        }
+        if !userPost.postPrivate {
+            self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(uniquePostID).setData(data, merge: true)
+        }
         
-        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(uniquePostID).setData(data, merge: true)
-        
-        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(userPost.postKey).document(uniquePostID).setData(data, merge: true)
+        self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(uniquePostID).setData(data, merge: true)
         DatabaseManager.Instance.savePost(post: userPost)
     }
     // MARK: - Get Feed Post

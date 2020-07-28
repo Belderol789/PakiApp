@@ -10,7 +10,7 @@ import UIKit
 import GoogleMobileAds
 import FacebookCore
 
-class FeedVC: GeneralViewController {
+class FeedVC: GeneralViewController, TutorialViewProtocol {
     // IBOutlets
     @IBOutlet weak var feedCollection: UICollectionView!
     @IBOutlet weak var credentialView: UIVisualEffectView!
@@ -27,6 +27,10 @@ class FeedVC: GeneralViewController {
     var feedItems: [AnyObject] = []
     var filteredPosts: [UserPost] = []
     var allPosts: [UserPost] = []
+    
+    var mainUserID: String {
+        return DatabaseManager.Instance.mainUser.uid ?? ""
+    }
     
     // Mobile Ads
     let adUnitID = "ca-app-pub-8278458623868241/8855941562"
@@ -48,25 +52,25 @@ class FeedVC: GeneralViewController {
         DatabaseManager.Instance.updateUserDefaults(value: [], key: .allPakis)
         setupMobileAds()
         setupViewUI()
-
+        
         if !DatabaseManager.Instance.notFirstTime {
-           addTutorialPages()
+            hideTabbar = true
+            addTutorialPages()
         }
         
         getAllPosts(done: {
             let pakiDict: [String] = self.allPosts.map({$0.paki})
-            self.checkIfUserLoggedIn(notification: nil) {
-                if !self.allPosts.map({$0.userUID}).contains(DatabaseManager.Instance.mainUser.uid!) {
-                    self.resetUserEmoji()
-                }
+            self.checkIfUserLoggedIn()
+            if !self.allPosts.map({$0.userUID}).contains(self.mainUserID) {
+                self.resetUserEmoji(notification: nil)
             }
             DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
         })
         
         setupCountDown()
-        checkIfUserLoggedIn(notification: nil, completed: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(checkIfUserLoggedIn(notification:completed:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
+        checkIfUserLoggedIn()
+        NotificationCenter.default.addObserver(self, selector: #selector(resetUserEmoji(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(userDidLogout(notification:)), name: NSNotification.Name(rawValue: "UserDidLogout"), object: nil)
     }
     
@@ -75,14 +79,14 @@ class FeedVC: GeneralViewController {
         loadingView.circleLoading.start()
         loadingView.bigCircleLoading.start()
     }
-
+    
     // MARK: - Functions
     @objc
     func userDidLogout(notification: Notification) {
-        hideTabbar = true
+        answerContainer.isHidden = true
         emojiView?.removeFromSuperview()
         emojiView = nil
-        checkIfUserLoggedIn(notification: nil, completed: nil)
+        checkIfUserLoggedIn()
     }
     
     fileprivate func setupViewUI() {
@@ -106,7 +110,7 @@ class FeedVC: GeneralViewController {
         feedCollection.dataSource = self
         
         credentialView.layer.cornerRadius = 15
-
+        
         let dateLabel = UILabel()
         dateLabel.frame = CGRect(x: 0.0, y: -8.0, width: 100, height: 40)
         dateLabel.text = Date().convertToString(with: "LLLL d")
@@ -115,51 +119,59 @@ class FeedVC: GeneralViewController {
         let leftItem = UIBarButtonItem.init(customView: dateLabel)
         navigationItem.leftBarButtonItem = leftItem
     }
-
+    
     fileprivate func addTutorialPages() {
         let tutorialView = UINib(nibName: TutorialView.className, bundle: nil).instantiate(withOwner: self, options: nil).first as! TutorialView
         tutorialView.frame = view.bounds
         tutorialView.setupXib()
+        tutorialView.delegate = self
         view.addSubview(tutorialView)
     }
     
-    @objc
-    func checkIfUserLoggedIn(notification: Notification?, completed: (() -> Void)?) {
+    func didCloseTutorialView() {
+        hideTabbar = false
+    }
+    
+    func checkIfUserLoggedIn() {
         if let token = AccessToken.current {
             DatabaseManager.Instance.updateUserDefaults(value: !token.isExpired, key: .userIsLoggedIn)
         }
         
         if DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.mainUser.uid != nil  {
-            completed?()
             answerContainer.isHidden = false
-            hideTabbar = false
             credentialView.isHidden = true
+            hideTabbar = false
         } else {
             answerContainer.isHidden = true
-            hideTabbar = true
             credentialView.isHidden = false
         }
     }
     
-    func resetUserEmoji() {
+    @objc
+    func resetUserEmoji(notification: Notification?) {
+        checkIfUserLoggedIn()
         let today = DatabaseManager.Instance.savedDate ?? Date()
         let tomorrow = Date().tomorrow
         
         let todayString = today.convertToMediumString()
         let tomorrowString = tomorrow.convertToMediumString()
-
+        
         if todayString != tomorrowString {
             DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
+            DatabaseManager.Instance.updateUserDefaults(value: tomorrow, key: .savedDate)
             setupEmojiView()
+            
+            // Show alert here of their previous emotion
         }
     }
-
+    
     @objc
     fileprivate func setupEmojiView() {
         if emojiView == nil {
             emojiView = Bundle.main.loadNibNamed(AnswerView.className, owner: self, options: nil)?.first as? AnswerView
             emojiView?.alpha = 0
             emojiView?.frame = self.view.bounds
+            emojiView?.togglePrivacy = true
             emojiView?.delegate = self
             emojiView?.setupEmojiView()
             emojiView?.getUpdatedPakiCount()
@@ -270,10 +282,9 @@ extension FeedVC: GADUnifiedNativeAdLoaderDelegate {
         
         getAllPosts(done: {
             let pakiDict: [String] = self.allPosts.map({$0.paki})
-            self.checkIfUserLoggedIn(notification: nil) {
-                if !self.allPosts.map({$0.userUID}).contains(DatabaseManager.Instance.mainUser.uid!) {
-                    self.resetUserEmoji()
-                }
+            self.checkIfUserLoggedIn()
+            if !self.allPosts.map({$0.userUID}).contains(self.mainUserID) {
+                self.resetUserEmoji(notification: nil)
             }
             DatabaseManager.Instance.updateUserDefaults(value: pakiDict, key: .allPakis)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
@@ -292,14 +303,13 @@ extension FeedVC: AnswerViewProtocol {
     func didCancelAnswer() {
         emojiView = nil
     }
-
+    
     func presentImageController(_ controller: UIImagePickerController) {
         self.present(controller, animated: true, completion: nil)
     }
     
     func didFinishAnswer(post: UserPost) {
         emojiView = nil
-        emojiView?.removeFromSuperview()
         
         loadingView.stopLoading()
         credentialView.isHidden = true
@@ -308,7 +318,7 @@ extension FeedVC: AnswerViewProtocol {
             allPosts.removeAll(where: {$0.userUID == userUID})
         }
         if !post.postPrivate {
-           allPosts.append(post)
+            allPosts.append(post)
         }
         
         allPosts.sort(by: {$0.datePosted > $1.datePosted})
@@ -319,7 +329,7 @@ extension FeedVC: AnswerViewProtocol {
         DatabaseManager.Instance.updateUserDefaults(value: Date().tomorrow, key: .savedDate)
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "AllPakis"), object: pakiDict)
-
+        
         let blockedList = DatabaseManager.Instance.mainUser.blockedList
         
         filteredPosts = allPosts.filter({!blockedList.contains($0.userUID)})
@@ -398,10 +408,10 @@ extension FeedVC: FeedHeaderProtocol, FeedPostProtocol, ReportViewProtocol, Comm
     }
     
     func didViewProfile(uid: UserPost) {
-        let profileView = Bundle.main.loadNibNamed(ProfileView.className, owner: self, options: nil)?.first as! ProfileView
-        profileView.frame = view.bounds
-        profileView.setupProfile(user: uid)
-        view.addSubview(profileView)
+//        let profileView = Bundle.main.loadNibNamed(ProfileView.className, owner: self, options: nil)?.first as! ProfileView
+//        profileView.frame = view.bounds
+//        profileView.setupProfile(user: uid)
+//        view.addSubview(profileView)
     }
     
     func didSharePost(post: UserPost) {

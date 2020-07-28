@@ -10,8 +10,9 @@ import UIKit
 import FSCalendar
 
 protocol CalendarViewProtocol: class {
-    func showMemoriesView(post: UserPost)
+    func showMemoriesView(postKey: String)
 }
+
 
 class CalendarView: UIView, Reusable {
 
@@ -27,12 +28,11 @@ class CalendarView: UIView, Reusable {
     @IBOutlet weak var contentViewWidthConst: NSLayoutConstraint!
     
     var userPosts: [UserPost] = []
-    var postPakiDict: [String: Paki] = [:]
-    var postDict: [String: UserPost] = [:]
-    var postDates: [String] = []
     var pakiViews: [String: PakiView] = [:]
     var selectedPaki: PakiView?
     var gridTimer: Timer?
+    
+    var calendarPosts: [String: [UserPost]] = [:]
     
     weak var delegate: CalendarViewProtocol?
     
@@ -68,11 +68,18 @@ class CalendarView: UIView, Reusable {
     
     
     func setupUserPosts() {
-        userPosts.forEach({postPakiDict[$0.dateString] = $0.pakiCase})
-        postDates = userPosts.map({$0.dateString})
+
+        userPosts.sort(by: {$0.datePosted > $1.datePosted})
         
-        print("PostDates \(postDates)")
-        
+        for post in userPosts {
+            if let posts = calendarPosts[post.postKey] {
+                var updatedPosts = posts
+                updatedPosts.append(post)
+                calendarPosts[post.postKey] = updatedPosts
+            } else {
+                calendarPosts[post.postKey] = [post]
+            }
+        }
         calendar.delegate = self
         calendar.dataSource = self
     }
@@ -87,15 +94,28 @@ class CalendarView: UIView, Reusable {
         var x: CGFloat = 0
         var y: CGFloat = 0
         
-        for post in userPosts {
+        func mostFrequent<T: Hashable>(array: [T]) -> (value: T, count: Int)? {
+
+            let counts = array.reduce(into: [:]) { $0[$1, default: 0] += 1 }
+
+            if let (value, count) = counts.max(by: { $0.1 < $1.1 }) {
+                return (value, count)
+            }
+            return nil
+        }
+        
+        for post in calendarPosts {
             if x == rowLimit {
                 x = 0
                 y += 1
             }
             
+            let allPakis = post.value.map({$0.pakiCase})
+            guard let frequentPaki = mostFrequent(array: allPakis)?.value else { return }
+            
             let pakiView = PakiView()
             
-            pakiView.setupView(with: post)
+            pakiView.setupView(with: post.key, paki: frequentPaki)
             pakiView.frame = CGRect(x: x * width, y: y * width, width: width, height: width)
             pakiView.layer.borderColor = UIColor.white.cgColor
             pakiView.layer.borderWidth = 0.5
@@ -105,7 +125,6 @@ class CalendarView: UIView, Reusable {
             
             let key = "\(Int(x))\(Int(y))"
             pakiViews[key] = pakiView
-            postDict[key] = post
             
             x += 1
         }
@@ -115,9 +134,14 @@ class CalendarView: UIView, Reusable {
     
     @objc
     func handleTap(gesture: UITapGestureRecognizer) {
-        if let post = (gesture.view as? PakiView)?.currentPost {
-           delegate?.showMemoriesView(post: post)
+        if let post = (gesture.view as? PakiView) {
+            delegate?.showMemoriesView(postKey: post.postKey!)
+            UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                post.layer.transform = CATransform3DIdentity
+                post.layer.borderColor = UIColor.clear.cgColor
+            })
         }
+        
     }
     
     @objc
@@ -152,19 +176,20 @@ class CalendarView: UIView, Reusable {
             })
             
             if gesture.state == .ended {
-                print("PakiView gesture ended")
-                UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                    pakiView.layer.transform = CATransform3DIdentity
-                    pakiView.layer.borderColor = UIColor.clear.cgColor
-                }, completion: { (_) in
-                    self.gridTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
-                        timer.invalidate()
-                        self.gridTimer?.invalidate()
-                        guard let post = self.postDict[key] else { return }
-                        self.delegate?.showMemoriesView(post: post)
-                    })
+                self.gridTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer) in
+                    timer.invalidate()
+                    self.gridTimer?.invalidate()
+                    if let post = self.selectedPaki?.postKey {
+                        self.delegate?.showMemoriesView(postKey: post)
+                    }
                 })
             }
+            
+            UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                pakiView.layer.transform = CATransform3DIdentity
+                pakiView.layer.borderColor = UIColor.clear.cgColor
+            })
+            
         }
     }
 }
@@ -173,19 +198,18 @@ extension CalendarView: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let dateString = date.convertToMediumString()
-        if postDates.contains(dateString) {
-            return 1
-        }
+//        if postDates.contains(dateString) {
+//            return 1
+//        }
         return 0
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
         let dateString = date.convertToMediumString()
-        if let paki = postPakiDict[dateString] {
-            return UIColor.getColorFor(paki: paki)
-        } else {
-            return .clear
-        }
+//        if let paki = postPakiDict[dateString] {
+//            return UIColor.getColorFor(paki: paki)
+//        } 
+        return .clear
     }
     
     func maximumDate(for calendar: FSCalendar) -> Date {

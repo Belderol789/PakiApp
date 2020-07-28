@@ -127,9 +127,6 @@ class GeneralViewController: UIViewController, UINavigationControllerDelegate, M
     }
     
     func reactivateEmojiView() {
-        if !DatabaseManager.Instance.userHasAnswered {
-            FirebaseManager.Instance.sendEmptyPost()
-        }
         DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
         self.setupCountDown()

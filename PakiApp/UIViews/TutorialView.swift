@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TutorialViewProtocol: class {
+    func didCloseTutorialView()
+}
+
 class TutorialView: UIView, Reusable {
 
     @IBOutlet weak var tutorialCollectionView: UICollectionView!
@@ -15,28 +19,27 @@ class TutorialView: UIView, Reusable {
     @IBOutlet weak var tutorialNext: ButtonX!
     @IBOutlet weak var tutorialSkip: ButtonX!
     
-    var tutorialImages: [UIImage] = []
-    var currentPage: Int = 0 {
-        didSet {
-            let buttonTitle: String = currentPage == tutorialImages.count - 1 ? "Done" : "Next"
-            tutorialNext.setTitle(buttonTitle, for: .normal)
-        }
-    }
+    var tutorial: [Tutorial] = []
+    var currentPage: Int = 0
+    
+    weak var delegate: TutorialViewProtocol?
     
     override class func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    
     func setupXib() {
-        for i in 0..<4 {
-            tutorialImages.append(UIImage(named: "tutorial-\(i)")!)
-        }
-        tutorialPageControl.numberOfPages = tutorialImages.count
+        tutorial = [Tutorial(title: "Track your days", text: "Keep track of your growth with your personal mood calendar", image: UIImage(named: "tutorial-0")!),
+                    Tutorial(title: "Share your feelings", text: "Anonymously share your feelings and experiences for the day", image: UIImage(named: "tutorial-1")!),
+                    Tutorial(title: "Join the community", text: "Join a group of journalers just like you!", image: UIImage(named: "tutorial-2")!),
+                    Tutorial(title: "Share", text: "Give or receive encouragement from others", image: UIImage(named: "tutorial-3")!),
+                    Tutorial(title: "Welcome to Paki", text: "We hope you enjoy your stay :)", image: UIImage(named: "Mascot")!)]
+        
+        tutorialPageControl.numberOfPages = tutorial.count
         tutorialCollectionView.backgroundColor = .clear
         tutorialCollectionView.layer.cornerRadius = 15
         tutorialCollectionView.layer.masksToBounds = true
-        tutorialCollectionView.register(ImageCollectionCell.nib, forCellWithReuseIdentifier: ImageCollectionCell.className)
+        tutorialCollectionView.register(TutorialCollectionViewCell.nib, forCellWithReuseIdentifier: TutorialCollectionViewCell.className)
         tutorialCollectionView.delegate = self
         tutorialCollectionView.dataSource = self
     }
@@ -44,7 +47,8 @@ class TutorialView: UIView, Reusable {
     @IBAction func didTapNext(_ sender: ButtonX) {
         tutorialCollectionView.scrollToNextItem(width: tutorialCollectionView.frame.width)
         currentPage += 1
-        if currentPage == tutorialImages.count {
+        if currentPage == tutorial.count {
+            delegate?.didCloseTutorialView()
             DatabaseManager.Instance.updateUserDefaults(value: true, key: .notFirstTime)
             self.removeFromSuperview()
         }
@@ -52,6 +56,7 @@ class TutorialView: UIView, Reusable {
     
     
     @IBAction func didTapSkip(_ sender: ButtonX) {
+        delegate?.didCloseTutorialView()
         DatabaseManager.Instance.updateUserDefaults(value: true, key: .notFirstTime)
         self.removeFromSuperview()
     }
@@ -61,17 +66,13 @@ class TutorialView: UIView, Reusable {
 extension TutorialView: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tutorialImages.count
+        return tutorial.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionCell.className, for: indexPath) as! ImageCollectionCell
-        imageCell.imageView.image = tutorialImages[indexPath.item]
-        imageCell.imageView.contentMode = .scaleAspectFit
-        imageCell.imageView.layer.cornerRadius = 15
-        imageCell.imageView.layer.masksToBounds = true
-        imageCell.contentView.backgroundColor = .clear
-        return imageCell
+        let tutorialCell = collectionView.dequeueReusableCell(withReuseIdentifier: TutorialCollectionViewCell.className, for: indexPath) as! TutorialCollectionViewCell
+        tutorialCell.setupTutorialCell(tutorial: tutorial[indexPath.item])
+        return tutorialCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
