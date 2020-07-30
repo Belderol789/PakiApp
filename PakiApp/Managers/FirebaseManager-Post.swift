@@ -69,17 +69,35 @@ extension FirebaseManager {
                                    FirebaseKeys.commentCount.rawValue: userPost.commentCount,
                                    FirebaseKeys.postID.rawValue: uniquePostID,
                                    FirebaseKeys.postKey.rawValue: userPost.postKey,
+                                   FirebaseKeys.postPrivate.rawValue: userPost.postPrivate,
                                    FirebaseKeys.commentKey.rawValue: userPost.commentKey!,
                                    FirebaseKeys.uid.rawValue: userID,
                                    FirebaseKeys.reportCount.rawValue: 0]
-        
-        if !userPost.postPrivate {
-            self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(uniquePostID).setData(data, merge: true)
-        }
-        
+
+        self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(uniquePostID).setData(data, merge: true)
         self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(uniquePostID).setData(data, merge: true)
         DatabaseManager.Instance.savePost(post: userPost)
     }
+    
+    // MARK: - Update Feed Post
+    func updatePost(userPost: UserPost, value: Any, key: FirebaseKeys) {
+        
+        guard let userID = DatabaseManager.Instance.mainUser.uid else { return }
+        
+        if key == .postKey {
+            if let postPrivate = value as? Bool, postPrivate == false {
+                
+                self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(userPost.postID).updateData([key.rawValue: value])
+                
+            }
+            self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postID).updateData([key.rawValue: value])
+        } else {
+            self.firestoreDB.collection(Identifiers.posts.rawValue).document(userPost.postKey).collection(userPost.postKey).document(userPost.postID).updateData([key.rawValue: value])
+            
+            self.firestoreDB.collection(Identifiers.userPosts.rawValue).document(userID).collection(Identifiers.userPosts.rawValue).document(userPost.postID).updateData([key.rawValue: value])
+        }
+    }
+    
     // MARK: - Get Feed Post
     func getAllPostFor(completed: @escaping ([UserPost]?) -> Void) {
         
@@ -95,7 +113,11 @@ extension FirebaseManager {
                 for document in documents {
                     let data = document.data()
                     let post = UserPost.convert(data: data)
-                    if !blockedList.contains(post.userUID) {
+                    
+                    print("PostPrivacy \(post.postPrivate)")
+                    
+                    if !blockedList.contains(post.userUID) && post.postPrivate == false {
+                        print("PassedPostPrivacy \(post.postPrivate)")
                         userPosts.append(post)
                     }
                     print("User blockedList \(blockedList) uid \(post.userUID)")

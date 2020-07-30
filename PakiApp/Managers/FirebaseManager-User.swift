@@ -114,9 +114,9 @@ extension FirebaseManager {
             if let snap = snapshot, let snapshotData = snap.data(), snap.exists {
                 DatabaseManager.Instance.updateUserDefaults(value: true, key: .userIsLoggedIn)
                 DatabaseManager.Instance.saveUserData(snapshotData, completed: {
-                    completed(true)
                     FirebaseManager.Instance.getUserPosts(userID: uid) { (userPosts) in
                         DatabaseManager.Instance.saveUserPosts(userPosts)
+                        completed(true)
                     }
                 })
             } else {

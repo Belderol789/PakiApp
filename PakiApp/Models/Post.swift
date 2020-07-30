@@ -40,6 +40,7 @@ class UserPost: Object {
     @objc dynamic var postKey: String = Date().convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
     @objc dynamic var nsfw: Bool = false
     @objc dynamic var postPrivate: Bool = false
+    @objc dynamic var postID: String!
 
     var starList = List<String>()
     var starCount: Int {
@@ -74,8 +75,10 @@ class UserPost: Object {
     
     static func convert(data: [String: Any]) -> UserPost {
         let userPost = UserPost()
+        userPost.postID = data[FirebaseKeys.postID.rawValue] as? String
         userPost.postKey = data[FirebaseKeys.postKey.rawValue] as? String ?? ""
-        userPost.username = data[FirebaseKeys.username.rawValue] as? String ?? ""
+        let username = data[FirebaseKeys.username.rawValue] as? String ?? "Anonymous"
+        userPost.username = "@\(username)"
         userPost.paki = data[FirebaseKeys.paki.rawValue] as? String ?? ""
         userPost.datePosted = data[FirebaseKeys.datePosted.rawValue] as? Double ?? Date().timeIntervalSinceNow
         userPost.profilePhotoURL = data[FirebaseKeys.profilePhotoURL.rawValue] as? String
@@ -97,6 +100,7 @@ class UserPost: Object {
             userPost.mediaURLs.append(objectsIn: mediaURLs)
         }
         
+        userPost.postPrivate = data[FirebaseKeys.postPrivate.rawValue] as? Bool ?? false
         userPost.shareCount = data[FirebaseKeys.shareCount.rawValue] as? Int ?? 0
         return userPost
     }

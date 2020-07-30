@@ -83,6 +83,16 @@ class CalendarView: UIView, Reusable {
         calendar.delegate = self
         calendar.dataSource = self
     }
+    
+    func mostFrequent<T: Hashable>(array: [T]) -> (value: T, count: Int)? {
+
+        let counts = array.reduce(into: [:]) { $0[$1, default: 0] += 1 }
+
+        if let (value, count) = counts.max(by: { $0.1 < $1.1 }) {
+            return (value, count)
+        }
+        return nil
+    }
 
     func addGridViews() {
         let year = Calendar.current.component(.year, from: Date())
@@ -93,16 +103,6 @@ class CalendarView: UIView, Reusable {
         
         var x: CGFloat = 0
         var y: CGFloat = 0
-        
-        func mostFrequent<T: Hashable>(array: [T]) -> (value: T, count: Int)? {
-
-            let counts = array.reduce(into: [:]) { $0[$1, default: 0] += 1 }
-
-            if let (value, count) = counts.max(by: { $0.1 < $1.1 }) {
-                return (value, count)
-            }
-            return nil
-        }
         
         for post in calendarPosts {
             if x == rowLimit {
@@ -134,6 +134,7 @@ class CalendarView: UIView, Reusable {
     
     @objc
     func handleTap(gesture: UITapGestureRecognizer) {
+        
         if let post = (gesture.view as? PakiView) {
             delegate?.showMemoriesView(postKey: post.postKey!)
             UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -197,18 +198,16 @@ class CalendarView: UIView, Reusable {
 extension CalendarView: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        let dateString = date.convertToMediumString()
-//        if postDates.contains(dateString) {
-//            return 1
-//        }
         return 0
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillDefaultColorFor date: Date) -> UIColor? {
-        let dateString = date.convertToMediumString()
-//        if let paki = postPakiDict[dateString] {
-//            return UIColor.getColorFor(paki: paki)
-//        } 
+        let dateString = date.convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        if let userPosts = calendarPosts[dateString] {
+            let allPakis = userPosts.map({$0.pakiCase})
+            guard let frequentPaki = mostFrequent(array: allPakis)?.value else { return .clear }
+            return UIColor.getColorFor(paki: frequentPaki)
+        }
         return .clear
     }
     
@@ -229,9 +228,7 @@ extension CalendarView: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDele
     }
 
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        let dateString = date.convertToMediumString()
-        guard let userPost = userPosts.filter({$0.dateString == dateString}).first else { return }
-        print("Tapped Post \(userPost)")
+        let postKey = date.convertToString(with: "LLLL dd, yyyy").replacingOccurrences(of: " ", with: "")
+        self.delegate?.showMemoriesView(postKey: postKey)
     }
-    
 }

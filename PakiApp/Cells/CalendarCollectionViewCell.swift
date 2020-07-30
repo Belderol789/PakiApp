@@ -18,10 +18,19 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     @IBOutlet weak var dateView: ViewX!
     @IBOutlet weak var dividerView: UIView!
     
+    @IBOutlet weak var privacySwitch: UISwitch!
+    @IBOutlet weak var privacyLabel: UILabel!
+    
     @IBOutlet weak var contentCollection: UICollectionView!
     @IBOutlet weak var contentHeightConst: NSLayoutConstraint!
     
     var currentPost: UserPost!
+    var isPrivate: Bool = false {
+        didSet {
+            privacyLabel.text = isPrivate ? "Private" : "Public"
+            privacySwitch.isOn = !isPrivate
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,6 +40,9 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
     func setupCalendarView(post: UserPost) {
         
         currentPost = post
+        print("Post Privay \(post.postPrivate) \(post.title)")
+        isPrivate = post.postPrivate
+        privacySwitch.isOn = !isPrivate
         
         let color = UIColor.getColorFor(paki: post.pakiCase)
         contentView.backgroundColor = .clear
@@ -52,6 +64,11 @@ class CalendarCollectionViewCell: UICollectionViewCell, Reusable {
         contentHeightConst.constant = post.hasMedia ? 170 : 0
         
         contentCollection.reloadData()
+    }
+    
+    @IBAction func didSwitchPrivacy(_ sender: UISwitch) {
+        isPrivate = !sender.isOn
+        FirebaseManager.Instance.updatePost(userPost: currentPost, value: !sender.isOn, key: .postPrivate)
     }
 }
 

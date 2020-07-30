@@ -121,7 +121,6 @@ extension CalendarVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
         } else {
             let nativeAd = calendarItem as! GADUnifiedNativeAd
             nativeAd.rootViewController = self
-            
             let nativeAdCell = collectionView.dequeueReusableCell(withReuseIdentifier: UnifiedNativeAdCVC.className, for: indexPath) as! UnifiedNativeAdCVC
             nativeAdCell.setupAdView(with: nativeAd)
             return nativeAdCell
@@ -142,15 +141,4 @@ extension CalendarVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
             return CGSize(width: view.frame.size.width, height: 80)
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let calendarItem = calendarItems[indexPath.item] as? UserPost {
-            let commentVC = self.storyboard?.instantiateViewController(withIdentifier: "CommentsVC") as! CommentsVC
-            commentVC.currentPost = calendarItem
-            self.present(commentVC, animated: true) {
-                commentVC.backButton.isHidden = false
-            }
-        }
-    }
-
 }

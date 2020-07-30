@@ -55,6 +55,7 @@ class ProfileVC: GeneralViewController {
         self.setupUserData()
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateProfile(notification:)), name: NSNotification.Name(rawValue: "UpdateProfile"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(userHasLoggedIn(notification:)), name: NSNotification.Name(rawValue: "ActivateEmojiView"), object: nil)
     }
     
     @IBAction func didCreateLocalPost(_ sender: UIButton) {
@@ -91,6 +92,12 @@ class ProfileVC: GeneralViewController {
     
     func checkIfUserLoggedIn() -> Bool {
         return DatabaseManager.Instance.userIsLoggedIn && DatabaseManager.Instance.mainUser.uid != nil
+    }
+    
+    @objc
+    func userHasLoggedIn(notification: Notification) {
+        currentUser = DatabaseManager.Instance.mainUser
+        self.setupUserData()
     }
     
     @objc
@@ -199,7 +206,6 @@ extension ProfileVC: AnswerViewProtocol {
     
     func didFinishAnswer(post: UserPost) {
         userPosts.append(post)
-        userPosts = userPosts.sorted(by: {$0.datePosted > $1.datePosted})
         setupUserStats()
         setupCalendarView()
     }

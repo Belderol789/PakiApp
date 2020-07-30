@@ -132,7 +132,8 @@ class FeedVC: GeneralViewController, TutorialViewProtocol {
         hideTabbar = false
     }
     
-    func checkIfUserLoggedIn() {
+    @discardableResult
+    func checkIfUserLoggedIn() -> Bool {
         if let token = AccessToken.current {
             DatabaseManager.Instance.updateUserDefaults(value: !token.isExpired, key: .userIsLoggedIn)
         }
@@ -141,27 +142,29 @@ class FeedVC: GeneralViewController, TutorialViewProtocol {
             answerContainer.isHidden = false
             credentialView.isHidden = true
             hideTabbar = false
+            return true
         } else {
             answerContainer.isHidden = true
             credentialView.isHidden = false
+            return false
         }
     }
     
     @objc
     func resetUserEmoji(notification: Notification?) {
-        checkIfUserLoggedIn()
-        let today = DatabaseManager.Instance.savedDate ?? Date()
-        let tomorrow = Date().tomorrow
-        
-        let todayString = today.convertToMediumString()
-        let tomorrowString = tomorrow.convertToMediumString()
-        
-        if todayString != tomorrowString {
-            DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
-            DatabaseManager.Instance.updateUserDefaults(value: tomorrow, key: .savedDate)
-            setupEmojiView()
+        if checkIfUserLoggedIn() {
+            let today = DatabaseManager.Instance.savedDate ?? Date()
+            let tomorrow = Date().tomorrow
             
-            // Show alert here of their previous emotion
+            let todayString = today.convertToMediumString()
+            let tomorrowString = tomorrow.convertToMediumString()
+            
+            if todayString != tomorrowString {
+                DatabaseManager.Instance.updateUserDefaults(value: false, key: .userHasAnswered)
+                DatabaseManager.Instance.updateUserDefaults(value: tomorrow, key: .savedDate)
+                setupEmojiView()
+                // Show alert here of their previous emotion
+            }
         }
     }
     
@@ -313,10 +316,7 @@ extension FeedVC: AnswerViewProtocol {
         
         loadingView.stopLoading()
         credentialView.isHidden = true
-        
-        if let userUID = DatabaseManager.Instance.mainUser.uid {
-            allPosts.removeAll(where: {$0.userUID == userUID})
-        }
+
         if !post.postPrivate {
             allPosts.append(post)
         }

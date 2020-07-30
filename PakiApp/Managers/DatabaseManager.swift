@@ -99,6 +99,27 @@ class DatabaseManager {
         }
     }
     
+    func updateUserData(_ data: [String: Any]) {
+        
+        data.forEach { (_ key: String, _ value: Any) in
+            do {
+                try self.realm.write {
+                    if key == FirebaseKeys.starList.rawValue, let uid = value as? String {
+                        mainUser.starList.append(uid)
+                    } else if key == FirebaseKeys.blockedList.rawValue, let list = value as? [String] {
+                        mainUser.blockedList.append(objectsIn: list)
+                    } else {
+                        mainUser[key] = value
+                    }
+
+                    print("Update to Realm \(key) - \(value)")
+                }
+            } catch {
+                
+            }
+        }
+    }
+    
     func saveUserPosts(_ posts: [UserPost]) {
         
         var filteredPosts = [UserPost]()

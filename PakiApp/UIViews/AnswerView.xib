@@ -425,41 +425,53 @@
                         <constraint firstItem="mkw-kE-DR0" firstAttribute="width" secondItem="Do6-WU-f8P" secondAttribute="width" id="yKg-L6-lPm"/>
                     </constraints>
                 </scrollView>
-                <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJU-PZ-fDY" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
-                    <rect key="frame" x="294" y="20" width="100" height="35"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gkr-uO-mJq">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                    <subviews>
+                        <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJU-PZ-fDY" customClass="ButtonX" customModule="PakiApp" customModuleProvider="target">
+                            <rect key="frame" x="314" y="20" width="80" height="30"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="jq9-ez-zE4"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <state key="normal" title="Share ">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="15"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="didShare:" destination="iN0-l3-epB" eventType="touchUpInside" id="OM7-fI-PZL"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZ7-cU-q3f">
+                            <rect key="frame" x="20" y="15" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="SZ7-cU-q3f" secondAttribute="height" multiplier="1:1" id="UrW-vY-VPl"/>
+                                <constraint firstAttribute="width" constant="40" id="vis-EA-NkJ"/>
+                            </constraints>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <state key="normal" image="cancel"/>
+                            <connections>
+                                <action selector="didTapCancel:" destination="iN0-l3-epB" eventType="touchUpInside" id="uEC-Xv-pDE"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="100" id="6pN-um-Ict"/>
-                        <constraint firstAttribute="height" constant="35" id="uoc-a2-Jb5"/>
+                        <constraint firstAttribute="height" constant="70" id="NKN-YY-emP"/>
+                        <constraint firstItem="SZ7-cU-q3f" firstAttribute="centerY" secondItem="Gkr-uO-mJq" secondAttribute="centerY" id="RG6-cY-3Mw"/>
+                        <constraint firstAttribute="trailing" secondItem="gJU-PZ-fDY" secondAttribute="trailing" constant="20" id="TPG-63-UAB"/>
+                        <constraint firstItem="gJU-PZ-fDY" firstAttribute="centerY" secondItem="Gkr-uO-mJq" secondAttribute="centerY" id="sVQ-I6-rCV"/>
+                        <constraint firstItem="SZ7-cU-q3f" firstAttribute="leading" secondItem="Gkr-uO-mJq" secondAttribute="leading" constant="20" id="yak-MN-nDN"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                    <state key="normal" title="Share ">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </state>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                            <real key="value" value="15"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                            <real key="value" value="0.0"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="didShare:" destination="iN0-l3-epB" eventType="touchUpInside" id="OM7-fI-PZL"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SZ7-cU-q3f">
-                    <rect key="frame" x="20" y="17.5" width="40" height="40"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="40" id="QX9-Dd-Bqc"/>
-                        <constraint firstAttribute="width" secondItem="SZ7-cU-q3f" secondAttribute="height" multiplier="1:1" id="ZK5-yL-loY"/>
-                    </constraints>
-                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <state key="normal" image="cancel"/>
-                    <connections>
-                        <action selector="didTapCancel:" destination="iN0-l3-epB" eventType="touchUpInside" id="uEC-Xv-pDE"/>
-                    </connections>
-                </button>
+                </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rfo-O2-62c" customClass="LoadingView" customModule="PakiApp" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                 </view>
@@ -469,18 +481,17 @@
                 <constraint firstAttribute="bottom" secondItem="n65-e3-EuF" secondAttribute="bottom" id="0Q6-Wo-JXD"/>
                 <constraint firstItem="Do6-WU-f8P" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="68L-m1-hAa"/>
                 <constraint firstItem="n65-e3-EuF" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="8QB-Jx-1Xa"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="gJU-PZ-fDY" secondAttribute="trailing" constant="20" id="9RY-U5-IuC"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Do6-WU-f8P" secondAttribute="trailing" id="A2W-q6-bJQ"/>
-                <constraint firstItem="SZ7-cU-q3f" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="AO6-T5-lel"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Rfo-O2-62c" secondAttribute="bottom" id="LZy-Rr-eMB"/>
                 <constraint firstItem="Rfo-O2-62c" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="PQf-EG-ZBs"/>
                 <constraint firstItem="n65-e3-EuF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="TtZ-jc-GdJ"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Do6-WU-f8P" secondAttribute="bottom" id="aAz-rw-hX3"/>
-                <constraint firstItem="gJU-PZ-fDY" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="ksP-S8-hFT"/>
+                <constraint firstItem="Gkr-uO-mJq" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="gIW-ZT-Xu2"/>
                 <constraint firstItem="Rfo-O2-62c" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="lDB-Sf-YLi"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Gkr-uO-mJq" secondAttribute="trailing" id="neS-mn-I3a"/>
                 <constraint firstItem="Do6-WU-f8P" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="rq3-wD-lIa"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Rfo-O2-62c" secondAttribute="trailing" id="tT8-H5-lMP"/>
-                <constraint firstItem="SZ7-cU-q3f" firstAttribute="centerY" secondItem="gJU-PZ-fDY" secondAttribute="centerY" id="wYy-jg-6yQ"/>
+                <constraint firstItem="Gkr-uO-mJq" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="wPv-Je-9OF"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

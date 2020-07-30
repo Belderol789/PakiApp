@@ -18,7 +18,6 @@ class CommentsVC: GeneralViewController {
     @IBOutlet weak var commentsCollection: UICollectionView!
     @IBOutlet weak var commentsField: UITextField!
     @IBOutlet weak var collectionContainer: ViewX!
-    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var imageDisplayView: ImageDisplayView!
     // Constraints
     @IBOutlet weak var commentsHeightConst: NSLayoutConstraint!
@@ -28,7 +27,7 @@ class CommentsVC: GeneralViewController {
     var commentHeight: CGFloat = 0 {
         didSet {
             print("CommentHeight \(commentHeight)")
-            if commentHeight < view.frame.height - 100 {
+            if commentHeight < view.frame.height - commentsContainer.frame.height + 20 {
               commentsHeightConst.constant = commentHeight
             }
         }

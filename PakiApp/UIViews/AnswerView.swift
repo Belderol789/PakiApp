@@ -237,7 +237,7 @@ class AnswerView: UIView, Reusable {
         
         let pakiColor = UIColor.getColorFor(paki: currentPaki)
         pakiName.backgroundColor = pakiColor
-        pakiName.text = currentPaki.rawValue.uppercased()
+        pakiName.text = currentPaki.rawValue.capitalized
         pakiIcon.image = UIImage(named: currentPaki.rawValue)
         
         UIView.animate(withDuration: 1, animations: {

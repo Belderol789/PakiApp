@@ -26,6 +26,7 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     @IBOutlet weak var feedImageView: ImageViewX!
     @IBOutlet weak var feedContent: UILabel!
     @IBOutlet weak var feedTitle: UILabel!
+    @IBOutlet weak var feedPakiLabel: LabelX!
     
     @IBOutlet weak var feedStarBtn: UIButton!
     @IBOutlet weak var feedCommentsBtn: UIButton!
@@ -41,9 +42,7 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
     // Constraints
     @IBOutlet weak var feedStackHeightConst: NSLayoutConstraint!
     @IBOutlet weak var mediaHeightConst: NSLayoutConstraint!
-    
-    @IBOutlet weak var nsfwBlurView: UIVisualEffectView!
-    
+
     // Variables
     let starImage = "star"
     let commentImage = "bubble.left.and.bubble.right"
@@ -70,9 +69,7 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         } else {
             feedImageView.image = UIImage(named: post.paki)
         }
-        
-        nsfwBlurView.isHidden = !post.nsfw
-        
+
         cellColor = UIColor.getColorFor(paki: post.pakiCase)
         let containerLayer = containerView.layer
         containerLayer.borderColor = cellColor.cgColor
@@ -81,6 +78,9 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         containerLayer.shadowOffset = CGSize(width: 0, height: 1)
         containerLayer.shadowOpacity = 1
         containerLayer.shadowColor = cellColor.cgColor
+        
+        feedPakiLabel.backgroundColor = cellColor
+        feedPakiLabel.text = post.paki.capitalized
         
         containerView.backgroundColor = UIColor.defaultFGColor
         
@@ -123,13 +123,6 @@ class FeedCollectionViewCell: UICollectionViewCell, Reusable {
         
         mediaCollectionView.reloadData()
     }
-    
-    @IBAction func didRemoveNSFWView(_ sender: UIButton) {
-        if DatabaseManager.Instance.mainUser.uid != nil {
-            self.nsfwBlurView.isHidden = true
-        }
-    }
-    
     
     @IBAction func didFavourite(_ sender: UIButton) {
         if DatabaseManager.Instance.userIsLoggedIn {
