@@ -191,6 +191,7 @@ class CredentialVC: GeneralViewController, Reusable {
     
     fileprivate func proceedToSignup(data: [String: Any]?, type: SignupType) {
         let signupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignupVC") as! SignupVC
+        signupVC.delegate = self
         signupVC.type = type
         signupVC.appleNonce = currentNonce
         self.present(signupVC, animated: true) {
@@ -273,7 +274,11 @@ extension CredentialVC: UITextFieldDelegate {
 }
 
 // MARK: - PhoneView
-extension CredentialVC: PhoneViewProtocol {
+extension CredentialVC: PhoneViewProtocol, SignupProtocol {
+    
+    func didSignupSuccessfully() {
+        self.userHasAuthenticated(nil)
+    }
     
     func submitCode(code: String) {
         self.phoneView.isHidden = true
@@ -289,7 +294,7 @@ extension CredentialVC: LoginButtonDelegate {
     
     func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
         guard let tokenString = AccessToken.current?.tokenString, result != nil else {
-            self.showAlertWith(title: "Login Error", message: "There was an error with your login attempt", actions: [], hasDefaultOK: true)
+            self.showAlertWith(title: "Login Error", message: error!.localizedDescription, actions: [], hasDefaultOK: true)
             return
         }
         

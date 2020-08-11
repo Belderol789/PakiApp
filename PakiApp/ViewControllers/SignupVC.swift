@@ -19,6 +19,10 @@ enum SignupType {
     case apple
 }
 
+protocol SignupProtocol: class {
+    func didSignupSuccessfully()
+}
+
 class SignupVC: UIViewController {
     
     @IBOutlet weak var successScreen: UIView!
@@ -37,7 +41,7 @@ class SignupVC: UIViewController {
     
     @IBOutlet weak var loadingView: LoadingView!
     
-    
+    weak var delegate: SignupProtocol?
     var currentPage: Int = 0 {
         didSet {
             pageControl.currentPage = currentPage
@@ -209,7 +213,9 @@ class SignupVC: UIViewController {
     }
     
     @IBAction func signupSuccess(_ sender: ButtonX) {
-        
+        self.dismiss(animated: true) {
+            self.delegate?.didSignupSuccessfully()
+        }
     }
     
     @IBAction func didRemoveKeyboard(_ sender: UIButton) {
